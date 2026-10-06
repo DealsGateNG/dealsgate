@@ -469,108 +469,118 @@ a{color:inherit;text-decoration:none}
 </style>
 </head>
 <body>
-<!-- NETLIFY FORMS: hidden copies so Netlify registers them at deploy. The app submits to them with JavaScript (see dgSend). -->
-<form name="seller-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+
+<div id="app"></div>
+<div class="toast" id="toast"><span id="toastMsg"></span></div>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal-inner" id="modalBox"></div></div>
+
+<!-- NETLIFY FORMS: hidden copies so Netlify detects each form at deploy. The app submits to them with JavaScript (see dgSend). -->
+<div hidden aria-hidden="true">
+<form name="seller-signup" method="POST" data-netlify="true" netlify-honeypot="bot-field">
 <input type="hidden" name="form-name" value="seller-signup">
-<input name="bot-field">
+<input name="bot-field" tabindex="-1" autocomplete="off">
 <input name="account_type">
 <input name="full_name">
 <input name="email">
 <input name="phone">
 <input name="city_lga">
-<input name="accepted_terms">
-<input name="accepted_privacy">
-<input name="accepted_refund">
-<input name="accepted_acceptable_use">
-<input name="page_url">
-<input name="sent_at">
+<input name="consent_terms">
+<input name="consent_privacy">
+<input name="consent_refund">
+<input name="consent_acceptable">
+<input name="submitted_at">
+<input name="page">
 </form>
-<form name="seller-identity-check" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-<input type="hidden" name="form-name" value="seller-identity-check">
-<input name="bot-field">
+<form name="identity-verification-request" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+<input type="hidden" name="form-name" value="identity-verification-request">
+<input name="bot-field" tabindex="-1" autocomplete="off">
 <input name="full_name">
 <input name="email">
 <input name="phone">
 <input name="verify_method">
-<input name="nin_last4">
-<input name="page_url">
-<input name="sent_at">
+<input name="submitted_at">
+<input name="page">
 </form>
-<form name="protected-deal" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+<form name="protected-deal" method="POST" data-netlify="true" netlify-honeypot="bot-field">
 <input type="hidden" name="form-name" value="protected-deal">
-<input name="bot-field">
+<input name="bot-field" tabindex="-1" autocomplete="off">
 <input name="deal_code">
 <input name="seller_name">
 <input name="seller_email">
 <input name="seller_phone">
-<input name="item_name">
+<input name="item">
 <input name="description">
 <input name="sector">
 <input name="condition">
 <input name="quantity">
 <input name="quality_notes">
 <input name="price_ngn">
-<input name="photos_count">
-<input name="has_video">
 <input name="address">
 <input name="lga">
 <input name="latitude">
 <input name="longitude">
-<input name="page_url">
-<input name="sent_at">
+<input name="photo_count">
+<input name="video_attached">
+<input name="guarantee_paid">
+<input name="submitted_at">
+<input name="page">
 </form>
-<form name="vet-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-<input type="hidden" name="form-name" value="vet-request">
-<input name="bot-field">
-<input name="request_code">
-<input name="requester_name">
-<input name="requester_email">
-<input name="requester_phone">
-<input name="item_title">
-<input name="lga">
-<input name="fee_ngn">
-<input name="page_url">
-<input name="sent_at">
-</form>
-<form name="agent-application" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-<input type="hidden" name="form-name" value="agent-application">
-<input name="bot-field">
-<input name="applicant_name">
-<input name="email">
-<input name="phone">
-<input name="primary_sector">
-<input name="second_sector">
-<input name="service_lga">
-<input name="max_travel_distance">
-<input name="page_url">
-<input name="sent_at">
-</form>
-<form name="withdrawal-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+<form name="withdrawal-request" method="POST" data-netlify="true" netlify-honeypot="bot-field">
 <input type="hidden" name="form-name" value="withdrawal-request">
-<input name="bot-field">
-<input name="name">
-<input name="email">
+<input name="bot-field" tabindex="-1" autocomplete="off">
+<input name="seller_name">
+<input name="seller_email">
+<input name="seller_phone">
 <input name="amount_ngn">
 <input name="fee_ngn">
 <input name="net_ngn">
 <input name="verification_method">
-<input name="page_url">
-<input name="sent_at">
+<input name="destination">
+<input name="submitted_at">
+<input name="page">
 </form>
-<form name="wallet-deposit" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-<input type="hidden" name="form-name" value="wallet-deposit">
-<input name="bot-field">
-<input name="name">
-<input name="email">
+<form name="wallet-deposit-request" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+<input type="hidden" name="form-name" value="wallet-deposit-request">
+<input name="bot-field" tabindex="-1" autocomplete="off">
+<input name="seller_name">
+<input name="seller_email">
+<input name="seller_phone">
 <input name="amount_ngn">
-<input name="page_url">
-<input name="sent_at">
+<input name="submitted_at">
+<input name="page">
 </form>
-<form name="purchase-order" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-<input type="hidden" name="form-name" value="purchase-order">
-<input name="bot-field">
+<form name="vet-agent-request" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+<input type="hidden" name="form-name" value="vet-agent-request">
+<input name="bot-field" tabindex="-1" autocomplete="off">
+<input name="request_code">
+<input name="title">
+<input name="lga">
+<input name="price_ngn">
+<input name="requester_name">
+<input name="requester_email">
+<input name="requester_phone">
+<input name="submitted_at">
+<input name="page">
+</form>
+<form name="agent-application-seller-portal" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+<input type="hidden" name="form-name" value="agent-application-seller-portal">
+<input name="bot-field" tabindex="-1" autocomplete="off">
+<input name="applicant_name">
+<input name="applicant_email">
+<input name="applicant_phone">
+<input name="city">
+<input name="sector_primary">
+<input name="sector_second">
+<input name="service_lga">
+<input name="max_travel">
+<input name="submitted_at">
+<input name="page">
+</form>
+<form name="buy-order" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+<input type="hidden" name="form-name" value="buy-order">
+<input name="bot-field" tabindex="-1" autocomplete="off">
 <input name="item_code">
-<input name="item_name">
+<input name="item">
 <input name="seller">
 <input name="lga">
 <input name="item_price_ngn">
@@ -578,13 +588,10 @@ a{color:inherit;text-decoration:none}
 <input name="buyer_name">
 <input name="buyer_email">
 <input name="buyer_phone">
-<input name="page_url">
-<input name="sent_at">
+<input name="submitted_at">
+<input name="page">
 </form>
-
-<div id="app"></div>
-<div class="toast" id="toast"><span id="toastMsg"></span></div>
-<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal-inner" id="modalBox"></div></div>
+</div>
 
 <script>
 /* ============================================================
@@ -724,6 +731,36 @@ const ago = ts => {
   return Math.floor(s/86400) + 'd ago';
 };
 const uid = () => Math.random().toString(36).slice(2,10);
+
+/* ============================================================
+   NETLIFY FORMS — sends a submission to Netlify
+   Each formName matches a hidden <form> declared above.
+   ============================================================ */
+let dgBusy = false;
+async function dgSend(formName, data){
+  if(dgBusy) return false;
+  dgBusy = true;
+  try {
+    const body = new URLSearchParams();
+    body.append('form-name', formName);
+    body.append('submitted_at', new Date().toISOString());
+    body.append('page', location.pathname);
+    Object.keys(data).forEach(k => body.append(k, data[k] == null ? '' : String(data[k])));
+    const res = await fetch(location.pathname, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    return true;
+  } catch(err){
+    console.error('Netlify form failed:', formName, err);
+    toast('Could not submit. Check your connection and try again.', 'er');
+    return false;
+  } finally {
+    dgBusy = false;
+  }
+}
 
 function toast(msg, tone){
   const el = document.getElementById('toast');
@@ -1091,18 +1128,25 @@ function toggleConsent(k){
   saveState();
   render();
 }
-function continueConsent(){
+async function continueConsent(){
   const c = S.signup.consent;
   if(!c.terms || !c.privacy || !c.refund){
     toast('You must accept all required policies', 'er');
     return;
   }
   const s = S.signup;
-  dgSend('seller-signup', {
-    account_type:s.type, full_name:s.fullName, email:s.email, phone:s.phone, city_lga:s.city,
-    accepted_terms:c.terms?'yes':'no', accepted_privacy:c.privacy?'yes':'no',
-    accepted_refund:c.refund?'yes':'no', accepted_acceptable_use:c.acceptable?'yes':'no'
-  }, () => go('signup/otp'));
+  const key = [s.email, s.phone].join('|');
+  if(s.sentKey !== key){
+    const ok = await dgSend('seller-signup', {
+      account_type: s.type, full_name: s.fullName, email: s.email, phone: s.phone, city_lga: s.city,
+      consent_terms: 'yes', consent_privacy: 'yes', consent_refund: 'yes',
+      consent_acceptable: c.acceptable ? 'yes' : 'no'
+    });
+    if(!ok) return;
+    s.sentKey = key;
+    saveState();
+  }
+  go('signup/otp');
 }
 
 function renderSignupOTP(){
@@ -1205,12 +1249,13 @@ function pickVerify(m){
   render();
 }
 
-function completeVerification(){
-  const s = S.signup, u = dgUser();
-  /* only the last 4 digits of the NIN are sent, never the full number */
-  dgSend('seller-identity-check', { full_name:u.name, email:u.email, phone:u.phone, verify_method:s.verifyMethod, nin_last4:String(s.nin||'').slice(-4) }, _completeVerification);
-}
-function _completeVerification(){
+async function completeVerification(){
+  const sg = S.signup;
+  const okV = await dgSend('identity-verification-request', {
+    full_name: sg.fullName, email: sg.email, phone: sg.phone,
+    verify_method: (sg.verifyMethod || '').toUpperCase()
+  });
+  if(!okV) return;
   S.signup.verificationStatus = 'pending';
   saveState();
   render();
@@ -1821,18 +1866,19 @@ function renderWizStep7(){
   `;
 }
 
-function publishDeal(){
-  const d = S.currentDeal, u = dgUser();
-  const code = 'DG-' + Math.floor(Math.random() * 900000 + 100000);
-  dgSend('protected-deal', {
-    deal_code:code, seller_name:u.name, seller_email:u.email, seller_phone:u.phone,
-    item_name:d.item, description:d.description, sector:d.sector, condition:d.condition, quantity:d.quantity,
-    quality_notes:d.qualityNotes, price_ngn:d.price, photos_count:(d.photos||[]).length, has_video:d.video?'yes':'no',
-    address:d.address, lga:d.lga, latitude:d.lat, longitude:d.lng
-  }, () => _publishDeal(code));
-}
-function _publishDeal(code){
+async function publishDeal(){
   const d = S.currentDeal;
+  const code = 'DG-' + Math.floor(Math.random() * 900000 + 100000);
+  const u = S.user;
+  const okD = await dgSend('protected-deal', {
+    deal_code: code, seller_name: u.name, seller_email: u.email, seller_phone: u.phone,
+    item: d.item, description: d.description, sector: d.sector, condition: d.condition,
+    quantity: d.quantity, quality_notes: d.qualityNotes, price_ngn: d.price,
+    address: d.address, lga: d.lga, latitude: d.lat, longitude: d.lng,
+    photo_count: (d.photos || []).length, video_attached: d.video ? 'yes' : 'no',
+    guarantee_paid: d.guaranteePaid ? 'yes' : 'no'
+  });
+  if(!okD) return;
   const deal = {
     code,
     item: d.item,
@@ -2009,7 +2055,6 @@ function withdrawNext(){
   if(!amt || amt < 100){ toast('Enter a valid amount', 'er'); return; }
   if(amt > S.wallet){ toast('Amount exceeds balance', 'er'); return; }
   const method = document.querySelector('input[name="vm"]:checked').value;
-  window._dgVm = method;
   openModal(`
     <div class="modal-head"><h3>Verify via ${method === 'totp' ? 'Google Authenticator' : method === 'email' ? 'Email OTP' : 'SMS OTP'}</h3><button class="x" onclick="closeModal()">×</button></div>
     <div class="modal-body">
@@ -2025,19 +2070,23 @@ function withdrawNext(){
     </div>
     <div class="modal-foot">
       <button class="btn o" onclick="openWithdraw()">← Back</button>
-      <button class="btn gr" onclick="doWithdraw(${amt})">Confirm withdrawal</button>
+      <button class="btn gr" onclick="doWithdraw(${amt},'${method}')">Confirm withdrawal</button>
     </div>
   `);
 }
 
-function doWithdraw(amt){
+async function doWithdraw(amt, method){
   const code = Array.from(document.querySelectorAll('#modalBox .otp input')).map(i => i.value).join('');
   if(code.length !== 6){ toast('Enter 6 digits', 'er'); return; }
   const fee = amt <= 5000 ? 10 : amt <= 50000 ? 25 : 50;
-  const net = amt - fee, u = dgUser();
-  dgSend('withdrawal-request', { name:u.name, email:u.email, amount_ngn:amt, fee_ngn:fee, net_ngn:net, verification_method:window._dgVm||'' }, () => _doWithdrawLocal(amt, net));
-}
-function _doWithdrawLocal(amt, net){
+  const net = amt - fee;
+  const uw = S.user;
+  const okW = await dgSend('withdrawal-request', {
+    seller_name: uw.name, seller_email: uw.email, seller_phone: uw.phone,
+    amount_ngn: amt, fee_ngn: fee, net_ngn: net,
+    verification_method: method || '', destination: 'GTBank ···· 6789'
+  });
+  if(!okW) return;
   S.wallet -= amt;
   S.transactions.unshift({ type:'db', code:'WITHDRAWAL', desc:'Withdrawal to GTBank · ···· 6789', amt: -amt, at: Date.now() });
   saveState();
@@ -2062,13 +2111,14 @@ function openDeposit(){
     </div>
   `);
 }
-function doDeposit(){
+async function doDeposit(){
   const amt = Number(document.getElementById('dAmt').value);
   if(amt < 1000){ toast('Minimum ₦1,000', 'er'); return; }
-  const u = dgUser();
-  dgSend('wallet-deposit', { name:u.name, email:u.email, amount_ngn:amt }, () => _doDepositLocal(amt));
-}
-function _doDepositLocal(amt){
+  const ud = S.user;
+  const okP = await dgSend('wallet-deposit-request', {
+    seller_name: ud.name, seller_email: ud.email, seller_phone: ud.phone, amount_ngn: amt
+  });
+  if(!okP) return;
   S.wallet += amt;
   S.transactions.unshift({ type:'cr', code:'DEPOSIT', desc:'Deposit via Paystack', amt: amt, at: Date.now() });
   saveState();
@@ -2205,17 +2255,21 @@ function updateReqPreview(){
   document.getElementById('rPreview').textContent = 'Agent earns ' + fmt(v * 0.6) + ' · platform retains ' + fmt(v * 0.4);
 }
 
-function submitRequest(){
+async function submitRequest(){
   const title = document.getElementById('rTitle').value.trim();
   const lga = document.getElementById('rLga').value;
   const price = Number(document.getElementById('rPrice').value);
   if(!title || title.length < 3){ toast('Give it a title', 'er'); return; }
   if(price < 6000){ toast('Minimum ₦6,000', 'er'); return; }
   if(S.wallet < price){ toast('Not enough in wallet', 'er'); return; }
-  const code = 'OD-' + Math.floor(Math.random() * 900000 + 100000), u = dgUser();
-  dgSend('vet-request', { request_code:code, requester_name:u.name, requester_email:u.email, requester_phone:u.phone, item_title:title, lga:lga, fee_ngn:price }, () => _submitRequestLocal(code, title, lga, price));
-}
-function _submitRequestLocal(code, title, lga, price){
+
+  const code = 'OD-' + Math.floor(Math.random() * 900000 + 100000);
+  const ur = S.user;
+  const okR = await dgSend('vet-agent-request', {
+    request_code: code, title, lga, price_ngn: price,
+    requester_name: ur.name, requester_email: ur.email, requester_phone: ur.phone
+  });
+  if(!okR) return;
   S.wallet -= price;
   S.requests.unshift({ code, title, lga, price, status: 'OPEN', createdAt: Date.now() });
   S.transactions.unshift({ type:'db', code:'REQUEST_PAYMENT', desc:'Vet Agent request · ' + code, amt: -price, at: Date.now() });
@@ -2488,11 +2542,15 @@ function renderAgentApply(){
   `;
 }
 
-function submitAgentApplication(){
-  const g = id => (document.getElementById(id) || {}).value || '', u = dgUser();
-  dgSend('agent-application', { applicant_name:u.name, email:u.email, phone:u.phone, primary_sector:g('aSector1'), second_sector:g('aSector2'), service_lga:g('aLga'), max_travel_distance:g('aTravel') }, _submitAgentApplicationLocal);
-}
-function _submitAgentApplicationLocal(){
+async function submitAgentApplication(){
+  const ua = S.user;
+  const gv = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  const okA = await dgSend('agent-application-seller-portal', {
+    applicant_name: ua.name, applicant_email: ua.email, applicant_phone: ua.phone, city: ua.city,
+    sector_primary: gv('aSector1'), sector_second: gv('aSector2'),
+    service_lga: gv('aLga'), max_travel: gv('aTravel')
+  });
+  if(!okA) return;
   S.agent.applied = true;
   saveState();
   toast('Application submitted', 'ok');
@@ -2709,43 +2767,22 @@ function openBuyCheckout(code){
   `);
 }
 
-function confirmBuy(code, total){
+async function confirmBuy(code, total){
   if(S.wallet < total){ toast('Not enough wallet balance', 'er'); return; }
-  const m = S.marketplace.find(x => x.code === code) || {}, u = dgUser();
-  dgSend('purchase-order', { item_code:code, item_name:m.item, seller:m.seller, lga:m.lga, item_price_ngn:m.price, total_ngn:total, buyer_name:u.name, buyer_email:u.email, buyer_phone:u.phone }, () => _confirmBuyLocal(code, total));
-}
-function _confirmBuyLocal(code, total){
+  const mb = S.marketplace.find(x => x.code === code) || {};
+  const ub = S.user;
+  const okB = await dgSend('buy-order', {
+    item_code: code, item: mb.item, seller: mb.seller, lga: mb.lga,
+    item_price_ngn: mb.price, total_ngn: total,
+    buyer_name: ub.name, buyer_email: ub.email, buyer_phone: ub.phone
+  });
+  if(!okB) return;
   S.wallet -= total;
   S.transactions.unshift({ type:'db', code:'BUY_ESCROW', desc:'Purchase into escrow · ' + code, amt: -total, at: Date.now() });
   saveState();
   closeModal();
   toast('Payment secured in escrow · awaiting inspection', 'ok');
   render();
-}
-
-/* ============================================================
-   NETLIFY FORMS: send a completed step to Netlify, then continue
-   ============================================================ */
-let dgBusy = false;
-function dgUser(){
-  const g = S.signup || {};
-  return (g.fullName && g.email)
-    ? { name:g.fullName, email:g.email, phone:g.phone }
-    : { name:S.user.name, email:S.user.email, phone:S.user.phone };
-}
-function dgSend(formName, data, onOk){
-  if(dgBusy) return;
-  dgBusy = true;
-  toast('Sending…');
-  const clean = {};
-  Object.keys(data).forEach(k => { clean[k] = data[k] == null ? '' : String(data[k]); });
-  const body = new URLSearchParams(Object.assign(
-    { 'form-name': formName, page_url: location.href, sent_at: new Date().toISOString() }, clean
-  )).toString();
-  fetch(location.pathname, { method:'POST', headers:{ 'Content-Type':'application/x-www-form-urlencoded' }, body })
-    .then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return true; })
-    .catch(e => { console.error(e); toast('Could not send. Check your connection and try again.', 'er'); return false; })
-    .then(ok => { dgBusy = false; if(ok) onOk(); });
 }
 
 /* ============================================================
