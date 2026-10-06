@@ -1,0 +1,1505 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Africa's Secure Transaction Gateway</title>
+<meta name="description" content="DealsGate makes online trade safe for Nigerian buyers and sellers. Escrow holds the money. A certified Vet Agent inspects the item. Nothing moves until you approve.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0D1B4C;--navy2:#142a70;--navy3:#061133;
+  --green:#16A34A;--green2:#15803D;--green-light:#4ADE80;
+  --gold:#F4B420;--gold2:#C98A00;
+  --ink:#0F172A;--muted:#64748B;--soft:#94A3B8;
+  --line:#E2E8F0;--mist:#F4F6FB;--bg:#F8FAFC;--white:#fff;
+  --blue:#2563EB;--red:#DC2626;--purple:#7C3AED;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+  color:var(--ink);background:#fff;font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea{font-family:inherit;outline:none}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+
+/* ============================================================
+   CONTAINER
+   ============================================================ */
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+@media(max-width:640px){.container{padding:0 20px}}
+
+/* ============================================================
+   STICKY NAV
+   ============================================================ */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,255,255,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid transparent;transition:all .25s;
+}
+.nav.scrolled{background:rgba(255,255,255,.95);border-bottom-color:var(--line);
+  box-shadow:0 2px 20px rgba(13,27,76,.06)}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;
+  height:72px;max-width:1200px;margin:0 auto;padding:0 24px}
+.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:800;
+  letter-spacing:-.4px;color:var(--navy);cursor:pointer}
+.brand-mark{
+  width:34px;height:34px;border-radius:10px;
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:var(--gold);display:grid;place-items:center;
+  font-size:18px;font-weight:900;border:2px solid var(--gold);flex-shrink:0;
+}
+.brand .g{color:var(--green)}
+.nav-links{display:flex;gap:4px;align-items:center}
+.nav-links a{
+  font-size:14px;font-weight:600;color:#4B5563;
+  padding:9px 14px;border-radius:9px;transition:all .15s;
+}
+.nav-links a:hover{color:var(--navy);background:var(--mist)}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.nav-actions .login{
+  font-size:14px;font-weight:700;color:var(--navy);padding:9px 16px;
+  border-radius:9px;transition:background .15s;
+}
+.nav-actions .login:hover{background:var(--mist)}
+.nav-actions .cta{
+  background:var(--navy);color:#fff;padding:11px 20px;border-radius:10px;
+  font-size:14px;font-weight:700;letter-spacing:.01em;
+  transition:all .15s;box-shadow:0 4px 14px rgba(13,27,76,.18);
+}
+.nav-actions .cta:hover{background:var(--navy2);transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(13,27,76,.24)}
+.nav-mobile-toggle{display:none;width:40px;height:40px;border-radius:9px;
+  background:var(--mist);align-items:center;justify-content:center;font-size:18px}
+@media(max-width:960px){
+  .nav-links{display:none}
+  .nav-actions .login{display:none}
+  .nav-mobile-toggle{display:flex}
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(155deg,#061133 0%,#0D1B4C 40%,#142a70 100%);
+  color:#fff;padding:88px 0 100px;
+}
+@media(max-width:640px){.hero{padding:60px 0 72px}}
+.hero::before{
+  content:"";position:absolute;top:-200px;right:-200px;width:700px;height:700px;
+  border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.18),transparent 60%);
+  pointer-events:none;
+}
+.hero::after{
+  content:"";position:absolute;bottom:-300px;left:-200px;width:600px;height:600px;
+  border-radius:50%;background:radial-gradient(circle,rgba(22,163,74,.14),transparent 60%);
+  pointer-events:none;
+}
+.hero-inner{
+  display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;
+  position:relative;z-index:1;
+}
+@media(max-width:1024px){.hero-inner{grid-template-columns:1fr;gap:48px}}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  background:rgba(22,163,74,.14);border:1px solid rgba(22,163,74,.36);
+  color:var(--green-light);padding:8px 16px;border-radius:999px;
+  font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:26px;
+}
+.hero-eyebrow .dot{
+  width:7px;height:7px;border-radius:50%;background:var(--green-light);
+  box-shadow:0 0 10px var(--green-light);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.8)}}
+.hero h1{
+  font-size:clamp(36px,5.5vw,58px);font-weight:800;
+  letter-spacing:-1.6px;line-height:1.04;
+}
+.hero h1 .g{color:var(--gold)}
+.hero h1 .gr{color:var(--green-light)}
+.hero p.lede{
+  font-size:clamp(16px,1.9vw,19px);color:rgba(255,255,255,.82);
+  margin-top:24px;max-width:520px;line-height:1.65;
+}
+.hero-cta{display:flex;gap:14px;margin-top:36px;flex-wrap:wrap}
+.hero-cta a{
+  padding:15px 28px;border-radius:12px;font-size:15px;font-weight:800;
+  letter-spacing:.01em;display:inline-flex;align-items:center;gap:8px;
+  transition:all .15s;
+}
+.hero-cta .primary{
+  background:var(--gold);color:var(--navy);
+  box-shadow:0 10px 28px rgba(244,180,32,.32);
+}
+.hero-cta .primary:hover{transform:translateY(-2px);
+  box-shadow:0 14px 36px rgba(244,180,32,.4)}
+.hero-cta .secondary{
+  background:rgba(255,255,255,.08);color:#fff;
+  border:1px solid rgba(255,255,255,.22);
+}
+.hero-cta .secondary:hover{background:rgba(255,255,255,.14)}
+.hero-trust{
+  display:flex;gap:32px;margin-top:44px;padding-top:32px;
+  border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap;
+}
+.hero-trust-item{display:flex;align-items:center;gap:9px;font-size:13px;
+  color:rgba(255,255,255,.85);font-weight:600}
+.hero-trust-item .ic{
+  width:24px;height:24px;border-radius:50%;background:rgba(22,163,74,.18);
+  color:var(--green-light);display:grid;place-items:center;font-size:11px;flex-shrink:0;
+}
+
+/* Hero visual — floating cards */
+.hero-visual{position:relative;height:520px}
+@media(max-width:1024px){.hero-visual{height:400px}}
+.hv-card{
+  position:absolute;background:#fff;border-radius:16px;
+  box-shadow:0 24px 60px rgba(0,0,0,.28);overflow:hidden;
+}
+.hv-card.main{
+  width:280px;top:50%;left:50%;transform:translate(-50%,-50%);
+  padding:24px;
+}
+.hv-card.floating-1{
+  width:220px;top:6%;right:4%;animation:float 6s ease-in-out infinite;
+}
+.hv-card.floating-2{
+  width:220px;bottom:8%;left:2%;animation:float 6s ease-in-out infinite;
+  animation-delay:-3s;
+}
+@media(max-width:1024px){
+  .hv-card.main{width:240px}
+  .hv-card.floating-1{width:180px;top:8%}
+  .hv-card.floating-2{width:180px}
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-12px)}
+}
+.hv-main-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:16px;
+  border-bottom:1px solid var(--line);
+}
+.hv-av{
+  width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--navy);
+  display:grid;place-items:center;font-size:14px;font-weight:800;
+  position:relative;flex-shrink:0;
+}
+.hv-av .v{
+  position:absolute;right:-2px;bottom:-2px;width:14px;height:14px;border-radius:50%;
+  background:var(--green);color:#fff;display:grid;place-items:center;font-size:8px;
+  border:2px solid #fff;
+}
+.hv-main-name{font-size:13px;font-weight:800;color:var(--navy)}
+.hv-main-sub{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+.hv-row{
+  display:flex;justify-content:space-between;padding:8px 0;
+  font-size:12px;border-bottom:1px solid var(--line);
+}
+.hv-row:last-child{border-bottom:none}
+.hv-row .k{color:var(--muted);font-weight:500}
+.hv-row .v{color:var(--navy);font-weight:800;font-family:Menlo,monospace}
+.hv-row.total{
+  padding-top:12px;margin-top:6px;border-top:1.5px solid var(--navy);border-bottom:none;
+}
+.hv-row.total .k{color:var(--navy);font-weight:800}
+.hv-row.total .v{color:var(--green);font-size:15px}
+.hv-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#DCFCE7;color:var(--green2);padding:5px 11px;border-radius:20px;
+  font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.hv-title{font-size:14px;font-weight:800;color:var(--navy);line-height:1.3;margin-bottom:8px}
+.hv-note{font-size:11px;color:var(--muted);line-height:1.5}
+
+/* ============================================================
+   TRUST LOGOS
+   ============================================================ */
+.trust-bar{
+  background:#fff;padding:40px 0;border-bottom:1px solid var(--line);
+}
+.trust-inner{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
+.trust-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.trust-logo{
+  font-size:15px;font-weight:800;color:#94A3B8;letter-spacing:-.2px;
+  opacity:.7;transition:opacity .2s;
+}
+.trust-logo:hover{opacity:1}
+@media(max-width:640px){.trust-inner{gap:24px}.trust-label{width:100%;text-align:center}}
+
+/* ============================================================
+   SECTION BASE
+   ============================================================ */
+.section{padding:96px 0}
+@media(max-width:640px){.section{padding:64px 0}}
+.section.alt{background:var(--bg)}
+.section.dark{
+  background:linear-gradient(155deg,#061133 0%,#0D1B4C 60%,#142a70 100%);
+  color:#fff;
+}
+.section-head{max-width:760px;margin:0 auto 64px;text-align:center}
+@media(max-width:640px){.section-head{margin-bottom:44px}}
+.section-eyebrow{
+  display:inline-block;font-size:11px;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--green2);margin-bottom:14px;
+}
+.section.dark .section-eyebrow{color:var(--gold)}
+.section-head h2{
+  font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-1px;
+  line-height:1.1;color:var(--navy);
+}
+.section.dark .section-head h2{color:#fff}
+.section-head h2 .g{color:var(--gold)}
+.section-head h2 .gr{color:var(--green)}
+.section-head p{
+  font-size:17px;color:var(--muted);margin-top:18px;line-height:1.65;
+}
+.section.dark .section-head p{color:rgba(255,255,255,.75)}
+
+/* ============================================================
+   HOW IT WORKS — interactive steps
+   ============================================================ */
+.steps-tabs{
+  display:flex;gap:8px;justify-content:center;margin-bottom:48px;flex-wrap:wrap;
+}
+.steps-tab{
+  padding:11px 22px;border-radius:11px;font-size:14px;font-weight:700;
+  background:var(--mist);color:#64748B;transition:all .15s;
+  border:1px solid transparent;
+}
+.steps-tab.on{background:var(--navy);color:#fff;box-shadow:0 6px 16px rgba(13,27,76,.2)}
+.steps-panel{display:none;animation:fadeIn .35s ease}
+.steps-panel.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.step-card{
+  display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;
+  background:#fff;border:1px solid var(--line);border-radius:20px;
+  padding:52px;box-shadow:0 4px 20px rgba(13,27,76,.06);
+}
+@media(max-width:900px){.step-card{grid-template-columns:1fr;gap:32px;padding:32px 28px}}
+.step-num{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--navy),var(--navy2));color:var(--gold);
+  padding:8px 16px;border-radius:999px;font-size:11px;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px;
+}
+.step-card h3{
+  font-size:30px;font-weight:800;color:var(--navy);letter-spacing:-.7px;
+  line-height:1.15;margin-bottom:18px;
+}
+.step-card p{font-size:16px;color:#4B5563;line-height:1.7}
+.step-card ul{list-style:none;margin-top:24px}
+.step-card ul li{
+  padding:9px 0 9px 30px;position:relative;font-size:15px;color:#334155;line-height:1.55;
+}
+.step-card ul li::before{
+  content:"✓";position:absolute;left:0;top:9px;
+  color:var(--green);font-weight:900;font-size:15px;
+}
+.step-visual{
+  background:linear-gradient(155deg,#F1F5F9,#E2E8F0);
+  border-radius:16px;aspect-ratio:4/3;
+  display:grid;place-items:center;position:relative;overflow:hidden;
+}
+.step-visual-inner{
+  background:#fff;border-radius:12px;padding:24px;box-shadow:0 12px 32px rgba(13,27,76,.12);
+  width:78%;max-width:320px;
+}
+
+/* ============================================================
+   FEATURES — bento grid
+   ============================================================ */
+.bento{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:20px;
+}
+@media(max-width:900px){.bento{grid-template-columns:1fr;gap:16px}}
+.bento-item{
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  padding:32px;position:relative;overflow:hidden;
+  transition:transform .2s, box-shadow .2s, border-color .2s;
+}
+.bento-item:hover{transform:translateY(-4px);box-shadow:0 20px 48px rgba(13,27,76,.1);
+  border-color:rgba(13,27,76,.15)}
+.bento-item.lg{grid-column:span 3}
+.bento-item.md{grid-column:span 2}
+.bento-item.sm{grid-column:span 2}
+@media(max-width:900px){.bento-item.lg,.bento-item.md,.bento-item.sm{grid-column:span 1}}
+.bento-icon{
+  width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+  font-size:24px;margin-bottom:20px;
+}
+.bento-icon.navy{background:linear-gradient(135deg,var(--navy),var(--navy2));color:var(--gold)}
+.bento-icon.green{background:linear-gradient(135deg,var(--green2),var(--green));color:#fff}
+.bento-icon.gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy)}
+.bento-icon.purple{background:linear-gradient(135deg,var(--purple),#A78BFA);color:#fff}
+.bento-icon.blue{background:linear-gradient(135deg,var(--blue),#60A5FA);color:#fff}
+.bento-item h3{
+  font-size:20px;font-weight:800;color:var(--navy);letter-spacing:-.4px;
+  margin-bottom:10px;line-height:1.25;
+}
+.bento-item p{font-size:15px;color:#5A6478;line-height:1.65}
+.bento-item .feature-visual{
+  margin-top:24px;padding:16px;background:var(--mist);border-radius:12px;
+  font-size:12px;color:var(--muted);font-family:Menlo,monospace;
+}
+
+/* ============================================================
+   ROLE TABS — interactive
+   ============================================================ */
+.roles-tabs{
+  display:flex;gap:8px;justify-content:center;margin-bottom:56px;flex-wrap:wrap;
+}
+.roles-tab{
+  padding:14px 28px;border-radius:12px;font-size:15px;font-weight:800;
+  background:rgba(255,255,255,.06);color:rgba(255,255,255,.75);
+  border:1px solid rgba(255,255,255,.14);transition:all .2s;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.roles-tab.on{
+  background:#fff;color:var(--navy);
+  box-shadow:0 12px 32px rgba(0,0,0,.24);
+}
+.roles-tab .ic{font-size:18px}
+.roles-panel{display:none;animation:fadeIn .4s ease}
+.roles-panel.on{display:block}
+.role-card{
+  display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;
+}
+@media(max-width:900px){.role-card{grid-template-columns:1fr;gap:36px}}
+.role-content h3{
+  font-size:34px;font-weight:800;letter-spacing:-.8px;line-height:1.15;
+  color:#fff;margin-bottom:20px;
+}
+.role-content h3 .g{color:var(--gold)}
+.role-content .role-lead{
+  font-size:17px;color:rgba(255,255,255,.78);line-height:1.7;
+  margin-bottom:32px;
+}
+.role-content ul{list-style:none}
+.role-content ul li{
+  padding:14px 0 14px 40px;position:relative;font-size:15.5px;
+  color:rgba(255,255,255,.85);line-height:1.6;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.role-content ul li:last-child{border-bottom:none}
+.role-content ul li::before{
+  content:"✓";position:absolute;left:0;top:14px;
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(22,163,74,.2);color:var(--green-light);
+  display:grid;place-items:center;font-size:11px;font-weight:900;
+}
+.role-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--gold);color:var(--navy);
+  padding:15px 28px;border-radius:12px;
+  font-size:15px;font-weight:800;margin-top:28px;
+  box-shadow:0 10px 28px rgba(244,180,32,.28);
+  transition:all .15s;
+}
+.role-cta:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(244,180,32,.38)}
+
+/* Role visual — phone-ish mockup */
+.role-visual{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;padding:32px;backdrop-filter:blur(10px);
+}
+.role-visual-inner{
+  background:#fff;border-radius:16px;padding:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+
+/* ============================================================
+   STATS BAND
+   ============================================================ */
+.stats-band{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+  padding:44px;background:#fff;border-radius:20px;
+  box-shadow:0 4px 24px rgba(13,27,76,.06);
+  border:1px solid var(--line);margin-top:80px;
+}
+@media(max-width:900px){.stats-band{grid-template-columns:repeat(2,1fr);padding:32px 24px}}
+.stat-item{text-align:center}
+.stat-item .v{
+  font-family:Menlo,monospace;font-size:clamp(26px,4vw,38px);font-weight:800;
+  color:var(--navy);letter-spacing:-1px;line-height:1;
+}
+.stat-item .v.g{color:var(--green)}
+.stat-item .v.gold{color:var(--gold2)}
+.stat-item .l{
+  font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;margin-top:12px;line-height:1.4;
+}
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.testimonials-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+@media(max-width:900px){.testimonials-grid{grid-template-columns:1fr}}
+.testimonial{
+  background:#fff;border:1px solid var(--line);border-radius:18px;
+  padding:32px;display:flex;flex-direction:column;
+  transition:all .2s;
+}
+.testimonial:hover{box-shadow:0 12px 40px rgba(13,27,76,.1);transform:translateY(-2px)}
+.testimonial .stars{
+  color:var(--gold);font-size:16px;letter-spacing:2px;margin-bottom:18px;
+}
+.testimonial .quote{
+  font-size:15.5px;color:#334155;line-height:1.7;
+  flex:1;margin-bottom:24px;font-style:normal;
+}
+.testimonial .author{display:flex;gap:14px;align-items:center;
+  padding-top:20px;border-top:1px solid var(--line)}
+.testimonial .author-av{
+  width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;color:#fff;font-size:14px;font-weight:800;
+  flex-shrink:0;
+}
+.testimonial .author-name{font-size:14px;font-weight:800;color:var(--navy)}
+.testimonial .author-role{font-size:12px;color:var(--muted);margin-top:2px;font-weight:600}
+
+/* ============================================================
+   PRICING
+   ============================================================ */
+.pricing-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+}
+@media(max-width:900px){.pricing-grid{grid-template-columns:1fr}}
+.price-card{
+  background:#fff;border:1px solid var(--line);border-radius:20px;
+  padding:40px 32px;transition:all .2s;position:relative;
+}
+.price-card.featured{
+  border-color:var(--gold);box-shadow:0 20px 60px rgba(244,180,32,.14);
+  transform:scale(1.02);
+}
+@media(max-width:900px){.price-card.featured{transform:none}}
+.price-card .tag{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:var(--navy);
+  padding:6px 14px;border-radius:20px;
+  font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+}
+.price-card h3{
+  font-size:15px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--green2);margin-bottom:16px;
+}
+.price-card .amount{
+  font-family:Menlo,monospace;font-size:44px;font-weight:800;
+  color:var(--navy);letter-spacing:-1.5px;line-height:1;margin-bottom:6px;
+}
+.price-card .amount .unit{
+  font-size:15px;color:var(--muted);font-weight:600;
+  font-family:inherit;letter-spacing:0;
+}
+.price-card .desc{
+  font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6;
+}
+.price-card ul{list-style:none;margin-bottom:32px}
+.price-card ul li{
+  padding:11px 0 11px 28px;position:relative;font-size:14.5px;
+  color:#334155;line-height:1.55;
+}
+.price-card ul li::before{
+  content:"✓";position:absolute;left:0;top:11px;
+  color:var(--green);font-weight:900;font-size:14px;
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq-list{max-width:800px;margin:0 auto}
+.faq-item{
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  margin-bottom:12px;overflow:hidden;transition:all .2s;
+}
+.faq-item.on{border-color:var(--navy);box-shadow:0 4px 20px rgba(13,27,76,.08)}
+.faq-q{
+  width:100%;text-align:left;padding:22px 28px;
+  font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.2px;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  transition:background .15s;
+}
+.faq-q:hover{background:var(--mist)}
+.faq-q .arrow{
+  width:26px;height:26px;border-radius:50%;background:var(--mist);
+  display:grid;place-items:center;font-size:14px;font-weight:900;
+  transition:all .2s;flex-shrink:0;color:var(--navy);
+}
+.faq-item.on .faq-q .arrow{background:var(--navy);color:var(--gold);transform:rotate(45deg)}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .35s ease;
+}
+.faq-item.on .faq-a{max-height:400px}
+.faq-a-inner{
+  padding:0 28px 24px;font-size:15px;color:#4B5563;line-height:1.7;
+}
+
+/* ============================================================
+   FINAL CTA
+   ============================================================ */
+.final-cta{
+  background:linear-gradient(155deg,#061133 0%,#0D1B4C 55%,#142a70 100%);
+  color:#fff;padding:96px 0;text-align:center;position:relative;overflow:hidden;
+}
+.final-cta::before{
+  content:"";position:absolute;top:-200px;right:-200px;width:600px;height:600px;
+  border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.2),transparent 60%);
+}
+.final-cta::after{
+  content:"";position:absolute;bottom:-200px;left:-200px;width:500px;height:500px;
+  border-radius:50%;background:radial-gradient(circle,rgba(22,163,74,.16),transparent 60%);
+}
+.final-cta .container{position:relative;z-index:1}
+.final-cta h2{
+  font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-1.4px;
+  line-height:1.08;max-width:800px;margin:0 auto;
+}
+.final-cta h2 .g{color:var(--gold)}
+.final-cta h2 .gr{color:var(--green-light)}
+.final-cta p{
+  font-size:18px;color:rgba(255,255,255,.78);
+  max-width:560px;margin:24px auto 0;line-height:1.65;
+}
+.final-cta-buttons{
+  display:flex;gap:14px;justify-content:center;margin-top:40px;flex-wrap:wrap;
+}
+.final-cta-buttons a{
+  padding:16px 32px;border-radius:12px;font-size:16px;font-weight:800;
+  transition:all .15s;display:inline-flex;align-items:center;gap:9px;
+}
+.final-cta-buttons .primary{
+  background:var(--gold);color:var(--navy);
+  box-shadow:0 12px 32px rgba(244,180,32,.32);
+}
+.final-cta-buttons .primary:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(244,180,32,.42)}
+.final-cta-buttons .secondary{
+  background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.2);
+}
+.final-cta-buttons .secondary:hover{background:rgba(255,255,255,.14)}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  background:#061133;color:#fff;padding:72px 0 32px;position:relative;overflow:hidden;
+}
+.footer::before{
+  content:"";position:absolute;top:-100px;right:-100px;width:300px;height:300px;
+  border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.1),transparent 70%);
+}
+.footer .container{position:relative;z-index:1}
+.footer-top{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:56px;
+}
+@media(max-width:900px){.footer-top{grid-template-columns:1fr 1fr;gap:36px}}
+@media(max-width:480px){.footer-top{grid-template-columns:1fr}}
+.footer-brand .brand{color:#fff;font-size:22px;margin-bottom:16px}
+.footer-brand .brand-mark{background:var(--gold);color:var(--navy);border-color:#fff}
+.footer-brand .brand .g{color:var(--green-light)}
+.footer-mission{font-size:14px;color:rgba(255,255,255,.6);line-height:1.65;max-width:340px}
+.footer h4{
+  font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;
+}
+.footer ul{list-style:none}
+.footer ul li{margin-bottom:10px}
+.footer ul li a{
+  font-size:14px;color:rgba(255,255,255,.65);transition:color .15s;
+}
+.footer ul li a:hover{color:var(--gold)}
+.footer-bottom{
+  border-top:1px solid rgba(255,255,255,.1);padding-top:32px;
+  display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  font-size:12.5px;color:rgba(255,255,255,.5);line-height:1.7;
+}
+.footer-bottom .right{text-align:right}
+@media(max-width:640px){.footer-bottom .right{text-align:left}}
+.footer-social{
+  display:flex;gap:10px;margin-top:20px;
+}
+.footer-social a{
+  width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.08);
+  display:grid;place-items:center;font-size:15px;transition:background .15s;
+}
+.footer-social a:hover{background:var(--gold);color:var(--navy)}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="brand" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <div class="brand-mark">✓</div>
+      <div>Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#roles">Who it's for</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-actions">
+      <a class="login" href="#signup">Log in</a>
+      <a class="cta" href="#signup">Get started</a>
+      <button class="nav-mobile-toggle" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-eyebrow">
+          <span class="dot"></span>
+          Africa's Secure Transaction Gateway
+        </div>
+        <h1>
+          We verify the item.<br>
+          We <span class="g">protect the payment</span>.<br>
+          We <span class="gr">track the delivery</span>.
+        </h1>
+        <p class="lede">
+          DealsGate makes online trade safe for Nigerians. Escrow holds the buyer's money.
+          A certified Vet Agent inspects the item in person. Nothing moves — not the money,
+          not the goods — until the buyer approves.
+        </p>
+        <div class="hero-cta">
+          <a class="primary" href="#signup">Protect a Deal →</a>
+          <a class="secondary" href="#how">See how it works</a>
+        </div>
+        <div class="hero-trust">
+          <div class="hero-trust-item"><span class="ic">✓</span> Verified sellers</div>
+          <div class="hero-trust-item"><span class="ic">✓</span> Regulated escrow</div>
+          <div class="hero-trust-item"><span class="ic">✓</span> Physical inspection</div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <!-- Floating card 1 · Escrow funded -->
+        <div class="hv-card floating-1">
+          <div style="padding:20px">
+            <div class="hv-badge">✓ Escrow funded</div>
+            <div class="hv-title">Buyer paid into escrow</div>
+            <div style="font-family:Menlo,monospace;font-size:24px;font-weight:800;color:var(--green);margin-top:8px">₦468,500</div>
+            <div class="hv-note" style="margin-top:6px">Held by licensed partner · DG-240501</div>
+          </div>
+        </div>
+
+        <!-- Main card · Inspection report -->
+        <div class="hv-card main">
+          <div class="hv-main-head">
+            <div class="hv-av">BE<span class="v">✓</span></div>
+            <div>
+              <div class="hv-main-name">Blessing Eze</div>
+              <div class="hv-main-sub">Certified Vet Agent</div>
+            </div>
+          </div>
+          <div style="margin-bottom:14px">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:5px">Inspection verdict</div>
+            <div style="display:inline-block;background:#DCFCE7;color:var(--green2);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:900;letter-spacing:.08em">PASS</div>
+          </div>
+          <div class="hv-row"><span class="k">IMEI match</span><span class="v">✓</span></div>
+          <div class="hv-row"><span class="k">Battery</span><span class="v">89%</span></div>
+          <div class="hv-row"><span class="k">GPS from pin</span><span class="v">47m</span></div>
+          <div class="hv-row total"><span class="k">Evidence</span><span class="v">45s video</span></div>
+        </div>
+
+        <!-- Floating card 2 · Tracking -->
+        <div class="hv-card floating-2">
+          <div style="padding:20px">
+            <div class="hv-badge" style="background:#DBEAFE;color:var(--blue)">📦 In transit</div>
+            <div class="hv-title">Shared tracking</div>
+            <div class="hv-row"><span class="k">Buyer + seller</span><span class="v" style="font-size:11px">Same view</span></div>
+            <div class="hv-row"><span class="k">Courier</span><span class="v" style="font-size:11px">GIG</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRUST BAR
+     ============================================================ -->
+<div class="trust-bar">
+  <div class="container">
+    <div class="trust-inner">
+      <span class="trust-label">Built on regulated rails</span>
+      <span class="trust-logo">Paystack</span>
+      <span class="trust-logo">Flutterwave</span>
+      <span class="trust-logo">GIG Logistics</span>
+      <span class="trust-logo">Kwik Express</span>
+      <span class="trust-logo">NIBSS</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     HOW IT WORKS
+     ============================================================ -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">How it works</span>
+      <h2>Five steps. <span class="g">Zero blind trust.</span></h2>
+      <p>Every deal runs through the same protected flow. Seller, buyer, and a certified Vet Agent — all working from the same truth.</p>
+    </div>
+
+    <div class="steps-tabs reveal">
+      <button class="steps-tab on" onclick="switchStep(0,this)">1 · Seller creates</button>
+      <button class="steps-tab" onclick="switchStep(1,this)">2 · Buyer pays</button>
+      <button class="steps-tab" onclick="switchStep(2,this)">3 · Agent inspects</button>
+      <button class="steps-tab" onclick="switchStep(3,this)">4 · Buyer approves</button>
+      <button class="steps-tab" onclick="switchStep(4,this)">5 · Delivery &amp; payout</button>
+    </div>
+
+    <div class="steps-panel on" data-step="0">
+      <div class="step-card">
+        <div>
+          <div class="step-num">Step 1 of 5</div>
+          <h3>Seller creates a Protected Deal</h3>
+          <p>Item details, 2–4 photos, one continuous video ≤60 seconds, a Google Maps pickup pin, and a refundable ₦5,000 guarantee. Everything the buyer and the Vet Agent will later rely on is captured up front.</p>
+          <ul>
+            <li>Instant taxonomy from item name</li>
+            <li>Server-validated media (2–4 images · ≤60s video)</li>
+            <li>Google Maps pin — the physical location the agent travels to</li>
+            <li>₦5,000 refundable guarantee held in escrow</li>
+          </ul>
+        </div>
+        <div class="step-visual">
+          <div class="step-visual-inner">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px">Item details</div>
+            <div style="font-size:16px;font-weight:800;color:var(--navy);margin-bottom:12px">iPhone 14 Pro 256GB</div>
+            <div style="display:flex;gap:4px;margin-bottom:12px">
+              <div style="aspect-ratio:1;flex:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:6px;display:grid;place-items:center;font-size:18px">📱</div>
+              <div style="aspect-ratio:1;flex:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:6px;display:grid;place-items:center;font-size:18px">📱</div>
+              <div style="aspect-ratio:1;flex:1;background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:6px;display:grid;place-items:center;font-size:18px">▶</div>
+            </div>
+            <div style="font-size:11px;color:var(--muted);font-weight:600">Guarantee held: <span style="color:var(--green);font-family:Menlo,monospace;font-weight:800">₦5,000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps-panel" data-step="1">
+      <div class="step-card">
+        <div>
+          <div class="step-num">Step 2 of 5</div>
+          <h3>Buyer pays into escrow</h3>
+          <p>The buyer opens the link, sees the seller's public reputation dossier, and pays into escrow held by a licensed Nigerian payment partner. DealsGate never holds the money directly.</p>
+          <ul>
+            <li>Four transparent cost lines — no hidden margin</li>
+            <li>Escrow custody by a licensed payment partner</li>
+            <li>Card, transfer, or wallet balance</li>
+            <li>Verified webhooks — payment status changes exactly once</li>
+          </ul>
+        </div>
+        <div class="step-visual">
+          <div class="step-visual-inner">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:10px">Checkout</div>
+            <div class="hv-row"><span class="k">Item</span><span class="v">₦450,000</span></div>
+            <div class="hv-row"><span class="k">Buyer fee</span><span class="v">₦9,000</span></div>
+            <div class="hv-row"><span class="k">Vet fee</span><span class="v">₦6,000</span></div>
+            <div class="hv-row"><span class="k">Logistics</span><span class="v">₦3,500</span></div>
+            <div class="hv-row total"><span class="k">Total</span><span class="v">₦468,500</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps-panel" data-step="2">
+      <div class="step-card">
+        <div>
+          <div class="step-num">Step 3 of 5</div>
+          <h3>Certified Vet Agent inspects</h3>
+          <p>The moment the deal is paid, a job opens to certified agents in the seller's LGA. First-Accept-Wins. The agent travels to the pin, verifies their GPS position is within 500 metres, and inspects the item.</p>
+          <ul>
+            <li>First-Accept-Wins with atomic row-level locking</li>
+            <li>GPS verified within 500m of the seller's pin</li>
+            <li>Checklist: IMEI, serial, condition, functionality</li>
+            <li>Continuous video evidence as court-grade proof</li>
+          </ul>
+        </div>
+        <div class="step-visual">
+          <div class="step-visual-inner">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:10px">Inspection checklist</div>
+            <div style="display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:12px">
+              <div style="width:16px;height:16px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900">✓</div>
+              <span style="flex:1;color:var(--navy);font-weight:700">IMEI matches</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:12px">
+              <div style="width:16px;height:16px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900">✓</div>
+              <span style="flex:1;color:var(--navy);font-weight:700">Battery health 89%</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;padding:7px 0;font-size:12px">
+              <div style="width:16px;height:16px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900">✓</div>
+              <span style="flex:1;color:var(--navy);font-weight:700">No iCloud lock</span>
+            </div>
+            <div style="margin-top:12px;font-size:10px;color:var(--green);font-weight:800">GPS: 47m from pin ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps-panel" data-step="3">
+      <div class="step-card">
+        <div>
+          <div class="step-num">Step 4 of 5</div>
+          <h3>Buyer approves the evidence</h3>
+          <p>This is the evidence gate — the single most important protection in the platform. Logistics cannot pick up the item and funds cannot release until the buyer reviews the inspection report and clicks Approve.</p>
+          <ul>
+            <li>Enforced server-side — not a UI hint</li>
+            <li>No legal transition exists from "review" to "dispatched" except via approval</li>
+            <li>Dispute opens mediation instead</li>
+            <li>Vet Agent only gets paid after approval</li>
+          </ul>
+        </div>
+        <div class="step-visual">
+          <div class="step-visual-inner">
+            <div style="background:#FEFBEB;border-left:3px solid var(--gold);padding:12px;border-radius:8px;margin-bottom:14px">
+              <div style="font-size:11px;font-weight:800;color:#78350F;line-height:1.5">Nothing moves — not the item, not the money — until you approve.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div style="background:#fff;border:1.5px solid var(--red);color:var(--red);padding:11px;border-radius:8px;text-align:center;font-size:12.5px;font-weight:800">Dispute</div>
+              <div style="background:var(--green);color:#fff;padding:11px;border-radius:8px;text-align:center;font-size:12.5px;font-weight:800">Approve ✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps-panel" data-step="4">
+      <div class="step-card">
+        <div>
+          <div class="step-num">Step 5 of 5</div>
+          <h3>Delivery, payout, ratings</h3>
+          <p>Logistics partner picks up the item. Buyer and seller watch the same tracking timeline — same states, same timestamps, driven by verified courier webhooks. On confirmed delivery, the seller is paid and the guarantee is refunded.</p>
+          <ul>
+            <li>Shared tracking — identical for buyer and seller</li>
+            <li>Seller receives item net, minus 2% success fee</li>
+            <li>₦5,000 guarantee refunded to guarantee wallet</li>
+            <li>Buyer rates the seller and the Vet Agent</li>
+          </ul>
+        </div>
+        <div class="step-visual">
+          <div class="step-visual-inner">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:10px">Settlement</div>
+            <div class="hv-row"><span class="k">Item price</span><span class="v">₦450,000</span></div>
+            <div class="hv-row"><span class="k">Seller success fee (2%)</span><span class="v" style="color:var(--red)">−₦9,000</span></div>
+            <div class="hv-row"><span class="k">Guarantee refund</span><span class="v" style="color:var(--green)">+₦5,000</span></div>
+            <div class="hv-row total"><span class="k">Net to seller</span><span class="v">₦446,000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FEATURES — BENTO
+     ============================================================ -->
+<section class="section alt" id="features">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">What's inside</span>
+      <h2>Four load-bearing rules.<br><span class="gr">One protected deal.</span></h2>
+      <p>DealsGate is built on four invariants that never break. Remove any one of them and the platform stops being safe.</p>
+    </div>
+
+    <div class="bento">
+      <div class="bento-item lg reveal">
+        <div class="bento-icon navy">🛡️</div>
+        <h3>Seller never holds buyer principal</h3>
+        <p>Escrow custody is delegated to a licensed Nigerian payment partner. DealsGate never holds client money directly. This is a regulatory requirement enforced before any deal can be created.</p>
+        <div class="feature-visual">escrow_partner.lock_funds(amount) → custody_id</div>
+      </div>
+      <div class="bento-item md reveal">
+        <div class="bento-icon green">📍</div>
+        <h3>Logistics blocked until approval</h3>
+        <p>The evidence gate. No legal state transition exists from review to dispatch except via buyer approval.</p>
+        <div class="feature-visual">REVIEW → APPROVED → DISPATCHED</div>
+      </div>
+      <div class="bento-item md reveal">
+        <div class="bento-icon gold">🎓</div>
+        <h3>Certified agents only</h3>
+        <p>10 modules, 100-question exam, 85% pass mark. Every agent is ID-verified and sector-certified.</p>
+        <div class="feature-visual">agent.certified = modules + quiz ✓</div>
+      </div>
+      <div class="bento-item sm reveal">
+        <div class="bento-icon purple">🔒</div>
+        <h3>Idempotent money</h3>
+        <p>Every payment, refund, payout carries an idempotency key. Duplicate webhooks return the prior result — never re-execute.</p>
+        <div class="feature-visual">Idempotency-Key: whk_…</div>
+      </div>
+      <div class="bento-item sm reveal">
+        <div class="bento-icon blue">📡</div>
+        <h3>Shared tracking</h3>
+        <p>Buyer and seller see the exact same timeline. Same states, same timestamps, driven by HMAC-verified courier webhooks.</p>
+        <div class="feature-visual">webhook.verify(hmac, replay_window)</div>
+      </div>
+      <div class="bento-item sm reveal">
+        <div class="bento-icon navy">✓</div>
+        <h3>Failure paths designed first</h3>
+        <p>Failed inspections, transit damage, fraud, cancellations — every branch has a pre-published rule.</p>
+        <div class="feature-visual">6 branches · pre-published policy</div>
+      </div>
+    </div>
+
+    <!-- Stats band -->
+    <div class="stats-band reveal">
+      <div class="stat-item">
+        <div class="v gold">₦20.5k</div>
+        <div class="l">Net platform<br>revenue per deal</div>
+      </div>
+      <div class="stat-item">
+        <div class="v g">21</div>
+        <div class="l">Legal states<br>in the deal machine</div>
+      </div>
+      <div class="stat-item">
+        <div class="v">1</div>
+        <div class="l">Evidence gate<br>holding everything</div>
+      </div>
+      <div class="stat-item">
+        <div class="v g">0</div>
+        <div class="l">Client money<br>held by DealsGate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ROLES — tabs
+     ============================================================ -->
+<section class="section dark" id="roles">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Built for everyone</span>
+      <h2>One platform.<br><span class="g">Three roles.</span></h2>
+      <p>Whether you sell on Instagram, buy on WhatsApp, or inspect items for a living — DealsGate has a home for you.</p>
+    </div>
+
+    <div class="roles-tabs reveal">
+      <button class="roles-tab on" onclick="switchRole(0,this)">
+        <span class="ic">🏪</span> For sellers
+      </button>
+      <button class="roles-tab" onclick="switchRole(1,this)">
+        <span class="ic">🛒</span> For buyers
+      </button>
+      <button class="roles-tab" onclick="switchRole(2,this)">
+        <span class="ic">🔍</span> For Vet Agents
+      </button>
+    </div>
+
+    <div class="roles-panel on" data-role="0">
+      <div class="role-card">
+        <div class="role-content">
+          <h3>Stop chasing <span class="g">fake alerts</span> on WhatsApp.</h3>
+          <p class="role-lead">You already have the customers. What you don't have is a way to prove you're legitimate — and a way to make sure the payment is real before you ship.</p>
+          <ul>
+            <li>Publish a Protected Deal in under 3 minutes</li>
+            <li>₦5,000 refundable guarantee proves you stand behind your listing</li>
+            <li>Buyer pays into escrow — no fake alerts, ever</li>
+            <li>Public seller dossier you can link in your Instagram bio</li>
+            <li>Ship only after a certified agent verifies the item</li>
+          </ul>
+          <a class="role-cta" href="#signup">Start selling →</a>
+        </div>
+        <div class="role-visual">
+          <div class="role-visual-inner">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+              <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8">Your listing</div>
+              <span style="background:#FEF3C7;color:var(--gold2);padding:3px 9px;border-radius:20px;font-size:9.5px;font-weight:800;text-transform:uppercase">Published</span>
+            </div>
+            <div style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:10px">iPhone 14 Pro 256GB</div>
+            <div style="font-size:11px;color:var(--muted);font-family:Menlo,monospace;margin-bottom:14px">DG-240501 · Ikeja</div>
+            <div class="hv-row"><span class="k">Guarantee</span><span class="v" style="color:var(--gold2)">₦5,000 held</span></div>
+            <div class="hv-row"><span class="k">Buyer paid</span><span class="v" style="color:var(--green)">₦468,500</span></div>
+            <div class="hv-row total"><span class="k">Your net on success</span><span class="v">₦446,000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roles-panel" data-role="1">
+      <div class="role-card">
+        <div class="role-content">
+          <h3>Buy online <span class="g">without gambling</span> your money.</h3>
+          <p class="role-lead">You found something on Instagram. You want it. But you don't want to send money to a stranger and hope they're real. DealsGate makes sure you never have to.</p>
+          <ul>
+            <li>Verify any vendor's real deal history before you pay</li>
+            <li>Escrow holds your money with a licensed partner</li>
+            <li>Certified Vet Agent inspects the item on camera</li>
+            <li>You control the release — nothing moves until you approve</li>
+            <li>Full refund if the item doesn't match the listing</li>
+          </ul>
+          <a class="role-cta" href="#signup">Start buying →</a>
+        </div>
+        <div class="role-visual">
+          <div class="role-visual-inner">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line)">
+              <div style="width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-weight:800;font-size:14px;position:relative">AO<span style="position:absolute;right:-2px;bottom:-2px;width:14px;height:14px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:8px;border:2px solid #fff">✓</span></div>
+              <div>
+                <div style="font-size:13px;font-weight:800;color:var(--navy)">Adaeze Electronics</div>
+                <div style="font-size:11px;color:var(--gold2);font-weight:800;margin-top:2px">★★★★★ 4.9 · 34 deals</div>
+              </div>
+            </div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px">Inspection result</div>
+            <div style="display:inline-block;background:#DCFCE7;color:var(--green2);padding:6px 14px;border-radius:20px;font-size:11.5px;font-weight:900;margin-bottom:12px">PASS</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+              <div style="background:#fff;border:1.5px solid var(--red);color:var(--red);padding:10px;border-radius:8px;text-align:center;font-size:11.5px;font-weight:800">Dispute</div>
+              <div style="background:var(--green);color:#fff;padding:10px;border-radius:8px;text-align:center;font-size:11.5px;font-weight:800">Approve</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roles-panel" data-role="2">
+      <div class="role-card">
+        <div class="role-content">
+          <h3>Turn your expertise into <span class="g">steady income</span>.</h3>
+          <p class="role-lead">You know phones. You know laptops. You know when something looks off. DealsGate turns that instinct into paid work — flexible, local, and same-day withdrawal.</p>
+          <ul>
+            <li>Earn ₦4,200 per protected-deal inspection</li>
+            <li>Earn 60% of every on-demand job (minimum ₦6,000)</li>
+            <li>Jobs routed to your LGA — you set your travel radius</li>
+            <li>Free 10-module training + certification</li>
+            <li>Withdraw to any Nigerian bank, partially or in full, same day</li>
+          </ul>
+          <a class="role-cta" href="#signup">Become an agent →</a>
+        </div>
+        <div class="role-visual">
+          <div class="role-visual-inner">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:12px">Job feed · Ikeja</div>
+            <div style="background:#FFF7E6;border-left:3px solid var(--gold);border-radius:9px;padding:12px;margin-bottom:8px">
+              <div style="font-family:Menlo,monospace;font-size:10px;color:#8A93A6;font-weight:700">DG-240501</div>
+              <div style="font-size:13px;font-weight:800;color:var(--navy);margin:3px 0 6px">iPhone 14 Pro</div>
+              <div style="display:flex;justify-content:space-between;font-size:10.5px">
+                <span style="color:var(--muted)">Ikeja · 1.2km</span>
+                <span style="font-family:Menlo,monospace;color:var(--green);font-weight:800">+₦4,200</span>
+              </div>
+            </div>
+            <div style="background:#FFF7E6;border-left:3px solid var(--gold);border-radius:9px;padding:12px">
+              <div style="font-family:Menlo,monospace;font-size:10px;color:#8A93A6;font-weight:700">DG-240502</div>
+              <div style="font-size:13px;font-weight:800;color:var(--navy);margin:3px 0 6px">MacBook Pro M3</div>
+              <div style="display:flex;justify-content:space-between;font-size:10.5px">
+                <span style="color:var(--muted)">Eti-Osa · 5.4km</span>
+                <span style="font-family:Menlo,monospace;color:var(--green);font-weight:800">+₦4,200</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+     ============================================================ -->
+<section class="section" id="stories">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Real stories</span>
+      <h2>People who trade with <span class="gr">confidence</span>.</h2>
+      <p>Three Nigerians who use DealsGate every week — and what it changed about how they sell, buy, and earn.</p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial reveal">
+        <div class="stars">★★★★★</div>
+        <div class="quote">"I lost a ₦180,000 sale once because the buyer was scared to pay first. Now I send a DealsGate link and they pay same day. My conversion rate doubled."</div>
+        <div class="author">
+          <div class="author-av" style="background:var(--gold);color:var(--navy)">AO</div>
+          <div>
+            <div class="author-name">Adaeze Okafor</div>
+            <div class="author-role">Adaeze Electronics · Lagos</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal">
+        <div class="stars">★★★★★</div>
+        <div class="quote">"I bought a MacBook from an Instagram vendor I'd never met. The agent's video showed the serial number. I approved. Everything matched. The whole thing felt normal — that's the point."</div>
+        <div class="author">
+          <div class="author-av" style="background:var(--green)">CO</div>
+          <div>
+            <div class="author-name">Chioma Obi</div>
+            <div class="author-role">Buyer · Abuja</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial reveal">
+        <div class="stars">★★★★★</div>
+        <div class="quote">"I was doing phone repairs from a small shop. Now I earn more doing inspections four days a week. The jobs come to me, and I withdraw same day."</div>
+        <div class="author">
+          <div class="author-av" style="background:var(--navy);color:var(--gold)">BE</div>
+          <div>
+            <div class="author-name">Blessing Eze</div>
+            <div class="author-role">Super Vet · Lagos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PRICING
+     ============================================================ -->
+<section class="section alt" id="pricing">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Transparent fees</span>
+      <h2>No surprises. <span class="g">No margin markup.</span></h2>
+      <p>Everything the buyer pays is on four lines. Everything the seller receives is on four lines. The platform's logistics margin is never shown to the buyer.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <h3>For buyers</h3>
+        <div class="amount">2%<span class="unit"> buyer fee</span></div>
+        <p class="desc">On the item price. Plus ₦6,000 inspection, and logistics at the courier's actual rate.</p>
+        <ul>
+          <li>Escrow protection on every deal</li>
+          <li>Certified Vet Agent inspection</li>
+          <li>Full refund if the item fails inspection</li>
+          <li>Wallet rollover — refunds stay ready to spend</li>
+          <li>Zero margin line — ever</li>
+        </ul>
+      </div>
+
+      <div class="price-card featured reveal">
+        <div class="tag">Most popular</div>
+        <h3>For sellers</h3>
+        <div class="amount">2%<span class="unit"> success fee</span></div>
+        <p class="desc">Only on completed deals. Plus a ₦5,000 refundable guarantee held per listing.</p>
+        <ul>
+          <li>Publish unlimited Protected Deals</li>
+          <li>Public seller reputation dossier</li>
+          <li>Buyer pays into escrow before shipping</li>
+          <li>Guarantee refunded on every success</li>
+          <li>Withdraw to any Nigerian bank, partial amounts</li>
+          <li>Clone &amp; re-list in two taps</li>
+        </ul>
+      </div>
+
+      <div class="price-card reveal">
+        <h3>For Vet Agents</h3>
+        <div class="amount">₦4,200<span class="unit"> per job</span></div>
+        <p class="desc">Your 70% share of every protected-deal inspection. On-demand jobs pay 60% of the fee.</p>
+        <ul>
+          <li>Free training and certification</li>
+          <li>Jobs routed to your LGA only</li>
+          <li>First-Accept-Wins — no competition</li>
+          <li>Withdraw same day to any bank</li>
+          <li>Super Vet priority after 10 jobs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="section" id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Questions</span>
+      <h2>Straight answers.</h2>
+      <p>Everything a Nigerian buyer, seller, or agent needs to know before they use DealsGate.</p>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">Is DealsGate like Paystack or Flutterwave?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No. Paystack and Flutterwave are payment processors — they move money. DealsGate is a protected-deal platform. We use licensed payment partners to hold escrow, but the platform itself does two things they don't: it requires a certified Vet Agent to physically inspect the item, and it forbids money from releasing until the buyer approves that inspection report. Payment processors protect the payment. DealsGate protects the item too.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">Is DealsGate a marketplace?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No. We are not a catalogue and we are not competing with Jumia, Konga, or Jiji. We are the trust layer underneath Instagram and WhatsApp commerce. Sellers keep their own storefronts and their own audiences — they just publish protected deals and share the buyer link.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">How does the escrow actually work?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">When the buyer pays, the funds are held by a licensed Nigerian payment partner — not by DealsGate. We never hold client principal. Money releases to the seller only after (a) a certified Vet Agent has inspected the item, (b) the buyer has reviewed the report, and (c) the item has been delivered and confirmed.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">What if the item doesn't match the listing?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">The Vet Agent reports FAIL. The buyer is refunded in full — item price, buyer service fee, Vet Agent fee, and logistics. The seller forfeits the ₦5,000 guarantee. If the item passes inspection but the buyer still disputes after delivery, a mediator reviews evidence tiers — the agent's continuous video with the IMEI on camera is the strongest evidence.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">How do Vet Agents get paid?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Agents earn ₦4,200 per protected-deal inspection (70% of the ₦6,000 fee) and 60% of on-demand jobs (minimum ₦6,000). Payment lands in the agent's wallet when the buyer approves the report. Withdrawal to any Nigerian bank, same day, with 2FA. Partial withdrawals allowed — no forced full withdrawal.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">Do I need an app?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">No. DealsGate runs entirely in your browser — no Android app, no iOS app, no install. Works on any smartphone, tablet, or desktop. Mobile users get a bottom navigation bar; desktop users get a full dashboard with sidebar. Same product, same URL.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">How do I know a seller is legitimate?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Every seller has a public reputation dossier at dealsgate.ng/seller/[name]. It shows their verified badge, sector, total deals, success rate, and buyer reviews — all from verified buyers only. No login required to view it. Phone numbers and addresses are never shown. Sellers can share their dossier link in their Instagram bio.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-q" onclick="toggleFaq(this)">Is my identity data safe?<span class="arrow">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes. NIN and BVN are verified directly through the Nigerian identity provider. Your raw numbers are never stored on DealsGate servers — only the provider's reference ID. We are fully aligned with the Nigeria Data Protection Act 2023.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FINAL CTA
+     ============================================================ -->
+<section class="final-cta" id="signup">
+  <div class="container">
+    <h2>Ready to trade <span class="g">without fear</span>?</h2>
+    <p>Create a free account in under two minutes. Verify your identity. Publish your first protected deal.</p>
+    <div class="final-cta-buttons">
+      <a class="primary" href="#" onclick="openSignup();return false;">Create your account →</a>
+      <a class="secondary" href="#how">See how it works</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="brand">
+          <div class="brand-mark">✓</div>
+          <div>Deals<span class="g">Gate</span></div>
+        </div>
+        <p class="footer-mission">
+          We verify the item. We protect the payment. We track the delivery.
+          DealsGate is a protected-deal platform for Nigerian social commerce — built by
+          THE TAP OF GRACE MEDIA HOUSE.
+        </p>
+        <div class="footer-social">
+          <a href="#" title="Instagram">📷</a>
+          <a href="#" title="X">𝕏</a>
+          <a href="#" title="WhatsApp">💬</a>
+          <a href="#" title="LinkedIn">in</a>
+        </div>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#roles">For sellers</a></li>
+          <li><a href="#roles">For buyers</a></li>
+          <li><a href="#roles">For Vet Agents</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Policies</h4>
+        <ul>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Refund &amp; Dispute</a></li>
+          <li><a href="#">Acceptable Use</a></li>
+          <li><a href="#">Prohibited Items</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>
+        © 2026 THE TAP OF GRACE MEDIA HOUSE — Trading as DealsGate<br>
+        CEO / Founder: Taofik Akinwunmi · support@dealsgate.ng · +234 807 921 9165<br>
+        www.dealsgate.ng · www.dealsgate.com.ng · @dealsgate.ng
+      </div>
+      <div class="right">
+        Protected-deal platform · Licensed Nigerian payment partner<br>
+        Platform logistics margin is never shown as a buyer line item.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     SIGNUP MODAL
+     ============================================================ -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-inner" id="modalInner" style="display:none;background:#fff;width:100%;max-width:520px;border-radius:20px;padding:32px;margin:20px;max-height:92vh;overflow-y:auto;position:relative;">
+    <button onclick="closeModal()" style="position:absolute;top:16px;right:20px;font-size:26px;color:#94A3B8;line-height:1;">×</button>
+    <div class="kicker" style="font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;">Get started</div>
+    <h3 style="font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.5px;line-height:1.2;margin-bottom:8px;">Create your DealsGate account</h3>
+    <p style="font-size:14.5px;color:var(--muted);line-height:1.6;margin-bottom:24px;">Free. 2 minutes. Verify with NIN or BVN.</p>
+
+    <div class="fld" style="margin-bottom:16px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;">Full name</label>
+      <input placeholder="As it appears on your NIN" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-size:14px;">
+    </div>
+    <div class="fld" style="margin-bottom:16px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;">Email</label>
+      <input placeholder="you@example.com" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-size:14px;">
+    </div>
+    <div class="fld" style="margin-bottom:16px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;">Phone / WhatsApp</label>
+      <input placeholder="+234 807 921 9165" style="width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-size:14px;">
+    </div>
+    <div class="fld" style="margin-bottom:20px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;">Account type</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="card" style="padding:14px;text-align:center;border:2px solid var(--gold);background:#FEFBEB;cursor:pointer;">
+          <div style="font-size:20px;margin-bottom:4px;">👤</div>
+          <div style="font-size:13px;font-weight:800;color:var(--navy);">Individual</div>
+        </div>
+        <div class="card" style="padding:14px;text-align:center;cursor:pointer;">
+          <div style="font-size:20px;margin-bottom:4px;">🏢</div>
+          <div style="font-size:13px;font-weight:800;color:var(--navy);">Business</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="cta" style="width:100%;padding:15px;background:var(--navy);color:#fff;border-radius:10px;font-size:14.5px;font-weight:800;transition:all .15s;">Create account →</button>
+    <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5;">By creating an account you agree to our <a href="#" style="color:var(--navy);text-decoration:underline;">Terms</a>, <a href="#" style="color:var(--navy);text-decoration:underline;">Privacy</a>, and <a href="#" style="color:var(--navy);text-decoration:underline;">Refund &amp; Dispute Policy</a>.</p>
+  </div>
+</div>
+
+<style>
+.modal{
+  position:fixed;inset:0;background:rgba(13,27,76,.7);backdrop-filter:blur(6px);
+  z-index:200;display:none;align-items:center;justify-content:center;
+}
+.modal.on{display:flex}
+@media(max-width:640px){.modal{align-items:flex-end}}
+#modalInner{animation:modalIn .3s cubic-bezier(.4,.2,.2,1)}
+@keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+</style>
+
+<script>
+/* ============================================================
+   NAV SCROLL STATE
+   ============================================================ */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+/* ============================================================
+   STEPS TABS
+   ============================================================ */
+function switchStep(i, btn){
+  document.querySelectorAll('.steps-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.steps-panel').forEach(p => {
+    p.classList.toggle('on', p.dataset.step == i);
+  });
+}
+
+/* ============================================================
+   ROLES TABS
+   ============================================================ */
+function switchRole(i, btn){
+  document.querySelectorAll('.roles-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.roles-panel').forEach(p => {
+    p.classList.toggle('on', p.dataset.role == i);
+  });
+}
+
+/* ============================================================
+   FAQ ACCORDION
+   ============================================================ */
+function toggleFaq(el){
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('on');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('on'));
+  if(!wasOpen) item.classList.add('on');
+}
+
+/* ============================================================
+   SIGNUP MODAL
+   ============================================================ */
+function openSignup(){
+  document.getElementById('modalInner').style.display = 'block';
+  document.getElementById('modal').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+const revealEls = document.querySelectorAll('.reveal');
+if('IntersectionObserver' in window){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => io.observe(el));
+} else {
+  revealEls.forEach(el => el.classList.add('in'));
+}
+
+/* ============================================================
+   SMOOTH ANCHOR SCROLL
+   ============================================================ */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    if(!id) return;
+    const target = document.getElementById(id);
+    if(!target) return;
+    e.preventDefault();
+    const offset = 80;
+    const top = target.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
