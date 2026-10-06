@@ -1344,6 +1344,12 @@ img,svg{display:block;max-width:100%}
   <div class="apply">
     <div class="apply-inner">
 
+      <!-- NETLIFY FORM: submissions appear in Netlify > Forms > "vet-agent-application" -->
+      <form name="vet-agent-application" id="applyForm" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="vet-agent-application">
+      <input type="hidden" name="reference" id="fRef" value="">
+      <p style="display:none" aria-hidden="true"><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
       <!-- Step 1 -->
       <div class="form-step on" id="step1">
         <div class="apply-eyebrow">Application · Step 1 of 3</div>
@@ -1357,22 +1363,22 @@ img,svg{display:block;max-width:100%}
         <div style="margin-top:20px">
           <div class="form-field">
             <label>Full name</label>
-            <input type="text" id="fName" placeholder="As it appears on your NIN">
+            <input type="text" id="fName" name="full_name" placeholder="As it appears on your NIN">
           </div>
           <div class="form-row">
             <div class="form-field">
               <label>Phone / WhatsApp</label>
-              <input type="tel" id="fPhone" placeholder="+234 801 234 5678">
+              <input type="tel" id="fPhone" name="phone_whatsapp" placeholder="+234 801 234 5678">
             </div>
             <div class="form-field">
               <label>Email</label>
-              <input type="email" id="fEmail" placeholder="you@example.com">
+              <input type="email" id="fEmail" name="email" placeholder="you@example.com">
             </div>
           </div>
           <div class="form-row">
             <div class="form-field">
               <label>City / LGA</label>
-              <select id="fLga">
+              <select id="fLga" name="city_lga">
                 <option value="">Choose your area</option>
                 <optgroup label="Lagos">
                   <option>Ikeja</option><option>Eti-Osa</option><option>Surulere</option>
@@ -1397,7 +1403,7 @@ img,svg{display:block;max-width:100%}
             </div>
             <div class="form-field">
               <label>Years of hands-on experience</label>
-              <select id="fExp">
+              <select id="fExp" name="experience">
                 <option value="">Choose range</option>
                 <option>Less than 1 year</option>
                 <option>1–3 years</option>
@@ -1408,7 +1414,7 @@ img,svg{display:block;max-width:100%}
           </div>
         </div>
         <div class="form-actions" style="justify-content:flex-end">
-          <button class="form-btn pri" onclick="formNext(1)">Continue →</button>
+          <button type="button" class="form-btn pri" onclick="formNext(1)">Continue →</button>
         </div>
       </div>
 
@@ -1425,7 +1431,7 @@ img,svg{display:block;max-width:100%}
         <div style="margin-top:20px">
           <div class="form-field">
             <label>Primary sector</label>
-            <select id="fSector1">
+            <select id="fSector1" name="sector_primary">
               <option value="">Choose one</option>
               <option>Phones &amp; Tablets</option>
               <option>Computers &amp; Laptops</option>
@@ -1438,7 +1444,7 @@ img,svg{display:block;max-width:100%}
           <div class="form-row">
             <div class="form-field">
               <label>Second sector (optional)</label>
-              <select id="fSector2">
+              <select id="fSector2" name="sector_second">
                 <option value="">None</option>
                 <option>Phones &amp; Tablets</option>
                 <option>Computers &amp; Laptops</option>
@@ -1450,7 +1456,7 @@ img,svg{display:block;max-width:100%}
             </div>
             <div class="form-field">
               <label>Third sector (optional)</label>
-              <select id="fSector3">
+              <select id="fSector3" name="sector_third">
                 <option value="">None</option>
                 <option>Phones &amp; Tablets</option>
                 <option>Computers &amp; Laptops</option>
@@ -1463,7 +1469,7 @@ img,svg{display:block;max-width:100%}
           </div>
           <div class="form-field">
             <label>Maximum travel distance from your base</label>
-            <select id="fTravel">
+            <select id="fTravel" name="max_travel_distance">
               <option>Up to 5km</option>
               <option>Up to 10km</option>
               <option selected>Up to 20km</option>
@@ -1472,7 +1478,7 @@ img,svg{display:block;max-width:100%}
           </div>
           <div class="form-field">
             <label>ID type you will verify with</label>
-            <select id="fIdType">
+            <select id="fIdType" name="id_type">
               <option value="">Choose one</option>
               <option>NIN (National Identity Number)</option>
               <option>BVN (Bank Verification Number)</option>
@@ -1480,8 +1486,8 @@ img,svg{display:block;max-width:100%}
           </div>
         </div>
         <div class="form-actions">
-          <button class="form-btn gh" onclick="formBack(2)">← Back</button>
-          <button class="form-btn pri" onclick="formNext(2)">Continue →</button>
+          <button type="button" class="form-btn gh" onclick="formBack(2)">← Back</button>
+          <button type="button" class="form-btn pri" onclick="formNext(2)">Continue →</button>
         </div>
       </div>
 
@@ -1498,11 +1504,11 @@ img,svg{display:block;max-width:100%}
         <div style="margin-top:20px">
           <div class="form-field">
             <label>Bank account (for withdrawals)</label>
-            <input type="text" id="fBank" placeholder="e.g. Zenith Bank · 1234567890">
+            <input type="text" id="fBank" name="bank_account" placeholder="e.g. Zenith Bank · 1234567890">
           </div>
           <div class="form-field">
             <label>Why do you want to become a Vet Agent? (optional)</label>
-            <input type="text" id="fWhy" placeholder="One sentence is fine">
+            <input type="text" id="fWhy" name="why_vet_agent" placeholder="One sentence is fine">
           </div>
         </div>
         <div class="apply-note" style="text-align:left;margin-top:20px">
@@ -1512,8 +1518,8 @@ img,svg{display:block;max-width:100%}
           Service, Privacy Policy, and Refund &amp; Dispute Policy.
         </div>
         <div class="form-actions">
-          <button class="form-btn gh" onclick="formBack(3)">← Back</button>
-          <button class="form-btn pri" onclick="submitApplication()">Submit application →</button>
+          <button type="button" class="form-btn gh" onclick="formBack(3)">← Back</button>
+          <button type="button" class="form-btn pri" id="submitBtn" onclick="submitApplication()">Submit application →</button>
         </div>
       </div>
 
@@ -1534,6 +1540,7 @@ img,svg{display:block;max-width:100%}
         </div>
       </div>
 
+      </form>
     </div>
   </div>
 </section>
@@ -1719,17 +1726,52 @@ function formBack(cur){
   if(cur > 1) showStep(cur - 1);
 }
 
+/* Enter key inside a field: go to next step instead of a native submit */
+document.getElementById('applyForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  if(formStep === 3) submitApplication();
+  else if(formStep === 1 || formStep === 2) formNext(formStep);
+});
+
+let submitting = false;
 function submitApplication(){
+  if(submitting) return;
   const bank = document.getElementById('fBank').value.trim();
   if(!bank){ toast('Please enter your bank account','er'); return; }
 
-  // Generate reference
+  // Generate reference and store it in the form so it arrives in Netlify too
   const ref = 'DG-AGENT-' + Math.random().toString(36).slice(2,7).toUpperCase();
-  document.getElementById('appRef').textContent = ref;
+  document.getElementById('fRef').value = ref;
 
-  showStep('success');
-  document.getElementById('apply').scrollIntoView({behavior:'smooth',block:'start'});
-  toast('Application submitted · ' + ref, 'ok');
+  const form = document.getElementById('applyForm');
+  const btn = document.getElementById('submitBtn');
+  const btnLabel = btn.textContent;
+  submitting = true;
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  // Send to Netlify Forms (works once the site is deployed on Netlify)
+  fetch(window.location.pathname, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(new FormData(form)).toString()
+  })
+  .then(function(res){
+    if(!res.ok) throw new Error('Form submission failed: ' + res.status);
+    document.getElementById('appRef').textContent = ref;
+    showStep('success');
+    document.getElementById('apply').scrollIntoView({behavior:'smooth',block:'start'});
+    toast('Application submitted · ' + ref, 'ok');
+  })
+  .catch(function(err){
+    console.error(err);
+    toast('Could not submit. Check your connection and try again.','er');
+  })
+  .finally(function(){
+    submitting = false;
+    btn.disabled = false;
+    btn.textContent = btnLabel;
+  });
 }
 
 /* ============================================================
