@@ -1,0 +1,1909 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Web UI/UX Flow</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  :root{
+    --navy:#0D1B4C;--navy2:#142a70;--green:#16A34A;--green2:#15803D;
+    --gold:#F4B420;--gold2:#C98A00;--ink:#0F172A;--muted:#64748B;
+    --line:#E2E8F0;--mist:#F4F6FB;--blue:#2563EB;--red:#DC2626;--purple:#7C3AED;
+    --bg:#0A0E1F;
+  }
+  html,body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:var(--bg);color:#E5E7EB;-webkit-font-smoothing:antialiased;line-height:1.5}
+
+  /* ============================================================
+     DOC HEADER
+     ============================================================ */
+  .doc-head{
+    background:linear-gradient(155deg,#061133 0%,var(--navy) 55%,var(--navy2) 100%);
+    padding:64px 28px 54px;text-align:center;position:relative;overflow:hidden;
+  }
+  .doc-head::after{
+    content:"";position:absolute;right:-80px;top:-80px;width:240px;height:240px;
+    border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.2),transparent 70%);
+  }
+  .dh-logo{
+    display:inline-flex;align-items:center;gap:12px;margin-bottom:26px;position:relative;z-index:1;
+  }
+  .dh-mark{
+    width:40px;height:40px;border-radius:12px;background:var(--gold);color:var(--navy);
+    display:grid;place-items:center;font-size:20px;font-weight:900;border:2.5px solid #fff;
+  }
+  .dh-brand{font-size:20px;font-weight:800;letter-spacing:-.3px;color:#fff}
+  .dh-brand .g{color:var(--green)}
+  .dh-kicker{
+    display:inline-block;background:rgba(244,180,32,.14);border:1px solid rgba(244,180,32,.32);
+    color:var(--gold);padding:7px 16px;border-radius:999px;font-size:10.5px;
+    font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;
+    position:relative;z-index:1;
+  }
+  .doc-head h1{
+    font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-1.2px;line-height:1.08;
+    color:#fff;position:relative;z-index:1;max-width:900px;margin:0 auto;
+  }
+  .doc-head h1 .g{color:var(--gold)}
+  .doc-head h1 .gr{color:#4ADE80}
+  .doc-head .sub{
+    font-size:15.5px;color:rgba(255,255,255,.78);max-width:640px;margin:20px auto 0;
+    line-height:1.65;position:relative;z-index:1;
+  }
+  .dh-stats{
+    display:flex;justify-content:center;gap:44px;flex-wrap:wrap;margin-top:40px;
+    padding-top:28px;border-top:1px solid rgba(255,255,255,.12);position:relative;z-index:1;
+  }
+  .dh-stat .v{font-family:'Menlo',monospace;font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px}
+  .dh-stat .v.g{color:var(--gold)}
+  .dh-stat .l{font-size:9.5px;color:rgba(255,255,255,.55);font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
+
+  /* ============================================================
+     WRAP
+     ============================================================ */
+  .wrap{max-width:1480px;margin:0 auto;padding:56px 24px 100px}
+
+  /* ============================================================
+     PHASE
+     ============================================================ */
+  .phase{margin-bottom:88px}
+  .ph-head{
+    display:flex;align-items:baseline;gap:20px;padding-bottom:20px;
+    border-bottom:2px solid rgba(244,180,32,.2);margin-bottom:44px;flex-wrap:wrap;
+  }
+  .ph-num{font-family:'Menlo',monospace;font-size:13px;font-weight:800;color:var(--gold);letter-spacing:.06em}
+  .ph-title{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px}
+  .ph-desc{font-size:13.5px;color:#94A3B8;line-height:1.6;margin-left:auto;max-width:480px}
+
+  /* ============================================================
+     SCREEN CELL
+     ============================================================ */
+  .cell{margin-bottom:64px}
+  .cell-head{
+    margin-bottom:24px;
+  }
+  .cell-caption{
+    font-family:'Menlo',monospace;font-size:11px;font-weight:800;
+    color:var(--gold);letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;
+  }
+  .cell-title{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.3px;margin-bottom:6px}
+  .cell-note{font-size:13px;color:#94A3B8;line-height:1.6;max-width:720px}
+
+  /* Two-column desktop/mobile view */
+  .pair{
+    display:grid;grid-template-columns:1fr auto;gap:36px;align-items:flex-start;
+  }
+  @media (max-width:900px){
+    .pair{grid-template-columns:1fr}
+    .mob-frame{max-width:380px;margin:0 auto}
+  }
+
+  /* ============================================================
+     DESKTOP BROWSER FRAME
+     ============================================================ */
+  .desk-frame{
+    background:#1A1F2E;border-radius:14px;overflow:hidden;
+    box-shadow:0 24px 60px rgba(0,0,0,.4),0 4px 12px rgba(0,0,0,.2);
+    border:1px solid rgba(255,255,255,.08);
+  }
+  .desk-bar{
+    background:#252B3D;padding:11px 16px;display:flex;align-items:center;gap:12px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .desk-dots{display:flex;gap:6px}
+  .desk-dots span{width:11px;height:11px;border-radius:50%}
+  .desk-dots span:nth-child(1){background:#FF5F57}
+  .desk-dots span:nth-child(2){background:#FEBC2E}
+  .desk-dots span:nth-child(3){background:#28C840}
+  .desk-url{
+    flex:1;background:#0F1422;border-radius:6px;padding:6px 14px;display:flex;align-items:center;gap:8px;
+    font-family:'Menlo',monospace;font-size:11.5px;color:#94A3B8;
+  }
+  .desk-url .lock{color:#4ADE80;font-size:11px}
+  .desk-url .txt{color:#E5E7EB;font-weight:600;font-size:12px}
+  .desk-url .path{color:#64748B;font-weight:500}
+  .desk-tabs{display:flex;gap:4px}
+  .desk-tabs span{width:22px;height:14px;background:#3A4152;border-radius:3px}
+
+  .desk-body{
+    background:#F8FAFC;position:relative;min-height:600px;
+  }
+
+  /* ============================================================
+     MOBILE BROWSER FRAME
+     ============================================================ */
+  .mob-frame{
+    background:#0A0A0A;border-radius:34px;padding:10px;width:320px;
+    box-shadow:0 24px 60px rgba(0,0,0,.5),0 4px 12px rgba(0,0,0,.24),inset 0 0 0 1.5px #1F1F1F;
+    position:relative;flex-shrink:0;
+  }
+  .mob-frame::before{
+    content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);
+    width:80px;height:4px;background:#000;border-radius:20px;z-index:10;
+  }
+  .mob-screen{
+    width:100%;aspect-ratio:9/19;border-radius:26px;overflow:hidden;background:#fff;
+    display:flex;flex-direction:column;position:relative;
+  }
+  .mob-bar{
+    background:#fff;border-bottom:1px solid var(--line);
+    padding:24px 12px 8px;display:flex;align-items:center;gap:6px;flex-shrink:0;
+  }
+  .mob-bar .lock{color:var(--green);font-size:9px}
+  .mob-url{
+    flex:1;background:var(--mist);border-radius:6px;padding:4px 8px;
+    font-family:'Menlo',monospace;font-size:8.5px;color:var(--muted);font-weight:600;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .mob-url b{color:var(--navy);font-weight:800}
+  .mob-body{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative}
+
+  /* ============================================================
+     WEB UI PRIMITIVES (shared)
+     ============================================================ */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:11px 20px;border-radius:9px;font-size:13.5px;font-weight:700;
+    font-family:inherit;letter-spacing:.01em;cursor:pointer;
+    transition:all .15s;border:none;white-space:nowrap;
+  }
+  .btn-p{background:var(--navy);color:#fff}
+  .btn-p:hover{background:var(--navy2)}
+  .btn-g{background:var(--gold);color:var(--navy)}
+  .btn-g:hover{background:var(--gold2);color:#fff}
+  .btn-o{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn-o:hover{border-color:var(--navy)}
+  .btn-gr{background:var(--green);color:#fff}
+  .btn-sm{padding:8px 14px;font-size:12.5px;border-radius:8px}
+
+  /* Top nav for web */
+  .tnav{
+    background:#fff;border-bottom:1px solid var(--line);
+    padding:0 32px;display:flex;justify-content:space-between;align-items:center;
+    height:64px;flex-shrink:0;
+  }
+  .tnav .logo{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+  .tnav .logo .m{width:28px;height:28px;border-radius:8px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:15px;font-weight:900;border:2px solid var(--gold)}
+  .tnav .logo .g{color:var(--green)}
+  .tnav .links{display:flex;gap:6px;font-size:13px;font-weight:600}
+  .tnav .links a{color:#64748B;padding:8px 14px;border-radius:8px;text-decoration:none;transition:all .15s}
+  .tnav .links a.on{color:var(--navy);background:var(--mist)}
+  .tnav .actions{display:flex;gap:8px;align-items:center}
+  .tnav .actions .login{color:var(--navy);font-size:13px;font-weight:700;padding:8px 14px;text-decoration:none}
+  .tnav .actions .signup{background:var(--navy);color:#fff;padding:9px 16px;border-radius:9px;font-size:13px;font-weight:700;text-decoration:none}
+
+  /* Sidebar nav for authenticated web */
+  .app-shell{display:grid;grid-template-columns:240px 1fr;height:100%}
+  .snav{
+    background:#fff;border-right:1px solid var(--line);padding:20px 14px;
+    display:flex;flex-direction:column;gap:2px;overflow-y:auto;
+  }
+  .snav-brand{
+    display:flex;align-items:center;gap:9px;padding:6px 10px 20px;
+    border-bottom:1px solid var(--line);margin-bottom:12px;
+  }
+  .snav-brand .m{width:30px;height:30px;border-radius:8px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:16px;font-weight:900;border:2px solid var(--gold);flex-shrink:0}
+  .snav-brand .n{font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+  .snav-brand .n .g{color:var(--green)}
+  .snav-item{
+    display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;
+    font-size:13.5px;font-weight:600;color:#64748B;cursor:pointer;
+  }
+  .snav-item .ic{width:18px;text-align:center;font-size:14px}
+  .snav-item.on{background:var(--mist);color:var(--navy);font-weight:700}
+  .snav-sec{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#94A3B8;padding:14px 12px 6px}
+  .snav .user{
+    margin-top:auto;border-top:1px solid var(--line);padding-top:14px;
+    display:flex;align-items:center;gap:10px;padding-left:10px;
+  }
+  .snav .user .av{width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:12px;font-weight:800;position:relative}
+  .snav .user .av .b{position:absolute;right:-2px;bottom:-2px;width:12px;height:12px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:7px;border:1.5px solid #fff}
+  .snav .user .info .n{font-size:12px;font-weight:800;color:var(--navy)}
+  .snav .user .info .s{font-size:10px;color:var(--muted);font-weight:600}
+
+  /* Content area */
+  .content{
+    background:#F8FAFC;padding:32px 40px;overflow-y:auto;flex:1;
+  }
+  .pg-head{margin-bottom:24px}
+  .pg-head h1{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.6px;line-height:1.15}
+  .pg-head p{font-size:14px;color:#64748B;margin-top:6px;line-height:1.55}
+
+  /* Web cards */
+  .wcard{
+    background:#fff;border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;box-shadow:0 1px 3px rgba(13,27,76,.05);
+  }
+  .wcard h3{font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.2px;margin-bottom:12px}
+  .wcard-title-sm{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#94A3B8;margin-bottom:10px}
+
+  /* Web row (list item) */
+  .wrow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);gap:12px;font-size:13.5px}
+  .wrow:last-child{border-bottom:none}
+  .wrow .k{color:#64748B;font-weight:500;flex:1;min-width:0}
+  .wrow .v{color:var(--navy);font-weight:700;font-family:'Menlo',monospace;font-size:13px;flex-shrink:0}
+  .wrow .v.g{color:var(--green)}
+  .wrow .v.r{color:var(--red)}
+  .wrow .v.gold{color:var(--gold2)}
+  .wrow.total{padding-top:14px;border-top:2px solid var(--line);margin-top:6px}
+  .wrow.total .k{color:var(--navy);font-weight:800;font-size:14px}
+  .wrow.total .v{font-size:17px}
+
+  /* Pills */
+  .pill{
+    display:inline-block;padding:3px 10px;border-radius:20px;
+    font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    line-height:1.4;white-space:nowrap;
+  }
+  .pill-g{background:#DCFCE7;color:var(--green2)}
+  .pill-go{background:#FEF3C7;color:var(--gold2)}
+  .pill-n{background:var(--navy);color:#fff}
+  .pill-r{background:#FEE2E2;color:var(--red)}
+  .pill-b{background:#DBEAFE;color:var(--blue)}
+  .pill-p{background:#EDE9FE;color:var(--purple)}
+  .pill-m{background:var(--mist);color:#64748B}
+
+  /* Avatar */
+  .av{
+    width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+    color:#fff;font-size:13px;font-weight:800;flex-shrink:0;position:relative;
+  }
+  .av .v{position:absolute;right:-2px;bottom:-2px;width:14px;height:14px;border-radius:50%;
+    background:var(--green);color:#fff;display:grid;place-items:center;font-size:8px;border:2px solid #fff}
+
+  /* Input */
+  .win{
+    width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+    background:#fff;font-size:14px;color:var(--ink);font-weight:500;font-family:inherit;
+  }
+  .win.blank{color:#94A3B8}
+  .wfl{margin-bottom:16px}
+  .wfl label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px;letter-spacing:.01em}
+
+  /* Bottom nav for mobile web */
+  .mbnav{
+    display:flex;justify-content:space-around;padding:8px 4px 14px;
+    background:#fff;border-top:1px solid var(--line);flex-shrink:0;
+  }
+  .mbnav .tab{display:flex;flex-direction:column;align-items:center;gap:3px;
+    font-size:8.5px;font-weight:800;color:#94A3B8;letter-spacing:.02em;flex:1;text-transform:uppercase}
+  .mbnav .tab .ic{width:22px;height:22px;border-radius:6px;background:var(--mist);display:grid;place-items:center;font-size:12px}
+  .mbnav .tab.on{color:var(--navy)}
+  .mbnav .tab.on .ic{background:var(--gold);color:var(--navy)}
+
+  /* Status bar for mobile */
+  .mstat{display:flex;justify-content:space-between;align-items:center;padding:8px 18px 6px;
+    font-size:10px;font-weight:800;color:var(--navy);flex-shrink:0;background:#fff}
+  .mstat.light{color:#fff;background:var(--navy)}
+
+  /* Hero */
+  .hero-web{
+    background:linear-gradient(155deg,#061133 0%,var(--navy) 55%,var(--navy2) 100%);
+    color:#fff;padding:48px 40px 40px;position:relative;overflow:hidden;flex-shrink:0;
+  }
+  .hero-web::after{
+    content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;
+    border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.22),transparent 70%);
+  }
+  .hero-web .ey{
+    display:inline-flex;align-items:center;gap:7px;background:rgba(244,180,32,.14);
+    border:1px solid rgba(244,180,32,.32);color:var(--gold);padding:6px 14px;
+    border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;margin-bottom:20px;position:relative;z-index:1;
+  }
+  .hero-web h1{
+    font-size:38px;font-weight:800;letter-spacing:-1.2px;line-height:1.08;
+    color:#fff;max-width:640px;position:relative;z-index:1;
+  }
+  .hero-web h1 .g{color:var(--gold)}
+  .hero-web h1 .gr{color:#4ADE80}
+  .hero-web p{
+    font-size:15px;color:rgba(255,255,255,.78);max-width:560px;
+    margin-top:14px;line-height:1.6;position:relative;z-index:1;
+  }
+  .hero-web .cta{display:flex;gap:10px;margin-top:26px;position:relative;z-index:1}
+  .hero-web .cta .p{background:var(--gold);color:var(--navy);padding:13px 24px;border-radius:10px;font-size:14.5px;font-weight:800;text-decoration:none}
+  .hero-web .cta .s{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22);padding:13px 24px;border-radius:10px;font-size:14.5px;font-weight:800;text-decoration:none}
+
+  /* Timeline */
+  .wtl{position:relative;padding-left:26px}
+  .wtl::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .wtl-item{position:relative;padding:9px 0}
+  .wtl-item::before{
+    content:"";position:absolute;left:-22px;top:13px;width:12px;height:12px;
+    border-radius:50%;background:#fff;border:2px solid var(--line);z-index:1;
+  }
+  .wtl-item.done::before{background:var(--green);border-color:var(--green)}
+  .wtl-item.now::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(244,180,32,.22)}
+  .wtl-item .t{font-size:13px;font-weight:800;color:var(--navy)}
+  .wtl-item.pending .t{color:#94A3B8;font-weight:600}
+  .wtl-item .d{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+  /* Stat tile */
+  .stat-grid{display:grid;gap:14px}
+  .stile{
+    background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+    border-top:3px solid var(--gold);
+  }
+  .stile.green{border-top-color:var(--green)}
+  .stile.navy{border-top-color:var(--navy)}
+  .stile.red{border-top-color:var(--red)}
+  .stile .l{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px}
+  .stile .v{font-family:'Menlo',monospace;font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px;line-height:1}
+  .stile .v.g{color:var(--green)}
+  .stile .v.gold{color:var(--gold2)}
+  .stile .v.r{color:var(--red)}
+  .stile .s{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.45}
+
+  /* Alert */
+  .al{padding:14px 18px;border-radius:10px;font-size:13px;line-height:1.55;display:flex;gap:12px;align-items:flex-start}
+  .al .ic{font-size:18px;flex-shrink:0;line-height:1}
+  .al .b{flex:1;min-width:0}
+  .al .t{font-weight:800;margin-bottom:3px}
+  .al .d{line-height:1.55}
+  .al.gold{background:#FEFBEB;border-left:4px solid var(--gold);color:#78350F}
+  .al.green{background:#F0FDF4;border-left:4px solid var(--green);color:#065F46}
+  .al.red{background:#FEF2F2;border-left:4px solid var(--red);color:#7F1D1D}
+  .al.navy{background:var(--mist);border-left:4px solid var(--navy);color:#334155}
+
+  /* Map */
+  .wmap{
+    background:linear-gradient(135deg,#E0F2FE 0%,#BAE6FD 100%);
+    border-radius:12px;position:relative;overflow:hidden;border:1px solid #7DD3FC;
+    height:200px;
+  }
+  .wmap::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(13,27,76,.06) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(13,27,76,.06) 1px,transparent 1px);
+    background-size:24px 24px;
+  }
+  .wmap .pin{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:32px;height:32px;background:var(--red);border-radius:50% 50% 50% 0;
+    rotate:-45deg;border:3px solid #fff;
+    box-shadow:0 6px 16px rgba(220,38,38,.4);
+  }
+  .wmap .pin::after{
+    content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:9px;height:9px;background:#fff;border-radius:50%;
+  }
+  .wmap .lbl{
+    position:absolute;bottom:10px;left:10px;background:#fff;padding:5px 10px;border-radius:6px;
+    font-size:11px;font-weight:800;color:var(--navy);font-family:'Menlo',monospace;
+  }
+
+  /* Media tiles */
+  .mtiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .mtile{
+    aspect-ratio:1;background:var(--mist);border-radius:10px;border:1px dashed var(--line);
+    display:grid;place-items:center;font-size:22px;color:#CBD5E1;
+  }
+  .mtile.filled{background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border:1px solid #C7D2FE;color:#4F46E5}
+  .mtile.video{
+    grid-column:span 4;aspect-ratio:3/1;
+    background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-color:#FCD34D;color:#D97706;
+  }
+
+  /* Job card */
+  .jobc{
+    background:#FFF7E6;border-radius:12px;padding:16px 18px;
+    border-left:4px solid var(--gold);display:flex;justify-content:space-between;gap:14px;align-items:center;
+  }
+  .jobc.purple{background:#F3E8FF;border-left-color:var(--purple)}
+  .jobc .l{flex:1;min-width:0}
+  .jobc .code{font-family:'Menlo',monospace;font-size:11px;color:#8A93A6;font-weight:700}
+  .jobc .item{font-size:14.5px;font-weight:800;color:var(--navy);margin:3px 0 4px;line-height:1.3}
+  .jobc .meta{font-size:11.5px;color:var(--muted);font-weight:600}
+  .jobc .amt{font-family:'Menlo',monospace;font-size:15px;font-weight:800;color:var(--green);white-space:nowrap}
+
+  /* Progress */
+  .prg{height:6px;background:var(--mist);border-radius:20px;overflow:hidden}
+  .prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:20px}
+
+  /* Steps indicator */
+  .steps{display:flex;gap:5px;margin-bottom:24px}
+  .step{flex:1;height:5px;border-radius:20px;background:var(--mist)}
+  .step.on{background:var(--gold)}
+  .step.done{background:var(--green)}
+
+  /* ────────────────────────────── */
+  /* Responsive: hide mobile frame on small screens OR stack */
+  .hide-md{display:block}
+  @media (max-width:1100px){.hide-md{display:none}}
+
+  /* Section header inside docs */
+  .section-tag{
+    display:inline-block;padding:6px 14px;border-radius:999px;background:var(--navy);
+    color:var(--gold);font-size:10.5px;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;margin-bottom:14px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     DOC HEADER
+     ============================================================ -->
+<header class="doc-head">
+  <div class="dh-logo">
+    <div class="dh-mark">✓</div>
+    <div class="dh-brand"><span style="color:#fff">Deals</span><span class="g">Gate</span></div>
+  </div>
+  <div class="dh-kicker">Web UI/UX Design System · v1.0</div>
+  <h1>
+    One website.<br>
+    <span class="g">Mobile and desktop</span>.<br>
+    Every screen, every flow.
+  </h1>
+  <p class="sub">
+    DealsGate ships as a responsive web application — no Android app, no iOS app, no app store. A single URL that adapts to any screen: buyers, sellers, Vet Agents, and admins all use the same web platform through their browser.
+  </p>
+  <div class="dh-stats">
+    <div class="dh-stat"><div class="v">1</div><div class="l">Website</div></div>
+    <div class="dh-stat"><div class="v g">∞</div><div class="l">Screen widths</div></div>
+    <div class="dh-stat"><div class="v g">0</div><div class="l">App stores</div></div>
+    <div class="dh-stat"><div class="v">4</div><div class="l">Roles</div></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============================================================
+     SECTION 01 · WEB DESIGN SYSTEM
+     ============================================================ -->
+<section class="phase">
+  <div class="ph-head">
+    <span class="ph-num">SECTION 01</span>
+    <span class="ph-title">Web Design System</span>
+    <span class="ph-desc">The responsive foundation every screen is built from: breakpoints, grid, typography, and shared components.</span>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">1.1 · Foundation</div>
+    <h3 class="cell-title">Responsive breakpoints &amp; layout</h3>
+    <p class="cell-note">DealsGate is designed desktop-first for the admin and seller workflows, mobile-first for buyer and Vet Agent flows. The same code serves both — CSS media queries handle the difference.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:24px">
+      <div class="stile navy">
+        <div class="l">Mobile</div>
+        <div class="v">&lt; 640px</div>
+        <div class="s">Single column · bottom tab nav · stacked cards</div>
+      </div>
+      <div class="stile green">
+        <div class="l">Tablet</div>
+        <div class="v">640 – 1024px</div>
+        <div class="s">Two column · collapsible sidebar · touch targets</div>
+      </div>
+      <div class="stile">
+        <div class="l">Desktop</div>
+        <div class="v">1024 – 1440px</div>
+        <div class="s">Sidebar nav · multi-column · hover states</div>
+      </div>
+      <div class="stile red">
+        <div class="l">Wide</div>
+        <div class="v">&gt; 1440px</div>
+        <div class="s">Max-width container · centred content · admin dense views</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px">
+      <div class="wcard">
+        <h3>Mobile navigation pattern</h3>
+        <div style="padding:14px;background:var(--mist);border-radius:10px;margin-top:8px">
+          <div style="display:flex;justify-content:space-around;font-size:9px;font-weight:800;color:var(--navy)">
+            <div style="text-align:center"><div style="width:32px;height:32px;background:var(--gold);border-radius:8px;display:grid;place-items:center;font-size:15px;margin:0 auto 4px">🏠</div>Home</div>
+            <div style="text-align:center"><div style="width:32px;height:32px;background:var(--mist);border-radius:8px;display:grid;place-items:center;font-size:15px;margin:0 auto 4px">📦</div>Deals</div>
+            <div style="text-align:center"><div style="width:32px;height:32px;background:var(--mist);border-radius:8px;display:grid;place-items:center;font-size:15px;margin:0 auto 4px">💰</div>Wallet</div>
+            <div style="text-align:center"><div style="width:32px;height:32px;background:var(--mist);border-radius:8px;display:grid;place-items:center;font-size:15px;margin:0 auto 4px">👤</div>Profile</div>
+          </div>
+        </div>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.55">4 tabs max. Fixed to bottom on mobile. Icons with labels — never icons alone.</p>
+      </div>
+      <div class="wcard">
+        <h3>Desktop navigation pattern</h3>
+        <div style="padding:14px;background:var(--mist);border-radius:10px;margin-top:8px">
+          <div style="display:flex;gap:6px;font-size:11px;font-weight:700">
+            <div style="padding:7px 12px;background:#fff;border-radius:6px;color:var(--navy);border:1px solid var(--line)">🏠 Home</div>
+            <div style="padding:7px 12px;background:var(--navy);color:#fff;border-radius:6px">📦 Deals</div>
+            <div style="padding:7px 12px;background:#fff;border-radius:6px;color:var(--navy);border:1px solid var(--line)">💰 Wallet</div>
+            <div style="padding:7px 12px;background:#fff;border-radius:6px;color:var(--navy);border:1px solid var(--line)">👤 Profile</div>
+          </div>
+        </div>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.55">Left sidebar navigation. 240px fixed. Content area flexes. Sidebar collapses to icons at tablet.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     SECTION 02 · PUBLIC SITE
+     ============================================================ -->
+<section class="phase">
+  <div class="ph-head">
+    <span class="ph-num">SECTION 02</span>
+    <span class="ph-title">Public Site</span>
+    <span class="ph-desc">Landing, search, and seller dossier. No login required. SEO-indexed.</span>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">2.1 · Homepage hero</div>
+    <h3 class="cell-title">Desktop hero + mobile hero</h3>
+    <p class="cell-note">Same content, different layout. Desktop has a wide hero with dual CTAs. Mobile stacks the CTAs vertically, keeps the search bar prominent.</p>
+  </div>
+
+  <div class="pair">
+    <!-- Desktop -->
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body">
+        <div class="tnav">
+          <div class="logo"><div class="m">✓</div>Deals<span class="g">Gate</span></div>
+          <div class="links">
+            <a class="on" href="#">Home</a>
+            <a href="#">Search vendors</a>
+            <a href="#">How it works</a>
+            <a href="#">Blog</a>
+          </div>
+          <div class="actions">
+            <a class="login" href="#">Log in</a>
+            <a class="signup" href="#">Get started</a>
+          </div>
+        </div>
+        <div class="hero-web">
+          <div class="ey">🛡 Africa's Secure Transaction Gateway</div>
+          <h1>We verify the item.<br>We <span class="g">protect the payment</span>.<br>We <span class="gr">track the delivery</span>.</h1>
+          <p>Safe online trade for Nigerian buyers and sellers on Instagram, WhatsApp, and TikTok. Escrow holds the money. A certified Vet Agent inspects the item. Nothing moves until you approve.</p>
+          <div class="cta">
+            <a class="p" href="#">Protect a Deal →</a>
+            <a class="s" href="#">Search any vendor</a>
+          </div>
+        </div>
+        <div style="padding:32px 40px">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(13,27,76,.06)">
+            <span style="font-size:16px">🔍</span>
+            <input style="flex:1;border:none;font-size:14px;outline:none;font-family:inherit" placeholder="Search any vendor by business or individual name...">
+            <button class="btn btn-p btn-sm">Search</button>
+          </div>
+          <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:14px;font-weight:600">Verify any vendor before you pay. No login required.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile -->
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar"><span class="lock">🔒</span><div class="mob-url"><b>dealsgate.ng</b></div></div>
+        <div class="mob-body">
+          <div style="background:linear-gradient(155deg,#061133,var(--navy));color:#fff;padding:20px 16px 24px;position:relative;overflow:hidden">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="width:26px;height:26px;border-radius:7px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:13px;font-weight:900">✓</div>
+                <div style="font-size:14px;font-weight:800">Deals<span style="color:#4ADE80">Gate</span></div>
+              </div>
+              <div style="font-size:16px">☰</div>
+            </div>
+            <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(244,180,32,.14);border:1px solid rgba(244,180,32,.32);color:var(--gold);padding:5px 12px;border-radius:999px;font-size:8.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">🛡 Secure Gateway</div>
+            <div style="font-size:20px;font-weight:800;line-height:1.15;letter-spacing:-.5px">We verify the item.<br>We <span style="color:var(--gold)">protect the payment</span>.</div>
+            <div style="font-size:11.5px;color:rgba(255,255,255,.8);margin-top:10px;line-height:1.5">Safe online trade for Nigerians on Instagram and WhatsApp.</div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
+              <div style="background:var(--gold);color:var(--navy);padding:11px;border-radius:9px;text-align:center;font-size:13px;font-weight:800">Protect a Deal →</div>
+              <div style="background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22);padding:11px;border-radius:9px;text-align:center;font-size:13px;font-weight:800">Search vendors</div>
+            </div>
+          </div>
+          <div style="padding:14px">
+            <div style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 14px;display:flex;align-items:center;gap:10px">
+              <span>🔍</span>
+              <input style="flex:1;border:none;font-size:12px;outline:none;font-family:inherit" placeholder="Search any vendor...">
+            </div>
+          </div>
+          <div class="mbnav">
+            <div class="tab on"><div class="ic">🏠</div>Home</div>
+            <div class="tab"><div class="ic">🔍</div>Search</div>
+            <div class="tab"><div class="ic">📖</div>Learn</div>
+            <div class="tab"><div class="ic">👤</div>Account</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">2.2 · Seller dossier</div>
+    <h3 class="cell-title">Public seller reputation page</h3>
+    <p class="cell-note">Searchable at /seller/[slug]. Anyone — logged in or not — can verify a vendor's real deal history before paying. Never exposes phone, email, or address.</p>
+  </div>
+
+  <div class="pair">
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/seller/adaeze-electronics</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body">
+        <div class="tnav">
+          <div class="logo"><div class="m">✓</div>Deals<span class="g">Gate</span></div>
+          <div class="links"><a href="#">Home</a><a class="on" href="#">Vendor</a></div>
+          <div class="actions"><a class="login" href="#">Log in</a><a class="signup" href="#">Get started</a></div>
+        </div>
+        <div style="padding:40px">
+          <div style="display:flex;gap:24px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:16px;padding:32px">
+            <div class="av" style="width:80px;height:80px;font-size:28px;background:var(--gold);color:var(--navy)">AO<span class="v" style="width:22px;height:22px;font-size:12px">✓</span></div>
+            <div style="flex:1">
+              <h1 style="font-size:28px;font-weight:800;color:var(--navy);letter-spacing:-.6px">Adaeze Electronics Ltd</h1>
+              <div style="font-size:14px;color:var(--muted);margin-top:6px;font-weight:600">Business · Phones &amp; Tablets · Ikeja, Lagos</div>
+              <div style="font-size:16px;color:var(--gold2);font-weight:800;margin-top:10px">★★★★★ 4.9 <span style="color:var(--muted);font-weight:600;font-size:13px">(34 verified buyer reviews)</span></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px">
+            <div class="stile green"><div class="l">Successful deals</div><div class="v g">34</div></div>
+            <div class="stile"><div class="l">Failed / disputed</div><div class="v">0</div></div>
+            <div class="stile navy"><div class="l">Success rate</div><div class="v">100%</div></div>
+          </div>
+          <div style="margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px">
+            <h3 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:16px">Verified buyer reviews</h3>
+            <div style="padding:14px 0;border-bottom:1px solid var(--line)">
+              <div style="font-size:13.5px;font-weight:800;color:var(--navy)">Musa I. · ★★★★★</div>
+              <div style="font-size:13px;color:#334155;margin-top:4px;line-height:1.55">Item exactly as described. Continuous video matched. Would buy again.</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:6px">2 weeks ago</div>
+            </div>
+            <div style="padding:14px 0">
+              <div style="font-size:13.5px;font-weight:800;color:var(--navy)">Chioma O. · ★★★★★</div>
+              <div style="font-size:13px;color:#334155;margin-top:4px;line-height:1.55">Vet Agent was thorough. Recommended.</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:6px">1 month ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar"><span class="lock">🔒</span><div class="mob-url"><b>dealsgate.ng</b>/seller/adaeze...</div></div>
+        <div class="mob-body" style="overflow-y:auto">
+          <div style="background:linear-gradient(155deg,#061133,var(--navy));color:#fff;padding:16px 14px 22px;position:relative">
+            <div style="font-size:11px;opacity:.7;margin-bottom:10px">← Back</div>
+            <div style="display:flex;gap:10px;align-items:center">
+              <div class="av" style="width:44px;height:44px;font-size:15px;background:var(--gold);color:var(--navy)">AO<span class="v">✓</span></div>
+              <div>
+                <div style="font-size:14px;font-weight:800">Adaeze Electronics</div>
+                <div style="font-size:9.5px;color:rgba(255,255,255,.7);margin-top:2px">Business · Ikeja</div>
+                <div style="font-size:11px;color:var(--gold);font-weight:800;margin-top:4px">★★★★★ 4.9</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:14px;display:flex;flex-direction:column;gap:10px">
+            <div class="wcard" style="padding:14px">
+              <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px">Scorecard</div>
+              <div class="wrow" style="padding:5px 0;font-size:12px"><span class="k">Total deals</span><span class="v">34</span></div>
+              <div class="wrow" style="padding:5px 0;font-size:12px"><span class="k">Successful</span><span class="v g">34</span></div>
+              <div class="wrow" style="padding:5px 0;font-size:12px"><span class="k">Failed</span><span class="v">0</span></div>
+            </div>
+            <div class="wcard" style="padding:14px;background:#F0FDF4;border-color:#BBF7D0">
+              <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#065F46;margin-bottom:6px">Review</div>
+              <div style="font-size:12px;color:#065F46;line-height:1.5">"Item exactly as described. Would buy again."</div>
+              <div style="font-size:10px;color:#065F46;opacity:.7;margin-top:6px">Musa I. · ★★★★★</div>
+            </div>
+            <div style="background:var(--gold);color:var(--navy);padding:13px;border-radius:9px;text-align:center;font-size:13px;font-weight:800;margin-top:6px">See live listings →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     SECTION 03 · AUTH
+     ============================================================ -->
+<section class="phase">
+  <div class="ph-head">
+    <span class="ph-num">SECTION 03</span>
+    <span class="ph-title">Auth &amp; Onboarding</span>
+    <span class="ph-desc">Signup, consent, OTP, and ID verification. Desktop uses a centred card; mobile uses full-screen steps.</span>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">3.1 · Policy consent</div>
+    <h3 class="cell-title">Mandatory consent screen</h3>
+    <p class="cell-note">Checkboxes are never pre-ticked. Each acceptance is persisted with policy_key, policy_version, accepted_at, IP, and user agent. Server rejects any submission with required boxes missing.</p>
+  </div>
+
+  <div class="pair">
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/signup/consent</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body">
+        <div class="tnav" style="justify-content:center">
+          <div class="logo"><div class="m">✓</div>Deals<span class="g">Gate</span></div>
+        </div>
+        <div style="display:grid;place-items:center;padding:60px 40px">
+          <div style="background:#fff;border:1px solid var(--line);border-radius:16px;padding:40px;max-width:560px;width:100%;box-shadow:0 8px 32px rgba(13,27,76,.08)">
+            <div style="display:flex;gap:6px;margin-bottom:24px">
+              <div style="flex:1;height:5px;border-radius:20px;background:var(--green)"></div>
+              <div style="flex:1;height:5px;border-radius:20px;background:var(--gold)"></div>
+              <div style="flex:1;height:5px;border-radius:20px;background:var(--mist)"></div>
+            </div>
+            <div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px">Step 2 of 3</div>
+            <h1 style="font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.5px;line-height:1.15">Accept our policies</h1>
+            <p style="font-size:14px;color:var(--muted);margin-top:10px;line-height:1.6">You must accept the required policies before your account can be created. Each acceptance is versioned and stored.</p>
+
+            <div style="margin-top:28px">
+              <div class="al gold" style="margin-bottom:20px">
+                <span class="ic">⚠️</span>
+                <div class="b"><div class="d">Pre-ticked boxes are not permitted. You must actively accept each policy.</div></div>
+              </div>
+
+              <div style="display:flex;gap:14px;padding:16px;background:var(--mist);border-radius:12px;margin-bottom:12px;align-items:flex-start;cursor:pointer">
+                <div style="width:22px;height:22px;border-radius:6px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900;flex-shrink:0">✓</div>
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:800;color:var(--navy)">Terms of Service <span style="color:var(--red);font-size:10px;font-weight:800;text-transform:uppercase;margin-left:6px">Required</span></div>
+                  <div style="font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5">Rules of using DealsGate · 22 sections · v2.0</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:14px;padding:16px;background:var(--mist);border-radius:12px;margin-bottom:12px;align-items:flex-start;cursor:pointer">
+                <div style="width:22px;height:22px;border-radius:6px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900;flex-shrink:0">✓</div>
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:800;color:var(--navy)">Privacy Policy <span style="color:var(--red);font-size:10px;font-weight:800;text-transform:uppercase;margin-left:6px">Required</span></div>
+                  <div style="font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5">How we handle your data · NDPA 2023 aligned · v2.0</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:14px;padding:16px;background:var(--mist);border-radius:12px;margin-bottom:12px;align-items:flex-start;cursor:pointer">
+                <div style="width:22px;height:22px;border-radius:6px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900;flex-shrink:0">✓</div>
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:800;color:var(--navy)">Refund &amp; Dispute Policy <span style="color:var(--red);font-size:10px;font-weight:800;text-transform:uppercase;margin-left:6px">Required</span></div>
+                  <div style="font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5">When and how refunds happen · §13 rules · v2.0</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:14px;padding:16px;background:var(--mist);border-radius:12px;margin-bottom:12px;align-items:flex-start;cursor:pointer">
+                <div style="width:22px;height:22px;border-radius:6px;border:2px solid var(--line);background:#fff;flex-shrink:0"></div>
+                <div style="flex:1">
+                  <div style="font-size:14px;font-weight:800;color:var(--navy)">Acceptable Use Policy <span style="color:#94A3B8;font-size:10px;font-weight:800;text-transform:uppercase;margin-left:6px">Optional</span></div>
+                  <div style="font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.5">Community guidelines · what is not allowed · v2.0</div>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-p" style="width:100%;margin-top:20px;justify-content:center">Create account →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar"><span class="lock">🔒</span><div class="mob-url"><b>dealsgate.ng</b>/signup/consent</div></div>
+        <div class="mob-body" style="overflow-y:auto">
+          <div style="padding:14px 16px">
+            <div class="steps"><div class="step done"></div><div class="step on"></div><div class="step"></div></div>
+            <div style="font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:6px">Step 2 of 3</div>
+            <div style="font-size:18px;font-weight:800;color:var(--navy);letter-spacing:-.4px;line-height:1.15">Accept our policies</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5">You must accept the required policies to continue.</div>
+          </div>
+          <div style="padding:0 14px;display:flex;flex-direction:column;gap:8px">
+            <div class="al gold" style="padding:10px 12px;font-size:11px"><span class="ic">⚠️</span><div class="b"><div class="d">Pre-ticked boxes are not permitted.</div></div></div>
+            <div style="display:flex;gap:10px;padding:11px;background:var(--mist);border-radius:10px;align-items:flex-start">
+              <div style="width:18px;height:18px;border-radius:5px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0">✓</div>
+              <div><div style="font-size:12px;font-weight:800;color:var(--navy)">Terms of Service</div><div style="font-size:9px;color:var(--red);font-weight:800;margin-top:2px">REQUIRED · v2.0</div></div>
+            </div>
+            <div style="display:flex;gap:10px;padding:11px;background:var(--mist);border-radius:10px;align-items:flex-start">
+              <div style="width:18px;height:18px;border-radius:5px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0">✓</div>
+              <div><div style="font-size:12px;font-weight:800;color:var(--navy)">Privacy Policy</div><div style="font-size:9px;color:var(--red);font-weight:800;margin-top:2px">REQUIRED · v2.0</div></div>
+            </div>
+            <div style="display:flex;gap:10px;padding:11px;background:var(--mist);border-radius:10px;align-items:flex-start">
+              <div style="width:18px;height:18px;border-radius:5px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0">✓</div>
+              <div><div style="font-size:12px;font-weight:800;color:var(--navy)">Refund &amp; Dispute</div><div style="font-size:9px;color:var(--red);font-weight:800;margin-top:2px">REQUIRED · v2.0</div></div>
+            </div>
+            <div style="display:flex;gap:10px;padding:11px;background:var(--mist);border-radius:10px;align-items:flex-start">
+              <div style="width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);background:#fff;flex-shrink:0"></div>
+              <div><div style="font-size:12px;font-weight:800;color:var(--navy)">Acceptable Use</div><div style="font-size:9px;color:#94A3B8;font-weight:800;margin-top:2px">OPTIONAL · v2.0</div></div>
+            </div>
+          </div>
+          <div style="padding:16px;margin-top:auto">
+            <div class="btn btn-p" style="width:100%;justify-content:center">Create account →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">3.2 · ID verification gate</div>
+    <h3 class="cell-title">KYC verification screen</h3>
+    <p class="cell-note">No create-deal, accept-payment, agent jobs, or withdrawals until verification_status = verified. The gate is enforced server-side, not in the UI.</p>
+  </div>
+
+  <div class="pair">
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/onboarding/verify</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body">
+        <div class="tnav"><div class="logo"><div class="m">✓</div>Deals<span class="g">Gate</span></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;max-width:1000px;margin:60px auto;gap:60px;padding:0 40px">
+          <div>
+            <div class="al navy" style="margin-bottom:24px"><span class="ic">🔒</span><div class="b"><div class="t">Identity verification is required</div><div class="d">You cannot create or accept deals, take agent jobs, or withdraw funds until your identity is verified.</div></div></div>
+            <h1 style="font-size:28px;font-weight:800;color:var(--navy);letter-spacing:-.6px;line-height:1.15">Verify your identity</h1>
+            <p style="font-size:14px;color:var(--muted);margin-top:12px;line-height:1.65">We verify all users with NIN or BVN to keep the platform safe. Your raw identity numbers are never stored — only the provider reference.</p>
+            <div style="margin-top:28px;display:flex;gap:16px">
+              <div style="width:44px;height:44px;border-radius:12px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:22px;font-weight:900">🆔</div>
+              <div><div style="font-size:15px;font-weight:800;color:var(--navy)">NIN verification</div><div style="font-size:13px;color:var(--muted);margin-top:3px;line-height:1.5">National Identity Number · 11 digits</div></div>
+            </div>
+            <div style="margin-top:20px;display:flex;gap:16px">
+              <div style="width:44px;height:44px;border-radius:12px;background:var(--mist);color:var(--navy);display:grid;place-items:center;font-size:22px;font-weight:900">🏦</div>
+              <div><div style="font-size:15px;font-weight:800;color:var(--navy)">BVN verification</div><div style="font-size:13px;color:var(--muted);margin-top:3px;line-height:1.5">Bank Verification Number · 11 digits</div></div>
+            </div>
+          </div>
+          <div>
+            <div class="wcard" style="padding:32px">
+              <div class="wfl">
+                <label>Choose verification method</label>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
+                  <div style="padding:14px;border:2px solid var(--gold);border-radius:10px;display:flex;gap:12px;align-items:center;background:#FEFBEB">
+                    <span style="font-size:20px">🆔</span>
+                    <div style="flex:1"><div style="font-size:14px;font-weight:800;color:var(--navy)">NIN</div><div style="font-size:12px;color:var(--muted)">National Identity Number</div></div>
+                    <span style="color:var(--gold);font-size:16px;font-weight:900">✓</span>
+                  </div>
+                  <div style="padding:14px;border:1px solid var(--line);border-radius:10px;display:flex;gap:12px;align-items:center">
+                    <span style="font-size:20px">🏦</span>
+                    <div style="flex:1"><div style="font-size:14px;font-weight:800;color:var(--navy)">BVN</div><div style="font-size:12px;color:var(--muted)">Bank Verification Number</div></div>
+                  </div>
+                </div>
+              </div>
+              <div class="wfl" style="margin-top:20px">
+                <label>Enter your NIN</label>
+                <input class="win" value="12345678901" style="font-family:'Menlo',monospace;letter-spacing:.05em">
+              </div>
+              <div class="al navy" style="margin-top:16px"><span class="ic">🔐</span><div class="b"><div class="d">Your NIN is sent directly to the Nigerian identity provider. It is never stored on DealsGate servers.</div></div></div>
+              <button class="btn btn-p" style="width:100%;margin-top:24px;justify-content:center">Verify identity →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar"><span class="lock">🔒</span><div class="mob-url"><b>dealsgate.ng</b>/onboarding/verify</div></div>
+        <div class="mob-body" style="padding:14px;overflow-y:auto">
+          <div class="al navy" style="padding:10px 12px;font-size:11px;margin-bottom:14px"><span class="ic">🔒</span><div class="b"><div class="d">Verification is required before any money actions.</div></div></div>
+          <div style="font-size:18px;font-weight:800;color:var(--navy);letter-spacing:-.4px">Verify your identity</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5">Choose NIN or BVN. Your number is never stored.</div>
+
+          <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+            <div style="padding:12px;border:2px solid var(--gold);border-radius:10px;background:#FEFBEB;display:flex;gap:10px;align-items:center">
+              <span style="font-size:18px">🆔</span>
+              <div style="flex:1"><div style="font-size:12.5px;font-weight:800;color:var(--navy)">NIN</div><div style="font-size:10px;color:var(--muted)">National Identity Number</div></div>
+              <span style="color:var(--gold);font-size:14px;font-weight:900">✓</span>
+            </div>
+            <div style="padding:12px;border:1px solid var(--line);border-radius:10px;display:flex;gap:10px;align-items:center">
+              <span style="font-size:18px">🏦</span>
+              <div style="flex:1"><div style="font-size:12.5px;font-weight:800;color:var(--navy)">BVN</div><div style="font-size:10px;color:var(--muted)">Bank Verification Number</div></div>
+            </div>
+          </div>
+
+          <div class="wfl" style="margin-top:16px">
+            <label style="font-size:11px">Enter your NIN</label>
+            <input class="win" value="12345678901" style="font-family:'Menlo',monospace;font-size:13px;letter-spacing:.05em">
+          </div>
+          <div class="btn btn-p" style="width:100%;justify-content:center;margin-top:12px">Verify identity →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     SECTION 04 · SELLER
+     ============================================================ -->
+<section class="phase">
+  <div class="ph-head">
+    <span class="ph-num">SECTION 04</span>
+    <span class="ph-title">Seller Flow</span>
+    <span class="ph-desc">Desktop dashboard with sidebar nav. Mobile dashboard with bottom tabs. Same data, same actions.</span>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">4.1 · Seller dashboard</div>
+    <h3 class="cell-title">Desktop sidebar layout vs mobile tab layout</h3>
+    <p class="cell-note">Desktop shows all metrics at once with a persistent sidebar. Mobile focuses on the primary action — create deal — with tabs for the rest.</p>
+  </div>
+
+  <div class="pair">
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/dashboard</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body" style="min-height:700px">
+        <div class="app-shell" style="height:700px">
+          <aside class="snav">
+            <div class="snav-brand"><div class="m">✓</div><div class="n">Deals<span class="g">Gate</span></div></div>
+            <div class="snav-item on"><span class="ic">🏠</span>Dashboard</div>
+            <div class="snav-item"><span class="ic">📦</span>My deals</div>
+            <div class="snav-item"><span class="ic">➕</span>Create deal</div>
+            <div class="snav-item"><span class="ic">💰</span>Wallet</div>
+            <div class="snav-item"><span class="ic">🛡</span>Guarantee</div>
+            <div class="snav-sec">Account</div>
+            <div class="snav-item"><span class="ic">👤</span>Profile</div>
+            <div class="snav-item"><span class="ic">🎁</span>Referrals</div>
+            <div class="snav-item"><span class="ic">🔔</span>Notifications <span class="pill pill-r" style="margin-left:auto;font-size:9px;padding:2px 7px">3</span></div>
+            <div class="snav .user">
+              <div class="av" style="background:var(--gold);color:var(--navy)">AO<span class="b">✓</span></div>
+              <div class="info"><div class="n">Adaeze Okafor</div><div class="s">Business · Verified</div></div>
+            </div>
+          </aside>
+          <div class="content">
+            <div class="pg-head">
+              <h1>Welcome back, Adaeze</h1>
+              <p>You have 1 deal in flight and ₦441,000 available in your main wallet.</p>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px">
+              <div class="stile green"><div class="l">Main wallet</div><div class="v g">₦441,000</div><div class="s">Available to withdraw</div></div>
+              <div class="stile"><div class="l">Guarantee wallet</div><div class="v gold">₦15,000</div><div class="s">Covers 3 more deals</div></div>
+              <div class="stile navy"><div class="l">Active deals</div><div class="v">1</div><div class="s">In transit right now</div></div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">
+              <div class="wcard">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                  <h3 style="margin:0">Active deal</h3>
+                  <span class="pill pill-go">In transit</span>
+                </div>
+                <div style="font-family:'Menlo',monospace;font-size:11px;color:var(--muted);font-weight:700">DG-240501</div>
+                <div style="font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.3px;margin-top:4px">iPhone 14 Pro 256GB — Deep Purple</div>
+                <div class="wrow" style="margin-top:14px"><span class="k">Buyer</span><span class="v" style="font-family:inherit">Musa Ibrahim</span></div>
+                <div class="wrow"><span class="k">Buyer paid</span><span class="v g">₦468,500</span></div>
+                <div class="wrow"><span class="k">Your net on completion</span><span class="v">₦441,000</span></div>
+                <div class="wrow total"><span class="k">Tracking</span><span class="v" style="font-size:12px">GIG-DG8K2P9</span></div>
+                <button class="btn btn-o btn-sm" style="margin-top:16px">View deal →</button>
+              </div>
+
+              <div class="wcard">
+                <h3>Recent activity</h3>
+                <div class="wrow"><span class="k">Completed · DG-240498</span><span class="v g">+₦441,000</span></div>
+                <div class="wrow"><span class="k">Guarantee refunded</span><span class="v g">+₦5,000</span></div>
+                <div class="wrow"><span class="k">New deal created</span><span class="v">DG-240501</span></div>
+                <div class="wrow"><span class="k">Withdrawal</span><span class="v r">−₦200,000</span></div>
+              </div>
+            </div>
+
+            <button class="btn btn-g" style="margin-top:20px">+ Create a Protected Deal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat light" style="background:var(--navy)"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar" style="background:var(--navy);border-color:var(--navy);padding-top:12px">
+          <div style="display:flex;align-items:center;gap:8px;flex:1">
+            <div style="width:22px;height:22px;border-radius:6px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:12px;font-weight:900">✓</div>
+            <div style="font-size:12.5px;font-weight:800;color:#fff">Deals<span style="color:#4ADE80">Gate</span></div>
+          </div>
+          <div style="color:#fff;font-size:14px">🔔</div>
+        </div>
+        <div class="mob-body" style="overflow-y:auto;padding:14px">
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px">
+            <div class="av" style="background:var(--gold);color:var(--navy);width:38px;height:38px;font-size:13px">AO<span class="v" style="width:14px;height:14px;font-size:8px">✓</span></div>
+            <div>
+              <div style="font-size:13px;font-weight:800;color:var(--navy)">Welcome, Adaeze</div>
+              <div style="font-size:10px;color:var(--muted);font-weight:600">Adaeze Electronics · Verified</div>
+            </div>
+          </div>
+
+          <div style="background:linear-gradient(155deg,var(--navy),var(--navy2));color:#fff;border-radius:12px;padding:16px;margin-bottom:12px">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6)">Main wallet</div>
+            <div style="font-family:'Menlo',monospace;font-size:24px;font-weight:800;color:var(--gold);margin-top:6px">₦441,000</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:6px">Guarantee wallet: ₦15,000</div>
+          </div>
+
+          <button class="btn btn-g" style="width:100%;justify-content:center;margin-bottom:12px">+ Create a Protected Deal</button>
+
+          <div class="wcard" style="padding:14px;margin-bottom:10px">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px">Active deal</div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+              <div>
+                <div style="font-family:'Menlo',monospace;font-size:9.5px;color:var(--muted);font-weight:700">DG-240501</div>
+                <div style="font-size:13px;font-weight:800;color:var(--navy);margin-top:3px;line-height:1.3">iPhone 14 Pro 256GB</div>
+                <div style="font-size:10px;color:var(--muted);margin-top:4px">₦468,500 · Buyer paid</div>
+              </div>
+              <span class="pill pill-go" style="font-size:9px">In transit</span>
+            </div>
+          </div>
+
+          <div class="wcard" style="padding:14px">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px">Last 30 days</div>
+            <div class="wrow" style="padding:6px 0;font-size:12px"><span class="k">Successful deals</span><span class="v g">12</span></div>
+            <div class="wrow" style="padding:6px 0;font-size:12px;border:none"><span class="k">Failed</span><span class="v">0</span></div>
+          </div>
+        </div>
+        <div class="mbnav">
+          <div class="tab on"><div class="ic">🏠</div>Home</div>
+          <div class="tab"><div class="ic">📦</div>Deals</div>
+          <div class="tab"><div class="ic">💰</div>Wallet</div>
+          <div class="tab"><div class="ic">👤</div>Profile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">4.2 · Create deal wizard</div>
+    <h3 class="cell-title">Multi-step form — desktop and mobile</h3>
+    <p class="cell-note">Same 7-step wizard. Desktop shows sidebar with step list. Mobile stacks each step as a full-screen card with progress dots.</p>
+  </div>
+
+  <div class="pair">
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/deals/create?step=4</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body" style="min-height:700px">
+        <div class="app-shell" style="height:700px">
+          <aside class="snav" style="background:var(--mist)">
+            <div class="snav-brand"><div class="m">✓</div><div class="n">Create deal</div></div>
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;padding:10px 12px">Progress</div>
+            <div style="padding:0 12px;display:flex;flex-direction:column;gap:2px">
+              <div style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:13px;color:var(--green);font-weight:700">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0">✓</div>
+                1 · Item basics
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:13px;color:var(--green);font-weight:700">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0">✓</div>
+                2 · Condition
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:13px;color:var(--green);font-weight:700">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0">✓</div>
+                3 · Quality &amp; price
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:13px;color:var(--navy);font-weight:800">
+                <div style="width:20px;height:20px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0">4</div>
+                4 · Media uploads
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:13px;color:#94A3B8;font-weight:600">
+                <div style="width:20px;height:20px;border-radius:50%;background:#E2E8F0;flex-shrink:0"></div>
+                5 · Location
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:13px;color:#94A3B8;font-weight:600">
+                <div style="width:20px;height:20px;border-radius:50%;background:#E2E8F0;flex-shrink:0"></div>
+                6 · Guarantee
+              </div>
+              <div style="display:flex;gap:10px;align-items:center;padding:8px 0;font-size:13px;color:#94A3B8;font-weight:600">
+                <div style="width:20px;height:20px;border-radius:50%;background:#E2E8F0;flex-shrink:0"></div>
+                7 · Review
+              </div>
+            </div>
+          </aside>
+          <div class="content">
+            <div class="pg-head">
+              <div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2)">Step 4 of 7</div>
+              <h1 style="margin-top:6px">Media uploads</h1>
+              <p>Two to four photos and one continuous video, 60 seconds maximum.</p>
+            </div>
+
+            <div class="wcard">
+              <h3>Photos <span style="font-size:12px;color:var(--muted);font-weight:600;margin-left:6px">2–4 required</span></h3>
+              <div class="mtiles" style="margin-top:14px">
+                <div class="mtile filled">🖼️</div>
+                <div class="mtile filled">🖼️</div>
+                <div class="mtile filled">🖼️</div>
+                <div class="mtile filled">🖼️</div>
+              </div>
+              <div style="font-size:12.5px;color:var(--green);font-weight:700;margin-top:10px">✓ 4 images uploaded</div>
+            </div>
+
+            <div class="wcard" style="margin-top:20px">
+              <h3>Continuous video <span style="font-size:12px;color:var(--muted);font-weight:600;margin-left:6px">≤ 60 seconds</span></h3>
+              <div style="background:#FEF3C7;border-radius:12px;height:120px;display:grid;place-items:center;border:1px solid #FCD34D;margin-top:14px;color:#C98A00;font-size:15px;font-weight:800">▶ 45s continuous · no edits</div>
+              <div style="font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.55">Capture one unedited take. The video is the buyer's primary evidence — it must show the item's IMEI, serial, and condition continuously.</div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:24px">
+              <button class="btn btn-o">← Back</button>
+              <button class="btn btn-p">Continue to step 5 →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar"><span class="lock">🔒</span><div class="mob-url"><b>dealsgate.ng</b>/deals/create</div></div>
+        <div class="mob-body" style="overflow-y:auto">
+          <div style="padding:12px 14px 0">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="font-size:12px">←</span><span style="font-size:11px;font-weight:800;color:var(--navy)">Create Deal · 4 of 7</span></div>
+            <div class="steps"><div class="step done"></div><div class="step done"></div><div class="step done"></div><div class="step on"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+          </div>
+          <div style="padding:14px">
+            <div style="font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.3px;margin-bottom:4px">Media uploads</div>
+            <div style="font-size:11.5px;color:var(--muted);margin-bottom:14px">2–4 photos · 1 continuous video ≤ 60s</div>
+
+            <div class="wcard" style="padding:12px">
+              <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px">Photos · 2–4 required</div>
+              <div class="mtiles" style="gap:5px">
+                <div class="mtile filled" style="font-size:16px">🖼️</div>
+                <div class="mtile filled" style="font-size:16px">🖼️</div>
+                <div class="mtile filled" style="font-size:16px">🖼️</div>
+                <div class="mtile filled" style="font-size:16px">🖼️</div>
+              </div>
+            </div>
+
+            <div class="wcard" style="padding:12px;margin-top:10px">
+              <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px">Continuous video · ≤ 60s</div>
+              <div style="background:#FEF3C7;border-radius:8px;height:70px;display:grid;place-items:center;border:1px solid #FCD34D;color:#C98A00;font-size:12px;font-weight:800">▶ 45s continuous</div>
+            </div>
+
+            <div class="al navy" style="margin-top:12px;padding:10px 12px;font-size:11px"><span class="ic">🎥</span><div class="b"><div class="d">Must show IMEI and condition continuously. No edits.</div></div></div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
+              <div class="btn btn-o btn-sm" style="justify-content:center">← Back</div>
+              <div class="btn btn-p btn-sm" style="justify-content:center">Continue →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     SECTION 05 · BUYER
+     ============================================================ -->
+<section class="phase">
+  <div class="ph-head">
+    <span class="ph-num">SECTION 05</span>
+    <span class="ph-title">Buyer Flow</span>
+    <span class="ph-desc">Deal page, checkout, and the evidence gate. Desktop shows full detail; mobile compresses for one-thumb interaction.</span>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">5.1 · Deal page &amp; checkout</div>
+    <h3 class="cell-title">Public deal page + payment</h3>
+    <p class="cell-note">The buyer link opens a public page. Desktop shows item, seller, cost breakdown side by side. Mobile stacks vertically. Four cost lines — item, buyer fee, vet fee, logistics. No platform margin line.</p>
+  </div>
+
+  <div class="pair">
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/deal/DG-240501?t=tok_8ax2f9k3n1</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body">
+        <div class="tnav">
+          <div class="logo"><div class="m">✓</div>Deals<span class="g">Gate</span></div>
+          <div class="links"><a href="#">Home</a></div>
+          <div class="actions"><span style="font-family:'Menlo',monospace;font-size:11px;color:var(--muted);font-weight:700">DG-240501</span></div>
+        </div>
+        <div style="padding:40px;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;max-width:1200px;margin:0 auto">
+          <div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px">
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:12px;display:grid;place-items:center;font-size:28px;color:#4F46E5">📱</div>
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:12px;display:grid;place-items:center;font-size:28px;color:#4F46E5">📱</div>
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:12px;display:grid;place-items:center;font-size:28px;color:#4F46E5">📱</div>
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:12px;display:grid;place-items:center;font-size:28px;color:#D97706">▶</div>
+            </div>
+            <div class="wcard" style="padding:24px;margin-bottom:16px">
+              <div style="display:flex;gap:14px;align-items:center">
+                <div class="av" style="width:48px;height:48px;font-size:16px;background:var(--gold);color:var(--navy)">AO<span class="v" style="width:16px;height:16px;font-size:9px">✓</span></div>
+                <div style="flex:1">
+                  <div style="font-size:15px;font-weight:800;color:var(--navy)">Adaeze Electronics Ltd</div>
+                  <div style="font-size:12.5px;color:var(--muted);margin-top:2px;font-weight:600">Business · Verified · Ikeja, Lagos</div>
+                  <div style="font-size:13px;color:var(--gold2);font-weight:800;margin-top:4px">★★★★★ 4.9 <span style="color:var(--muted);font-weight:600">(34 reviews)</span></div>
+                </div>
+                <button class="btn btn-o btn-sm">View profile →</button>
+              </div>
+            </div>
+            <div class="wcard" style="padding:24px">
+              <h3>Item details</h3>
+              <div class="wrow"><span class="k">Condition</span><span class="v" style="font-family:inherit">Used</span></div>
+              <div class="wrow"><span class="k">Quantity</span><span class="v">1</span></div>
+              <div class="wrow"><span class="k">Sector</span><span class="v" style="font-family:inherit">Phones &amp; Tablets</span></div>
+              <div class="wrow"><span class="k">Inspection LGA</span><span class="v" style="font-family:inherit">Ikeja, Lagos</span></div>
+              <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+                <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:6px">Quality notes</div>
+                <div style="font-size:13.5px;color:#334155;line-height:1.6">Battery health 89%. Minor scratch bottom-right corner. No repairs, no water damage.</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h1 style="font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.6px;line-height:1.2">iPhone 14 Pro 256GB — Deep Purple</h1>
+            <div style="font-size:13px;color:var(--muted);margin-top:8px;font-weight:600">Protected deal · escrow custody</div>
+
+            <div class="wcard" style="margin-top:24px;padding:24px">
+              <div class="wrow"><span class="k">Item price</span><span class="v">₦450,000</span></div>
+              <div class="wrow"><span class="k">Buyer service fee (2%)</span><span class="v">₦9,000</span></div>
+              <div class="wrow"><span class="k">Vet Agent inspection</span><span class="v">₦6,000</span></div>
+              <div class="wrow"><span class="k">Logistics</span><span class="v">₦3,500</span></div>
+              <div class="wrow total"><span class="k">Total</span><span class="v">₦468,500</span></div>
+            </div>
+
+            <div class="al green" style="margin-top:16px"><span class="ic">🛡</span><div class="b"><div class="t">Buyer protection</div><div class="d">Your money is held in regulated escrow until you approve the inspection report.</div></div></div>
+
+            <button class="btn btn-g" style="width:100%;margin-top:20px;justify-content:center;padding:16px">Proceed to checkout →</button>
+            <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px">Escrow held by Paystack · licensed Nigerian payment provider</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat light" style="background:var(--navy)"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar" style="background:var(--navy);border-color:var(--navy);padding-top:12px">
+          <div style="font-size:11px;color:#fff;font-weight:800">DG-240501 · Protected Deal</div>
+        </div>
+        <div class="mob-body" style="overflow-y:auto">
+          <div style="padding:14px">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;margin-bottom:12px">
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:8px;display:grid;place-items:center;font-size:18px;color:#4F46E5">📱</div>
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:8px;display:grid;place-items:center;font-size:18px;color:#4F46E5">📱</div>
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:8px;display:grid;place-items:center;font-size:18px;color:#4F46E5">📱</div>
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:8px;display:grid;place-items:center;font-size:18px;color:#D97706">▶</div>
+            </div>
+
+            <div style="font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.3px;line-height:1.25">iPhone 14 Pro 256GB — Deep Purple</div>
+
+            <div class="wcard" style="padding:11px;margin-top:12px">
+              <div style="display:flex;gap:10px;align-items:center">
+                <div class="av" style="background:var(--gold);color:var(--navy);width:30px;height:30px;font-size:11px">AO<span class="v" style="width:12px;height:12px;font-size:7px">✓</span></div>
+                <div style="flex:1">
+                  <div style="font-size:11.5px;font-weight:800;color:var(--navy)">Adaeze Okafor</div>
+                  <div style="font-size:9.5px;color:var(--muted);margin-top:2px">★★★★★ 4.9 · 34 deals</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="wcard" style="padding:11px;margin-top:10px">
+              <div class="wrow" style="padding:5px 0;font-size:11.5px"><span class="k">Item price</span><span class="v" style="font-size:11.5px">₦450,000</span></div>
+              <div class="wrow" style="padding:5px 0;font-size:11.5px"><span class="k">Buyer fee (2%)</span><span class="v" style="font-size:11.5px">₦9,000</span></div>
+              <div class="wrow" style="padding:5px 0;font-size:11.5px"><span class="k">Vet Agent</span><span class="v" style="font-size:11.5px">₦6,000</span></div>
+              <div class="wrow" style="padding:5px 0;font-size:11.5px"><span class="k">Logistics</span><span class="v" style="font-size:11.5px">₦3,500</span></div>
+              <div class="wrow total" style="padding:8px 0 4px;font-size:11.5px"><span class="k" style="font-size:12px">Total</span><span class="v" style="font-size:14px">₦468,500</span></div>
+            </div>
+
+            <div style="background:var(--gold);color:var(--navy);padding:13px;border-radius:9px;text-align:center;font-size:13px;font-weight:800;margin-top:12px">Proceed to checkout →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">5.2 · Evidence gate</div>
+    <h3 class="cell-title">The single most important screen</h3>
+    <p class="cell-note">Logistics cannot move until the buyer approves. On desktop, the video plays large. On mobile, it fits portrait. Both show the same Approve/Dispute buttons — the one decision that releases the entire deal.</p>
+  </div>
+
+  <div class="pair">
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/deal/DG-240501/evidence</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body">
+        <div class="tnav">
+          <div class="logo"><div class="m">✓</div>Deals<span class="g">Gate</span></div>
+          <div class="links"><a href="#">Deal</a><a class="on" href="#">Evidence</a></div>
+          <div class="actions"><span class="pill pill-go">Action required</span></div>
+        </div>
+        <div style="padding:40px;display:grid;grid-template-columns:1.5fr 1fr;gap:32px;max-width:1200px;margin:0 auto">
+          <div>
+            <div style="background:#0A0A0A;border-radius:14px;aspect-ratio:16/10;display:grid;place-items:center;position:relative;overflow:hidden;margin-bottom:16px">
+              <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(244,180,32,.12),transparent 60%),radial-gradient(circle at 70% 40%,rgba(22,163,74,.16),transparent 60%)"></div>
+              <div style="width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.4);display:grid;place-items:center;font-size:22px;color:#fff;position:relative;z-index:1">▶</div>
+              <div style="position:absolute;top:14px;left:16px;background:rgba(0,0,0,.65);color:#fff;font-family:'Menlo',monospace;font-size:12px;font-weight:800;padding:4px 10px;border-radius:5px">IMEI 356938035643809</div>
+              <div style="position:absolute;bottom:14px;right:16px;background:rgba(0,0,0,.65);color:#fff;font-family:'Menlo',monospace;font-size:12px;font-weight:800;padding:4px 10px;border-radius:5px">0:45</div>
+            </div>
+            <div class="wcard">
+              <h3>Inspection summary</h3>
+              <div class="wrow"><span class="k">Verdict</span><span class="v"><span class="pill pill-g">PASS</span></span></div>
+              <div class="wrow"><span class="k">Agent</span><span class="v" style="font-family:inherit">Blessing Eze</span></div>
+              <div class="wrow"><span class="k">Distance from seller pin</span><span class="v g">47 metres</span></div>
+              <div class="wrow"><span class="k">Photos captured</span><span class="v">4</span></div>
+              <div class="wrow"><span class="k">Video duration</span><span class="v">45 seconds</span></div>
+              <div style="padding:14px;background:var(--mist);border-radius:10px;margin-top:14px;font-size:13px;color:#334155;line-height:1.6">Item matches the listing media. Battery health 89% as declared. Minor scratch on bottom-right corner photographed and noted. No repairs. No water damage.</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="al gold" style="margin-bottom:20px"><span class="ic">⚠️</span><div class="b"><div class="t">Nothing moves until you approve</div><div class="d">Logistics cannot pick up the item and funds cannot release until you review the evidence and click Approve — or Dispute.</div></div></div>
+
+            <div class="wcard" style="padding:24px">
+              <h3>Your decision</h3>
+              <p style="font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.65">If the item matches what you were promised, approve. If it does not, open a dispute — the deal pauses and a mediator reviews both sides.</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px">
+                <button class="btn" style="background:#fff;color:var(--red);border:1.5px solid var(--red);justify-content:center;padding:14px">Dispute</button>
+                <button class="btn btn-gr" style="justify-content:center;padding:14px">Approve ✓</button>
+              </div>
+            </div>
+
+            <div class="wcard" style="margin-top:16px;padding:20px;background:var(--mist)">
+              <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:10px">Timeline</div>
+              <div class="wtl">
+                <div class="wtl-item done"><div class="t">Escrow funded</div><div class="d">₦468,500 held</div></div>
+                <div class="wtl-item done"><div class="t">Agent inspected</div><div class="d">PASS · Blessing E.</div></div>
+                <div class="wtl-item now"><div class="t">Your evidence review</div><div class="d">Action required</div></div>
+                <div class="wtl-item pending"><div class="t">Logistics dispatch</div><div class="d">Unlocks after approval</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar"><span class="lock">🔒</span><div class="mob-url"><b>dealsgate.ng</b>/deal/DG-240501/evidence</div></div>
+        <div class="mob-body" style="overflow-y:auto">
+          <div style="padding:12px">
+            <div style="font-size:13px;font-weight:800;color:var(--navy);margin-bottom:8px">Evidence review</div>
+            <div style="background:#0A0A0A;border-radius:10px;aspect-ratio:4/3;display:grid;place-items:center;position:relative;overflow:hidden">
+              <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(244,180,32,.14),transparent 60%)"></div>
+              <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);display:grid;place-items:center;font-size:14px;color:#fff;position:relative;z-index:1">▶</div>
+              <div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,.65);color:#fff;font-family:'Menlo',monospace;font-size:8px;font-weight:800;padding:2px 6px;border-radius:3px">IMEI 3569380…</div>
+              <div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.65);color:#fff;font-family:'Menlo',monospace;font-size:8px;font-weight:800;padding:2px 6px;border-radius:3px">0:45</div>
+            </div>
+
+            <div class="wcard" style="padding:10px;margin-top:10px">
+              <div style="font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:5px">Verdict</div>
+              <div><span class="pill pill-g" style="font-size:11px;padding:4px 10px">PASS</span> <span style="font-size:10px;color:var(--muted);margin-left:6px">Blessing E. · 47m from pin</span></div>
+            </div>
+
+            <div class="wcard" style="padding:10px;margin-top:8px">
+              <div style="font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:5px">Summary</div>
+              <div style="font-size:10.5px;color:#334155;line-height:1.5">Item matches listing. Battery 89%. Minor scratch photographed and noted.</div>
+            </div>
+
+            <div class="al gold" style="padding:9px;margin-top:10px;font-size:10.5px"><span class="ic">⚠️</span><div class="b"><div class="d" style="font-size:10.5px">Nothing moves until you approve.</div></div></div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+              <div style="background:#fff;color:var(--red);border:1.5px solid var(--red);padding:11px;border-radius:9px;text-align:center;font-size:12.5px;font-weight:800">Dispute</div>
+              <div style="background:var(--green);color:#fff;padding:11px;border-radius:9px;text-align:center;font-size:12.5px;font-weight:800">Approve ✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">5.3 · Live tracking</div>
+    <h3 class="cell-title">Shared shipment timeline</h3>
+    <p class="cell-note">Buyer and seller see the same states, same timestamps, driven by HMAC-verified courier webhooks. Only the cost lens differs by role.</p>
+  </div>
+
+  <div class="pair">
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/deal/DG-240501/tracking</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body">
+        <div class="tnav">
+          <div class="logo"><div class="m">✓</div>Deals<span class="g">Gate</span></div>
+          <div class="links"><a href="#">Deal</a><a href="#">Evidence</a><a class="on" href="#">Tracking</a></div>
+          <div class="actions"><button class="btn btn-o btn-sm">Switch to seller view</button></div>
+        </div>
+        <div style="padding:40px;max-width:900px;margin:0 auto">
+          <div class="al green" style="margin-bottom:20px"><span class="ic">📦</span><div class="b"><div class="t">In transit · arriving in 18 hours</div><div class="d">GIG Logistics · tracking <b style="font-family:'Menlo',monospace">GIG-DG8K2P9</b> · Lagos → Lagos</div></div></div>
+
+          <div class="wcard" style="padding:28px">
+            <div class="wtl">
+              <div class="wtl-item done"><div class="t">Payment secured</div><div class="d">₦468,500 held in escrow · 3 hours ago</div></div>
+              <div class="wtl-item done"><div class="t">Inspection PASS</div><div class="d">Blessing Eze · 47m from seller pin · 2 hours ago</div></div>
+              <div class="wtl-item done"><div class="t">Buyer approved evidence</div><div class="d">Logistics unlocked · 90 minutes ago</div></div>
+              <div class="wtl-item done"><div class="t">Picked up</div><div class="d">Ikeja, Lagos · 1 hour ago</div></div>
+              <div class="wtl-item now"><div class="t">In transit</div><div class="d">Lagos mainland · current</div></div>
+              <div class="wtl-item pending"><div class="t">Delivered</div><div class="d">Estimated 18 hours from now</div></div>
+              <div class="wtl-item pending"><div class="t">Confirm &amp; rate</div><div class="d">72h window after delivery</div></div>
+            </div>
+          </div>
+
+          <div class="al navy" style="margin-top:20px"><span class="ic">👥</span><div class="b"><div class="t">Both sides see this timeline</div><div class="d">The seller sees exactly these states, these timestamps, these webhook events. No hidden updates.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat light" style="background:var(--navy)"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar" style="background:var(--navy);border-color:var(--navy);padding-top:12px">
+          <div style="font-size:11px;color:#fff;font-weight:800">DG-240501 · In transit</div>
+        </div>
+        <div class="mob-body" style="padding:14px;overflow-y:auto">
+          <div class="wcard" style="padding:14px">
+            <div class="wtl">
+              <div class="wtl-item done"><div class="t" style="font-size:11.5px">Payment secured</div><div class="d" style="font-size:10px">₦468,500 · 3h ago</div></div>
+              <div class="wtl-item done"><div class="t" style="font-size:11.5px">Inspected · PASS</div><div class="d" style="font-size:10px">Blessing E. · 2h ago</div></div>
+              <div class="wtl-item done"><div class="t" style="font-size:11.5px">You approved</div><div class="d" style="font-size:10px">90m ago</div></div>
+              <div class="wtl-item done"><div class="t" style="font-size:11.5px">Picked up</div><div class="d" style="font-size:10px">Ikeja · 1h ago</div></div>
+              <div class="wtl-item now"><div class="t" style="font-size:11.5px">In transit</div><div class="d" style="font-size:10px">Lagos mainland · now</div></div>
+              <div class="wtl-item pending"><div class="t" style="font-size:11.5px">Delivered</div><div class="d" style="font-size:10px">Est. 18h</div></div>
+            </div>
+          </div>
+          <div class="al green" style="margin-top:12px;padding:10px;font-size:11px"><span class="ic">👥</span><div class="b"><div class="d" style="font-size:10.5px">Same timeline the seller sees. Verified by courier webhooks.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     SECTION 06 · VET AGENT
+     ============================================================ -->
+<section class="phase">
+  <div class="ph-head">
+    <span class="ph-num">SECTION 06</span>
+    <span class="ph-title">Vet Agent Flow</span>
+    <span class="ph-desc">Training, job acceptance, GPS verification, inspection checklist, verdict submission, and earnings. Mobile-first — agents work on the go.</span>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">6.1 · Job feed + GPS verification</div>
+    <h3 class="cell-title">Agent dashboard and geolocation</h3>
+    <p class="cell-note">Agents work from phones. Desktop is for reviewing completed jobs and earnings. Mobile is where the field work happens — job feed, GPS check, checklist, verdict.</p>
+  </div>
+
+  <div class="pair">
+    <div class="desk-frame hide-md">
+      <div class="desk-bar">
+        <div class="desk-dots"><span></span><span></span><span></span></div>
+        <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/agent/jobs</span></div>
+        <div class="desk-tabs"><span></span><span></span></div>
+      </div>
+      <div class="desk-body" style="min-height:680px">
+        <div class="app-shell" style="height:680px">
+          <aside class="snav">
+            <div class="snav-brand"><div class="m">✓</div><div class="n">Vet Agent</div></div>
+            <div class="snav-item"><span class="ic">🏠</span>Dashboard</div>
+            <div class="snav-item on"><span class="ic">📋</span>Job feed <span class="pill pill-r" style="margin-left:auto;font-size:9px;padding:2px 7px">3</span></div>
+            <div class="snav-item"><span class="ic">✅</span>Completed</div>
+            <div class="snav-item"><span class="ic">🎓</span>Training</div>
+            <div class="snav-item"><span class="ic">💰</span>Earnings</div>
+            <div class="snav-sec">Account</div>
+            <div class="snav-item"><span class="ic">👤</span>Profile</div>
+            <div class="snav-item"><span class="ic">🏦</span>Bank account</div>
+            <div class="snav .user">
+              <div class="av" style="background:var(--navy);color:var(--gold);border:2px solid var(--gold)">BE<span class="b">🎓</span></div>
+              <div class="info"><div class="n">Blessing Eze</div><div class="s">Certified · Ikeja</div></div>
+            </div>
+          </aside>
+          <div class="content">
+            <div class="pg-head">
+              <h1>Job feed · Ikeja</h1>
+              <p>First-Accept-Wins. You have one active job at a time. 3 new jobs available in your covered LGAs.</p>
+            </div>
+
+            <div style="display:flex;gap:14px;margin-bottom:20px">
+              <span class="pill pill-n">All 3</span>
+              <span class="pill pill-m">Protected deals 2</span>
+              <span class="pill pill-m">On-demand 1</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div class="jobc">
+                <div class="l">
+                  <div class="code">DG-240501</div>
+                  <div class="item">iPhone 14 Pro 256GB</div>
+                  <div class="meta">Ikeja LGA · 1.2km away · published 8 minutes ago</div>
+                </div>
+                <div style="text-align:right">
+                  <div class="amt">+₦4,200</div>
+                  <button class="btn btn-g btn-sm" style="margin-top:8px">Accept job</button>
+                </div>
+              </div>
+              <div class="jobc">
+                <div class="l">
+                  <div class="code">DG-240502</div>
+                  <div class="item">MacBook Pro 14" M3</div>
+                  <div class="meta">Eti-Osa LGA · 5.4km away · published 22 minutes ago</div>
+                </div>
+                <div style="text-align:right">
+                  <div class="amt">+₦4,200</div>
+                  <button class="btn btn-g btn-sm" style="margin-top:8px">Accept job</button>
+                </div>
+              </div>
+              <div class="jobc purple">
+                <div class="l">
+                  <div class="code">OD-240301</div>
+                  <div class="item">Designer bag on Instagram</div>
+                  <div class="meta">Wuse 2, Abuja · published 1 hour ago</div>
+                </div>
+                <div style="text-align:right">
+                  <div class="amt">+₦3,600</div>
+                  <button class="btn btn-g btn-sm" style="margin-top:8px">Accept job</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mob-frame">
+      <div class="mob-screen">
+        <div class="mstat light" style="background:var(--navy)"><span>9:41</span><span>●●● ●●</span></div>
+        <div class="mob-bar" style="background:var(--navy);border-color:var(--navy);padding-top:12px">
+          <div style="font-size:11px;color:#fff;font-weight:800">Job feed · Ikeja</div>
+        </div>
+        <div class="mob-body" style="padding:12px;overflow-y:auto">
+          <div style="font-size:9.5px;color:var(--muted);font-weight:700;margin-bottom:10px">First-Accept-Wins · one active job at a time</div>
+
+          <div style="background:#FFF7E6;border-left:3px solid var(--gold);border-radius:9px;padding:11px;margin-bottom:8px">
+            <div style="font-family:'Menlo',monospace;font-size:8.5px;color:var(--muted);font-weight:700">DG-240501</div>
+            <div style="font-size:12px;font-weight:800;color:var(--navy);margin:3px 0 6px">iPhone 14 Pro 256GB</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:10px">
+              <span style="color:var(--muted)">Ikeja · 1.2km</span>
+              <span style="font-family:'Menlo',monospace;color:var(--green);font-weight:800">+₦4,200</span>
+            </div>
+            <div style="background:var(--green);color:#fff;padding:8px;border-radius:7px;text-align:center;font-size:11px;font-weight:800;margin-top:8px">Accept job</div>
+          </div>
+
+          <div style="background:#FFF7E6;border-left:3px solid var(--gold);border-radius:9px;padding:11px;margin-bottom:8px">
+            <div style="font-family:'Menlo',monospace;font-size:8.5px;color:var(--muted);font-weight:700">DG-240502</div>
+            <div style="font-size:12px;font-weight:800;color:var(--navy);margin:3px 0 6px">MacBook Pro 14" M3</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:10px">
+              <span style="color:var(--muted)">Eti-Osa · 5.4km</span>
+              <span style="font-family:'Menlo',monospace;color:var(--green);font-weight:800">+₦4,200</span>
+            </div>
+            <div style="background:var(--green);color:#fff;padding:8px;border-radius:7px;text-align:center;font-size:11px;font-weight:800;margin-top:8px">Accept job</div>
+          </div>
+
+          <div style="background:#F3E8FF;border-left:3px solid var(--purple);border-radius:9px;padding:11px">
+            <div style="font-family:'Menlo',monospace;font-size:8.5px;color:var(--muted);font-weight:700">OD-240301</div>
+            <div style="font-size:12px;font-weight:800;color:var(--navy);margin:3px 0 6px">Designer bag on IG</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:10px">
+              <span style="color:var(--muted)">Wuse · 8km</span>
+              <span style="font-family:'Menlo',monospace;color:var(--green);font-weight:800">+₦3,600</span>
+            </div>
+            <div style="background:var(--green);color:#fff;padding:8px;border-radius:7px;text-align:center;font-size:11px;font-weight:800;margin-top:8px">Accept job</div>
+          </div>
+        </div>
+        <div class="mbnav">
+          <div class="tab"><div class="ic">🏠</div>Home</div>
+          <div class="tab on"><div class="ic">📋</div>Jobs</div>
+          <div class="tab"><div class="ic">🎓</div>Training</div>
+          <div class="tab"><div class="ic">💰</div>Earnings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     SECTION 07 · ADMIN
+     ============================================================ -->
+<section class="phase">
+  <div class="ph-head">
+    <span class="ph-num">SECTION 07</span>
+    <span class="ph-title">Admin Console</span>
+    <span class="ph-desc">Web-first. Dense dashboards, side-by-side evidence, dual-control config. Desktop is where admin work happens.</span>
+  </div>
+
+  <div class="cell">
+    <div class="cell-caption">7.1 · Operations dashboard</div>
+    <h3 class="cell-title">Admin KPIs and alerts</h3>
+    <p class="cell-note">Built for desktop. Everything needing attention in one screen — overdue jobs, open disputes, paused deals, escrow exposure. No manual hunting.</p>
+  </div>
+
+  <div class="desk-frame">
+    <div class="desk-bar">
+      <div class="desk-dots"><span></span><span></span><span></span></div>
+      <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/admin</span></div>
+      <div class="desk-tabs"><span></span><span></span></div>
+    </div>
+    <div class="desk-body" style="min-height:720px">
+      <div class="app-shell" style="height:720px">
+        <aside class="snav">
+          <div class="snav-brand"><div class="m">✓</div><div class="n">Ops Console</div></div>
+          <div class="snav-item on"><span class="ic">📊</span>Dashboard</div>
+          <div class="snav-item"><span class="ic">📦</span>Deals</div>
+          <div class="snav-item"><span class="ic">📋</span>Jobs</div>
+          <div class="snav-item"><span class="ic">⚖️</span>Disputes <span class="pill pill-r" style="margin-left:auto;font-size:9px;padding:2px 7px">2</span></div>
+          <div class="snav-item"><span class="ic">👥</span>Users</div>
+          <div class="snav-sec">Configuration</div>
+          <div class="snav-item"><span class="ic">⚙️</span>Fees &amp; splits</div>
+          <div class="snav-item"><span class="ic">🏦</span>Bank list</div>
+          <div class="snav-item"><span class="ic">🌳</span>Taxonomy</div>
+          <div class="snav-item"><span class="ic">🎓</span>Training CMS</div>
+          <div class="snav-sec">Compliance</div>
+          <div class="snav-item"><span class="ic">📜</span>Audit log</div>
+          <div class="snav-item"><span class="ic">🎁</span>Referrals</div>
+          <div class="snav .user">
+            <div class="av" style="background:var(--navy);color:var(--gold)">SA<span class="b">✓</span></div>
+            <div class="info"><div class="n">Super Admin</div><div class="s">Full access · Oyo State</div></div>
+          </div>
+        </aside>
+        <div class="content">
+          <div class="pg-head" style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <h1>Operations dashboard</h1>
+              <p>Real-time KPIs · all figures reconciled daily against settlement</p>
+            </div>
+            <button class="btn btn-o btn-sm">Export report</button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px">
+            <div class="stile green"><div class="l">Revenue 30d</div><div class="v g">₦1,140,100</div><div class="s">+12% vs last month</div></div>
+            <div class="stile"><div class="l">Escrow exposure</div><div class="v gold">₦2,847,300</div><div class="s">Reconciled · 14 deals in flight</div></div>
+            <div class="stile red"><div class="l">Open disputes</div><div class="v r">2</div><div class="s">Needs mediation</div></div>
+            <div class="stile navy"><div class="l">Open jobs</div><div class="v">14</div><div class="s">2 overdue · 12 on track</div></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:20px">
+            <div class="wcard">
+              <h3>Needs attention</h3>
+              <div class="wrow">
+                <div class="k">
+                  <div style="font-weight:800;color:var(--red);font-size:14px">2 jobs overdue</div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:2px">DG-240501, DG-240504 · both in Ikeja LGA</div>
+                </div>
+                <button class="btn btn-o btn-sm">Reassign</button>
+              </div>
+              <div class="wrow">
+                <div class="k">
+                  <div style="font-weight:800;color:var(--red);font-size:14px">2 open disputes</div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:2px">DSP-501 (mismatch) · DSP-502 (fraud)</div>
+                </div>
+                <button class="btn btn-o btn-sm">Mediate</button>
+              </div>
+              <div class="wrow">
+                <div class="k">
+                  <div style="font-weight:800;color:var(--gold2);font-size:14px">1 paused deal</div>
+                  <div style="font-size:12px;color:var(--muted);margin-top:2px">DG-240505 · legal review pending</div>
+                </div>
+                <button class="btn btn-o btn-sm">Review</button>
+              </div>
+            </div>
+
+            <div class="wcard">
+              <h3>Revenue breakdown · 30 days</h3>
+              <div class="wrow"><span class="k">Buyer service fees</span><span class="v">₦462,000</span></div>
+              <div class="wrow"><span class="k">Seller success fees</span><span class="v">₦378,000</span></div>
+              <div class="wrow"><span class="k">Vet Agent platform share</span><span class="v">₦184,500</span></div>
+              <div class="wrow"><span class="k">Logistics margin</span><span class="v">₦92,400</span></div>
+              <div class="wrow"><span class="k">Guarantee forfeitures</span><span class="v">₦15,000</span></div>
+              <div class="wrow total"><span class="k">Total</span><span class="v g">₦1,140,100</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell" style="margin-top:56px">
+    <div class="cell-caption">7.2 · Dispute mediation</div>
+    <h3 class="cell-title">Evidence-tier ruling workspace</h3>
+    <p class="cell-note">Admin reviews evidence tiers side by side. Tier-1 (agent video + serials) outweighs Tier-3 (off-platform chats). Ruling is written to the immutable audit log with actor, IP, and rationale.</p>
+  </div>
+
+  <div class="desk-frame">
+    <div class="desk-bar">
+      <div class="desk-dots"><span></span><span></span><span></span></div>
+      <div class="desk-url"><span class="lock">🔒</span><span class="txt">dealsgate.ng</span><span class="path">/admin/disputes/DSP-502</span></div>
+      <div class="desk-tabs"><span></span><span></span></div>
+    </div>
+    <div class="desk-body" style="min-height:640px;padding:40px">
+      <div style="max-width:1300px;margin:0 auto">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+          <div>
+            <div style="font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red)">Dispute DSP-502</div>
+            <h1 style="font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin-top:8px">Fraud / item swap</h1>
+            <p style="font-size:13.5px;color:var(--muted);margin-top:6px">Deal DG-240504 · Playstation 5 · ₦395,500 in escrow · opened 40 hours ago</p>
+          </div>
+          <span class="pill pill-r" style="font-size:12px;padding:6px 14px">Open · awaiting mediation</span>
+        </div>
+
+        <div class="al red" style="margin-bottom:24px"><span class="ic">🚨</span><div class="b"><div class="t">Buyer's claim</div><div class="d">"IMEI on the delivered unit does not match the IMEI captured in the agent's continuous video. Suspected swap between inspection and dispatch."</div></div></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px">
+          <div class="wcard" style="padding:20px">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:10px">Tier 1 · highest weight</div>
+            <div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)">
+              <span style="font-size:18px">🎥</span>
+              <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">Agent continuous video</div>
+              <span class="pill pill-g">✓</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)">
+              <span style="font-size:18px">🆔</span>
+              <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">IMEI captured on camera</div>
+              <span class="pill pill-g">✓</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;padding:8px 0">
+              <span style="font-size:18px">📸</span>
+              <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">Seller listing media</div>
+              <span class="pill pill-g">✓ matched</span>
+            </div>
+          </div>
+
+          <div class="wcard" style="padding:20px">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:10px">Tier 2 · medium weight</div>
+            <div style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)">
+              <span style="font-size:18px">📦</span>
+              <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">Buyer unboxing video</div>
+              <span class="pill pill-g">✓</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;padding:8px 0">
+              <span style="font-size:18px">🚚</span>
+              <div style="flex:1;font-size:13px;font-weight:600;color:var(--navy)">Courier logs</div>
+              <span class="pill pill-g">✓</span>
+            </div>
+          </div>
+
+          <div class="wcard" style="padding:20px;background:var(--mist)">
+            <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:10px">Tier 3 · lowest weight</div>
+            <div style="display:flex;gap:10px;align-items:center;padding:8px 0">
+              <span style="font-size:18px">💬</span>
+              <div style="flex:1;font-size:13px;font-weight:600;color:#64748B">Off-platform chat screenshots</div>
+              <span class="pill pill-m">low</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:#F0FDF4;border-left:4px solid var(--green);border-radius:0 10px 10px 0;padding:20px;margin-bottom:24px">
+          <div style="font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#065F46;margin-bottom:8px">Recommended ruling based on evidence tiers</div>
+          <div style="font-size:14px;color:#065F46;line-height:1.6">Tier-1 evidence demonstrates an IMEI mismatch between the agent's continuous video and the delivered unit. Ruling: <b>full refund to buyer, seller guarantee forfeited, ₦3,500 return logistics clawback, seller account suspended pending investigation.</b></div>
+        </div>
+
+        <div style="display:flex;gap:12px">
+          <button class="btn" style="background:var(--green);color:#fff;padding:14px 24px">Apply recommended ruling →</button>
+          <button class="btn btn-o">Override · rule for seller</button>
+          <button class="btn btn-o">Request more evidence</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================
+     SECTION 08 · DESIGN TOKENS
+     ============================================================ -->
+<section class="phase">
+  <div class="ph-head">
+    <span class="ph-num">SECTION 08</span>
+    <span class="ph-title">Design Tokens</span>
+    <span class="ph-desc">The reusable primitives every screen is built from. This is what a production team implements first.</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+
+    <div class="wcard" style="background:#0A0E1F;border-color:rgba(255,255,255,.08);color:#E5E7EB">
+      <h3 style="color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">Colours</h3>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;color:#E5E7EB"><div style="width:18px;height:18px;border-radius:5px;background:#0D1B4C;flex-shrink:0"></div>Deep Blue · Primary <span style="margin-left:auto;font-family:'Menlo',monospace;font-size:11px;color:#94A3B8">#0D1B4C</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;color:#E5E7EB"><div style="width:18px;height:18px;border-radius:5px;background:#16A34A;flex-shrink:0"></div>Emerald · Success <span style="margin-left:auto;font-family:'Menlo',monospace;font-size:11px;color:#94A3B8">#16A34A</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;color:#E5E7EB"><div style="width:18px;height:18px;border-radius:5px;background:#F4B420;flex-shrink:0"></div>Gold · Accent <span style="margin-left:auto;font-family:'Menlo',monospace;font-size:11px;color:#94A3B8">#F4B420</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;color:#E5E7EB"><div style="width:18px;height:18px;border-radius:5px;background:#F1F3F5;border:1px solid #E2E8F0;flex-shrink:0"></div>Mist · Neutral <span style="margin-left:auto;font-family:'Menlo',monospace;font-size:11px;color:#94A3B8">#F1F3F5</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;color:#E5E7EB"><div style="width:18px;height:18px;border-radius:5px;background:#1F2937;flex-shrink:0"></div>Charcoal · Text <span style="margin-left:auto;font-family:'Menlo',monospace;font-size:11px;color:#94A3B8">#1F2937</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px;color:#E5E7EB"><div style="width:18px;height:18px;border-radius:5px;background:#DC2626;flex-shrink:0"></div>Red · Danger <span style="margin-left:auto;font-family:'Menlo',monospace;font-size:11px;color:#94A3B8">#DC2626</span></div>
+    </div>
+
+    <div class="wcard" style="background:#0A0E1F;border-color:rgba(255,255,255,.08);color:#E5E7EB">
+      <h3 style="color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">Typography</h3>
+      <div style="font-size:26px;font-weight:800;color:#fff;letter-spacing:-.6px;line-height:1.1">Inter</div>
+      <div style="font-size:13px;color:#94A3B8;margin-top:6px">Primary family · all UI copy</div>
+      <div style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-.5px;margin-top:18px">Type scale</div>
+      <div style="font-size:12px;color:#CBD5E1;line-height:1.8;margin-top:8px">
+        H1 · 26–38px / 800 / -0.6px<br>
+        H2 · 20–24px / 800 / -0.5px<br>
+        H3 · 15–18px / 800 / -0.3px<br>
+        Body · 13–15px / 500<br>
+        Caption · 10–12px / 600<br>
+        Mono · 11–13px · <span style="font-family:'Menlo',monospace">Menlo</span> — money &amp; IDs
+      </div>
+    </div>
+
+    <div class="wcard" style="background:#0A0E1F;border-color:rgba(255,255,255,.08);color:#E5E7EB">
+      <h3 style="color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">Spacing &amp; Radius</h3>
+      <div style="font-size:13px;color:#CBD5E1;line-height:1.9">
+        Base unit · <span style="font-family:'Menlo',monospace;color:var(--gold)">4px</span><br>
+        Card padding · <span style="font-family:'Menlo',monospace;color:var(--gold)">20–24px</span><br>
+        Page gutter · <span style="font-family:'Menlo',monospace;color:var(--gold)">24–40px</span><br>
+        Section gap · <span style="font-family:'Menlo',monospace;color:var(--gold)">20–32px</span><br>
+        Card radius · <span style="font-family:'Menlo',monospace;color:var(--gold)">12–16px</span><br>
+        Button radius · <span style="font-family:'Menlo',monospace;color:var(--gold)">9px</span><br>
+        Pill radius · <span style="font-family:'Menlo',monospace;color:var(--gold)">20px</span>
+      </div>
+    </div>
+
+    <div class="wcard" style="background:#0A0E1F;border-color:rgba(255,255,255,.08);color:#E5E7EB">
+      <h3 style="color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">Core Components</h3>
+      <div style="font-size:13px;color:#CBD5E1;line-height:1.9">
+        <span style="font-family:'Menlo',monospace;color:var(--gold)">Primary Button</span> · navy, white text<br>
+        <span style="font-family:'Menlo',monospace;color:var(--gold)">Gold CTA</span> · gold, navy text<br>
+        <span style="font-family:'Menlo',monospace;color:var(--gold)">Ghost Button</span> · white, navy border<br>
+        <span style="font-family:'Menlo',monospace;color:var(--gold)">Card</span> · white, 1px line, 14px radius<br>
+        <span style="font-family:'Menlo',monospace;color:var(--gold)">Pill</span> · status indicator<br>
+        <span style="font-family:'Menlo',monospace;color:var(--gold)">Row</span> · label + value pair<br>
+        <span style="font-family:'Menlo',monospace;color:var(--gold)">Timeline</span> · dots + title + detail<br>
+        <span style="font-family:'Menlo',monospace;color:var(--gold)">Job Card</span> · cream, gold left border
+      </div>
+    </div>
+
+    <div class="wcard" style="background:#0A0E1F;border-color:rgba(255,255,255,.08);color:#E5E7EB">
+      <h3 style="color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">Status States</h3>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div><span class="pill pill-g">Approved</span></div>
+        <div><span class="pill pill-go">Pending</span></div>
+        <div><span class="pill pill-r">Disputed</span></div>
+        <div><span class="pill pill-b">In transit</span></div>
+        <div><span class="pill pill-p">On-demand</span></div>
+        <div><span class="pill pill-n">Terminal</span></div>
+        <div><span class="pill pill-m">Neutral</span></div>
+      </div>
+    </div>
+
+    <div class="wcard" style="background:#0A0E1F;border-color:rgba(255,255,255,.08);color:#E5E7EB">
+      <h3 style="color:var(--gold);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px">Accessibility</h3>
+      <div style="font-size:13px;color:#CBD5E1;line-height:1.9">
+        Text contrast ≥ <span style="font-family:'Menlo',monospace;color:var(--gold)">4.5:1</span><br>
+        Tap targets ≥ <span style="font-family:'Menlo',monospace;color:var(--gold)">44×44px</span><br>
+        Keyboard navigation on all actions<br>
+        Focus rings always visible<br>
+        Colour is never the only signal<br>
+        ARIA labels on all icon buttons<br>
+        Screen reader announces state changes
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+</body>
+</html>

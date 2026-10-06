@@ -1,0 +1,1912 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Complete UI/UX Screen Flow</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  :root{
+    --navy:#0D1B4C;--navy2:#142a70;--green:#16A34A;--green2:#15803D;
+    --gold:#F4B420;--gold2:#C98A00;--ink:#0F172A;--muted:#64748B;
+    --line:#E2E8F0;--mist:#F4F6FB;--blue:#2563EB;--red:#DC2626;--purple:#7C3AED;
+  }
+  html,body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:#0A0E1F;color:#E5E7EB;-webkit-font-smoothing:antialiased;
+  }
+  /* ============================================================
+     DOC HEADER
+     ============================================================ */
+  .doc-header{
+    background:linear-gradient(155deg,#061133 0%,var(--navy) 55%,var(--navy2) 100%);
+    padding:60px 28px 50px;text-align:center;position:relative;overflow:hidden;
+  }
+  .doc-header::after{
+    content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;
+    border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.22),transparent 70%);
+  }
+  .dh-logo{
+    display:inline-flex;align-items:center;gap:12px;margin-bottom:24px;position:relative;z-index:1;
+  }
+  .dh-mark{
+    width:38px;height:38px;border-radius:11px;background:var(--gold);color:var(--navy);
+    display:grid;place-items:center;font-size:19px;font-weight:900;border:2.5px solid #fff;
+  }
+  .dh-brand{font-size:20px;font-weight:800;letter-spacing:-.3px;color:#fff}
+  .dh-brand .g{color:var(--green)}
+  .dh-brand .d{color:#fff}
+  .dh-kicker{
+    display:inline-block;background:rgba(244,180,32,.14);border:1px solid rgba(244,180,32,.32);
+    color:var(--gold);padding:6px 15px;border-radius:999px;font-size:10.5px;
+    font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;
+    position:relative;z-index:1;
+  }
+  .dh-title{
+    font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-1px;line-height:1.1;
+    color:#fff;position:relative;z-index:1;
+  }
+  .dh-title .g{color:var(--gold)}
+  .dh-title .gr{color:#4ADE80}
+  .dh-sub{
+    font-size:15px;color:rgba(255,255,255,.78);max-width:640px;margin:18px auto 0;
+    line-height:1.6;position:relative;z-index:1;
+  }
+  .dh-stats{
+    display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-top:38px;
+    padding-top:26px;border-top:1px solid rgba(255,255,255,.12);position:relative;z-index:1;
+  }
+  .dh-stat .v{font-family:'Menlo',monospace;font-size:24px;font-weight:800;color:#fff;letter-spacing:-.5px}
+  .dh-stat .v.g{color:var(--gold)}
+  .dh-stat .l{font-size:9.5px;color:rgba(255,255,255,.55);font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
+
+  /* ============================================================
+     WRAP
+     ============================================================ */
+  .wrap{max-width:1400px;margin:0 auto;padding:48px 20px 80px}
+
+  /* ============================================================
+     PHASE SECTION
+     ============================================================ */
+  .phase{margin-bottom:72px}
+  .phase-head{
+    display:flex;align-items:baseline;gap:16px;padding-bottom:18px;
+    border-bottom:2px solid rgba(244,180,32,.25);margin-bottom:32px;flex-wrap:wrap;
+  }
+  .phase-num{
+    font-family:'Menlo',monospace;font-size:14px;font-weight:800;
+    color:var(--gold);letter-spacing:.06em;
+  }
+  .phase-title{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.4px}
+  .phase-desc{font-size:13px;color:#94A3B8;line-height:1.55;margin-left:auto;max-width:400px}
+
+  /* ============================================================
+     SCREEN GRID
+     ============================================================ */
+  .screens{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:36px 24px;justify-items:center;
+  }
+
+  .screen-cell{
+    display:flex;flex-direction:column;gap:12px;align-items:center;
+    max-width:320px;width:100%;
+  }
+
+  /* ============================================================
+     PHONE FRAME
+     ============================================================ */
+  .phone{
+    width:100%;aspect-ratio:9/19;max-width:280px;
+    background:#0A0A0A;border-radius:32px;padding:8px;
+    box-shadow:
+      0 20px 48px rgba(0,0,0,.45),
+      0 4px 12px rgba(0,0,0,.24),
+      inset 0 0 0 1.5px #1F1F1F;
+    position:relative;
+  }
+  .phone::before{
+    content:"";position:absolute;top:14px;left:50%;transform:translateX(-50%);
+    width:70px;height:4px;background:#000;border-radius:20px;z-index:5;
+  }
+  .screen{
+    width:100%;height:100%;border-radius:24px;overflow:hidden;background:#fff;
+    display:flex;flex-direction:column;position:relative;
+  }
+  /* Status bar */
+  .sb{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 18px 6px;font-size:9px;font-weight:800;color:var(--navy);
+    flex-shrink:0;font-family:'Inter',sans-serif;
+  }
+  .sb.light{color:#fff}
+  .sb .icons{display:flex;gap:4px;font-size:8px}
+
+  /* Screen content area */
+  .sc{flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column}
+
+  /* Bottom nav */
+  .bnav{
+    display:flex;justify-content:space-around;padding:8px 6px 12px;
+    background:#fff;border-top:1px solid var(--line);flex-shrink:0;
+  }
+  .bnav .tab{
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    font-size:7.5px;font-weight:700;color:#94A3B8;letter-spacing:.02em;
+    flex:1;
+  }
+  .bnav .tab .ic{
+    width:22px;height:22px;border-radius:6px;background:var(--mist);
+    display:grid;place-items:center;font-size:11px;
+  }
+  .bnav .tab.on{color:var(--navy)}
+  .bnav .tab.on .ic{background:var(--gold);color:var(--navy)}
+
+  /* Caption */
+  .caption{
+    font-size:10.5px;font-weight:800;color:var(--gold);
+    letter-spacing:.1em;text-transform:uppercase;text-align:center;
+  }
+  .caption-title{
+    font-size:13.5px;font-weight:800;color:#fff;text-align:center;line-height:1.3;
+    letter-spacing:-.2px;
+  }
+  .caption-note{
+    font-size:11px;color:#94A3B8;text-align:center;line-height:1.55;max-width:280px;
+  }
+
+  /* ============================================================
+     REUSABLE SCREEN COMPONENTS
+     ============================================================ */
+  /* App header inside screen */
+  .ah{
+    background:var(--navy);color:#fff;padding:11px 14px 12px;flex-shrink:0;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .ah .brand{display:flex;align-items:center;gap:8px}
+  .ah .mark{
+    width:20px;height:20px;border-radius:5px;background:var(--gold);color:var(--navy);
+    display:grid;place-items:center;font-size:11px;font-weight:900;
+  }
+  .ah .name{font-size:11.5px;font-weight:800;letter-spacing:-.1px}
+  .ah .name .g{color:#4ADE80}
+  .ah .back{
+    width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.12);
+    display:grid;place-items:center;font-size:13px;
+  }
+  .ah .ttl{font-size:12px;font-weight:800;letter-spacing:-.15px}
+
+  /* Content wrapper */
+  .cw{padding:12px 14px;display:flex;flex-direction:column;gap:10px;flex:1;overflow:hidden}
+
+  /* Cards */
+  .cd{
+    background:#fff;border:1px solid var(--line);border-radius:10px;
+    padding:10px 11px;box-shadow:0 1px 2px rgba(13,27,76,.04);
+  }
+  .cd.mist{background:var(--mist)}
+  .cd.navy{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .cd.green{background:#F0FDF4;border-color:#BBF7D0}
+  .cd.gold{background:#FEFBEB;border-color:#FCD34D}
+
+  .cd .lbl{
+    font-size:7.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:5px;
+  }
+  .cd.navy .lbl{color:rgba(255,255,255,.6)}
+  .cd .val{
+    font-size:11px;font-weight:800;color:var(--navy);line-height:1.35;
+  }
+  .cd.navy .val{color:#fff}
+  .cd .val.mono{font-family:'Menlo',monospace;letter-spacing:-.02em}
+  .cd .val.big{font-size:16px}
+  .cd .val.g{color:var(--green)}
+  .cd.navy .val.g{color:var(--gold)}
+  .cd .sub{
+    font-size:8.5px;color:var(--muted);margin-top:4px;line-height:1.45;
+  }
+
+  /* Button */
+  .btn{
+    background:var(--navy);color:#fff;text-align:center;
+    padding:11px;border-radius:9px;font-size:11px;font-weight:800;
+    letter-spacing:.01em;
+  }
+  .btn.gold{background:var(--gold);color:var(--navy)}
+  .btn.green{background:var(--green);color:#fff}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  .btn.rd{background:var(--red);color:#fff}
+  .btn.sm{padding:8px 10px;font-size:10px;border-radius:8px}
+
+  /* Row (list item) */
+  .r{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:10px;gap:8px}
+  .r .k{color:var(--muted);font-weight:600;flex:1}
+  .r .v{color:var(--navy);font-weight:800;font-family:'Menlo',monospace;font-size:10px}
+  .r .v.g{color:var(--green)}
+  .r.total{padding-top:9px;border-top:1.2px solid var(--navy);margin-top:4px}
+  .r.total .k{color:var(--navy);font-weight:800;font-size:10.5px}
+  .r.total .v{font-size:12.5px;color:var(--green)}
+
+  /* Pill */
+  .pill{
+    display:inline-block;padding:2px 7px;border-radius:20px;
+    font-size:7.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    line-height:1.4;
+  }
+  .pill.green{background:#DCFCE7;color:var(--green2)}
+  .pill.gold{background:#FEF3C7;color:var(--gold2)}
+  .pill.navy{background:var(--navy);color:#fff}
+  .pill.red{background:#FEE2E2;color:var(--red)}
+  .pill.blue{background:#DBEAFE;color:var(--blue)}
+  .pill.purple{background:#EDE9FE;color:var(--purple)}
+  .pill.mist{background:var(--mist);color:var(--muted)}
+
+  /* Avatar */
+  .av{
+    width:30px;height:30px;border-radius:50%;
+    display:grid;place-items:center;color:#fff;font-size:11px;font-weight:800;
+    flex-shrink:0;position:relative;
+  }
+  .av .v{
+    position:absolute;right:-2px;bottom:-2px;width:10px;height:10px;border-radius:50%;
+    background:var(--green);color:#fff;display:grid;place-items:center;font-size:6px;border:1px solid #fff;
+  }
+
+  /* Input */
+  .in{
+    width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;
+    background:var(--mist);font-size:10px;color:var(--ink);font-weight:600;
+  }
+  .in.blank{color:var(--muted);font-weight:500}
+  .fld{margin-bottom:8px}
+  .fld .fl{font-size:8px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:4px;display:block}
+
+  /* Progress */
+  .prg{height:3.5px;background:var(--mist);border-radius:20px;overflow:hidden;margin:6px 0}
+  .prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:20px}
+
+  /* Image tile */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  .tile{
+    aspect-ratio:1;border-radius:6px;background:var(--mist);
+    border:1px dashed var(--line);display:grid;place-items:center;
+    font-size:14px;color:#CBD5E1;
+  }
+  .tile.filled{
+    background:linear-gradient(135deg,#E0E7FF,#C7D2FE);
+    border:1px solid #C7D2FE;color:#4F46E5;
+  }
+
+  /* Map pin */
+  .map{
+    background:
+      linear-gradient(135deg,#E0F2FE 0%,#BAE6FD 100%);
+    height:120px;border-radius:10px;position:relative;overflow:hidden;
+    border:1px solid #7DD3FC;
+  }
+  .map::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(13,27,76,.06) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(13,27,76,.06) 1px,transparent 1px);
+    background-size:16px 16px;
+  }
+  .map .pin{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:24px;height:24px;background:var(--red);border-radius:50% 50% 50% 0;
+    rotate:-45deg;border:2px solid #fff;
+    display:grid;place-items:center;
+    box-shadow:0 4px 10px rgba(220,38,38,.4);
+  }
+  .map .pin::after{
+    content:"";width:6px;height:6px;background:#fff;border-radius:50%;rotate:45deg;
+  }
+  .map .gps{
+    position:absolute;bottom:6px;left:6px;
+    background:#fff;padding:3px 7px;border-radius:5px;
+    font-size:7.5px;font-weight:800;color:var(--navy);
+    font-family:'Menlo',monospace;
+  }
+
+  /* Timeline */
+  .tl{position:relative;padding-left:18px}
+  .tl::before{
+    content:"";position:absolute;left:5px;top:6px;bottom:6px;width:1.5px;
+    background:var(--line);
+  }
+  .tl .item{position:relative;padding:5px 0}
+  .tl .item::before{
+    content:"";position:absolute;left:-17px;top:9px;
+    width:10px;height:10px;border-radius:50%;
+    background:#fff;border:2px solid var(--mist);z-index:1;
+  }
+  .tl .item.done::before{background:var(--green);border-color:var(--green)}
+  .tl .item.now::before{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 3px rgba(244,180,32,.22)}
+  .tl .item .t{font-size:9.5px;font-weight:800;color:var(--navy);line-height:1.25}
+  .tl .item.pending .t{color:#94A3B8;font-weight:600}
+  .tl .item .d{font-size:8px;color:var(--muted);margin-top:2px;line-height:1.3}
+
+  /* Checkbox */
+  .cb{
+    display:flex;gap:8px;padding:7px 0;align-items:flex-start;
+    border-bottom:1px solid var(--line);font-size:9.5px;line-height:1.4;
+  }
+  .cb:last-child{border-bottom:none}
+  .cb .box{
+    width:14px;height:14px;border:1.5px solid rgba(13,27,76,.25);
+    border-radius:4px;flex-shrink:0;background:#fff;margin-top:1px;
+    display:grid;place-items:center;font-size:8px;color:#fff;font-weight:900;
+  }
+  .cb.on .box{background:var(--green);border-color:var(--green)}
+  .cb .txt{color:#334155;font-weight:500;flex:1}
+
+  /* Slider */
+  .sld{height:3px;background:var(--mist);border-radius:20px;position:relative}
+  .sld .h{position:absolute;left:0;top:0;bottom:0;width:65%;background:var(--gold);border-radius:20px}
+  .sld .k{position:absolute;left:65%;top:50%;transform:translate(-50%,-50%);width:14px;height:14px;background:var(--gold);border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+
+  /* Nav row (breadcrumb) */
+  .bc{display:flex;align-items:center;gap:6px;font-size:9px;color:var(--muted);padding:8px 14px 4px;font-weight:700}
+
+  /* Search bar */
+  .sb2{
+    display:flex;align-items:center;gap:6px;padding:8px 11px;
+    background:var(--mist);border-radius:8px;border:1px solid var(--line);
+    font-size:10px;color:var(--muted);font-weight:500;
+  }
+
+  /* Job card */
+  .jc{
+    background:#FFF7E6;border-radius:8px;padding:8px 10px;
+    border-left:3px solid var(--gold);
+  }
+  .jc .code{font-family:'Menlo',monospace;font-size:7.5px;color:#8A93A6;font-weight:700}
+  .jc .item{font-size:10.5px;font-weight:800;color:var(--navy);margin:2px 0 5px;line-height:1.25}
+  .jc .meta{display:flex;justify-content:space-between;font-size:8.5px}
+  .jc .meta .lga{color:var(--muted);font-weight:600}
+  .jc .meta .sh{font-family:'Menlo',monospace;font-weight:800;color:var(--green)}
+
+  /* Hero band */
+  .hb{
+    background:linear-gradient(155deg,var(--navy) 0%,var(--navy2) 100%);
+    color:#fff;padding:18px 14px 16px;position:relative;overflow:hidden;
+  }
+  .hb::after{
+    content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;
+    border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.3),transparent 70%);
+  }
+  .hb .ey{font-size:8px;color:var(--gold);font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px;position:relative;z-index:1}
+  .hb h2{font-size:15px;font-weight:800;line-height:1.15;letter-spacing:-.3px;position:relative;z-index:1}
+  .hb h2 .g{color:var(--gold)}
+  .hb h2 .gr{color:#4ADE80}
+  .hb p{font-size:9.5px;color:rgba(255,255,255,.78);margin-top:6px;line-height:1.45;position:relative;z-index:1}
+
+  /* Alert box */
+  .alert{
+    padding:9px 11px;border-radius:8px;font-size:9.5px;line-height:1.5;
+    display:flex;gap:8px;align-items:flex-start;
+  }
+  .alert .ic{font-size:13px;flex-shrink:0}
+  .alert.gold{background:#FEFBEB;border-left:3px solid var(--gold);color:#78350F}
+  .alert.green{background:#F0FDF4;border-left:3px solid var(--green);color:#065F46}
+  .alert.red{background:#FEF2F2;border-left:3px solid var(--red);color:#7F1D1D}
+  .alert.navy{background:var(--mist);border-left:3px solid var(--navy);color:#334155}
+
+  /* OTP */
+  .otp{display:flex;gap:5px;justify-content:center;margin:10px 0}
+  .otp .d{
+    width:26px;height:32px;border:1.5px solid var(--line);border-radius:6px;
+    background:var(--mist);display:grid;place-items:center;
+    font-size:14px;font-weight:800;color:var(--navy);font-family:'Menlo',monospace;
+  }
+  .otp .d.fill{background:#fff;border-color:var(--navy)}
+  .otp .d.active{border-color:var(--gold);box-shadow:0 0 0 2px rgba(244,180,32,.2)}
+
+  /* ============================================================
+     DESIGN SYSTEM FOOTER
+     ============================================================ */
+  .design-sys{
+    max-width:1200px;margin:80px auto 0;padding:48px 28px;
+    background:#0A0E1F;border-radius:20px;border:1px solid rgba(244,180,32,.15);
+  }
+  .ds-title{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.4px;margin-bottom:8px;text-align:center}
+  .ds-sub{font-size:13px;color:#94A3B8;text-align:center;margin-bottom:38px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6}
+
+  .ds-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+
+  .ds-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px 20px}
+  .ds-card h4{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+  .ds-card .sw{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:11.5px;color:#E5E7EB}
+  .ds-card .sw .dot{width:16px;height:16px;border-radius:5px;flex-shrink:0;border:1px solid rgba(255,255,255,.15)}
+  .ds-card .sw .hx{font-family:'Menlo',monospace;font-size:10px;color:#94A3B8;margin-left:auto}
+  .ds-card p{font-size:11.5px;color:#CBD5E1;line-height:1.7;margin-bottom:8px}
+  .ds-card code{font-family:'Menlo',monospace;font-size:10.5px;background:rgba(244,180,32,.1);color:var(--gold);padding:1px 6px;border-radius:4px}
+
+  .ds-typo-big{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.6px;line-height:1.1}
+  .ds-typo-sub{font-size:13px;color:#94A3B8;margin-top:6px}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     DOCUMENT HEADER
+     ============================================================ -->
+<header class="doc-header">
+  <div class="dh-logo">
+    <div class="dh-mark">✓</div>
+    <div class="dh-brand"><span class="d">Deals</span><span class="g">Gate</span></div>
+  </div>
+  <div class="dh-kicker">UI/UX Design Document · v1.0</div>
+  <h1 class="dh-title">
+    Complete Screen Flow<br>
+    <span class="g">40 screens</span> · <span class="gr">6 roles</span> · one journey
+  </h1>
+  <p class="dh-sub">
+    Every screen in the DealsGate platform, from first visit to settled payout.
+    Designed as mobile mockups, grouped by phase, in the order a real user experiences them.
+  </p>
+  <div class="dh-stats">
+    <div class="dh-stat"><div class="v">40</div><div class="l">Screens</div></div>
+    <div class="dh-stat"><div class="v g">6</div><div class="l">Roles</div></div>
+    <div class="dh-stat"><div class="v g">21</div><div class="l">States</div></div>
+    <div class="dh-stat"><div class="v">5</div><div class="l">Phases</div></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============================================================
+     PHASE 1 · PUBLIC
+     ============================================================ -->
+<section class="phase">
+  <div class="phase-head">
+    <span class="phase-num">PHASE 01</span>
+    <span class="phase-title">Public &amp; Discovery</span>
+    <span class="phase-desc">Anonymous visitors learn what DealsGate is and verify any seller before signing up.</span>
+  </div>
+
+  <div class="screens">
+
+    <!-- Screen 1.1 · Splash -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen" style="background:linear-gradient(155deg,#061133 0%,#0D1B4C 55%,#142a70 100%);color:#fff;justify-content:center;align-items:center">
+          <div style="text-align:center;padding:24px">
+            <div style="width:64px;height:64px;background:var(--gold);color:var(--navy);border-radius:18px;display:grid;place-items:center;font-size:32px;font-weight:900;margin:0 auto 20px;border:3px solid #fff;box-shadow:0 0 40px rgba(244,180,32,.4)">✓</div>
+            <div style="font-size:24px;font-weight:800;letter-spacing:-.5px">Deals<span style="color:#4ADE80">Gate</span></div>
+            <div style="font-size:9px;color:var(--gold);letter-spacing:1.6px;text-transform:uppercase;font-weight:800;margin-top:6px">Africa's Secure Transaction Gateway</div>
+            <div style="margin-top:40px;display:flex;justify-content:center;gap:4px">
+              <div style="width:6px;height:6px;border-radius:50%;background:var(--gold)"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3)"></div>
+              <div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.3)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">1.1 · Splash</div>
+      <div class="caption-title">Brand entry</div>
+      <div class="caption-note">Launches the app. Warms the brand before the hero loads.</div>
+    </div>
+
+    <!-- Screen 1.2 · Homepage -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah">
+            <div class="brand">
+              <div class="mark">✓</div>
+              <div class="name">Deals<span class="g">Gate</span></div>
+            </div>
+            <div class="back">☰</div>
+          </div>
+          <div class="hb">
+            <div class="ey">🛡 Nigeria's trust layer</div>
+            <h2>We verify the item.<br>We <span class="g">protect the payment</span>.</h2>
+            <p>Safe online trade for buyers and sellers on Instagram and WhatsApp.</p>
+          </div>
+          <div class="cw">
+            <div class="sb2">🔍 Search any vendor by name...</div>
+            <div class="cd mist" style="padding:9px 11px">
+              <div class="lbl">Trending sellers</div>
+              <div style="display:flex;gap:8px;align-items:center;margin-top:6px">
+                <div class="av" style="background:var(--gold);color:var(--navy);width:26px;height:26px;font-size:10px">AO<span class="v">✓</span></div>
+                <div style="flex:1">
+                  <div style="font-size:10px;font-weight:800;color:var(--navy)">Adaeze Okafor</div>
+                  <div style="font-size:8px;color:var(--muted);font-weight:600">★★★★★ 4.9 · 34 deals</div>
+                </div>
+              </div>
+            </div>
+            <div class="btn gold" style="margin-top:auto">Protect a Deal →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">1.2 · Homepage</div>
+      <div class="caption-title">Hero + search</div>
+      <div class="caption-note">Public seller search above the fold. No login required to browse.</div>
+    </div>
+
+    <!-- Screen 1.3 · Search results -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Search results</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="sb2" style="background:#fff;border-color:var(--navy)">🔍 <span style="color:var(--navy)">Adaeze Electronics</span></div>
+            <div style="font-size:8.5px;color:var(--muted);font-weight:700">3 verified matches</div>
+            <div class="cd" style="padding:9px">
+              <div style="display:flex;gap:8px;align-items:center">
+                <div class="av" style="background:var(--gold);color:var(--navy)">AO<span class="v">✓</span></div>
+                <div style="flex:1">
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy)">Adaeze Electronics Ltd</div>
+                  <div style="font-size:8px;color:var(--muted);font-weight:600">Business · Phones &amp; Tablets</div>
+                  <div style="font-size:8.5px;color:var(--gold2);font-weight:800;margin-top:2px">★★★★★ 4.9 · 34 successful</div>
+                </div>
+                <span style="font-size:14px;color:var(--muted)">›</span>
+              </div>
+            </div>
+            <div class="cd" style="padding:9px">
+              <div style="display:flex;gap:8px;align-items:center">
+                <div class="av" style="background:var(--blue);color:#fff">TA<span class="v">✓</span></div>
+                <div style="flex:1">
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy)">Tunde Adebayo</div>
+                  <div style="font-size:8px;color:var(--muted);font-weight:600">Individual · Electronics</div>
+                  <div style="font-size:8.5px;color:var(--gold2);font-weight:800;margin-top:2px">★★★★☆ 4.7 · 15 successful</div>
+                </div>
+                <span style="font-size:14px;color:var(--muted)">›</span>
+              </div>
+            </div>
+            <div class="cd" style="padding:9px">
+              <div style="display:flex;gap:8px;align-items:center">
+                <div class="av" style="background:var(--purple);color:#fff">FY<span class="v">✓</span></div>
+                <div style="flex:1">
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy)">Fatima Yusuf</div>
+                  <div style="font-size:8px;color:var(--muted);font-weight:600">Business · Cameras &amp; Drones</div>
+                  <div style="font-size:8.5px;color:var(--gold2);font-weight:800;margin-top:2px">★★★★★ 4.8 · 42 successful</div>
+                </div>
+                <span style="font-size:14px;color:var(--muted)">›</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">1.3 · Search results</div>
+      <div class="caption-title">Vendor list</div>
+      <div class="caption-note">Live deal history and stars — verified buyers only.</div>
+    </div>
+
+    <!-- Screen 1.4 · Seller dossier -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb light" style="background:var(--navy)"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="hb" style="padding:14px 14px 20px">
+            <div class="back" style="margin-bottom:10px">←</div>
+            <div style="display:flex;gap:10px;align-items:center;position:relative;z-index:1">
+              <div class="av" style="background:var(--gold);color:var(--navy);width:42px;height:42px;font-size:15px">AO<span class="v" style="width:14px;height:14px;font-size:8px">✓</span></div>
+              <div>
+                <div style="font-size:13px;font-weight:800">Adaeze Electronics Ltd</div>
+                <div style="font-size:9px;color:rgba(255,255,255,.7);margin-top:2px">Business · Phones &amp; Tablets</div>
+                <div style="font-size:10px;color:var(--gold);font-weight:800;margin-top:4px">★★★★★ 4.9 <span style="color:rgba(255,255,255,.6);font-weight:600">(34 reviews)</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="cw">
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Scorecard</div>
+              <div class="r" style="padding:3px 0"><span class="k">Total deals</span><span class="v">34</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Successful</span><span class="v g">34</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Failed / disputed</span><span class="v" style="color:var(--red)">0</span></div>
+              <div class="r total" style="padding-top:6px"><span class="k">Success rate</span><span class="v">100%</span></div>
+            </div>
+            <div class="cd green" style="padding:9px 11px">
+              <div class="lbl" style="color:#065F46">Verified buyer review</div>
+              <div style="font-size:9.5px;color:#065F46;line-height:1.5;font-weight:500;margin-top:4px">"Item exactly as described. Would buy again."</div>
+              <div style="font-size:8px;color:#065F46;opacity:.7;margin-top:4px">— Musa I. · ★★★★★</div>
+            </div>
+            <div class="btn gold" style="margin-top:auto">See live listings →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">1.4 · Seller dossier</div>
+      <div class="caption-title">Public reputation page</div>
+      <div class="caption-note">Searchable at /seller/adaeze-electronics. Never exposes PII.</div>
+    </div>
+
+    <!-- Screen 1.5 · How It Works -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">How DealsGate works</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div style="font-size:11px;font-weight:800;color:var(--navy);letter-spacing:-.15px;margin-bottom:4px">Every deal, five steps</div>
+            <div style="display:flex;gap:9px;padding:6px 0;border-bottom:1px solid var(--line)">
+              <div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:9px;font-weight:900;flex-shrink:0">1</div>
+              <div><div style="font-size:10px;font-weight:800;color:var(--navy)">Seller creates the deal</div><div style="font-size:8.5px;color:var(--muted);margin-top:2px;line-height:1.4">Photos, video, maps pin, ₦5,000 refundable guarantee</div></div>
+            </div>
+            <div style="display:flex;gap:9px;padding:6px 0;border-bottom:1px solid var(--line)">
+              <div style="width:20px;height:20px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:9px;font-weight:900;flex-shrink:0">2</div>
+              <div><div style="font-size:10px;font-weight:800;color:var(--navy)">Buyer pays into escrow</div><div style="font-size:8.5px;color:var(--muted);margin-top:2px;line-height:1.4">Held by licensed payment partner</div></div>
+            </div>
+            <div style="display:flex;gap:9px;padding:6px 0;border-bottom:1px solid var(--line)">
+              <div style="width:20px;height:20px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:9px;font-weight:900;flex-shrink:0">3</div>
+              <div><div style="font-size:10px;font-weight:800;color:var(--navy)">Vet Agent inspects</div><div style="font-size:8.5px;color:var(--muted);margin-top:2px;line-height:1.4">Physical check · IMEI · continuous video</div></div>
+            </div>
+            <div style="display:flex;gap:9px;padding:6px 0;border-bottom:1px solid var(--line)">
+              <div style="width:20px;height:20px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:9px;font-weight:900;flex-shrink:0">4</div>
+              <div><div style="font-size:10px;font-weight:800;color:var(--navy)">Buyer approves evidence</div><div style="font-size:8.5px;color:var(--muted);margin-top:2px;line-height:1.4">Nothing moves until this happens</div></div>
+            </div>
+            <div style="display:flex;gap:9px;padding:6px 0">
+              <div style="width:20px;height:20px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900;flex-shrink:0">5</div>
+              <div><div style="font-size:10px;font-weight:800;color:var(--navy)">Delivery &amp; settlement</div><div style="font-size:8.5px;color:var(--muted);margin-top:2px;line-height:1.4">Seller paid, guarantee refunded</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">1.5 · How it works</div>
+      <div class="caption-title">Public explainer</div>
+      <div class="caption-note">Educates new visitors before they commit to signing up.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     PHASE 2 · AUTH
+     ============================================================ -->
+<section class="phase">
+  <div class="phase-head">
+    <span class="phase-num">PHASE 02</span>
+    <span class="phase-title">Authentication &amp; Consent</span>
+    <span class="phase-desc">Signup, mandatory policy consent, identity verification, and the gate that unlocks all money actions.</span>
+  </div>
+
+  <div class="screens">
+
+    <!-- Screen 2.1 · Account type -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Create your account</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div style="font-size:12px;font-weight:800;color:var(--navy);letter-spacing:-.2px">Choose your account type</div>
+            <div style="font-size:9px;color:var(--muted);line-height:1.5">Either type can buy and sell on DealsGate. Choose what describes you best.</div>
+            <div class="cd" style="border-color:var(--gold);border-width:2px;padding:12px">
+              <div style="display:flex;gap:10px;align-items:center">
+                <div style="width:32px;height:32px;border-radius:8px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:15px">👤</div>
+                <div style="flex:1">
+                  <div style="font-size:11px;font-weight:800;color:var(--navy)">Individual</div>
+                  <div style="font-size:8.5px;color:var(--muted);margin-top:2px">Personal seller or buyer</div>
+                </div>
+                <span style="color:var(--gold);font-size:14px;font-weight:900">✓</span>
+              </div>
+            </div>
+            <div class="cd" style="padding:12px">
+              <div style="display:flex;gap:10px;align-items:center">
+                <div style="width:32px;height:32px;border-radius:8px;background:var(--mist);color:var(--navy);display:grid;place-items:center;font-size:15px">🏢</div>
+                <div style="flex:1">
+                  <div style="font-size:11px;font-weight:800;color:var(--navy)">Business / Merchant</div>
+                  <div style="font-size:8.5px;color:var(--muted);margin-top:2px">Registered company with CAC number</div>
+                </div>
+              </div>
+            </div>
+            <div class="btn" style="margin-top:auto">Continue →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">2.1 · Account type</div>
+      <div class="caption-title">Signup start</div>
+      <div class="caption-note">Individual vs Business. Role is per-deal, not per-account.</div>
+    </div>
+
+    <!-- Screen 2.2 · Details form -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Your details</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="prg" style="margin:8px 14px 4px"><div class="fill" style="width:33%"></div></div>
+          <div class="cw">
+            <div class="fld"><span class="fl">Full name</span><div class="in">Taofik Akinwunmi</div></div>
+            <div class="fld"><span class="fl">Email address</span><div class="in">taofik@dealsgate.ng</div></div>
+            <div class="fld"><span class="fl">Phone number</span><div class="in">+234 807 921 9165</div></div>
+            <div class="fld"><span class="fl">City / LGA</span><div class="in blank">Select your area</div></div>
+            <div class="fld"><span class="fl">Password</span><div class="in">••••••••••••</div></div>
+            <div class="btn" style="margin-top:auto">Continue to policies →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">2.2 · Details form</div>
+      <div class="caption-title">Basic information</div>
+      <div class="caption-note">Name, contact, city. Matches legal ID for later verification.</div>
+    </div>
+
+    <!-- Screen 2.3 · Policy consent -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Policy consent</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="prg" style="margin:8px 14px 4px"><div class="fill" style="width:66%"></div></div>
+          <div class="cw">
+            <div class="alert gold">
+              <span class="ic">⚠</span>
+              <div style="font-weight:600">You must accept the required policies to create an account. Pre-ticked boxes are not permitted.</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="cb on">
+                <div class="box">✓</div>
+                <div class="txt"><b style="color:var(--navy)">Terms of Service</b> <span style="color:var(--red);font-size:7.5px;font-weight:800;text-transform:uppercase;margin-left:4px">Required</span></div>
+              </div>
+              <div class="cb on">
+                <div class="box">✓</div>
+                <div class="txt"><b style="color:var(--navy)">Privacy Policy</b> <span style="color:var(--red);font-size:7.5px;font-weight:800;text-transform:uppercase;margin-left:4px">Required</span></div>
+              </div>
+              <div class="cb on">
+                <div class="box">✓</div>
+                <div class="txt"><b style="color:var(--navy)">Refund &amp; Dispute Policy</b> <span style="color:var(--red);font-size:7.5px;font-weight:800;text-transform:uppercase;margin-left:4px">Required</span></div>
+              </div>
+              <div class="cb">
+                <div class="box"></div>
+                <div class="txt"><b style="color:var(--navy)">Acceptable Use Policy</b> <span style="color:#94A3B8;font-size:7.5px;font-weight:800;text-transform:uppercase;margin-left:4px">Optional</span></div>
+              </div>
+            </div>
+            <div style="font-size:8px;color:var(--muted);text-align:center;font-weight:600">Each acceptance is stored with version, IP and timestamp.</div>
+            <div class="btn" style="margin-top:auto">Create account →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">2.3 · Policy consent</div>
+      <div class="caption-title">Mandatory consent</div>
+      <div class="caption-note">Checkboxes are never pre-ticked. Acceptance is persisted server-side.</div>
+    </div>
+
+    <!-- Screen 2.4 · OTP -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Verify your email</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div style="text-align:center;padding:10px 0">
+              <div style="width:44px;height:44px;border-radius:12px;background:var(--mist);margin:0 auto 12px;display:grid;place-items:center;font-size:20px">📧</div>
+              <div style="font-size:12px;font-weight:800;color:var(--navy)">Enter the 6-digit code</div>
+              <div style="font-size:9.5px;color:var(--muted);margin-top:6px;line-height:1.5">Sent to <b style="color:var(--navy)">taofik@dealsgate.ng</b></div>
+            </div>
+            <div class="otp">
+              <div class="d fill">4</div>
+              <div class="d fill">8</div>
+              <div class="d fill">2</div>
+              <div class="d active"></div>
+              <div class="d"></div>
+              <div class="d"></div>
+            </div>
+            <div style="text-align:center;font-size:9px;color:var(--muted);font-weight:600">Resend code in <b style="color:var(--navy)">0:42</b></div>
+            <div class="btn" style="margin-top:auto">Verify →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">2.4 · OTP verification</div>
+      <div class="caption-title">Email confirmation</div>
+      <div class="caption-note">6-digit code, rate-limited. Same flow works for SMS / WhatsApp.</div>
+    </div>
+
+    <!-- Screen 2.5 · ID verification -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Verify your identity</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="alert navy">
+              <span class="ic">🔒</span>
+              <div style="font-weight:600">You cannot create or accept deals, take agent jobs, or withdraw until your identity is verified.</div>
+            </div>
+            <div class="cd" style="border-color:var(--gold);border-width:2px;padding:11px">
+              <div style="display:flex;gap:9px;align-items:center">
+                <div style="width:30px;height:30px;border-radius:8px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:14px;font-weight:900">🆔</div>
+                <div style="flex:1">
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy)">NIN verification</div>
+                  <div style="font-size:8.5px;color:var(--muted);margin-top:2px">National Identity Number · 11 digits</div>
+                </div>
+                <span style="color:var(--gold);font-size:14px;font-weight:900">✓</span>
+              </div>
+            </div>
+            <div class="cd" style="padding:11px">
+              <div style="display:flex;gap:9px;align-items:center">
+                <div style="width:30px;height:30px;border-radius:8px;background:var(--mist);color:var(--navy);display:grid;place-items:center;font-size:14px;font-weight:900">🏦</div>
+                <div style="flex:1">
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy)">BVN verification</div>
+                  <div style="font-size:8.5px;color:var(--muted);margin-top:2px">Bank Verification Number · 11 digits</div>
+                </div>
+              </div>
+            </div>
+            <div class="fld" style="margin-top:6px"><span class="fl">Enter your NIN</span><div class="in mono">12345678901</div></div>
+            <div class="btn" style="margin-top:auto">Verify identity →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">2.5 · ID verification</div>
+      <div class="caption-title">KYC gate</div>
+      <div class="caption-note">The hard gate. Nothing money-related unlocks until this passes.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     PHASE 3 · SELLER
+     ============================================================ -->
+<section class="phase">
+  <div class="phase-head">
+    <span class="phase-num">PHASE 03</span>
+    <span class="phase-title">Seller Flow</span>
+    <span class="phase-desc">From seller dashboard, through the seven-step create-deal wizard, to wallet and withdrawal.</span>
+  </div>
+
+  <div class="screens">
+
+    <!-- Screen 3.1 · Seller dashboard -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah">
+            <div class="brand"><div class="mark">✓</div><div class="name">Deals<span class="g">Gate</span></div></div>
+            <div class="back">🔔</div>
+          </div>
+          <div class="cw">
+            <div style="display:flex;gap:8px;align-items:center">
+              <div class="av" style="background:var(--gold);color:var(--navy);width:34px;height:34px;font-size:12px">AO<span class="v">✓</span></div>
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:800;color:var(--navy)">Adaeze Okafor</div>
+                <div style="font-size:8.5px;color:var(--muted);font-weight:600">Adaeze Electronics · Verified</div>
+              </div>
+            </div>
+            <div class="cd navy" style="padding:12px">
+              <div class="lbl">Main wallet</div>
+              <div class="val mono big" style="color:var(--gold)">₦441,000</div>
+              <div class="sub" style="color:rgba(255,255,255,.65);margin-top:4px">Guarantee wallet: ₦15,000</div>
+            </div>
+            <div class="btn gold">+ Create a Protected Deal</div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Active deal</div>
+              <div class="r" style="padding:4px 0"><span class="k">iPhone 14 Pro · DG-240501</span><span class="pill gold">In transit</span></div>
+              <div class="r" style="padding:4px 0"><span class="k">Buyer paid</span><span class="v">₦468,500</span></div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Last 30 days</div>
+              <div class="r" style="padding:3px 0"><span class="k">Successful</span><span class="v g">12</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Failed</span><span class="v">0</span></div>
+            </div>
+          </div>
+          <div class="bnav">
+            <div class="tab on"><div class="ic">🏠</div>Home</div>
+            <div class="tab"><div class="ic">📦</div>Deals</div>
+            <div class="tab"><div class="ic">💰</div>Wallet</div>
+            <div class="tab"><div class="ic">👤</div>Profile</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">3.1 · Seller dashboard</div>
+      <div class="caption-title">Home</div>
+      <div class="caption-note">Everything a seller needs in one screen: balance, active deals, wallet.</div>
+    </div>
+
+    <!-- Screen 3.2 · Wizard step 1 -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Create Deal · 1 of 7</div><div class="back" style="opacity:0">✕</div></div>
+          <div class="prg" style="margin:8px 14px 4px"><div class="fill" style="width:14%"></div></div>
+          <div class="cw">
+            <div style="font-size:12px;font-weight:800;color:var(--navy);letter-spacing:-.15px">Item basics</div>
+            <div class="fld"><span class="fl">Item name *</span><div class="in">iPhone 14 Pro 256GB</div></div>
+            <div class="fld"><span class="fl">Description</span><div class="in" style="min-height:44px;font-size:9.5px">Deep Purple · 256GB · minor scratch bottom-right corner · no repairs</div></div>
+            <div class="alert gold">
+              <span class="ic">🌳</span>
+              <div style="font-weight:600">Auto-suggested taxonomy from item name</div>
+            </div>
+            <div class="cd mist" style="padding:9px 11px">
+              <div class="r" style="padding:3px 0"><span class="k">Sector</span><span class="v" style="font-family:inherit">Phones &amp; Tablets</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Industry</span><span class="v" style="font-family:inherit">Smartphones</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Product line</span><span class="v" style="font-family:inherit">iPhone 14 Pro</span></div>
+            </div>
+            <div class="btn" style="margin-top:auto">Continue to step 2 →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">3.2 · Wizard step 1</div>
+      <div class="caption-title">Item basics + taxonomy</div>
+      <div class="caption-note">Typeahead suggests taxonomy. Every level is editable.</div>
+    </div>
+
+    <!-- Screen 3.3 · Wizard media + map -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Create Deal · 4 of 7</div><div class="back" style="opacity:0">✕</div></div>
+          <div class="prg" style="margin:8px 14px 4px"><div class="fill" style="width:57%"></div></div>
+          <div class="cw">
+            <div style="font-size:11.5px;font-weight:800;color:var(--navy)">Media &amp; inspection location</div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Photos · 2–4 required</div>
+              <div class="tiles" style="margin-top:6px">
+                <div class="tile filled">🖼️</div>
+                <div class="tile filled">🖼️</div>
+                <div class="tile filled">🖼️</div>
+                <div class="tile filled">🖼️</div>
+              </div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Continuous video · ≤ 60s</div>
+              <div style="background:#FEF3C7;height:56px;border-radius:8px;display:grid;place-items:center;font-size:10px;font-weight:800;color:#C98A00;margin-top:4px">▶ 45s continuous · no edits</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Inspection location · Google Maps pin</div>
+              <div class="map" style="margin-top:6px"><div class="pin"></div><div class="gps">6.6018° N, 3.3515° E</div></div>
+              <div style="font-size:8.5px;color:var(--muted);margin-top:6px;line-height:1.4">12 Allen Avenue, Ikeja, Lagos</div>
+            </div>
+            <div class="btn" style="margin-top:auto">Continue to step 5 →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">3.3 · Media + map</div>
+      <div class="caption-title">Upload evidence</div>
+      <div class="caption-note">Server-side limits: 2–4 images, ≤60s video, address + lat/lng required.</div>
+    </div>
+
+    <!-- Screen 3.4 · Guarantee -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Create Deal · 6 of 7</div><div class="back" style="opacity:0">✕</div></div>
+          <div class="prg" style="margin:8px 14px 4px"><div class="fill" style="width:86%"></div></div>
+          <div class="cw">
+            <div style="font-size:12px;font-weight:800;color:var(--navy);letter-spacing:-.15px">Fund the ₦5,000 guarantee</div>
+            <div class="cd gold" style="padding:11px">
+              <div class="lbl" style="color:#78350F">Guarantee wallet balance</div>
+              <div class="val mono big" style="color:var(--navy)">₦15,000</div>
+              <div class="sub" style="color:#78350F">Auto-debit ₦5,000 on publish</div>
+            </div>
+            <div class="alert navy">
+              <span class="ic">🛡</span>
+              <div style="font-weight:600"><b style="color:var(--navy)">This is a hold, not a fee.</b> Refunded on success. Forfeited only on failed inspection or fraud ruling.</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="r" style="padding:4px 0"><span class="k">Guarantee wallet</span><span class="v">₦15,000</span></div>
+              <div class="r" style="padding:4px 0"><span class="k">Hold for this deal</span><span class="v" style="color:var(--red)">− ₦5,000</span></div>
+              <div class="r total" style="padding-top:6px"><span class="k">Remaining after publish</span><span class="v">₦10,000</span></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:auto">
+              <div class="btn ghost sm">Top up</div>
+              <div class="btn">Publish →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">3.4 · Guarantee</div>
+      <div class="caption-title">₦5,000 hold</div>
+      <div class="caption-note">Auto-debit from guarantee wallet. Gateway fallback if insufficient.</div>
+    </div>
+
+    <!-- Screen 3.5 · Published -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div style="background:linear-gradient(155deg,var(--green2) 0%,var(--green) 100%);color:#fff;padding:26px 16px;text-align:center">
+            <div style="width:56px;height:56px;border-radius:50%;background:#fff;color:var(--green);display:grid;place-items:center;font-size:28px;font-weight:900;margin:0 auto 14px">✓</div>
+            <div style="font-size:18px;font-weight:800;letter-spacing:-.4px">Deal published</div>
+            <div style="font-size:10.5px;color:rgba(255,255,255,.85);margin-top:6px;line-height:1.5">Your Protected Deal is live. Share the buyer link.</div>
+          </div>
+          <div class="cw">
+            <div class="cd mist" style="padding:11px;text-align:center">
+              <div class="lbl">Deal code</div>
+              <div class="val mono big" style="font-size:15px;letter-spacing:.06em">DG-240501</div>
+            </div>
+            <div class="cd" style="padding:11px">
+              <div class="lbl">Buyer link</div>
+              <div style="font-family:'Menlo',monospace;font-size:8.5px;color:var(--navy);word-break:break-all;line-height:1.5;margin-top:4px;font-weight:700">dealsgate.ng/deal/DG-240501?t=tok_8ax2f9k3n1</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <div class="btn ghost sm">📋 Copy</div>
+              <div class="btn green sm">💬 WhatsApp</div>
+            </div>
+            <div class="cd green" style="padding:9px 11px;margin-top:auto">
+              <div style="font-size:9px;color:#065F46;font-weight:600;line-height:1.5">Share this link with buyers. Every view is a protected transaction.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">3.5 · Published</div>
+      <div class="caption-title">Buyer link issued</div>
+      <div class="caption-note">Public deal code + unguessable buyer token. Never reused across deals.</div>
+    </div>
+
+    <!-- Screen 3.6 · Seller deal detail -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb light" style="background:var(--navy)"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="hb" style="padding:14px">
+            <div class="back" style="margin-bottom:8px">←</div>
+            <div style="font-family:'Menlo',monospace;font-size:8px;color:rgba(255,255,255,.6);position:relative;z-index:1">DG-240501</div>
+            <div style="font-size:13px;font-weight:800;margin-top:4px;position:relative;z-index:1">iPhone 14 Pro 256GB</div>
+            <div style="margin-top:6px;position:relative;z-index:1"><span class="pill gold">In transit</span></div>
+          </div>
+          <div class="cw">
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Timeline</div>
+              <div class="tl" style="margin-top:6px">
+                <div class="item done"><div class="t">Escrow funded</div><div class="d">₦468,500 held</div></div>
+                <div class="item done"><div class="t">Agent inspected · PASS</div><div class="d">Blessing E.</div></div>
+                <div class="item done"><div class="t">Buyer approved evidence</div><div class="d">Logistics unlocked</div></div>
+                <div class="item now"><div class="t">In transit</div><div class="d">GIG · Lagos → Lagos</div></div>
+                <div class="item pending"><div class="t">Delivered</div><div class="d">Awaiting confirmation</div></div>
+                <div class="item pending"><div class="t">Settlement</div><div class="d">Your payout releases here</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">3.6 · Seller deal detail</div>
+      <div class="caption-title">Live status</div>
+      <div class="caption-note">The same shared timeline the buyer sees — no information asymmetry.</div>
+    </div>
+
+    <!-- Screen 3.7 · Guarantee wallet -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Guarantee wallet</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="cd navy" style="padding:16px;text-align:center">
+              <div class="lbl">Available for deals</div>
+              <div class="val mono big" style="color:var(--gold);font-size:22px">₦15,000</div>
+              <div class="sub" style="color:rgba(255,255,255,.65);margin-top:6px">Auto-debits ₦5,000 per new deal</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <div class="btn gold sm">+ ₦10,000</div>
+              <div class="btn ghost sm">+ ₦50,000</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Recent guarantee events</div>
+              <div class="r" style="padding:4px 0"><span class="k">Hold · DG-240501</span><span class="v" style="color:var(--gold2)">−₦5,000</span></div>
+              <div class="r" style="padding:4px 0"><span class="k">Refund · DG-240410</span><span class="v g">+₦5,000</span></div>
+              <div class="r" style="padding:4px 0"><span class="k">Top-up from main</span><span class="v g">+₦20,000</span></div>
+            </div>
+            <div class="alert gold">
+              <span class="ic">💡</span>
+              <div style="font-weight:600">Pre-funding the guarantee wallet skips the gateway round-trip on every new deal.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">3.7 · Guarantee wallet</div>
+      <div class="caption-title">Pre-fund guarantee</div>
+      <div class="caption-note">Internal top-up from main wallet. Instant. No gateway fee.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     PHASE 4 · BUYER
+     ============================================================ -->
+<section class="phase">
+  <div class="phase-head">
+    <span class="phase-num">PHASE 04</span>
+    <span class="phase-title">Buyer Flow</span>
+    <span class="phase-desc">From opening the link, through escrow payment and the evidence gate, to delivery confirmation and rating.</span>
+  </div>
+
+  <div class="screens">
+
+    <!-- Screen 4.1 · Deal page -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb light" style="background:var(--navy)"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="hb" style="padding:14px">
+            <div style="font-family:'Menlo',monospace;font-size:8px;color:rgba(255,255,255,.6);position:relative;z-index:1">DG-240501 · Protected Deal</div>
+            <div style="font-size:13px;font-weight:800;margin-top:4px;position:relative;z-index:1">iPhone 14 Pro 256GB — Deep Purple</div>
+          </div>
+          <div class="cw">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px">
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:5px;display:grid;place-items:center;font-size:12px;color:#4F46E5">📱</div>
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:5px;display:grid;place-items:center;font-size:12px;color:#4F46E5">📱</div>
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:5px;display:grid;place-items:center;font-size:12px;color:#4F46E5">📱</div>
+              <div style="aspect-ratio:1;background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-radius:5px;display:grid;place-items:center;font-size:12px;color:#D97706">▶</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div style="display:flex;gap:8px;align-items:center">
+                <div class="av" style="background:var(--gold);color:var(--navy);width:26px;height:26px;font-size:10px">AO<span class="v">✓</span></div>
+                <div style="flex:1">
+                  <div style="font-size:10px;font-weight:800;color:var(--navy)">Adaeze Okafor</div>
+                  <div style="font-size:8px;color:var(--muted);font-weight:600">★★★★★ 4.9 · 34 deals</div>
+                </div>
+              </div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="r" style="padding:3px 0"><span class="k">Item price</span><span class="v">₦450,000</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Buyer service fee (2%)</span><span class="v">₦9,000</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Vet Agent inspection</span><span class="v">₦6,000</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Logistics</span><span class="v">₦3,500</span></div>
+              <div class="r total"><span class="k">Total</span><span class="v">₦468,500</span></div>
+            </div>
+            <div class="btn gold" style="margin-top:auto">Proceed to checkout →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">4.1 · Deal page</div>
+      <div class="caption-title">Buyer view</div>
+      <div class="caption-note">Four cost lines. Platform logistics margin is never shown.</div>
+    </div>
+
+    <!-- Screen 4.2 · Checkout -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Checkout</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div style="font-size:11.5px;font-weight:800;color:var(--navy)">Delivery details</div>
+            <div class="fld"><span class="fl">Recipient</span><div class="in">Musa Ibrahim</div></div>
+            <div class="fld"><span class="fl">Address</span><div class="in">1 Receiver Street, Ikeja</div></div>
+            <div class="fld"><span class="fl">Courier</span><div class="in" style="display:flex;justify-content:space-between"><span>GIG Logistics · 1–2 days</span><span style="font-weight:800;color:var(--navy)">₦3,500</span></div></div>
+            <div class="cd green" style="padding:9px 11px">
+              <div class="lbl" style="color:#065F46">Escrow protection</div>
+              <div style="font-size:9px;color:#065F46;line-height:1.5;margin-top:3px;font-weight:500">Your money is held by a licensed partner. Released only after you approve the inspection.</div>
+            </div>
+            <div class="cd mist" style="padding:9px 11px">
+              <div class="r" style="padding:3px 0"><span class="k">Item + fees</span><span class="v">₦465,000</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Logistics</span><span class="v">₦3,500</span></div>
+              <div class="r total"><span class="k">Total charged</span><span class="v">₦468,500</span></div>
+            </div>
+            <div class="btn gold" style="margin-top:auto">Pay ₦468,500 securely →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">4.2 · Checkout</div>
+      <div class="caption-title">Delivery + total</div>
+      <div class="caption-note">Address, courier, and the four-line breakdown of the grand total.</div>
+    </div>
+
+    <!-- Screen 4.3 · Payment method -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Payment method</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="cd" style="border-color:var(--green);border-width:2px;padding:11px">
+              <div style="display:flex;gap:9px;align-items:center">
+                <div style="width:28px;height:28px;border-radius:7px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:14px">💳</div>
+                <div style="flex:1">
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy)">Card ending · 4429</div>
+                  <div style="font-size:8.5px;color:var(--muted);margin-top:2px">Visa · Paystack secured</div>
+                </div>
+                <span style="color:var(--green);font-size:14px;font-weight:900">✓</span>
+              </div>
+            </div>
+            <div class="cd" style="padding:11px">
+              <div style="display:flex;gap:9px;align-items:center">
+                <div style="width:28px;height:28px;border-radius:7px;background:var(--mist);color:var(--navy);display:grid;place-items:center;font-size:14px">🏦</div>
+                <div style="flex:1">
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy)">Wallet balance · ₦12,000</div>
+                  <div style="font-size:8.5px;color:var(--muted);margin-top:2px">Apply first, remainder to card</div>
+                </div>
+              </div>
+            </div>
+            <div class="alert navy">
+              <span class="ic">🔒</span>
+              <div style="font-weight:600">Card details are never stored on DealsGate servers. Payment is processed by our licensed partner.</div>
+            </div>
+            <div class="btn gold" style="margin-top:auto">Pay ₦468,500 →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">4.3 · Payment method</div>
+      <div class="caption-title">Pay or split</div>
+      <div class="caption-note">Card or wallet. Wallet is applied first, remainder to card.</div>
+    </div>
+
+    <!-- Screen 4.4 · Evidence review -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Evidence review</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div style="position:relative;height:100px;background:#0A0A0A;border-radius:10px;display:grid;place-items:center;overflow:hidden">
+              <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(244,180,32,.14),transparent 60%)"></div>
+              <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.4);display:grid;place-items:center;font-size:12px;color:#fff;z-index:1">▶</div>
+              <div style="position:absolute;top:6px;left:8px;background:rgba(0,0,0,.65);color:#fff;font-family:'Menlo',monospace;font-size:7.5px;font-weight:800;padding:2px 6px;border-radius:3px">IMEI 356938035643809</div>
+              <div style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,.65);color:#fff;font-family:'Menlo',monospace;font-size:7.5px;font-weight:800;padding:2px 6px;border-radius:3px">0:45</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Inspection summary</div>
+              <div style="font-size:9px;color:#334155;line-height:1.5;margin-top:4px">Item matches listing media. Battery 89% as declared. Minor scratch photographed and noted.</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Verdict</div>
+              <div style="margin-top:4px"><span class="pill green" style="font-size:10px;padding:4px 10px">PASS</span> <span style="font-size:9px;color:var(--muted);margin-left:6px;font-weight:600">by Blessing E. · 47m from pin</span></div>
+            </div>
+            <div class="alert gold">
+              <span class="ic">⚠</span>
+              <div style="font-weight:600">Nothing moves — not the item, not the money — until you approve.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:auto">
+              <div class="btn ghost sm" style="color:var(--red);border-color:var(--red)">Dispute</div>
+              <div class="btn green sm">Approve ✓</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">4.4 · Evidence review</div>
+      <div class="caption-title">The evidence gate</div>
+      <div class="caption-note">The core protection. Nothing moves until buyer approves or disputes.</div>
+    </div>
+
+    <!-- Screen 4.5 · Live tracking -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb light" style="background:var(--navy)"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="hb" style="padding:14px">
+            <div class="back" style="margin-bottom:8px">←</div>
+            <div style="font-family:'Menlo',monospace;font-size:8px;color:rgba(255,255,255,.6);position:relative;z-index:1">DG-240501 · GIG-DG8K2P9</div>
+            <div style="font-size:13px;font-weight:800;margin-top:4px;position:relative;z-index:1">In transit</div>
+            <div style="font-size:9px;color:rgba(255,255,255,.75);margin-top:4px;position:relative;z-index:1">Estimated arrival in 18 hours</div>
+          </div>
+          <div class="cw">
+            <div class="cd" style="padding:9px 11px">
+              <div class="tl">
+                <div class="item done"><div class="t">Payment secured</div><div class="d">₦468,500 in escrow</div></div>
+                <div class="item done"><div class="t">Inspected · PASS</div><div class="d">Blessing E. · 47m from pin</div></div>
+                <div class="item done"><div class="t">Evidence approved</div><div class="d">You approved</div></div>
+                <div class="item done"><div class="t">Picked up</div><div class="d">Ikeja, Lagos</div></div>
+                <div class="item now"><div class="t">In transit</div><div class="d">Lagos mainland · 6h ago</div></div>
+                <div class="item pending"><div class="t">Delivered</div><div class="d">Awaiting arrival</div></div>
+              </div>
+            </div>
+            <div class="cd green" style="padding:9px 11px">
+              <div class="lbl" style="color:#065F46">Both sides see this timeline</div>
+              <div style="font-size:9px;color:#065F46;line-height:1.5;margin-top:4px;font-weight:500">Same states, same timestamps, driven by verified courier webhooks.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">4.5 · Live tracking</div>
+      <div class="caption-title">Shared journey</div>
+      <div class="caption-note">Buyer and seller see identical timelines — no hidden states.</div>
+    </div>
+
+    <!-- Screen 4.6 · Delivery + rating -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div style="background:linear-gradient(155deg,var(--green2),var(--green));color:#fff;padding:22px 16px;text-align:center">
+            <div style="width:52px;height:52px;border-radius:50%;background:#fff;color:var(--green);display:grid;place-items:center;font-size:26px;font-weight:900;margin:0 auto 12px">✓</div>
+            <div style="font-size:16px;font-weight:800;letter-spacing:-.3px">Delivered</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.85);margin-top:4px">72h to confirm or dispute</div>
+          </div>
+          <div class="cw">
+            <div class="cd" style="padding:11px">
+              <div class="lbl">Rate your seller</div>
+              <div style="font-size:22px;color:var(--gold);letter-spacing:4px;margin-top:4px">★★★★★</div>
+            </div>
+            <div class="cd" style="padding:11px">
+              <div class="lbl">Rate the Vet Agent</div>
+              <div style="font-size:22px;color:var(--gold);letter-spacing:4px;margin-top:4px">★★★★★</div>
+            </div>
+            <div class="cd mist" style="padding:9px 11px">
+              <div style="font-size:9px;color:var(--muted);line-height:1.5;font-weight:600">Your rating feeds the seller's public dossier and the agent's trust score.</div>
+            </div>
+            <div class="btn green" style="margin-top:auto">Confirm receipt →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">4.6 · Delivery + rating</div>
+      <div class="caption-title">Confirm &amp; rate</div>
+      <div class="caption-note">72h window. Rating triggers seller payout and agent payment.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     PHASE 5 · VET AGENT
+     ============================================================ -->
+<section class="phase">
+  <div class="phase-head">
+    <span class="phase-num">PHASE 05</span>
+    <span class="phase-title">Vet Agent Flow</span>
+    <span class="phase-desc">Training, certification, job acceptance, physical inspection, verdict submission, and earnings.</span>
+  </div>
+
+  <div class="screens">
+
+    <!-- Screen 5.1 · Agent dashboard -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah">
+            <div class="brand"><div class="mark">✓</div><div class="name">Vet Agent</div></div>
+            <div class="back">🔔</div>
+          </div>
+          <div class="cw">
+            <div class="cd navy" style="padding:12px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div class="lbl">Earnings balance</div>
+                  <div class="val mono big" style="color:var(--gold)">₦18,900</div>
+                </div>
+                <div style="text-align:right">
+                  <div class="lbl">Rating</div>
+                  <div class="val" style="color:#fff">4.9★</div>
+                </div>
+              </div>
+            </div>
+            <div class="cd green" style="padding:9px 11px">
+              <div style="display:flex;gap:8px;align-items:center">
+                <div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:13px">🏆</div>
+                <div style="flex:1">
+                  <div style="font-size:10.5px;font-weight:800;color:#065F46">Certified Agent</div>
+                  <div style="font-size:8.5px;color:#065F46;margin-top:2px;opacity:.85">3 successful inspections · priority visibility</div>
+                </div>
+              </div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Available jobs in your LGAs</div>
+              <div style="font-size:11px;font-weight:800;color:var(--navy);margin-top:4px">3 new jobs</div>
+              <div style="font-size:9px;color:var(--muted);margin-top:3px">Ikeja · Eti-Osa · Surulere</div>
+            </div>
+            <div class="btn gold" style="margin-top:auto">View job feed →</div>
+          </div>
+          <div class="bnav">
+            <div class="tab on"><div class="ic">🏠</div>Home</div>
+            <div class="tab"><div class="ic">📋</div>Jobs</div>
+            <div class="tab"><div class="ic">🎓</div>Training</div>
+            <div class="tab"><div class="ic">💰</div>Earnings</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">5.1 · Agent dashboard</div>
+      <div class="caption-title">Home</div>
+      <div class="caption-note">Balance, badge, available jobs. One screen, everything.</div>
+    </div>
+
+    <!-- Screen 5.2 · Training modules -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Training</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="cd" style="padding:11px">
+              <div class="lbl">Certification progress</div>
+              <div class="prg" style="margin-top:6px;height:5px"><div class="fill" style="width:70%"></div></div>
+              <div style="font-size:8.5px;color:var(--muted);font-weight:700;margin-top:5px">7 of 10 modules complete</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div style="display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid var(--line)">
+                <div style="width:18px;height:18px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900">✓</div>
+                <div style="flex:1;font-size:10px;font-weight:800;color:var(--navy)">M01 · Role &amp; Conduct</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid var(--line)">
+                <div style="width:18px;height:18px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900">✓</div>
+                <div style="flex:1;font-size:10px;font-weight:800;color:var(--navy)">M02 · Inspection Protocol</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;padding:4px 0;border-bottom:1px solid var(--line)">
+                <div style="width:18px;height:18px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:9px;font-weight:900">✓</div>
+                <div style="flex:1;font-size:10px;font-weight:800;color:var(--navy)">M03 · Evidence Upload</div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center;padding:4px 0">
+                <div style="width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:9px;font-weight:900">8</div>
+                <div style="flex:1;font-size:10px;font-weight:800;color:var(--navy)">M08 · Bags &amp; Watches</div>
+              </div>
+            </div>
+            <div class="btn" style="margin-top:auto">Continue module 8 →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">5.2 · Training modules</div>
+      <div class="caption-title">Certification path</div>
+      <div class="caption-note">10 modules, 100-question exam, 85% pass mark.</div>
+    </div>
+
+    <!-- Screen 5.3 · Job feed -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Job feed · Ikeja</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div style="font-size:9px;color:var(--muted);font-weight:700">First Accept wins · one active job at a time</div>
+            <div class="jc">
+              <div class="code">DG-240501</div>
+              <div class="item">iPhone 14 Pro 256GB</div>
+              <div class="meta"><span class="lga">Ikeja LGA</span><span class="sh">+₦4,200</span></div>
+            </div>
+            <div class="jc">
+              <div class="code">DG-240502</div>
+              <div class="item">MacBook Pro 14" M3</div>
+              <div class="meta"><span class="lga">Eti-Osa LGA</span><span class="sh">+₦4,200</span></div>
+            </div>
+            <div class="jc" style="background:#F3E8FF;border-left-color:var(--purple)">
+              <div class="code">OD-240301</div>
+              <div class="item">Designer bag on Instagram</div>
+              <div class="meta"><span class="lga">Wuse 2, Abuja</span><span class="sh">+₦3,600</span></div>
+            </div>
+            <div class="alert navy" style="margin-top:auto">
+              <span class="ic">📍</span>
+              <div style="font-weight:600">Only jobs in your covered LGAs appear. Travel radius is yours to set.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">5.3 · Job feed</div>
+      <div class="caption-title">First-Accept-Wins</div>
+      <div class="caption-note">Atomic locking guarantees exactly one agent per job.</div>
+    </div>
+
+    <!-- Screen 5.4 · GPS verification -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">En route · DG-240501</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="map" style="height:160px">
+              <div class="pin"></div>
+              <div class="gps">✓ 47m from pin</div>
+            </div>
+            <div class="cd green" style="padding:11px">
+              <div class="lbl" style="color:#065F46">GPS verified</div>
+              <div style="font-size:11px;font-weight:800;color:#065F46;margin-top:4px">Within 500m of inspection pin</div>
+              <div style="font-size:8.5px;color:#065F46;margin-top:3px;opacity:.8">Server-verified. Cannot proceed otherwise.</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="r" style="padding:3px 0"><span class="k">Your location</span><span class="v">6.6018° N, 3.3515° E</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Seller pin</span><span class="v">6.6018° N, 3.3515° E</span></div>
+              <div class="r total" style="padding-top:6px"><span class="k">Distance</span><span class="v g">47m</span></div>
+            </div>
+            <div class="btn green" style="margin-top:auto">Begin inspection →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">5.4 · GPS verification</div>
+      <div class="caption-title">Position check</div>
+      <div class="caption-note">Server-side 500m radius. Prevents remote/fake inspections.</div>
+    </div>
+
+    <!-- Screen 5.5 · Inspection checklist -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Inspection · DG-240501</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="cd" style="padding:9px 11px">
+              <div class="cb on"><div class="box">✓</div><div class="txt">IMEI matches physical label and box</div></div>
+              <div class="cb on"><div class="box">✓</div><div class="txt">Battery health captured</div></div>
+              <div class="cb on"><div class="box">✓</div><div class="txt">Screen — no cracks, dead pixels, lines</div></div>
+              <div class="cb on"><div class="box">✓</div><div class="txt">Face ID works</div></div>
+              <div class="cb on"><div class="box">✓</div><div class="txt">Cameras capture sharp photo/video</div></div>
+              <div class="cb on"><div class="box">✓</div><div class="txt">Charging starts when plugged in</div></div>
+              <div class="cb on"><div class="box">✓</div><div class="txt">No iCloud / FRP / Google lock</div></div>
+              <div class="cb"><div class="box"></div><div class="txt">SIM tray present and ejects</div></div>
+            </div>
+            <div class="alert navy">
+              <span class="ic">🎥</span>
+              <div style="font-weight:600">Continuous video required · no edits · IMEI captured on camera</div>
+            </div>
+            <div class="btn" style="margin-top:auto">Continue to verdict →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">5.5 · Inspection checklist</div>
+      <div class="caption-title">Structured checklist</div>
+      <div class="caption-note">Evidence-driven. Every item checked or explicitly skipped.</div>
+    </div>
+
+    <!-- Screen 5.6 · Verdict submit -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Submit verdict</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div style="font-size:11.5px;font-weight:800;color:var(--navy)">Choose your verdict</div>
+            <div class="cd green" style="border-width:2px;padding:11px">
+              <div style="display:flex;gap:9px;align-items:center">
+                <div style="width:26px;height:26px;border-radius:6px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:900">✓</div>
+                <div><div style="font-size:11px;font-weight:800;color:#065F46">PASS</div><div style="font-size:8.5px;color:#065F46;opacity:.85;margin-top:1px">Item matches the listing</div></div>
+              </div>
+            </div>
+            <div class="cd" style="padding:11px">
+              <div style="display:flex;gap:9px;align-items:center">
+                <div style="width:26px;height:26px;border-radius:6px;background:var(--mist);color:var(--navy);display:grid;place-items:center;font-size:13px;font-weight:900">⚠</div>
+                <div><div style="font-size:11px;font-weight:800;color:var(--navy)">NEEDS_REVIEW</div><div style="font-size:8.5px;color:var(--muted);margin-top:1px">Buyer decides on material variance</div></div>
+              </div>
+            </div>
+            <div class="cd" style="padding:11px">
+              <div style="display:flex;gap:9px;align-items:center">
+                <div style="width:26px;height:26px;border-radius:6px;background:var(--mist);color:var(--red);display:grid;place-items:center;font-size:13px;font-weight:900">✕</div>
+                <div><div style="font-size:11px;font-weight:800;color:var(--navy)">FAIL</div><div style="font-size:8.5px;color:var(--muted);margin-top:1px">Item does not match or has a defect</div></div>
+              </div>
+            </div>
+            <div class="fld"><span class="fl">Notes for the buyer</span><div class="in" style="min-height:40px;font-size:9px">Physical matches listing. Battery 89% as declared.</div></div>
+            <div class="btn green" style="margin-top:auto">Submit PASS →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">5.6 · Verdict submit</div>
+      <div class="caption-title">PASS / REVIEW / FAIL</div>
+      <div class="caption-note">Agent is paid either way — honest work is never penalised.</div>
+    </div>
+
+    <!-- Screen 5.7 · Earnings -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Earnings</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="cd green" style="padding:12px">
+              <div class="lbl" style="color:#065F46">Available to withdraw</div>
+              <div class="val mono big" style="color:#065F46">₦18,900</div>
+              <div class="sub" style="color:#065F46;opacity:.8">Zenith Bank · 9876</div>
+            </div>
+            <div class="cd gold" style="padding:9px 11px">
+              <div class="lbl" style="color:#78350F">Held for in-flight jobs</div>
+              <div class="val" style="color:var(--navy)">₦4,200</div>
+              <div class="sub" style="color:#78350F;opacity:.85;margin-top:3px">Releases when the buyer approves</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Recent activity</div>
+              <div class="r" style="padding:3px 0"><span class="k">Inspection · DG-240498</span><span class="v g">+₦4,200</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">On-demand · OD-240289</span><span class="v g">+₦3,600</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Withdrawal</span><span class="v" style="color:var(--red)">−₦15,000</span></div>
+            </div>
+            <div class="btn gold" style="margin-top:auto">Withdraw →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">5.7 · Earnings</div>
+      <div class="caption-title">Payouts</div>
+      <div class="caption-note">TOTP/Email/SMS step-up · partial withdrawals allowed.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     PHASE 6 · ADMIN
+     ============================================================ -->
+<section class="phase">
+  <div class="phase-head">
+    <span class="phase-num">PHASE 06</span>
+    <span class="phase-title">Admin Console</span>
+    <span class="phase-desc">Operational oversight: KPIs, deal monitoring, dispute mediation, config, and audit.</span>
+  </div>
+
+  <div class="screens">
+
+    <!-- Screen 6.1 · Admin dashboard -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb light" style="background:var(--navy)"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah" style="background:transparent;color:var(--navy);padding-bottom:8px">
+            <div><div style="font-size:13px;font-weight:800">Ops dashboard</div><div style="font-size:8.5px;color:var(--muted);font-weight:700;margin-top:2px">Super Admin · Oyo State</div></div>
+            <div class="back" style="background:var(--mist);color:var(--navy)">⚙</div>
+          </div>
+          <div class="cw">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+              <div class="cd" style="padding:9px">
+                <div class="lbl">Revenue 30d</div>
+                <div class="val mono" style="font-size:12px;color:var(--green)">₦1,140,100</div>
+              </div>
+              <div class="cd" style="padding:9px">
+                <div class="lbl">Escrow</div>
+                <div class="val mono" style="font-size:12px;color:var(--gold2)">₦2,847,300</div>
+              </div>
+              <div class="cd" style="padding:9px">
+                <div class="lbl">Disputes</div>
+                <div class="val mono" style="font-size:12px;color:var(--red)">2 open</div>
+              </div>
+              <div class="cd" style="padding:9px">
+                <div class="lbl">Jobs open</div>
+                <div class="val mono" style="font-size:12px">14</div>
+              </div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Needs attention</div>
+              <div class="r" style="padding:3px 0"><span class="k" style="color:var(--red);font-weight:800">2 jobs overdue</span><span class="pill red">Ops</span></div>
+              <div class="r" style="padding:3px 0"><span class="k" style="color:var(--red);font-weight:800">2 disputes pending</span><span class="pill red">Mediator</span></div>
+              <div class="r" style="padding:3px 0"><span class="k" style="color:var(--gold2);font-weight:800">1 deal paused</span><span class="pill gold">Ops</span></div>
+            </div>
+            <div class="cd navy" style="padding:9px 11px">
+              <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,.85);line-height:1.5">Escrow reconciled against Paystack within ₦0.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">6.1 · Admin KPIs</div>
+      <div class="caption-title">Ops dashboard</div>
+      <div class="caption-note">Everything needing attention in one screen. No manual hunting.</div>
+    </div>
+
+    <!-- Screen 6.2 · Deal monitor -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Deals</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div style="display:flex;gap:5px;overflow:hidden">
+              <span class="pill navy">All 6</span>
+              <span class="pill mist">Active 4</span>
+              <span class="pill mist">Disputed 2</span>
+              <span class="pill mist">Paused 1</span>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-family:'Menlo',monospace;font-size:7.5px;color:var(--muted);font-weight:700">DG-240502</div>
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy);margin-top:2px">MacBook Pro 14" M3</div>
+                  <div style="font-size:8px;color:var(--muted);margin-top:3px">Eti-Osa · ₦884,500</div>
+                </div>
+                <span class="pill blue">In transit</span>
+              </div>
+            </div>
+            <div class="cd" style="padding:9px 11px;background:#FEF2F2;border-color:#FCA5A5">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-family:'Menlo',monospace;font-size:7.5px;color:var(--muted);font-weight:700">DG-240503</div>
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy);margin-top:2px">LG 2HP Inverter AC</div>
+                  <div style="font-size:8px;color:var(--muted);margin-top:3px">Nassarawa · ₦336,900</div>
+                </div>
+                <span class="pill red">Disputed</span>
+              </div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+                <div style="flex:1;min-width:0">
+                  <div style="font-family:'Menlo',monospace;font-size:7.5px;color:var(--muted);font-weight:700">DG-240501</div>
+                  <div style="font-size:10.5px;font-weight:800;color:var(--navy);margin-top:2px">iPhone 14 Pro 256GB</div>
+                  <div style="font-size:8px;color:var(--muted);margin-top:3px">Ikeja · ₦468,500</div>
+                </div>
+                <span class="pill gold">Evidence</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">6.2 · Deal monitor</div>
+      <div class="caption-title">All deals</div>
+      <div class="caption-note">Filterable. Color-coded by state. Click any deal for full timeline.</div>
+    </div>
+
+    <!-- Screen 6.3 · Dispute mediation -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Dispute DSP-502</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="alert red">
+              <span class="ic">🚨</span>
+              <div style="font-weight:600"><b>Fraud / swap.</b> IMEI does not match continuous video. Age 40h.</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Evidence tier 1</div>
+              <div class="r" style="padding:3px 0"><span class="k">Agent video · IMEI on camera</span><span class="v g">✓</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Listing media hash</span><span class="v g">✓ matched</span></div>
+              <div class="r" style="padding:3px 0"><span class="k">Courier delivery photo</span><span class="v g">✓</span></div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="lbl">Ruling</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:5px">
+                <div class="btn sm" style="background:var(--green);color:#fff">Rule for buyer</div>
+                <div class="btn sm ghost">Rule for seller</div>
+              </div>
+            </div>
+            <div class="cd green" style="padding:9px 11px">
+              <div class="lbl" style="color:#065F46">Recommended outcome</div>
+              <div style="font-size:9px;color:#065F46;font-weight:600;line-height:1.5;margin-top:3px">Full refund + guarantee forfeit + ₦3,500 return logistics clawback.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">6.3 · Dispute mediation</div>
+      <div class="caption-title">Evidence-tier ruling</div>
+      <div class="caption-note">Tier-1 evidence outweighs Tier-3 chats. Every ruling audited.</div>
+    </div>
+
+    <!-- Screen 6.4 · Config -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Fee configuration</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div class="alert gold">
+              <span class="ic">🔐</span>
+              <div style="font-weight:600"><b>Dual-control required.</b> Any money-touching change requires a second admin approval.</div>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div class="r" style="padding:4px 0;border-bottom:1px solid var(--line)"><span class="k" style="font-family:'Menlo',monospace;font-size:8.5px">fees.buyerServiceFeePct</span><span class="v">2.0%</span></div>
+              <div class="r" style="padding:4px 0;border-bottom:1px solid var(--line)"><span class="k" style="font-family:'Menlo',monospace;font-size:8.5px">fees.sellerSuccessFeePct</span><span class="v">2.0%</span></div>
+              <div class="r" style="padding:4px 0;border-bottom:1px solid var(--line)"><span class="k" style="font-family:'Menlo',monospace;font-size:8.5px">fees.vetAgentFeeKobo</span><span class="v">₦6,000</span></div>
+              <div class="r" style="padding:4px 0;border-bottom:1px solid var(--line)"><span class="k" style="font-family:'Menlo',monospace;font-size:8.5px">fees.guaranteeKobo</span><span class="v">₦5,000</span></div>
+              <div class="r" style="padding:4px 0;border-bottom:1px solid var(--line)"><span class="k" style="font-family:'Menlo',monospace;font-size:8.5px">fees.onDemandMinKobo</span><span class="v">₦6,000</span></div>
+              <div class="r" style="padding:4px 0"><span class="k" style="font-family:'Menlo',monospace;font-size:8.5px">splits.vetSharePct</span><span class="v">70%</span></div>
+            </div>
+            <div class="btn gold" style="margin-top:auto">Propose change →</div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">6.4 · Fee config</div>
+      <div class="caption-title">Dual control</div>
+      <div class="caption-note">No single admin can move money config. Both admins are logged.</div>
+    </div>
+
+    <!-- Screen 6.5 · Audit log -->
+    <div class="screen-cell">
+      <div class="phone">
+        <div class="screen">
+          <div class="sb"><span>9:41</span><span class="icons">●●● ●●</span></div>
+          <div class="ah"><div class="back">←</div><div class="ttl">Audit log</div><div class="back" style="opacity:0">☰</div></div>
+          <div class="cw">
+            <div style="display:flex;gap:5px;overflow:hidden">
+              <span class="pill navy">All</span>
+              <span class="pill mist">Deals</span>
+              <span class="pill mist">Users</span>
+              <span class="pill mist">Config</span>
+            </div>
+            <div class="cd" style="padding:9px 11px">
+              <div style="display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--line)">
+                <div style="width:22px;height:22px;border-radius:6px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:9px;font-weight:800;flex-shrink:0">SA</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-family:'Menlo',monospace;font-size:7.5px;font-weight:800;color:var(--navy)">admin.deal.pause</div>
+                  <div style="font-size:8.5px;color:#334155;margin-top:2px">DG-240505 · legal review pending</div>
+                  <div style="font-size:7.5px;color:var(--muted);margin-top:3px;font-family:'Menlo',monospace">IP 102.89.42.17 · 2h ago</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px solid var(--line)">
+                <div style="width:22px;height:22px;border-radius:6px;background:var(--purple);color:#fff;display:grid;place-items:center;font-size:9px;font-weight:800;flex-shrink:0">MD</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-family:'Menlo',monospace;font-size:7.5px;font-weight:800;color:var(--navy)">admin.dispute.resolve</div>
+                  <div style="font-size:8.5px;color:#334155;margin-top:2px">DSP-502 · full_refund_buyer</div>
+                  <div style="font-size:7.5px;color:var(--muted);margin-top:3px;font-family:'Menlo',monospace">IP 102.89.42.203 · 6h ago</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:flex-start;padding:5px 0">
+                <div style="width:22px;height:22px;border-radius:6px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:9px;font-weight:800;flex-shrink:0">FA</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-family:'Menlo',monospace;font-size:7.5px;font-weight:800;color:var(--navy)">admin.config.set</div>
+                  <div style="font-size:8.5px;color:#334155;margin-top:2px">fees.vetAgentFeeKobo · 500k→600k</div>
+                  <div style="font-size:7.5px;color:var(--muted);margin-top:3px;font-family:'Menlo',monospace">IP 102.89.42.58 · 2d ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption">6.5 · Audit log</div>
+      <div class="caption-title">Immutable trail</div>
+      <div class="caption-note">Every admin action carries actor, IP, timestamp, before/after.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     DESIGN SYSTEM APPENDIX
+     ============================================================ -->
+<section class="design-sys">
+  <h2 class="ds-title">Design System Reference</h2>
+  <p class="ds-sub">The reusable primitives every screen above is built from. This is what a production team would implement first.</p>
+
+  <div class="ds-grid">
+
+    <div class="ds-card">
+      <h4>Colour Palette</h4>
+      <div class="sw"><div class="dot" style="background:#0D1B4C"></div>Deep Blue · Primary<span class="hx">#0D1B4C</span></div>
+      <div class="sw"><div class="dot" style="background:#16A34A"></div>Emerald · Success<span class="hx">#16A34A</span></div>
+      <div class="sw"><div class="dot" style="background:#F4B420"></div>Gold · Accent / CTA<span class="hx">#F4B420</span></div>
+      <div class="sw"><div class="dot" style="background:#F1F3F5;border-color:#E2E8F0"></div>Mist · Neutral<span class="hx">#F1F3F5</span></div>
+      <div class="sw"><div class="dot" style="background:#1F2937"></div>Charcoal · Text<span class="hx">#1F2937</span></div>
+      <div class="sw"><div class="dot" style="background:#DC2626"></div>Red · Danger<span class="hx">#DC2626</span></div>
+    </div>
+
+    <div class="ds-card">
+      <h4>Typography</h4>
+      <div class="ds-typo-big">Inter</div>
+      <div class="ds-typo-sub">Primary family · all UI copy</div>
+      <p style="margin-top:16px"><b style="color:#fff">Type scale</b></p>
+      <p>H1 · 22px / 800 · <code>-0.5px</code></p>
+      <p>H2 · 16px / 800 · <code>-0.3px</code></p>
+      <p>Body · 13px / 500</p>
+      <p>Caption · 10px / 600</p>
+      <p>Mono · 11px · <code>Menlo</code> — money &amp; IDs</p>
+    </div>
+
+    <div class="ds-card">
+      <h4>Spacing &amp; Radius</h4>
+      <p>Base unit · <code>4px</code></p>
+      <p>Card padding · <code>10–14px</code></p>
+      <p>Screen edge gutter · <code>14px</code></p>
+      <p>Card radius · <code>10px</code></p>
+      <p>Button radius · <code>9px</code></p>
+      <p>Phone radius · <code>24px</code></p>
+    </div>
+
+    <div class="ds-card">
+      <h4>Core Components</h4>
+      <p><code>Primary Button</code> · navy fill, white text</p>
+      <p><code>Gold CTA</code> · gold fill, navy text</p>
+      <p><code>Card</code> · white, 1px border, 10px radius</p>
+      <p><code>Pill</code> · status indicator, 20px radius</p>
+      <p><code>Row</code> · label + value pair</p>
+      <p><code>Timeline Item</code> · dot + title + detail</p>
+      <p><code>Job Card</code> · yellow, gold left border</p>
+    </div>
+
+    <div class="ds-card">
+      <h4>Screen Anatomy</h4>
+      <p><code>Status Bar</code> · 9:41 + signal icons</p>
+      <p><code>App Header</code> · navy, back/brand</p>
+      <p><code>Content</code> · 14px gutters, 10px stack</p>
+      <p><code>Bottom Nav</code> · 4 tabs, gold active</p>
+      <p><code>Sheet Header</code> · hero band with eyebrow</p>
+    </div>
+
+    <div class="ds-card">
+      <h4>Status States</h4>
+      <p><code>Success</code> · green text on #DCFCE7</p>
+      <p><code>Warning</code> · gold text on #FEF3C7</p>
+      <p><code>Danger</code> · red text on #FEE2E2</p>
+      <p><code>Info</code> · blue text on #DBEAFE</p>
+      <p><code>Neutral</code> · grey on mist</p>
+      <p><code>Terminal</code> · gold on navy</p>
+    </div>
+
+    <div class="ds-card">
+      <h4>Money Display</h4>
+      <p>Always <code>Menlo</code> monospace</p>
+      <p>Always <code>₦</code> prefix · thousands separators</p>
+      <p>Green for received, red for sent</p>
+      <p>Gold for escrow / guarantee</p>
+      <p>Held balances shown in gold pill</p>
+    </div>
+
+    <div class="ds-card">
+      <h4>Accessibility</h4>
+      <p>All text ≥ <code>4.5:1</code> contrast on background</p>
+      <p>Tap targets ≥ <code>44×44px</code></p>
+      <p>Colour is never the only signal</p>
+      <p>Every state has a text label, not just an icon</p>
+      <p>Screen reader labels on all interactive elements</p>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+</body>
+</html>

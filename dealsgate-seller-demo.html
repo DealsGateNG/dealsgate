@@ -1,0 +1,2583 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Seller Demo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0D1B4C;--navy2:#142a70;--green:#16A34A;--green2:#15803D;
+  --gold:#F4B420;--gold2:#C98A00;--ink:#0F172A;--muted:#64748B;
+  --line:#E2E8F0;--mist:#F4F6FB;--blue:#2563EB;--red:#DC2626;--purple:#7C3AED;
+  --pink:#EC4899;--bg:#F8FAFC;--white:#fff;
+}
+html,body{height:100%}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,textarea,select{font-family:inherit;outline:none}
+a{color:inherit;text-decoration:none}
+
+/* ============ APP SHELL ============ */
+#app{min-height:100vh;display:flex;flex-direction:column}
+
+/* Top bar */
+.topbar{
+  background:var(--navy);color:#fff;height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;position:sticky;top:0;z-index:50;
+  box-shadow:0 2px 12px rgba(0,0,0,.15);
+}
+.topbar .brand{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:800;letter-spacing:-.3px}
+.topbar .mark{width:28px;height:28px;border-radius:8px;background:var(--gold);color:var(--navy);
+  display:grid;place-items:center;font-size:15px;font-weight:900;border:2px solid #fff;flex-shrink:0}
+.topbar .mark .g{color:var(--green)}
+.topbar .brand .g{color:var(--green)}
+.topbar .meta{font-size:12px;color:rgba(255,255,255,.7);font-weight:700;font-family:Menlo,monospace}
+.topbar .right{display:flex;align-items:center;gap:10px}
+.topbar .right button{color:#fff;background:rgba(255,255,255,.12);
+  padding:7px 13px;border-radius:8px;font-size:12.5px;font-weight:700;transition:background .15s}
+.topbar .right button:hover{background:rgba(255,255,255,.2)}
+.topbar .right .primary{background:var(--gold);color:var(--navy)}
+.topbar .right .primary:hover{background:var(--gold2);color:#fff}
+
+/* Layout for logged-in */
+.app-layout{flex:1;display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 56px)}
+@media(max-width:900px){
+  .app-layout{grid-template-columns:1fr;padding-bottom:76px}
+}
+
+/* Sidebar */
+.sidebar{
+  background:#fff;border-right:1px solid var(--line);
+  padding:20px 12px;display:flex;flex-direction:column;gap:2px;
+  position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;
+}
+@media(max-width:900px){.sidebar{display:none}}
+.sb-user{
+  display:flex;align-items:center;gap:11px;padding:12px 12px 18px;
+  border-bottom:1px solid var(--line);margin-bottom:14px;
+}
+.sb-user .avatar{
+  width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--navy);
+  display:grid;place-items:center;font-size:14px;font-weight:800;flex-shrink:0;position:relative;
+}
+.sb-user .avatar .badge{
+  position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;
+  background:var(--green);color:#fff;display:grid;place-items:center;font-size:9px;border:2px solid #fff;
+}
+.sb-user .info .n{font-size:13.5px;font-weight:800;color:var(--navy)}
+.sb-user .info .s{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px}
+.sb-link{
+  display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:9px;
+  font-size:13.5px;font-weight:600;color:#64748B;cursor:pointer;transition:all .12s;
+}
+.sb-link:hover{background:var(--mist);color:var(--navy)}
+.sb-link.on{background:var(--mist);color:var(--navy);font-weight:800}
+.sb-link .ic{width:20px;text-align:center;font-size:15px}
+.sb-link .badge{margin-left:auto;background:var(--red);color:#fff;
+  font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;min-width:20px;text-align:center}
+.sb-sec{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#94A3B8;padding:16px 13px 6px}
+.sb-cta{
+  margin-top:auto;padding:14px;background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;border-radius:12px;text-align:center;
+}
+.sb-cta .t{font-size:13px;font-weight:800;margin-bottom:4px}
+.sb-cta .d{font-size:11px;color:rgba(255,255,255,.75);margin-bottom:10px;line-height:1.45}
+.sb-cta button{background:var(--gold);color:var(--navy);padding:9px 14px;border-radius:8px;font-size:12.5px;font-weight:800;width:100%}
+
+/* Content */
+.content{padding:32px 40px;overflow-x:hidden}
+@media(max-width:900px){.content{padding:20px 16px}}
+.pg-head{margin-bottom:24px}
+.pg-head h1{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.6px;line-height:1.15}
+.pg-head p{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.55}
+
+/* Bottom nav (mobile) */
+.bnav{
+  display:none;position:fixed;bottom:0;left:0;right:0;z-index:50;
+  background:#fff;border-top:1px solid var(--line);padding:6px 4px calc(8px + env(safe-area-inset-bottom));
+  box-shadow:0 -4px 20px rgba(13,27,76,.08);
+}
+@media(max-width:900px){.bnav{display:flex;justify-content:space-around}}
+.bnav button{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:6px 4px;font-size:9.5px;font-weight:800;color:#94A3B8;
+  letter-spacing:.02em;text-transform:uppercase;
+}
+.bnav button .ic{width:26px;height:26px;border-radius:8px;background:var(--mist);
+  display:grid;place-items:center;font-size:14px}
+.bnav button.on{color:var(--navy)}
+.bnav button.on .ic{background:var(--gold);color:var(--navy)}
+
+/* ============ LANDING ============ */
+.landing{display:flex;flex-direction:column;flex:1}
+.lp-hero{
+  background:linear-gradient(155deg,#061133 0%,var(--navy) 55%,var(--navy2) 100%);
+  color:#fff;padding:56px 40px 60px;position:relative;overflow:hidden;
+}
+@media(max-width:640px){.lp-hero{padding:36px 20px 44px}}
+.lp-hero::after{
+  content:"";position:absolute;right:-100px;top:-100px;width:320px;height:320px;
+  border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.22),transparent 70%);
+}
+.lp-hero-inner{max-width:1120px;margin:0 auto;position:relative;z-index:1}
+.lp-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;background:rgba(244,180,32,.14);
+  border:1px solid rgba(244,180,32,.32);color:var(--gold);padding:7px 15px;
+  border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;margin-bottom:22px;
+}
+.lp-hero h1{
+  font-size:clamp(30px,5.5vw,52px);font-weight:800;letter-spacing:-1.4px;
+  line-height:1.05;max-width:760px;
+}
+.lp-hero h1 .g{color:var(--gold)}
+.lp-hero h1 .gr{color:#4ADE80}
+.lp-hero p{
+  font-size:clamp(15px,1.8vw,18px);color:rgba(255,255,255,.78);
+  max-width:600px;margin-top:20px;line-height:1.6;
+}
+.lp-cta{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
+.lp-cta button{
+  padding:14px 26px;border-radius:11px;font-size:15px;font-weight:800;
+  letter-spacing:.01em;transition:transform .12s;
+}
+.lp-cta button:active{transform:translateY(1px)}
+.lp-cta .p{background:var(--gold);color:var(--navy);box-shadow:0 8px 24px rgba(244,180,32,.32)}
+.lp-cta .s{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.lp-cta .s:hover{background:rgba(255,255,255,.14)}
+
+.lp-body{max-width:1120px;margin:0 auto;padding:56px 40px 80px}
+@media(max-width:640px){.lp-body{padding:40px 20px 60px}}
+.lp-search{
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:14px 20px;display:flex;align-items:center;gap:14px;
+  box-shadow:0 4px 20px rgba(13,27,76,.08);margin-top:-38px;position:relative;z-index:2;
+}
+.lp-search input{flex:1;border:none;font-size:15px;font-family:inherit;color:var(--ink)}
+.lp-search input::placeholder{color:#94A3B8}
+.lp-search button{background:var(--navy);color:#fff;padding:10px 20px;border-radius:9px;
+  font-size:13.5px;font-weight:700}
+
+.lp-section{margin-top:56px}
+.lp-section-title{
+  font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green2);margin-bottom:12px;
+}
+.lp-section h2{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.6px;line-height:1.15;margin-bottom:24px}
+.lp-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.lp-step{
+  background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;
+  border-top:4px solid var(--gold);
+}
+.lp-step .n{
+  width:30px;height:30px;border-radius:50%;background:var(--navy);color:var(--gold);
+  display:grid;place-items:center;font-size:13px;font-weight:800;margin-bottom:12px;
+  border:2px solid var(--gold);
+}
+.lp-step h3{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px;letter-spacing:-.2px}
+.lp-step p{font-size:13.5px;color:#64748B;line-height:1.55}
+
+/* ============ CARDS ============ */
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:14px;
+  padding:22px;box-shadow:0 1px 3px rgba(13,27,76,.05);
+}
+.card-sm{padding:16px}
+.card-navy{background:linear-gradient(155deg,var(--navy),var(--navy2));color:#fff;border-color:var(--navy)}
+.card-green{background:#F0FDF4;border-color:#BBF7D0}
+.card-gold{background:#FEFBEB;border-color:#FCD34D}
+.card-red{background:#FEF2F2;border-color:#FCA5A5}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 20px;border-radius:10px;font-size:14px;font-weight:700;
+  transition:all .15s;letter-spacing:.01em;white-space:nowrap;
+}
+.btn:active{transform:translateY(1px)}
+.btn.p{background:var(--navy);color:#fff}
+.btn.p:hover{background:var(--navy2)}
+.btn.g{background:var(--gold);color:var(--navy)}
+.btn.g:hover{background:var(--gold2);color:#fff}
+.btn.gr{background:var(--green);color:#fff}
+.btn.rd{background:var(--red);color:#fff}
+.btn.o{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.o:hover{border-color:var(--navy)}
+.btn.full{width:100%}
+.btn.sm{padding:9px 14px;font-size:12.5px;border-radius:8px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ============ TYPOGRAPHY ============ */
+.kicker{
+  font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold2);margin-bottom:8px;display:block;
+}
+.section-title{font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.2px;margin-bottom:12px}
+.muted{color:var(--muted);font-size:13.5px;line-height:1.6}
+
+/* ============ PILLS ============ */
+.pill{
+  display:inline-block;padding:3px 10px;border-radius:20px;
+  font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  line-height:1.4;white-space:nowrap;
+}
+.pill.green{background:#DCFCE7;color:var(--green2)}
+.pill.gold{background:#FEF3C7;color:var(--gold2)}
+.pill.navy{background:var(--navy);color:#fff}
+.pill.red{background:#FEE2E2;color:var(--red)}
+.pill.blue{background:#DBEAFE;color:var(--blue)}
+.pill.purple{background:#EDE9FE;color:var(--purple)}
+.pill.mist{background:var(--mist);color:#64748B}
+
+/* ============ ROWS ============ */
+.row{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:11px 0;border-bottom:1px solid var(--line);font-size:13.5px;
+}
+.row:last-child{border-bottom:none}
+.row .k{color:#64748B;font-weight:500;flex:1;min-width:0}
+.row .v{color:var(--navy);font-weight:700;font-family:Menlo,monospace;
+  font-size:13px;flex-shrink:0;text-align:right}
+.row .v.g{color:var(--green)}
+.row .v.r{color:var(--red)}
+.row .v.gold{color:var(--gold2)}
+.row.total{padding-top:14px;margin-top:6px;border-top:2px solid var(--navy);border-bottom:none}
+.row.total .k{color:var(--navy);font-weight:800;font-size:14px}
+.row.total .v{font-size:17px}
+
+/* ============ FORMS ============ */
+.fld{margin-bottom:16px}
+.fld label{display:block;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.fld input,.fld textarea,.fld select{
+  width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+  background:#fff;font-size:14px;font-weight:500;color:var(--ink);font-family:inherit;
+  transition:border-color .15s;
+}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(244,180,32,.15)}
+.fld textarea{resize:vertical;min-height:80px;line-height:1.5}
+.fld .hint{font-size:11px;color:var(--muted);margin-top:5px}
+
+/* ============ CHECKBOXES ============ */
+.cb{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.cb:last-child{border-bottom:none}
+.cb .box{
+  width:22px;height:22px;border:2px solid rgba(13,27,76,.25);border-radius:6px;
+  flex-shrink:0;background:#fff;margin-top:1px;
+  display:grid;place-items:center;font-size:13px;color:#fff;font-weight:900;
+  transition:all .15s;
+}
+.cb.on .box{background:var(--green);border-color:var(--green)}
+.cb .txt{font-size:14px;color:#334155;font-weight:500;flex:1;line-height:1.45}
+.cb .txt b{color:var(--navy);font-weight:800}
+
+/* ============ AVATAR ============ */
+.av{
+  width:40px;height:40px;border-radius:50%;
+  display:grid;place-items:center;color:#fff;font-size:14px;font-weight:800;
+  flex-shrink:0;position:relative;
+}
+.av .v{
+  position:absolute;right:-2px;bottom:-2px;width:14px;height:14px;border-radius:50%;
+  background:var(--green);color:#fff;display:grid;place-items:center;
+  font-size:8px;border:2px solid #fff;
+}
+
+/* ============ ALERTS ============ */
+.al{
+  padding:14px 18px;border-radius:10px;font-size:13.5px;line-height:1.55;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.al .ic{font-size:18px;flex-shrink:0;line-height:1.1}
+.al .b{flex:1;min-width:0}
+.al .t{font-weight:800;margin-bottom:3px}
+.al .d{line-height:1.55}
+.al.gold{background:#FEFBEB;border-left:4px solid var(--gold);color:#78350F}
+.al.green{background:#F0FDF4;border-left:4px solid var(--green);color:#065F46}
+.al.red{background:#FEF2F2;border-left:4px solid var(--red);color:#7F1D1D}
+.al.navy{background:var(--mist);border-left:4px solid var(--navy);color:#334155}
+
+/* ============ GRID ============ */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:900px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+@media(max-width:640px){.grid-2{margin-bottom:0}}
+
+/* ============ STAT TILE ============ */
+.stat{
+  background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  border-top:3px solid var(--gold);
+}
+.stat.green{border-top-color:var(--green)}
+.stat.navy{border-top-color:var(--navy)}
+.stat.red{border-top-color:var(--red)}
+.stat .l{font-size:10.5px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:#94A3B8;margin-bottom:8px}
+.stat .v{font-family:Menlo,monospace;font-size:22px;font-weight:800;
+  color:var(--navy);letter-spacing:-.4px;line-height:1}
+.stat .v.g{color:var(--green)}
+.stat .v.gold{color:var(--gold2)}
+.stat .v.r{color:var(--red)}
+.stat .s{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.45}
+
+/* ============ TIMELINE ============ */
+.tl{position:relative;padding-left:26px}
+.tl::before{content:"";position:absolute;left:8px;top:10px;bottom:10px;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--green),var(--navy));
+  border-radius:2px;opacity:.35}
+.tli{position:relative;padding:8px 0}
+.tli::before{content:"";position:absolute;left:-22px;top:13px;width:12px;height:12px;
+  border-radius:50%;background:#fff;border:2px solid var(--line);z-index:1}
+.tli.done::before{background:var(--green);border-color:var(--green)}
+.tli.now::before{background:var(--gold);border-color:var(--gold);
+  box-shadow:0 0 0 4px rgba(244,180,32,.22)}
+.tli.pending::before{background:#fff;border-color:var(--line)}
+.tli .t{font-size:13px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tli.pending .t{color:#94A3B8;font-weight:600}
+.tli .d{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.45}
+
+/* ============ PROGRESS BAR ============ */
+.prg{height:6px;background:var(--mist);border-radius:20px;overflow:hidden}
+.prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));
+  border-radius:20px;transition:width .3s}
+
+/* ============ STEP INDICATOR ============ */
+.steps{display:flex;gap:5px;margin-bottom:24px}
+.steps .s{flex:1;height:5px;border-radius:20px;background:var(--mist);transition:background .2s}
+.steps .s.done{background:var(--green)}
+.steps .s.on{background:var(--gold)}
+
+/* ============ MAP ============ */
+.wmap{
+  background:linear-gradient(135deg,#E0F2FE 0%,#BAE6FD 100%);
+  border-radius:12px;position:relative;overflow:hidden;border:1px solid #7DD3FC;
+  height:180px;
+}
+.wmap::before{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(13,27,76,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(13,27,76,.06) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+.wmap .pin{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:28px;height:28px;background:var(--red);border-radius:50% 50% 50% 0;
+  rotate:-45deg;border:2.5px solid #fff;box-shadow:0 6px 16px rgba(220,38,38,.4);
+}
+.wmap .pin::after{
+  content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:8px;height:8px;background:#fff;border-radius:50%;
+}
+.wmap .lbl{
+  position:absolute;bottom:10px;left:10px;background:#fff;padding:5px 10px;
+  border-radius:6px;font-size:11px;font-weight:800;color:var(--navy);font-family:Menlo,monospace;
+}
+
+/* ============ MEDIA TILES ============ */
+.mtiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mtile{
+  aspect-ratio:1;background:var(--mist);border-radius:10px;border:1px dashed var(--line);
+  display:grid;place-items:center;font-size:22px;color:#CBD5E1;transition:all .2s;
+}
+.mtile.filled{background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border:1px solid #C7D2FE;color:#4F46E5}
+.mtile.video{grid-column:span 4;aspect-ratio:4/1;
+  background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-color:#FCD34D;color:#D97706;
+  font-size:14px;font-weight:800;color:#C98A00}
+
+/* ============ OTP ============ */
+.otp{display:flex;gap:8px;justify-content:center;margin:18px 0}
+.otp input{
+  width:44px;height:54px;text-align:center;font-size:22px;font-weight:800;
+  font-family:Menlo,monospace;border:1.5px solid var(--line);border-radius:10px;
+  background:#fff;color:var(--navy);
+}
+.otp input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(244,180,32,.18)}
+
+/* ============ CENTERED CARD ============ */
+.centered{
+  min-height:calc(100vh - 56px);display:grid;place-items:center;padding:40px 20px;
+}
+.centered .card{max-width:560px;width:100%}
+
+/* ============ JOB CARD ============ */
+.jobc{
+  background:#FFF7E6;border-radius:12px;padding:16px 18px;
+  border-left:4px solid var(--gold);display:flex;justify-content:space-between;
+  gap:14px;align-items:center;margin-bottom:10px;
+}
+.jobc.purple{background:#F3E8FF;border-left-color:var(--purple)}
+.jobc .l{flex:1;min-width:0}
+.jobc .code{font-family:Menlo,monospace;font-size:11px;color:#8A93A6;font-weight:700}
+.jobc .item{font-size:15px;font-weight:800;color:var(--navy);margin:3px 0 4px;line-height:1.3}
+.jobc .meta{font-size:11.5px;color:var(--muted);font-weight:600}
+.jobc .amt{font-family:Menlo,monospace;font-size:16px;font-weight:800;color:var(--green);white-space:nowrap}
+
+/* ============ TOAST ============ */
+.toast{
+  position:fixed;left:50%;bottom:96px;transform:translate(-50%,200%);
+  background:var(--navy);color:#fff;padding:13px 22px;border-radius:12px;
+  font-size:14px;font-weight:700;box-shadow:0 12px 32px rgba(13,27,76,.4);
+  z-index:200;transition:transform .35s cubic-bezier(.4,.2,.2,1);
+  display:flex;gap:10px;align-items:center;pointer-events:none;
+  max-width:calc(100vw - 40px);
+}
+.toast.on{transform:translate(-50%,0)}
+.toast.ok{background:var(--green)}
+.toast.er{background:var(--red)}
+
+/* ============ MODAL ============ */
+.modal{
+  position:fixed;inset:0;background:rgba(13,27,76,.6);backdrop-filter:blur(4px);
+  z-index:100;display:none;align-items:flex-end;justify-content:center;
+}
+.modal.on{display:flex}
+.modal-inner{
+  background:#fff;width:100%;max-width:560px;border-radius:20px 20px 0 0;
+  max-height:92vh;overflow-y:auto;animation:slideUp .3s cubic-bezier(.4,.2,.2,1);
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+.modal-head{
+  padding:18px 22px 14px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;background:#fff;z-index:2;
+}
+.modal-head h3{font-size:17px;font-weight:800;color:var(--navy)}
+.modal-head .x{font-size:26px;color:#94A3B8;line-height:1;padding:0 4px}
+.modal-body{padding:20px 22px 24px}
+.modal-foot{
+  padding:14px 22px calc(20px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--line);position:sticky;bottom:0;background:#fff;
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+
+/* ============ EMPTY ============ */
+.empty{
+  text-align:center;padding:48px 20px;color:var(--muted);font-size:14px;line-height:1.6;
+}
+.empty .em{font-size:36px;margin-bottom:12px;opacity:.4}
+
+/* ============ HIDDEN ============ */
+.hide{display:none !important}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+<div class="toast" id="toast"><span id="toastMsg"></span></div>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="modal-inner" id="modalBox"></div></div>
+
+<script>
+/* ============================================================
+   STATE
+   ============================================================ */
+const KEY = 'dg_seller_demo_v2';
+
+function freshState(){
+  return {
+    route: 'landing',
+    // Signup flow
+    signup: {
+      type: null,
+      fullName: '',
+      email: '',
+      phone: '',
+      city: '',
+      password: '',
+      consent: {
+        terms: false,
+        privacy: false,
+        refund: false,
+        acceptable: false,
+      },
+      otp: ['','','','','',''],
+      verifyMethod: null,
+      nin: '',
+      verificationStatus: 'unstarted', // unstarted | pending | verified
+    },
+    // Logged in user
+    user: {
+      name: 'Adaeze Okafor',
+      business: 'Adaeze Electronics Ltd',
+      initials: 'AO',
+      type: 'Business',
+      verified: true,
+      city: 'Ibadan, Oyo State',
+      rating: 4.9,
+      reviews: 34,
+      email: 'taofik@dealsgate.ng',
+      phone: '+234 807 921 9165',
+      joined: 'Sep 2024',
+    },
+    // Wallets
+    wallet: 441000,
+    guarantee: 15000,
+    // In-flight data
+    currentDeal: null, // being created
+    deals: [
+      { code:'DG-240501', item:'iPhone 14 Pro 256GB', price:450000,
+        status:'IN_TRANSIT', lga:'Ikeja',
+        buyer:'Musa Ibrahim', createdAt: Date.now() - 3600000*3,
+        timeline:['PAID','AGENT_ACCEPTED','EVIDENCE_REVIEW','APPROVED','IN_TRANSIT'] },
+      { code:'DG-240498', item:'MacBook Pro 14" M3', price:850000,
+        status:'COMPLETED', lga:'Eti-Osa',
+        buyer:'Chioma Obi', createdAt: Date.now() - 3600000*120,
+        timeline:['PAID','AGENT_ACCEPTED','EVIDENCE_REVIEW','APPROVED','IN_TRANSIT','DELIVERED','COMPLETED'] },
+      { code:'DG-240495', item:'Sony WH-1000XM5', price:180000,
+        status:'COMPLETED', lga:'Ikeja',
+        buyer:'Kelechi Nwosu', createdAt: Date.now() - 3600000*240,
+        timeline:['PAID','AGENT_ACCEPTED','EVIDENCE_REVIEW','APPROVED','IN_TRANSIT','DELIVERED','COMPLETED'] },
+      { code:'DG-240487', item:'LG 2HP Inverter AC', price:320000,
+        status:'FAILED_INSPECTION', lga:'Surulere',
+        buyer:'Fatima Yusuf', createdAt: Date.now() - 3600000*400,
+        timeline:['PAID','AGENT_ACCEPTED','INSPECTED','FAILED_INSPECTION'] },
+    ],
+    requests: [
+      { code:'OD-240301', title:'Designer bag on Instagram',
+        lga:'Ikeja', price:6000, status:'OPEN', createdAt: Date.now() - 3600000*2 },
+      { code:'OD-240298', title:'iPad Pro 12.9" (2022)',
+        lga:'Eti-Osa', price:8000, status:'COMPLETED', agent:'Blessing Eze', createdAt: Date.now() - 3600000*72 },
+    ],
+    // Wallet transaction history
+    transactions: [
+      { type:'cr', code:'DEAL_PAYOUT', desc:'Item payout · DG-240498', amt:833000, at: Date.now() - 3600000*120 },
+      { type:'cr', code:'GUARANTEE_REFUND', desc:'Guarantee refund · DG-240498', amt:5000, at: Date.now() - 3600000*120 },
+      { type:'db', code:'WITHDRAWAL', desc:'Withdrawal to GTBank · ···· 6789', amt:-200000, at: Date.now() - 3600000*110 },
+      { type:'cr', code:'DEAL_PAYOUT', desc:'Item payout · DG-240495', amt:176400, at: Date.now() - 3600000*240 },
+      { type:'cr', code:'GUARANTEE_REFUND', desc:'Guarantee refund · DG-240495', amt:5000, at: Date.now() - 3600000*240 },
+      { type:'db', code:'GUARANTEE_HOLD', desc:'Guarantee hold · DG-240501', amt:-5000, at: Date.now() - 3600000*3 },
+    ],
+    // Referrals
+    referrals: {
+      code: 'DG-ADAEZE-2026',
+      referred: [
+        { name:'Ngozi O.', type:'Seller', deals:3, rewarded:true },
+        { name:'Adeyemi K.', type:'Buyer', deals:5, rewarded:true },
+      ],
+    },
+    // Vet Agent
+    agent: {
+      applied: false,
+      modulesDone: 0,
+      certified: false,
+      earnings: 0,
+    },
+    // Buy mode
+    marketplace: [
+      { code:'MK-001', item:'iPad Pro 12.9" (2022)', price:450000, seller:'Tunde A.', lga:'Ikeja', rating:4.7 },
+      { code:'MK-002', item:'Canon EOS R6 + 24-105mm', price:920000, seller:'Fatima Y.', lga:'Eti-Osa', rating:4.8 },
+      { code:'MK-003', item:'Samsung Galaxy S24 Ultra', price:780000, seller:'Musa I.', lga:'Ikeja', rating:4.6 },
+    ],
+  };
+}
+
+let S = loadState();
+
+function loadState(){
+  try {
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return freshState();
+    const saved = JSON.parse(raw);
+    // Merge with fresh in case of schema change
+    return Object.assign(freshState(), saved);
+  } catch(e){ return freshState(); }
+}
+function saveState(){
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){}
+}
+function resetAll(){
+  if(!confirm('Reset the demo? All progress will be cleared.')) return;
+  localStorage.removeItem(KEY);
+  S = freshState();
+  render();
+  toast('Demo reset', 'ok');
+}
+
+/* ============================================================
+   UTILS
+   ============================================================ */
+const fmt = n => '₦' + Math.round(n).toLocaleString('en-NG');
+const ago = ts => {
+  const s = Math.floor((Date.now() - ts)/1000);
+  if(s < 60) return s + 's ago';
+  if(s < 3600) return Math.floor(s/60) + 'm ago';
+  if(s < 86400) return Math.floor(s/3600) + 'h ago';
+  return Math.floor(s/86400) + 'd ago';
+};
+const uid = () => Math.random().toString(36).slice(2,10);
+
+function toast(msg, tone){
+  const el = document.getElementById('toast');
+  el.className = 'toast on ' + (tone || '');
+  document.getElementById('toastMsg').textContent = msg;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.className = 'toast ' + (tone || ''), 2400);
+}
+function openModal(html){
+  document.getElementById('modalBox').innerHTML = html;
+  document.getElementById('modal').classList.add('on');
+}
+function closeModal(){
+  document.getElementById('modal').classList.remove('on');
+}
+function go(route){
+  S.route = route;
+  saveState();
+  window.scrollTo(0,0);
+  render();
+}
+function setUser(prop, val){
+  S.user[prop] = val;
+  saveState();
+}
+
+/* ============================================================
+   RENDER — ROUTER
+   ============================================================ */
+function render(){
+  const app = document.getElementById('app');
+  const r = S.route;
+
+  // Landing = no sidebar shell
+  if(r === 'landing'){
+    app.innerHTML = renderTopbar() + renderLanding();
+    return;
+  }
+
+  // Centered flows (signup, verify) = no shell
+  if(r.startsWith('signup') || r.startsWith('verify')){
+    app.innerHTML = renderTopbar(true) + `<div class="centered">${renderCentered()}</div>`;
+    return;
+  }
+
+  // Logged-in = shell with sidebar + bottom nav
+  app.innerHTML = `
+    ${renderTopbar()}
+    <div class="app-layout">
+      ${renderSidebar()}
+      <main class="content">${renderScreen()}</main>
+    </div>
+    ${renderBottomNav()}
+  `;
+}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+function renderTopbar(minimal){
+  const isLanding = S.route === 'landing';
+  const isAuth = S.route.startsWith('signup') || S.route.startsWith('verify');
+  return `
+    <header class="topbar">
+      <div class="brand" style="cursor:pointer" onclick="go('${isAuth ? 'landing' : 'dashboard'}')">
+        <div class="mark">✓</div>
+        <div>Deals<span class="g">Gate</span></div>
+      </div>
+      <div class="right">
+        ${isLanding ? `
+          <button onclick="go('signup')" class="primary">Get started</button>
+        ` : isAuth ? `
+          <button onclick="go('landing')">Exit</button>
+        ` : `
+          <span class="meta">${S.user.business}</span>
+          <button onclick="resetAll()">Reset</button>
+        `}
+      </div>
+    </header>
+  `;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+function renderSidebar(){
+  const r = S.route;
+  const on = (paths) => paths.some(p => r === p || r.startsWith(p + '/') || r.startsWith(p + '?'));
+
+  return `
+    <aside class="sidebar">
+      <div class="sb-user">
+        <div class="avatar">${S.user.initials}<span class="badge">✓</span></div>
+        <div class="info">
+          <div class="n">${S.user.name}</div>
+          <div class="s">${S.user.business}</div>
+        </div>
+      </div>
+
+      <div class="sb-link ${on(['dashboard'])?'on':''}" onclick="go('dashboard')"><span class="ic">🏠</span> Dashboard</div>
+      <div class="sb-link ${on(['deals/create'])?'on':''}" onclick="startCreateDeal()"><span class="ic">➕</span> Create a Protected Deal</div>
+      <div class="sb-link ${on(['deals'])?'on':''}" onclick="go('deals')"><span class="ic">📦</span> My Deals</div>
+
+      <div class="sb-sec">Money</div>
+      <div class="sb-link ${on(['wallet'])?'on':''}" onclick="go('wallet')"><span class="ic">💰</span> Wallet</div>
+      <div class="sb-link ${on(['guarantee'])?'on':''}" onclick="go('guarantee')"><span class="ic">🛡️</span> Guarantee Wallet</div>
+
+      <div class="sb-sec">Requests</div>
+      <div class="sb-link ${on(['requests'])?'on':''}" onclick="go('requests')"><span class="ic">🔍</span> Vet Agent Requests</div>
+      <div class="sb-link ${on(['referrals'])?'on':''}" onclick="go('referrals')"><span class="ic">🎁</span> Referrals</div>
+
+      <div class="sb-sec">Roles</div>
+      <div class="sb-link ${on(['buy'])?'on':''}" onclick="go('buy')"><span class="ic">🛒</span> Buy as DealsGate User</div>
+      <div class="sb-link ${on(['agent'])?'on':''}" onclick="go('agent')"><span class="ic">🎓</span> Become a Vet Agent${S.agent.certified ? ' <span class="badge" style="background:var(--green)">✓</span>' : ''}</div>
+
+      <div class="sb-sec">Account</div>
+      <div class="sb-link ${on(['profile'])?'on':''}" onclick="go('profile')"><span class="ic">👤</span> Profile</div>
+
+      <div class="sb-cta">
+        <div class="t">Ready to sell?</div>
+        <div class="d">Publish a protected deal and share the buyer link.</div>
+        <button onclick="startCreateDeal()">+ Create Deal</button>
+      </div>
+    </aside>
+  `;
+}
+
+/* ============================================================
+   BOTTOM NAV (mobile)
+   ============================================================ */
+function renderBottomNav(){
+  const r = S.route;
+  const on = (p) => r === p || r.startsWith(p + '/');
+  return `
+    <nav class="bnav">
+      <button class="${on('dashboard')?'on':''}" onclick="go('dashboard')"><span class="ic">🏠</span>Home</button>
+      <button class="${on('deals')?'on':''}" onclick="go('deals')"><span class="ic">📦</span>Deals</button>
+      <button onclick="startCreateDeal()"><span class="ic">➕</span>Create</button>
+      <button class="${on('wallet')?'on':''}" onclick="go('wallet')"><span class="ic">💰</span>Wallet</button>
+      <button class="${on('profile')?'on':''}" onclick="go('profile')"><span class="ic">👤</span>Profile</button>
+    </nav>
+  `;
+}
+
+/* ============================================================
+   LANDING
+   ============================================================ */
+function renderLanding(){
+  return `
+    <div class="landing">
+      <div class="lp-hero">
+        <div class="lp-hero-inner">
+          <div class="lp-eyebrow">🛡 Africa's Secure Transaction Gateway</div>
+          <h1>We verify the item.<br>We <span class="g">protect the payment</span>.<br>We <span class="gr">track the delivery</span>.</h1>
+          <p>DealsGate makes it safe for Nigerian sellers to collect payment before shipping. A certified Vet Agent inspects the item. Escrow holds the money. You ship when the buyer approves.</p>
+          <div class="lp-cta">
+            <button class="p" onclick="go('signup')">Create account →</button>
+            <button class="s" onclick="toast('Already have an account? Tap Get started to sign up.')">Log in</button>
+          </div>
+        </div>
+      </div>
+      <div class="lp-body">
+        <div class="lp-search">
+          <span style="font-size:18px">🔍</span>
+          <input placeholder="Search any vendor by business or individual name..." onfocus="toast('Public search — no login required')">
+          <button onclick="toast('Search available after signup')">Search</button>
+        </div>
+
+        <div class="lp-section">
+          <div class="lp-section-title">For sellers</div>
+          <h2>Stop chasing fake alerts.<br>Get paid through escrow.</h2>
+          <div class="lp-steps">
+            <div class="lp-step">
+              <div class="n">1</div>
+              <h3>Create your account</h3>
+              <p>Individual or Business. Verify your identity with NIN or BVN. Free.</p>
+            </div>
+            <div class="lp-step">
+              <div class="n">2</div>
+              <h3>Publish a Protected Deal</h3>
+              <p>Upload photos, continuous video, Google Maps pin, and a ₦5,000 refundable guarantee.</p>
+            </div>
+            <div class="lp-step">
+              <div class="n">3</div>
+              <h3>Buyer pays into escrow</h3>
+              <p>Held by a licensed Nigerian payment partner. You don't ship until they approve the inspection.</p>
+            </div>
+            <div class="lp-step">
+              <div class="n">4</div>
+              <h3>Vet Agent inspects</h3>
+              <p>A certified agent verifies the item in person and captures continuous video evidence.</p>
+            </div>
+            <div class="lp-step">
+              <div class="n">5</div>
+              <h3>Buyer approves evidence</h3>
+              <p>Nothing moves — not the item, not the money — until the buyer clicks Approve.</p>
+            </div>
+            <div class="lp-step">
+              <div class="n">6</div>
+              <h3>Ship and get paid</h3>
+              <p>On confirmed delivery, you receive the item payout minus 2% fee. Guarantee refunded.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="lp-section" style="margin-top:64px">
+          <div class="lp-section-title">Ready to try it?</div>
+          <h2>Sign up in under 2 minutes.</h2>
+          <button class="btn g" style="padding:15px 30px;font-size:15px" onclick="go('signup')">Start now →</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============================================================
+   CENTERED FLOWS — SIGNUP + VERIFY
+   ============================================================ */
+function renderCentered(){
+  const r = S.route;
+
+  // Signup step 1 — account type
+  if(r === 'signup') return renderAccountType();
+  // Step 2 — details
+  if(r === 'signup/details') return renderSignupDetails();
+  // Step 3 — consent
+  if(r === 'signup/consent') return renderSignupConsent();
+  // Step 4 — OTP
+  if(r === 'signup/otp') return renderSignupOTP();
+  // Verify
+  if(r === 'verify') return renderVerify();
+
+  return '<div class="empty">Loading…</div>';
+}
+
+function renderAccountType(){
+  return `
+    <div class="card">
+      <div class="kicker">Step 1 of 4</div>
+      <h1 style="font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin-bottom:6px">Choose your account type</h1>
+      <p class="muted" style="margin-bottom:24px">Either type can buy and sell on DealsGate. Choose what describes you best.</p>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card ${S.signup.type==='Individual'?'card-gold':''}" style="cursor:pointer;padding:18px;border-width:${S.signup.type==='Individual'?'2px':'1px'}" onclick="pickType('Individual')">
+          <div style="display:flex;gap:14px;align-items:center">
+            <div style="width:44px;height:44px;border-radius:12px;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:20px;flex-shrink:0">👤</div>
+            <div style="flex:1">
+              <div style="font-size:16px;font-weight:800;color:var(--navy)">Individual</div>
+              <div style="font-size:13px;color:var(--muted);margin-top:3px">Personal seller or buyer</div>
+            </div>
+            <div style="font-size:18px;font-weight:900;color:var(--gold)">${S.signup.type==='Individual'?'✓':''}</div>
+          </div>
+        </div>
+        <div class="card ${S.signup.type==='Business'?'card-gold':''}" style="cursor:pointer;padding:18px;border-width:${S.signup.type==='Business'?'2px':'1px'}" onclick="pickType('Business')">
+          <div style="display:flex;gap:14px;align-items:center">
+            <div style="width:44px;height:44px;border-radius:12px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:20px;flex-shrink:0">🏢</div>
+            <div style="flex:1">
+              <div style="font-size:16px;font-weight:800;color:var(--navy)">Business / Merchant</div>
+              <div style="font-size:13px;color:var(--muted);margin-top:3px">Registered company with CAC number</div>
+            </div>
+            <div style="font-size:18px;font-weight:900;color:var(--gold)">${S.signup.type==='Business'?'✓':''}</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn p full" style="margin-top:24px" onclick="nextSignup()" ${!S.signup.type?'disabled':''}>Continue →</button>
+    </div>
+  `;
+}
+
+function pickType(t){
+  S.signup.type = t;
+  saveState();
+  render();
+}
+
+function nextSignup(){
+  if(!S.signup.type) return;
+  go('signup/details');
+}
+
+function renderSignupDetails(){
+  return `
+    <div class="card">
+      <div class="kicker">Step 2 of 4</div>
+      <h1 style="font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin-bottom:6px">Your details</h1>
+      <p class="muted" style="margin-bottom:20px">This information must match your legal ID.</p>
+
+      <div class="fld">
+        <label>Full name</label>
+        <input value="${S.signup.fullName}" oninput="S.signup.fullName=this.value;saveState()" placeholder="As it appears on your NIN">
+      </div>
+      <div class="fld">
+        <label>Email address</label>
+        <input type="email" value="${S.signup.email}" oninput="S.signup.email=this.value;saveState()" placeholder="you@example.com">
+      </div>
+      <div class="fld">
+        <label>Phone number</label>
+        <input type="tel" value="${S.signup.phone}" oninput="S.signup.phone=this.value;saveState()" placeholder="+234 807 921 9165">
+      </div>
+      <div class="fld">
+        <label>City / LGA</label>
+        <input value="${S.signup.city}" oninput="S.signup.city=this.value;saveState()" placeholder="e.g. Ikeja, Lagos">
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:24px">
+        <button class="btn o" style="flex:1" onclick="go('signup')">← Back</button>
+        <button class="btn p" style="flex:2" onclick="continueDetails()">Continue →</button>
+      </div>
+    </div>
+  `;
+}
+
+function continueDetails(){
+  const s = S.signup;
+  if(!s.fullName || s.fullName.length < 3){ toast('Please enter your full name','er'); return; }
+  if(!s.email || !s.email.includes('@')){ toast('Please enter a valid email','er'); return; }
+  if(!s.phone || s.phone.length < 8){ toast('Please enter a phone number','er'); return; }
+  if(!s.city){ toast('Please enter your city / LGA','er'); return; }
+  go('signup/consent');
+}
+
+function renderSignupConsent(){
+  const c = S.signup.consent;
+  return `
+    <div class="card">
+      <div class="kicker">Step 3 of 4</div>
+      <h1 style="font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin-bottom:6px">Accept our policies</h1>
+      <p class="muted" style="margin-bottom:20px">You must accept the required policies to create an account. Each acceptance is versioned and stored with your IP and timestamp.</p>
+
+      <div class="al gold" style="margin-bottom:20px">
+        <span class="ic">⚠️</span>
+        <div class="b"><div class="d">Pre-ticked boxes are not permitted. You must actively accept each policy.</div></div>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <div class="cb ${c.terms?'on':''}" onclick="toggleConsent('terms')">
+          <div class="box">${c.terms?'✓':''}</div>
+          <div class="txt"><b>Terms of Service</b> <span style="color:var(--red);font-size:10px;font-weight:800;text-transform:uppercase;margin-left:6px">Required</span><div style="font-size:12px;color:var(--muted);margin-top:4px">Rules of using DealsGate · 22 sections · v2.0</div></div>
+        </div>
+        <div class="cb ${c.privacy?'on':''}" onclick="toggleConsent('privacy')">
+          <div class="box">${c.privacy?'✓':''}</div>
+          <div class="txt"><b>Privacy Policy</b> <span style="color:var(--red);font-size:10px;font-weight:800;text-transform:uppercase;margin-left:6px">Required</span><div style="font-size:12px;color:var(--muted);margin-top:4px">How we handle your data · NDPA 2023 aligned · v2.0</div></div>
+        </div>
+        <div class="cb ${c.refund?'on':''}" onclick="toggleConsent('refund')">
+          <div class="box">${c.refund?'✓':''}</div>
+          <div class="txt"><b>Refund &amp; Dispute Policy</b> <span style="color:var(--red);font-size:10px;font-weight:800;text-transform:uppercase;margin-left:6px">Required</span><div style="font-size:12px;color:var(--muted);margin-top:4px">When and how refunds happen · §13 rules · v2.0</div></div>
+        </div>
+        <div class="cb ${c.acceptable?'on':''}" onclick="toggleConsent('acceptable')">
+          <div class="box">${c.acceptable?'✓':''}</div>
+          <div class="txt"><b>Acceptable Use Policy</b> <span style="color:#94A3B8;font-size:10px;font-weight:800;text-transform:uppercase;margin-left:6px">Optional</span><div style="font-size:12px;color:var(--muted);margin-top:4px">Community guidelines · what is not allowed · v2.0</div></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px">
+        <button class="btn o" style="flex:1" onclick="go('signup/details')">← Back</button>
+        <button class="btn p" style="flex:2" onclick="continueConsent()">Continue →</button>
+      </div>
+    </div>
+  `;
+}
+
+function toggleConsent(k){
+  S.signup.consent[k] = !S.signup.consent[k];
+  saveState();
+  render();
+}
+function continueConsent(){
+  const c = S.signup.consent;
+  if(!c.terms || !c.privacy || !c.refund){
+    toast('You must accept all required policies', 'er');
+    return;
+  }
+  go('signup/otp');
+}
+
+function renderSignupOTP(){
+  return `
+    <div class="card" style="text-align:center">
+      <div class="kicker" style="text-align:center">Step 4 of 4</div>
+      <div style="width:64px;height:64px;border-radius:16px;background:var(--mist);margin:0 auto 18px;display:grid;place-items:center;font-size:30px">📧</div>
+      <h1 style="font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px;margin-bottom:8px">Verify your email</h1>
+      <p class="muted" style="margin-bottom:6px">We sent a 6-digit code to</p>
+      <p style="font-weight:800;color:var(--navy);font-size:15px;margin-bottom:20px">${S.signup.email}</p>
+
+      <div class="otp" id="otpInputs">
+        ${[0,1,2,3,4,5].map(i => `<input maxlength="1" inputmode="numeric" data-i="${i}" oninput="otpIn(this)" onkeydown="otpKey(event,${i})">`).join('')}
+      </div>
+
+      <p style="font-size:12.5px;color:var(--muted);margin-bottom:20px">Resend code in <b style="color:var(--navy)">0:42</b></p>
+
+      <div class="al navy" style="text-align:left;margin-bottom:16px">
+        <span class="ic">💡</span>
+        <div class="b"><div class="d">Demo: type any 6 digits to continue.</div></div>
+      </div>
+
+      <button class="btn p full" onclick="verifyOTP()">Verify →</button>
+    </div>
+  `;
+}
+
+function otpIn(el){
+  el.value = el.value.replace(/\D/g,'').slice(0,1);
+  const i = Number(el.dataset.i);
+  if(el.value && i < 5){
+    const next = document.querySelector(`#otpInputs input[data-i="${i+1}"]`);
+    if(next) next.focus();
+  }
+}
+function otpKey(e, i){
+  if(e.key === 'Backspace' && !e.target.value && i > 0){
+    const prev = document.querySelector(`#otpInputs input[data-i="${i-1}"]`);
+    if(prev) prev.focus();
+  }
+}
+function verifyOTP(){
+  const code = Array.from(document.querySelectorAll('#otpInputs input')).map(i => i.value).join('');
+  if(code.length !== 6){ toast('Enter all 6 digits', 'er'); return; }
+  go('verify');
+}
+
+function renderVerify(){
+  const v = S.signup;
+  return `
+    <div class="card">
+      <div class="kicker">Identity verification</div>
+      <h1 style="font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin-bottom:6px">Verify your identity</h1>
+      <p class="muted" style="margin-bottom:20px">You cannot create or accept deals, take agent jobs, or withdraw funds until your identity is verified.</p>
+
+      <div class="al navy" style="margin-bottom:20px">
+        <span class="ic">🔒</span>
+        <div class="b"><div class="t">Your data is protected</div><div class="d">Your raw NIN or BVN is sent directly to the Nigerian identity provider. It is never stored on DealsGate servers.</div></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+        <div class="card card-gold" style="cursor:pointer;padding:14px;border-width:${v.verifyMethod==='nin'?'2px':'1px'}" onclick="pickVerify('nin')">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="font-size:22px">🆔</div>
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:800;color:var(--navy)">NIN verification</div>
+              <div style="font-size:12px;color:var(--muted)">National Identity Number · 11 digits</div>
+            </div>
+            <div style="font-size:16px;font-weight:900;color:var(--gold)">${v.verifyMethod==='nin'?'✓':''}</div>
+          </div>
+        </div>
+        <div class="card" style="cursor:pointer;padding:14px;border-width:${v.verifyMethod==='bvn'?'2px':'1px'}" onclick="pickVerify('bvn')">
+          <div style="display:flex;gap:12px;align-items:center">
+            <div style="font-size:22px">🏦</div>
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:800;color:var(--navy)">BVN verification</div>
+              <div style="font-size:12px;color:var(--muted)">Bank Verification Number · 11 digits</div>
+            </div>
+            <div style="font-size:16px;font-weight:900;color:var(--gold)">${v.verifyMethod==='bvn'?'✓':''}</div>
+          </div>
+        </div>
+      </div>
+
+      ${v.verifyMethod ? `
+        <div class="fld">
+          <label>Enter your ${v.verifyMethod==='nin'?'NIN':'BVN'}</label>
+          <input value="${v.nin}" maxlength="11" inputmode="numeric" oninput="S.signup.nin=this.value.replace(/\\D/g,'');saveState();render()" placeholder="11-digit number" style="font-family:Menlo,monospace;letter-spacing:.06em">
+          <div class="hint">${v.nin.length}/11 digits</div>
+        </div>
+      ` : ''}
+
+      <button class="btn g full" style="margin-top:20px" onclick="completeVerification()" ${!v.verifyMethod || v.nin.length < 11 ? 'disabled' : ''}>Verify identity →</button>
+    </div>
+  `;
+}
+
+function pickVerify(m){
+  S.signup.verifyMethod = m;
+  saveState();
+  render();
+}
+
+function completeVerification(){
+  S.signup.verificationStatus = 'pending';
+  saveState();
+  render();
+  setTimeout(() => {
+    S.signup.verificationStatus = 'verified';
+    // Copy details over to user
+    if(S.signup.fullName) S.user.name = S.signup.fullName;
+    if(S.signup.email) S.user.email = S.signup.email;
+    if(S.signup.phone) S.user.phone = S.signup.phone;
+    if(S.signup.city) S.user.city = S.signup.city;
+    saveState();
+    toast('Identity verified · welcome to DealsGate', 'ok');
+    go('dashboard');
+  }, 1200);
+}
+
+/* ============================================================
+   SCREEN — MAIN ROUTER (LOGGED IN)
+   ============================================================ */
+function renderScreen(){
+  const r = S.route;
+  if(r === 'dashboard') return renderDashboard();
+  if(r === 'deals') return renderDealsList();
+  if(r.startsWith('deals/')) return renderDealDetail(r.split('/')[1]);
+  if(r === 'deals/create') return renderCreateDeal();
+  if(r === 'deals/published') return renderDealPublished();
+  if(r === 'wallet') return renderWallet();
+  if(r === 'guarantee') return renderGuarantee();
+  if(r === 'requests') return renderRequests();
+  if(r === 'requests/new') return renderNewRequest();
+  if(r === 'referrals') return renderReferrals();
+  if(r === 'profile') return renderProfile();
+  if(r === 'agent') return renderAgent();
+  if(r === 'agent/apply') return renderAgentApply();
+  if(r === 'agent/training') return renderAgentTraining();
+  if(r === 'agent/jobs') return renderAgentJobs();
+  if(r === 'buy') return renderBuyMarket();
+  if(r === 'buy/checkout') return renderBuyCheckout();
+  return '<div class="empty"><div class="em">🧭</div>Route not found: ' + r + '</div>';
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+function renderDashboard(){
+  const activeDeals = S.deals.filter(d => !['COMPLETED','FAILED_INSPECTION','REFUNDED'].includes(d.status));
+  const completed30d = S.deals.filter(d => d.status === 'COMPLETED').length;
+
+  return `
+    <div class="pg-head">
+      <h1>Welcome back, ${S.user.name.split(' ')[0]}</h1>
+      <p>You have ${activeDeals.length} deal${activeDeals.length===1?'':'s'} in flight and ${fmt(S.wallet)} available in your main wallet.</p>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="stat green">
+        <div class="l">Main wallet</div>
+        <div class="v g">${fmt(S.wallet)}</div>
+        <div class="s">Available to withdraw</div>
+      </div>
+      <div class="stat">
+        <div class="l">Guarantee wallet</div>
+        <div class="v gold">${fmt(S.guarantee)}</div>
+        <div class="s">Covers ${Math.floor(S.guarantee/5000)} more deal${Math.floor(S.guarantee/5000)===1?'':'s'}</div>
+      </div>
+      <div class="stat navy">
+        <div class="l">Active deals</div>
+        <div class="v">${activeDeals.length}</div>
+        <div class="s">${activeDeals.length} in flight right now</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:24px">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div class="section-title" style="margin:0">Active deal</div>
+          ${activeDeals[0] ? `<span class="pill ${statusPill(activeDeals[0].status)}">${statusLabel(activeDeals[0].status)}</span>` : ''}
+        </div>
+        ${activeDeals[0] ? `
+          <div style="font-family:Menlo,monospace;font-size:11px;color:var(--muted);font-weight:700">${activeDeals[0].code}</div>
+          <div style="font-size:17px;font-weight:800;color:var(--navy);letter-spacing:-.3px;margin-top:4px">${activeDeals[0].item}</div>
+          <div class="row" style="margin-top:14px"><span class="k">Buyer</span><span class="v" style="font-family:inherit">${activeDeals[0].buyer}</span></div>
+          <div class="row"><span class="k">Item price</span><span class="v">${fmt(activeDeals[0].price)}</span></div>
+          <div class="row"><span class="k">Your net on completion</span><span class="v g">${fmt(activeDeals[0].price * 0.98)}</span></div>
+          <button class="btn o sm" style="margin-top:14px" onclick="go('deals/${activeDeals[0].code}')">View deal →</button>
+        ` : `<div class="empty"><div class="em">📦</div>No active deals.<br>Create one to get started.</div>`}
+      </div>
+
+      <div class="card">
+        <div class="section-title">Recent activity</div>
+        ${S.transactions.slice(0,5).map(t => `
+          <div class="row">
+            <div class="k">
+              <div style="font-size:12.5px;color:var(--navy);font-weight:700">${t.desc.split(' · ')[0]}</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">${ago(t.at)}</div>
+            </div>
+            <div class="v ${t.amt > 0 ? 'g' : ''}">${t.amt > 0 ? '+' : '−'}${fmt(Math.abs(t.amt))}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Quick actions</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+        <button class="btn g" onclick="startCreateDeal()">➕ Create a Protected Deal</button>
+        <button class="btn o" onclick="go('wallet')">💰 View wallet</button>
+        <button class="btn o" onclick="go('requests/new')">🔍 Request a Vet Agent</button>
+        <button class="btn o" onclick="go('referrals')">🎁 Share referral link</button>
+      </div>
+    </div>
+  `;
+}
+
+function statusPill(s){
+  return {
+    'DRAFT':'mist','GUARANTEE_PENDING':'gold','AWAITING_BUYER_PAYMENT':'gold',
+    'PAID':'blue','OPEN_FOR_AGENT':'blue','AGENT_ACCEPTED':'blue',
+    'INSPECTED':'blue','EVIDENCE_REVIEW':'gold','APPROVED':'blue',
+    'LOGISTICS_DISPATCHED':'blue','IN_TRANSIT':'blue','DELIVERED':'green',
+    'COMPLETED':'green','FAILED_INSPECTION':'red','CANCELLED':'mist',
+    'DISPUTED':'red','TRANSIT_TOTAL_REJECTION':'red','FRAUD_SWAP':'red',
+  }[s] || 'mist';
+}
+function statusLabel(s){
+  return {
+    'AWAITING_BUYER_PAYMENT':'Awaiting payment','PAID':'Escrow funded',
+    'OPEN_FOR_AGENT':'Awaiting agent','AGENT_ACCEPTED':'Agent en route',
+    'INSPECTED':'Inspected','EVIDENCE_REVIEW':'Evidence review',
+    'APPROVED':'Approved','LOGISTICS_DISPATCHED':'Dispatched',
+    'IN_TRANSIT':'In transit','DELIVERED':'Delivered','COMPLETED':'Completed',
+    'FAILED_INSPECTION':'Failed inspection','CANCELLED':'Cancelled',
+    'DISPUTED':'Disputed','TRANSIT_TOTAL_REJECTION':'Rejected',
+    'FRAUD_SWAP':'Fraud flagged',
+  }[s] || s;
+}
+
+/* ============================================================
+   DEALS LIST
+   ============================================================ */
+let dealsFilter = 'all';
+function renderDealsList(){
+  const filtered = S.deals.filter(d => {
+    if(dealsFilter === 'all') return true;
+    if(dealsFilter === 'pending') return !['COMPLETED','FAILED_INSPECTION','REFUNDED'].includes(d.status);
+    if(dealsFilter === 'success') return d.status === 'COMPLETED';
+    if(dealsFilter === 'unsuccess') return ['FAILED_INSPECTION','REFUNDED'].includes(d.status);
+    return true;
+  });
+
+  return `
+    <div class="pg-head">
+      <h1>My Deals</h1>
+      <p>${S.deals.length} total · ${S.deals.filter(d=>d.status==='COMPLETED').length} successful</p>
+    </div>
+
+    <div class="card" style="padding:0">
+      <div style="display:flex;gap:6px;padding:14px;border-bottom:1px solid var(--line);overflow-x:auto">
+        <button class="btn ${dealsFilter==='all'?'p':'o'} sm" onclick="dealsFilter='all';render()">All · ${S.deals.length}</button>
+        <button class="btn ${dealsFilter==='pending'?'p':'o'} sm" onclick="dealsFilter='pending';render()">Active</button>
+        <button class="btn ${dealsFilter==='success'?'p':'o'} sm" onclick="dealsFilter='success';render()">Successful</button>
+        <button class="btn ${dealsFilter==='unsuccess'?'p':'o'} sm" onclick="dealsFilter='unsuccess';render()">Unsuccessful</button>
+      </div>
+
+      ${filtered.length === 0 ? `
+        <div class="empty"><div class="em">📦</div>No deals in this filter yet.</div>
+      ` : filtered.map(d => `
+        <div style="padding:16px 20px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s"
+             onmouseover="this.style.background='var(--mist)'" onmouseout="this.style.background=''"
+             onclick="go('deals/${d.code}')">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+            <div style="flex:1;min-width:0">
+              <div style="font-family:Menlo,monospace;font-size:11px;color:var(--muted);font-weight:700">${d.code}</div>
+              <div style="font-size:15px;font-weight:800;color:var(--navy);margin-top:3px">${d.item}</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:5px">${d.lga} · ${fmt(d.price)} · ${ago(d.createdAt)}</div>
+            </div>
+            <span class="pill ${statusPill(d.status)}">${statusLabel(d.status)}</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+/* ============================================================
+   DEAL DETAIL
+   ============================================================ */
+function renderDealDetail(code){
+  const d = S.deals.find(x => x.code === code);
+  if(!d) return '<div class="empty"><div class="em">📦</div>Deal not found.</div>';
+
+  const stages = ['PAID','AGENT_ACCEPTED','EVIDENCE_REVIEW','APPROVED','IN_TRANSIT','DELIVERED','COMPLETED'];
+  const curIdx = stages.indexOf(d.status);
+
+  return `
+    <div class="pg-head">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <button class="btn o sm" onclick="go('deals')">← Deals</button>
+        <span class="pill ${statusPill(d.status)}">${statusLabel(d.status)}</span>
+      </div>
+      <h1>${d.item}</h1>
+      <p>Deal code <span style="font-family:Menlo,monospace;font-weight:700;color:var(--navy)">${d.code}</span> · ${d.lga} · created ${ago(d.createdAt)}</p>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <div class="card">
+          <div class="section-title">Timeline</div>
+          <div class="tl">
+            <div class="tli done"><div class="t">Escrow funded by buyer</div><div class="d">${fmt(d.price * 1.04 + 9500)} held safely</div></div>
+            <div class="tli ${curIdx >= 1 ? 'done' : 'pending'}"><div class="t">Vet Agent accepted</div><div class="d">${curIdx >= 1 ? 'Blessing Eze · 47m from pin' : 'Awaiting accept'}</div></div>
+            <div class="tli ${curIdx >= 2 ? 'done' : 'pending'}"><div class="t">Inspection submitted</div><div class="d">${curIdx >= 2 ? 'Verdict: PASS' : 'Awaiting inspection'}</div></div>
+            <div class="tli ${curIdx >= 3 ? 'done' : curIdx === 2 ? 'now' : 'pending'}"><div class="t">Buyer approves evidence</div><div class="d">${curIdx >= 3 ? 'Logistics unlocked' : 'The evidence gate — nothing moves until this completes'}</div></div>
+            <div class="tli ${curIdx >= 4 ? 'done' : curIdx === 3 ? 'now' : 'pending'}"><div class="t">Picked up</div><div class="d">${curIdx >= 4 ? 'GIG Logistics · Lagos' : 'Awaiting dispatch'}</div></div>
+            <div class="tli ${curIdx >= 5 ? 'done' : curIdx === 4 ? 'now' : 'pending'}"><div class="t">In transit</div><div class="d">${curIdx >= 5 ? 'Delivered' : curIdx === 4 ? 'En route to buyer' : 'Awaiting'}</div></div>
+            <div class="tli ${curIdx >= 6 ? 'done' : curIdx === 5 ? 'now' : 'pending'}"><div class="t">Delivered &amp; confirmed</div><div class="d">${curIdx >= 6 ? 'Buyer confirmed · rated 5★' : curIdx === 5 ? 'Awaiting confirmation' : 'Awaiting'}</div></div>
+            <div class="tli ${d.status === 'COMPLETED' ? 'done' : 'pending'}"><div class="t">Settlement</div><div class="d">${d.status === 'COMPLETED' ? fmt(d.price * 0.98) + ' paid · guarantee refunded' : 'Awaiting completion'}</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="section-title">Financials</div>
+          <div class="row"><span class="k">Item price</span><span class="v">${fmt(d.price)}</span></div>
+          <div class="row"><span class="k">Buyer service fee (2%)</span><span class="v">${fmt(d.price * 0.02)}</span></div>
+          <div class="row"><span class="k">Vet Agent fee</span><span class="v">${fmt(6000)}</span></div>
+          <div class="row"><span class="k">Logistics</span><span class="v">${fmt(3500)}</span></div>
+          <div class="row total"><span class="k">Buyer paid</span><span class="v">${fmt(d.price * 1.04 + 9500)}</span></div>
+          <div class="row" style="margin-top:12px"><span class="k">Your net (after 2% fee)</span><span class="v g">${fmt(d.price * 0.98)}</span></div>
+          <div class="row"><span class="k">Guarantee refund</span><span class="v g">+₦5,000</span></div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">Buyer</div>
+          <div style="display:flex;gap:12px;align-items:center">
+            <div class="av" style="background:var(--navy);color:var(--gold)">${d.buyer.split(' ').map(x=>x[0]).join('')}</div>
+            <div>
+              <div style="font-weight:800;color:var(--navy);font-size:14px">${d.buyer}</div>
+              <div style="font-size:12px;color:var(--muted);margin-top:2px">Verified individual · Lagos</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ============================================================
+   CREATE DEAL WIZARD
+   ============================================================ */
+function startCreateDeal(){
+  S.currentDeal = {
+    step: 1,
+    item: '', description: '',
+    sector: 'Phones & Tablets', industry: '', productLine: '',
+    condition: 'Used', quantity: 1,
+    qualityNotes: '', price: 0,
+    photos: [], video: null,
+    address: '', lat: null, lng: null, lga: '',
+    guaranteePaid: false,
+    code: null,
+  };
+  saveState();
+  go('deals/create');
+}
+
+function renderCreateDeal(){
+  const d = S.currentDeal;
+  if(!d) { startCreateDeal(); return ''; }
+  const step = d.step;
+
+  return `
+    <div class="pg-head">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px">
+        <button class="btn o sm" onclick="exitCreateDeal()">← Cancel</button>
+        <span style="font-family:Menlo,monospace;font-size:12px;color:var(--muted);font-weight:700">Step ${step} of 7</span>
+      </div>
+      <div class="steps">
+        ${[1,2,3,4,5,6,7].map(i => `<div class="s ${i < step ? 'done' : i === step ? 'on' : ''}"></div>`).join('')}
+      </div>
+    </div>
+
+    ${step === 1 ? renderWizStep1() : ''}
+    ${step === 2 ? renderWizStep2() : ''}
+    ${step === 3 ? renderWizStep3() : ''}
+    ${step === 4 ? renderWizStep4() : ''}
+    ${step === 5 ? renderWizStep5() : ''}
+    ${step === 6 ? renderWizStep6() : ''}
+    ${step === 7 ? renderWizStep7() : ''}
+  `;
+}
+
+function exitCreateDeal(){
+  if(!confirm('Cancel creating this deal? Your progress will be lost.')) return;
+  S.currentDeal = null;
+  saveState();
+  go('dashboard');
+}
+function wizNext(){ S.currentDeal.step = Math.min(7, S.currentDeal.step + 1); saveState(); render(); window.scrollTo(0,0); }
+function wizBack(){ S.currentDeal.step = Math.max(1, S.currentDeal.step - 1); saveState(); render(); window.scrollTo(0,0); }
+
+function renderWizStep1(){
+  const d = S.currentDeal;
+  return `
+    <div class="card">
+      <div class="kicker">Step 1 · Item basics</div>
+      <h2 style="font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px;margin-bottom:6px">What are you selling?</h2>
+      <p class="muted" style="margin-bottom:20px">The item name and description become the buyer's primary reference. Be specific.</p>
+
+      <div class="fld">
+        <label>Item name *</label>
+        <input value="${d.item}" oninput="S.currentDeal.item=this.value;saveState()" placeholder="e.g. iPhone 14 Pro 256GB">
+      </div>
+      <div class="fld">
+        <label>Description</label>
+        <textarea oninput="S.currentDeal.description=this.value;saveState()" placeholder="What is included? What should the buyer know?">${d.description}</textarea>
+      </div>
+
+      <div class="al gold" style="margin-top:16px">
+        <span class="ic">🌳</span>
+        <div class="b"><div class="t">Taxonomy auto-filled from item name</div><div class="d">Our system suggests sector, industry, and product line based on what you typed. You can override anything.</div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px">
+        <div class="card card-sm">
+          <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:4px">Sector</div>
+          <div style="font-weight:800;color:var(--navy);font-size:14px">${d.sector}</div>
+        </div>
+        <div class="card card-sm">
+          <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:4px">Industry</div>
+          <div style="font-weight:800;color:var(--navy);font-size:14px">Smartphones</div>
+        </div>
+        <div class="card card-sm">
+          <div style="font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:4px">Product line</div>
+          <div style="font-weight:800;color:var(--navy);font-size:14px">iPhone 14 Pro</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:24px">
+        <button class="btn o" style="flex:1" onclick="exitCreateDeal()">Cancel</button>
+        <button class="btn p" style="flex:2" onclick="if(S.currentDeal.item.length<3){toast('Item name must be at least 3 characters','er');return}else wizNext()">Continue →</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderWizStep2(){
+  const d = S.currentDeal;
+  const conditions = ['New', 'Like-New', 'Used'];
+  return `
+    <div class="card">
+      <div class="kicker">Step 2 · Condition &amp; quantity</div>
+      <h2 style="font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px;margin-bottom:6px">Condition and quantity</h2>
+      <p class="muted" style="margin-bottom:20px">Be honest. The Vet Agent verifies the item against what you declare here.</p>
+
+      <div class="fld">
+        <label>Condition *</label>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          ${conditions.map(c => `
+            <div class="card" style="cursor:pointer;padding:14px;text-align:center;border-width:${d.condition===c?'2px':'1px'};border-color:${d.condition===c?'var(--gold)':'var(--line)'};background:${d.condition===c?'#FEFBEB':''}" onclick="S.currentDeal.condition='${c}';saveState();render()">
+              <div style="font-weight:800;color:var(--navy);font-size:14px">${c}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="fld">
+        <label>Quantity *</label>
+        <input type="number" min="1" step="1" value="${d.quantity}" oninput="S.currentDeal.quantity=Number(this.value);saveState()">
+        <div class="hint">Integer ≥ 1. Units the buyer is paying for.</div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:24px">
+        <button class="btn o" style="flex:1" onclick="wizBack()">← Back</button>
+        <button class="btn p" style="flex:2" onclick="if(S.currentDeal.quantity<1){toast('Quantity must be at least 1','er');return}else wizNext()">Continue →</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderWizStep3(){
+  const d = S.currentDeal;
+  return `
+    <div class="card">
+      <div class="kicker">Step 3 · Quality notes &amp; price</div>
+      <h2 style="font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px;margin-bottom:6px">Quality details and price</h2>
+      <p class="muted" style="margin-bottom:20px">These notes protect you. If a buyer disputes later, the Vet Agent's report and your listing notes are what a mediator reviews.</p>
+
+      <div class="fld">
+        <label>Quality notes *</label>
+        <textarea oninput="S.currentDeal.qualityNotes=this.value;saveState()" placeholder="Battery health, scratches, functionality, repairs, etc." style="min-height:100px">${d.qualityNotes}</textarea>
+        <div class="hint">Describe the exact grade/spec the buyer is paying for.</div>
+      </div>
+
+      <div class="fld">
+        <label>Agreed price (₦) *</label>
+        <input type="number" min="1" step="1000" value="${d.price||''}" oninput="S.currentDeal.price=Number(this.value);saveState()" placeholder="450000" style="font-family:Menlo,monospace;font-size:16px">
+        <div class="hint">Buyer pays item + 2% fee + ₦6,000 vet fee + logistics.</div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:24px">
+        <button class="btn o" style="flex:1" onclick="wizBack()">← Back</button>
+        <button class="btn p" style="flex:2" onclick="if(S.currentDeal.qualityNotes.length<10||S.currentDeal.price<1){toast('Please fill in quality notes and price','er');return}else wizNext()">Continue →</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderWizStep4(){
+  const d = S.currentDeal;
+  return `
+    <div class="card">
+      <div class="kicker">Step 4 · Media uploads</div>
+      <h2 style="font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px;margin-bottom:6px">Upload photos and video</h2>
+      <p class="muted" style="margin-bottom:20px">2–4 photos and one continuous video ≤ 60 seconds. Server validates both before publish.</p>
+
+      <div class="fld">
+        <label>Photos · 2–4 required</label>
+        <div class="mtiles">
+          ${[0,1,2,3].map(i => `
+            <div class="mtile ${d.photos.includes(i)?'filled':''}" onclick="togglePhoto(${i})" style="cursor:pointer">
+              ${d.photos.includes(i)?'🖼️':'+'}
+            </div>
+          `).join('')}
+        </div>
+        <div class="hint" style="margin-top:8px">${d.photos.length} of 4 uploaded ${d.photos.length >= 2 ? '· ✓ within range' : ''}</div>
+      </div>
+
+      <div class="fld" style="margin-top:20px">
+        <label>Continuous video · ≤ 60 seconds</label>
+        <div class="mtile video" onclick="toggleVideo()" style="cursor:pointer">
+          ${d.video ? '▶ 45s continuous · no edits' : '▶ Tap to upload video'}
+        </div>
+        <div class="hint">Record one unedited take. This becomes the buyer's primary evidence.</div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:24px">
+        <button class="btn o" style="flex:1" onclick="wizBack()">← Back</button>
+        <button class="btn p" style="flex:2" onclick="if(S.currentDeal.photos.length<2||!S.currentDeal.video){toast('Upload at least 2 photos and a video','er');return}else wizNext()">Continue →</button>
+      </div>
+    </div>
+  `;
+}
+
+function togglePhoto(i){
+  const arr = S.currentDeal.photos;
+  const idx = arr.indexOf(i);
+  if(idx >= 0) arr.splice(idx,1);
+  else if(arr.length < 4) arr.push(i);
+  else toast('Maximum 4 photos');
+  saveState();
+  render();
+}
+function toggleVideo(){
+  S.currentDeal.video = S.currentDeal.video ? null : 45;
+  saveState();
+  render();
+}
+
+function renderWizStep5(){
+  const d = S.currentDeal;
+  return `
+    <div class="card">
+      <div class="kicker">Step 5 · Inspection location</div>
+      <h2 style="font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px;margin-bottom:6px">Where will the Vet Agent meet you?</h2>
+      <p class="muted" style="margin-bottom:20px">This is the physical location the agent will travel to. The pin must be exact.</p>
+
+      <div class="wmap" style="margin-bottom:16px">
+        <div class="pin"></div>
+        <div class="lbl">${d.lat ? d.lat.toFixed(4)+'° N, '+d.lng.toFixed(4)+'° E' : 'Tap to drop pin'}</div>
+      </div>
+
+      <div class="fld">
+        <label>Address text *</label>
+        <input value="${d.address}" oninput="S.currentDeal.address=this.value;saveState()" placeholder="Street, building, area">
+      </div>
+
+      <div class="fld">
+        <label>LGA *</label>
+        <select onchange="S.currentDeal.lga=this.value;saveState()">
+          <option value="">Select LGA</option>
+          <option ${d.lga==='Ikeja'?'selected':''}>Ikeja</option>
+          <option ${d.lga==='Eti-Osa'?'selected':''}>Eti-Osa</option>
+          <option ${d.lga==='Surulere'?'selected':''}>Surulere</option>
+          <option ${d.lga==='Kosofe'?'selected':''}>Kosofe</option>
+        </select>
+      </div>
+
+      <div class="fld">
+        <label>Drop map pin</label>
+        <button class="btn o full" onclick="dropPin()">📍 Use my current location (demo)</button>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:24px">
+        <button class="btn o" style="flex:1" onclick="wizBack()">← Back</button>
+        <button class="btn p" style="flex:2" onclick="if(!S.currentDeal.address||!S.currentDeal.lat||!S.currentDeal.lga){toast('Address, pin, and LGA required','er');return}else wizNext()">Continue →</button>
+      </div>
+    </div>
+  `;
+}
+
+function dropPin(){
+  S.currentDeal.lat = 6.6018 + (Math.random() - 0.5) * 0.02;
+  S.currentDeal.lng = 3.3515 + (Math.random() - 0.5) * 0.02;
+  if(!S.currentDeal.address) S.currentDeal.address = '12 Allen Avenue, Ikeja, Lagos';
+  if(!S.currentDeal.lga) S.currentDeal.lga = 'Ikeja';
+  saveState();
+  toast('Pin dropped', 'ok');
+  render();
+}
+
+function renderWizStep6(){
+  const d = S.currentDeal;
+  return `
+    <div class="card">
+      <div class="kicker">Step 6 · Guarantee</div>
+      <h2 style="font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px;margin-bottom:6px">Fund the ₦5,000 guarantee</h2>
+      <p class="muted" style="margin-bottom:20px">This is a hold, not a fee. Refunded to you on successful completion. Forfeited only on failed inspection or fraud ruling.</p>
+
+      <div class="card card-gold" style="padding:20px;text-align:center;margin-bottom:16px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#78350F;margin-bottom:6px">Guarantee wallet balance</div>
+        <div style="font-family:Menlo,monospace;font-size:30px;font-weight:800;color:var(--navy)">${fmt(S.guarantee)}</div>
+        <div style="font-size:12px;color:#78350F;margin-top:4px">Covers ${Math.floor(S.guarantee/5000)} more deal${Math.floor(S.guarantee/5000)===1?'':'s'}</div>
+      </div>
+
+      <div class="card">
+        <div class="row"><span class="k">Guarantee wallet</span><span class="v">${fmt(S.guarantee)}</span></div>
+        <div class="row"><span class="k">Hold for this deal</span><span class="v r">− ₦5,000</span></div>
+        <div class="row total"><span class="k">Remaining after publish</span><span class="v">${fmt(Math.max(0, S.guarantee - 5000))}</span></div>
+      </div>
+
+      ${S.guarantee < 5000 ? `
+        <div class="al red" style="margin-top:16px">
+          <span class="ic">⚠️</span>
+          <div class="b"><div class="t">Insufficient guarantee wallet</div><div class="d">You need at least ₦5,000 to publish. Top up from your main wallet.</div></div>
+        </div>
+        <button class="btn g full" style="margin-top:12px" onclick="topUpGuarantee(20000)">Top up ₦20,000 from main wallet →</button>
+      ` : ''}
+
+      <div style="display:flex;gap:10px;margin-top:24px">
+        <button class="btn o" style="flex:1" onclick="wizBack()">← Back</button>
+        <button class="btn p" style="flex:2" onclick="payGuarantee()" ${S.guarantee < 5000 ? 'disabled' : ''}>Pay ₦5,000 guarantee →</button>
+      </div>
+    </div>
+  `;
+}
+
+function topUpGuarantee(amt){
+  if(S.wallet < amt){ toast('Not enough in main wallet', 'er'); return; }
+  S.wallet -= amt;
+  S.guarantee += amt;
+  S.transactions.unshift({ type:'cr', code:'GUARANTEE_TOPUP', desc:'Top up from main wallet', amt: amt, at: Date.now() });
+  saveState();
+  toast('₦' + amt.toLocaleString() + ' moved to guarantee wallet', 'ok');
+  render();
+}
+
+function payGuarantee(){
+  if(S.guarantee < 5000){ toast('Insufficient guarantee balance', 'er'); return; }
+  S.guarantee -= 5000;
+  S.currentDeal.guaranteePaid = true;
+  saveState();
+  toast('Guarantee held', 'ok');
+  wizNext();
+}
+
+function renderWizStep7(){
+  const d = S.currentDeal;
+  return `
+    <div class="card">
+      <div class="kicker">Step 7 · Review &amp; publish</div>
+      <h2 style="font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.4px;margin-bottom:6px">Review your listing</h2>
+      <p class="muted" style="margin-bottom:20px">This is exactly what the buyer will see.</p>
+
+      <div class="card card-navy" style="padding:20px;margin-bottom:16px">
+        <div style="font-family:Menlo,monospace;font-size:11px;color:rgba(255,255,255,.6);font-weight:700">PROTECTED DEAL · ESCROW PROTECTED</div>
+        <div style="font-size:18px;font-weight:800;margin-top:6px;color:#fff">${d.item || 'Untitled item'}</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.75);margin-top:4px">${d.condition} · Quantity ${d.quantity} · ${d.lga}</div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="section-title">Cost breakdown for buyer</div>
+        <div class="row"><span class="k">Item price</span><span class="v">${fmt(d.price)}</span></div>
+        <div class="row"><span class="k">Buyer service fee (2%)</span><span class="v">${fmt(d.price * 0.02)}</span></div>
+        <div class="row"><span class="k">Vet Agent inspection</span><span class="v">${fmt(6000)}</span></div>
+        <div class="row"><span class="k">Logistics</span><span class="v">${fmt(3500)}</span></div>
+        <div class="row total"><span class="k">Buyer total</span><span class="v">${fmt(d.price * 1.04 + 9500)}</span></div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px">
+        <div class="section-title">Your payout on success</div>
+        <div class="row"><span class="k">Item payout (after 2% seller fee)</span><span class="v g">${fmt(d.price * 0.98)}</span></div>
+        <div class="row"><span class="k">Guarantee refund</span><span class="v g">+₦5,000</span></div>
+        <div class="row total"><span class="k">Net to you</span><span class="v">${fmt(d.price * 0.98 + 5000)}</span></div>
+      </div>
+
+      <div class="al green">
+        <span class="ic">✓</span>
+        <div class="b"><div class="t">All fields validated</div><div class="d">Item name, taxonomy, condition, quantity, quality notes, price, media, location, guarantee — server-side checks passed.</div></div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:24px">
+        <button class="btn o" style="flex:1" onclick="wizBack()">← Back</button>
+        <button class="btn g" style="flex:2" onclick="publishDeal()">Publish Deal →</button>
+      </div>
+    </div>
+  `;
+}
+
+function publishDeal(){
+  const d = S.currentDeal;
+  const code = 'DG-' + Math.floor(Math.random() * 900000 + 100000);
+  const deal = {
+    code,
+    item: d.item,
+    price: d.price,
+    status: 'AWAITING_BUYER_PAYMENT',
+    lga: d.lga,
+    buyer: '—',
+    createdAt: Date.now(),
+    timeline: ['AWAITING_BUYER_PAYMENT'],
+  };
+  S.deals.unshift(deal);
+  S.transactions.unshift({ type:'db', code:'GUARANTEE_HOLD', desc:'Guarantee hold · ' + code, amt: -5000, at: Date.now() });
+  d.code = code;
+  saveState();
+  go('deals/published');
+}
+
+function renderDealPublished(){
+  const d = S.currentDeal;
+  if(!d || !d.code) { go('dashboard'); return ''; }
+  const url = 'dealsgate.ng/deal/' + d.code + '?t=tok_' + uid();
+  return `
+    <div class="card" style="background:linear-gradient(155deg,var(--green2),var(--green));color:#fff;padding:32px;text-align:center;border:none;margin-bottom:20px">
+      <div style="width:64px;height:64px;border-radius:50%;background:#fff;color:var(--green);display:grid;place-items:center;font-size:32px;font-weight:900;margin:0 auto 16px">✓</div>
+      <div style="font-size:26px;font-weight:800;letter-spacing:-.6px">Deal published</div>
+      <div style="font-size:14px;color:rgba(255,255,255,.9);margin-top:8px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.55">Your Protected Deal is live. Share the buyer link — every view is a protected transaction.</div>
+    </div>
+
+    <div class="card" style="text-align:center;margin-bottom:16px">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px">Deal code</div>
+      <div style="font-family:Menlo,monospace;font-size:22px;font-weight:800;color:var(--navy);letter-spacing:.04em">${d.code}</div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:8px">Buyer link</div>
+      <div style="font-family:Menlo,monospace;font-size:13px;color:var(--navy);font-weight:700;word-break:break-all;line-height:1.5;padding:12px;background:var(--mist);border-radius:8px">${url}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+        <button class="btn o" onclick="copyLink('${url}')">📋 Copy link</button>
+        <button class="btn gr" onclick="shareWhatsApp('${url}','${d.code}')">💬 Share via WhatsApp</button>
+      </div>
+    </div>
+
+    <div class="card card-green" style="margin-bottom:20px">
+      <div style="font-size:13px;color:#065F46;line-height:1.6;font-weight:600">Share this link with buyers directly. When they open it, they see the deal page, your verified seller dossier, and the escrow-protected checkout. Nothing ships until they approve the inspection.</div>
+    </div>
+
+    <div style="display:flex;gap:10px">
+      <button class="btn o" style="flex:1" onclick="S.currentDeal=null;saveState();go('dashboard')">Done</button>
+      <button class="btn p" style="flex:1" onclick="go('deals/${d.code}')">View deal page →</button>
+    </div>
+  `;
+}
+
+function copyLink(url){
+  const full = 'https://' + url;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(full).then(() => toast('Link copied', 'ok')).catch(() => toast('Link copied (demo)', 'ok'));
+  } else {
+    toast('Link copied (demo)', 'ok');
+  }
+}
+function shareWhatsApp(url, code){
+  const text = encodeURIComponent('Protected Deal ' + code + ' on DealsGate\n\nhttps://' + url);
+  window.open('https://wa.me/?text=' + text, '_blank');
+}
+
+/* ============================================================
+   WALLET
+   ============================================================ */
+function renderWallet(){
+  return `
+    <div class="pg-head">
+      <h1>Wallet</h1>
+      <p>Your main wallet holds item payouts and refunds. Guarantee wallet is separate.</p>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="stat green">
+        <div class="l">Main wallet</div>
+        <div class="v g">${fmt(S.wallet)}</div>
+        <div class="s">Available to withdraw or spend</div>
+      </div>
+      <div class="stat">
+        <div class="l">Guarantee wallet</div>
+        <div class="v gold">${fmt(S.guarantee)}</div>
+        <div class="s">Auto-debits ₦5,000 per new deal</div>
+      </div>
+      <div class="stat navy">
+        <div class="l">Total earned (30d)</div>
+        <div class="v">${fmt(S.transactions.filter(t=>t.type==='cr'&&t.at>Date.now()-30*86400000).reduce((s,t)=>s+t.amt,0))}</div>
+        <div class="s">From item payouts and refunds</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="section-title" style="margin:0">Actions</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+        <button class="btn g" onclick="openWithdraw()">💸 Withdraw</button>
+        <button class="btn o" onclick="openDeposit()">+ Deposit</button>
+        <button class="btn o" onclick="go('guarantee')">🛡️ Guarantee wallet</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Transaction history</div>
+      ${S.transactions.length === 0 ? `<div class="empty"><div class="em">📭</div>No transactions yet.</div>` : S.transactions.map(t => `
+        <div class="row">
+          <div class="k">
+            <div style="font-size:13px;color:var(--navy);font-weight:700">${t.desc.split(' · ')[0]}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;font-family:Menlo,monospace">${t.code} · ${ago(t.at)}</div>
+          </div>
+          <div class="v ${t.amt > 0 ? 'g' : ''}">${t.amt > 0 ? '+' : '−'}${fmt(Math.abs(t.amt))}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function openWithdraw(){
+  const bal = S.wallet;
+  openModal(`
+    <div class="modal-head"><h3>Withdraw to bank</h3><button class="x" onclick="closeModal()">×</button></div>
+    <div class="modal-body">
+      <div class="card card-navy" style="padding:18px;margin-bottom:20px;text-align:center">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6)">Available balance</div>
+        <div style="font-family:Menlo,monospace;font-size:32px;font-weight:800;color:var(--gold);margin-top:8px">${fmt(bal)}</div>
+      </div>
+
+      <div class="fld">
+        <label>Amount to withdraw (partial allowed)</label>
+        <input id="wAmt" type="number" value="${Math.min(50000, bal)}" min="100" max="${bal}" style="font-size:18px;font-family:Menlo,monospace;font-weight:800">
+        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn o sm" onclick="document.getElementById('wAmt').value=1000">₦1,000</button>
+          <button class="btn o sm" onclick="document.getElementById('wAmt').value=5000">₦5,000</button>
+          <button class="btn o sm" onclick="document.getElementById('wAmt').value=50000">₦50,000</button>
+          <button class="btn o sm" onclick="document.getElementById('wAmt').value=${bal}">Max</button>
+        </div>
+      </div>
+
+      <div class="fld">
+        <label>Verification method</label>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label class="card card-sm" style="cursor:pointer;border:2px solid var(--green);background:#F0FDF4;display:flex;gap:12px;align-items:center">
+            <input type="radio" name="vm" checked value="totp">
+            <div style="flex:1"><div style="font-weight:800;color:var(--navy);font-size:14px">🔐 Google Authenticator</div><div style="font-size:12px;color:var(--muted)">TOTP · recommended</div></div>
+          </label>
+          <label class="card card-sm" style="cursor:pointer;display:flex;gap:12px;align-items:center">
+            <input type="radio" name="vm" value="email">
+            <div style="flex:1"><div style="font-weight:800;color:var(--navy);font-size:14px">📧 Email OTP</div><div style="font-size:12px;color:var(--muted)">Sent to ${S.user.email}</div></div>
+          </label>
+          <label class="card card-sm" style="cursor:pointer;display:flex;gap:12px;align-items:center">
+            <input type="radio" name="vm" value="sms">
+            <div style="flex:1"><div style="font-weight:800;color:var(--navy);font-size:14px">📱 SMS OTP</div><div style="font-size:12px;color:var(--muted)">Sent to ${S.user.phone}</div></div>
+          </label>
+        </div>
+      </div>
+
+      <div class="al navy">
+        <span class="ic">💡</span>
+        <div class="b"><div class="d">Transfer fee: ₦10 (≤₦5k), ₦25 (≤₦50k), ₦50 (&gt;₦50k). Stamp duty ₦50 applies over ₦10,000. Partial withdrawals leave the remainder in your wallet.</div></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn o" onclick="closeModal()">Cancel</button>
+      <button class="btn gr" onclick="withdrawNext()">Continue → verify</button>
+    </div>
+  `);
+}
+
+function withdrawNext(){
+  const amt = Number(document.getElementById('wAmt').value);
+  if(!amt || amt < 100){ toast('Enter a valid amount', 'er'); return; }
+  if(amt > S.wallet){ toast('Amount exceeds balance', 'er'); return; }
+  const method = document.querySelector('input[name="vm"]:checked').value;
+  openModal(`
+    <div class="modal-head"><h3>Verify via ${method === 'totp' ? 'Google Authenticator' : method === 'email' ? 'Email OTP' : 'SMS OTP'}</h3><button class="x" onclick="closeModal()">×</button></div>
+    <div class="modal-body">
+      <div style="text-align:center;font-size:44px;margin:10px 0 14px">${method === 'totp' ? '🔐' : method === 'email' ? '📧' : '📱'}</div>
+      <p style="text-align:center;font-size:13.5px;color:var(--muted);margin-bottom:16px">Enter the 6-digit code</p>
+      <div class="otp">
+        ${[0,1,2,3,4,5].map(i => `<input maxlength="1" inputmode="numeric" data-i="${i}" oninput="otpIn(this)" onkeydown="otpKey(event,${i})">`).join('')}
+      </div>
+      <div class="row"><span class="k">Withdraw</span><span class="v">${fmt(amt)}</span></div>
+      <div class="row"><span class="k">Transfer fee</span><span class="v r">−${fmt(amt<=5000?10:amt<=50000?25:50)}</span></div>
+      <div class="row total"><span class="k">Net to bank</span><span class="v">${fmt(amt - (amt<=5000?10:amt<=50000?25:50))}</span></div>
+      <div class="al navy" style="margin-top:14px"><span class="ic">💡</span><div class="b"><div class="d">Demo: type any 6 digits to confirm.</div></div></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn o" onclick="openWithdraw()">← Back</button>
+      <button class="btn gr" onclick="doWithdraw(${amt})">Confirm withdrawal</button>
+    </div>
+  `);
+}
+
+function doWithdraw(amt){
+  const code = Array.from(document.querySelectorAll('#modalBox .otp input')).map(i => i.value).join('');
+  if(code.length !== 6){ toast('Enter 6 digits', 'er'); return; }
+  const fee = amt <= 5000 ? 10 : amt <= 50000 ? 25 : 50;
+  const net = amt - fee;
+  S.wallet -= amt;
+  S.transactions.unshift({ type:'db', code:'WITHDRAWAL', desc:'Withdrawal to GTBank · ···· 6789', amt: -amt, at: Date.now() });
+  saveState();
+  closeModal();
+  toast('₦' + net.toLocaleString() + ' sent to bank', 'ok');
+  render();
+}
+
+function openDeposit(){
+  openModal(`
+    <div class="modal-head"><h3>Deposit to wallet</h3><button class="x" onclick="closeModal()">×</button></div>
+    <div class="modal-body">
+      <div class="fld">
+        <label>Amount (₦)</label>
+        <input id="dAmt" type="number" value="50000" min="1000" step="1000" style="font-size:18px;font-family:Menlo,monospace;font-weight:800">
+      </div>
+      <div class="al navy"><span class="ic">💡</span><div class="b"><div class="d">Deposits are processed by our licensed payment partner. Funds appear in your wallet within 1 minute.</div></div></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn o" onclick="closeModal()">Cancel</button>
+      <button class="btn g" onclick="doDeposit()">Deposit →</button>
+    </div>
+  `);
+}
+function doDeposit(){
+  const amt = Number(document.getElementById('dAmt').value);
+  if(amt < 1000){ toast('Minimum ₦1,000', 'er'); return; }
+  S.wallet += amt;
+  S.transactions.unshift({ type:'cr', code:'DEPOSIT', desc:'Deposit via Paystack', amt: amt, at: Date.now() });
+  saveState();
+  closeModal();
+  toast('Deposited ' + fmt(amt), 'ok');
+  render();
+}
+
+/* ============================================================
+   GUARANTEE WALLET
+   ============================================================ */
+function renderGuarantee(){
+  return `
+    <div class="pg-head">
+      <h1>Guarantee wallet</h1>
+      <p>Covers the ₦5,000 hold on every new Protected Deal. Auto-debits on publish. Refunded on success.</p>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="card card-gold" style="padding:28px;text-align:center">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#78350F;margin-bottom:8px">Balance</div>
+        <div style="font-family:Menlo,monospace;font-size:40px;font-weight:800;color:var(--navy)">${fmt(S.guarantee)}</div>
+        <div style="font-size:12px;color:#78350F;margin-top:8px">Covers ${Math.floor(S.guarantee/5000)} more deal${Math.floor(S.guarantee/5000)===1?'':'s'}</div>
+      </div>
+      <div class="card">
+        <div class="section-title">Top up from main wallet</div>
+        <p class="muted" style="margin-bottom:14px">Instant transfer. No gateway fee. Pre-funding your guarantee wallet skips the payment step for every new deal.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <button class="btn g" onclick="topUpGuarantee(10000)">+ ₦10,000</button>
+          <button class="btn o" onclick="topUpGuarantee(50000)">+ ₦50,000</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Guarantee history</div>
+      ${S.transactions.filter(t => t.code.includes('GUARANTEE')).length === 0 ? `<div class="empty"><div class="em">🛡️</div>No guarantee events yet.</div>` : S.transactions.filter(t => t.code.includes('GUARANTEE')).map(t => `
+        <div class="row">
+          <div class="k">
+            <div style="font-size:13px;color:var(--navy);font-weight:700">${t.desc.split(' · ')[0]}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">${ago(t.at)}</div>
+          </div>
+          <span class="pill ${t.code === 'GUARANTEE_REFUND' ? 'green' : t.code === 'GUARANTEE_HOLD' ? 'gold' : 'blue'}">${t.code === 'GUARANTEE_REFUND' ? 'Refunded' : t.code === 'GUARANTEE_HOLD' ? 'Held' : 'Top-up'}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+/* ============================================================
+   REQUESTS
+   ============================================================ */
+function renderRequests(){
+  return `
+    <div class="pg-head">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap">
+        <div>
+          <h1>Vet Agent Requests</h1>
+          <p>Request an on-demand inspection for any item — even outside DealsGate.</p>
+        </div>
+        <button class="btn g" onclick="go('requests/new')">+ New request</button>
+      </div>
+    </div>
+
+    <div class="card card-gold" style="margin-bottom:20px">
+      <div style="font-size:13.5px;color:#78350F;line-height:1.6;font-weight:600">
+        Found something on Instagram, WhatsApp, or Jiji? You don't need to buy it through DealsGate. Pay ₦6,000+ and a certified Vet Agent will physically inspect it and send you a report. The agent earns 60%.
+      </div>
+    </div>
+
+    ${S.requests.length === 0 ? `
+      <div class="card"><div class="empty"><div class="em">🔍</div>No inspection requests yet.</div></div>
+    ` : `
+      <div class="card" style="padding:0">
+        ${S.requests.map(r => `
+          <div style="padding:18px 20px;border-bottom:1px solid var(--line)">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+              <div style="flex:1;min-width:0">
+                <div style="font-family:Menlo,monospace;font-size:11px;color:var(--muted);font-weight:700">${r.code}</div>
+                <div style="font-size:15px;font-weight:800;color:var(--navy);margin-top:3px">${r.title}</div>
+                <div style="font-size:12px;color:var(--muted);margin-top:5px">${r.lga} · ${fmt(r.price)} · ${ago(r.createdAt)}</div>
+              </div>
+              <span class="pill ${r.status === 'COMPLETED' ? 'green' : r.status === 'OPEN' ? 'gold' : 'blue'}">${r.status === 'COMPLETED' ? 'Completed' : r.status === 'OPEN' ? 'Awaiting agent' : r.status}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+  `;
+}
+
+function renderNewRequest(){
+  return `
+    <div class="pg-head">
+      <button class="btn o sm" onclick="go('requests')" style="margin-bottom:12px">← Requests</button>
+      <h1>Request a Vet Agent</h1>
+      <p>Describe the item, choose the LGA, and set your price. First certified agent in that LGA accepts.</p>
+    </div>
+
+    <div class="card">
+      <div class="fld">
+        <label>What do you want inspected? *</label>
+        <input id="rTitle" value="Designer bag on Instagram" placeholder="e.g. iPhone on Jiji">
+      </div>
+
+      <div class="fld">
+        <label>Pickup LGA *</label>
+        <select id="rLga">
+          <option>Ikeja</option>
+          <option>Eti-Osa</option>
+          <option>Surulere</option>
+          <option>Kosofe</option>
+        </select>
+      </div>
+
+      <div class="fld">
+        <label>Amount offered (min ₦6,000) *</label>
+        <input id="rPrice" type="number" value="6000" min="6000" step="500" style="font-family:Menlo,monospace;font-size:16px;font-weight:800" oninput="updateReqPreview()">
+        <div class="hint" id="rPreview">Agent earns ₦3,600 · platform retains ₦2,400</div>
+      </div>
+
+      <div class="al navy">
+        <span class="ic">🎯</span>
+        <div class="b"><div class="d">Your request is broadcast to certified Vet Agents in this LGA. First Accept wins. You pay only after the report is approved.</div></div>
+      </div>
+
+      <button class="btn g full" style="margin-top:20px" onclick="submitRequest()">Publish request →</button>
+    </div>
+  `;
+}
+
+function updateReqPreview(){
+  const v = Number(document.getElementById('rPrice').value || 6000);
+  document.getElementById('rPreview').textContent = 'Agent earns ' + fmt(v * 0.6) + ' · platform retains ' + fmt(v * 0.4);
+}
+
+function submitRequest(){
+  const title = document.getElementById('rTitle').value.trim();
+  const lga = document.getElementById('rLga').value;
+  const price = Number(document.getElementById('rPrice').value);
+  if(!title || title.length < 3){ toast('Give it a title', 'er'); return; }
+  if(price < 6000){ toast('Minimum ₦6,000', 'er'); return; }
+  if(S.wallet < price){ toast('Not enough in wallet', 'er'); return; }
+
+  S.wallet -= price;
+  const code = 'OD-' + Math.floor(Math.random() * 900000 + 100000);
+  S.requests.unshift({ code, title, lga, price, status: 'OPEN', createdAt: Date.now() });
+  S.transactions.unshift({ type:'db', code:'REQUEST_PAYMENT', desc:'Vet Agent request · ' + code, amt: -price, at: Date.now() });
+  saveState();
+  toast('Request published · ' + code, 'ok');
+  setTimeout(() => {
+    const r = S.requests.find(x => x.code === code);
+    if(r){ r.status = 'ACCEPTED'; r.agent = 'Blessing Eze'; saveState(); }
+  }, 1500);
+  go('requests');
+}
+
+/* ============================================================
+   REFERRALS
+   ============================================================ */
+function renderReferrals(){
+  const r = S.referrals;
+  const refUrl = 'dealsgate.ng/signup?ref=' + r.code;
+  return `
+    <div class="pg-head">
+      <h1>Referrals</h1>
+      <p>Earn ₦1,000 every time someone you refer completes their first deal. Unlock lifetime 50% discount at 10 referrals.</p>
+    </div>
+
+    <div class="card card-navy" style="margin-bottom:20px;text-align:center;padding:28px">
+      <div style="font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Your referral code</div>
+      <div style="font-family:Menlo,monospace;font-size:22px;font-weight:800;color:var(--gold);letter-spacing:.06em">${r.code}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;max-width:400px;margin-left:auto;margin-right:auto">
+        <button class="btn o" onclick="copyRef('${refUrl}')">📋 Copy link</button>
+        <button class="btn gr" onclick="shareRefWA('${refUrl}')">💬 Share</button>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:20px">
+      <div class="stat green">
+        <div class="l">Referrals</div>
+        <div class="v g">${r.referred.length}</div>
+        <div class="s">Signed up via your link</div>
+      </div>
+      <div class="stat">
+        <div class="l">Rewards earned</div>
+        <div class="v gold">${fmt(r.referred.filter(x => x.rewarded).length * 1000)}</div>
+        <div class="s">₦1,000 per first deal</div>
+      </div>
+      <div class="stat navy">
+        <div class="l">Toward lifetime discount</div>
+        <div class="v">${r.referred.length}/10</div>
+        <div class="s">50% off your future service fees</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div class="section-title">Progress</div>
+      <div style="margin-top:6px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">
+          <span>Referred signups</span><span>${r.referred.length} / 10</span>
+        </div>
+        <div class="prg"><div class="fill" style="width:${Math.min(100, r.referred.length * 10)}%"></div></div>
+      </div>
+      <div style="margin-top:16px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--navy);margin-bottom:6px">
+          <span>Power users (5+ deals each)</span><span>${r.referred.filter(x => x.deals >= 5).length} / 5</span>
+        </div>
+        <div class="prg"><div class="fill" style="width:${Math.min(100, r.referred.filter(x => x.deals >= 5).length * 20)}%"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Referred users</div>
+      ${r.referred.length === 0 ? `<div class="empty"><div class="em">🎁</div>No referrals yet.</div>` : r.referred.map(x => `
+        <div class="row">
+          <div class="k">
+            <div style="font-size:13px;color:var(--navy);font-weight:700">${x.name}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">${x.type} · ${x.deals} deal${x.deals===1?'':'s'}</div>
+          </div>
+          <span class="pill ${x.rewarded ? 'green' : 'mist'}">${x.rewarded ? '+₦1,000' : 'Pending'}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function copyRef(url){
+  const full = 'https://' + url;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(full).then(() => toast('Referral link copied', 'ok')).catch(() => toast('Copied (demo)', 'ok'));
+  } else toast('Copied (demo)', 'ok');
+}
+function shareRefWA(url){
+  const text = encodeURIComponent('Join me on DealsGate — safe online trade for Nigerians. Sign up with my link:\n\nhttps://' + url);
+  window.open('https://wa.me/?text=' + text, '_blank');
+}
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
+function renderProfile(){
+  return `
+    <div class="pg-head">
+      <h1>Profile</h1>
+      <p>Your verified seller identity. This is what buyers see on your public dossier.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div style="display:flex;gap:16px;align-items:center;margin-bottom:18px">
+        <div class="av" style="width:72px;height:72px;font-size:24px;background:var(--gold);color:var(--navy)">${S.user.initials}<span class="v" style="width:20px;height:20px;font-size:11px">✓</span></div>
+        <div style="flex:1">
+          <div style="font-size:20px;font-weight:800;color:var(--navy);letter-spacing:-.4px">${S.user.name}</div>
+          <div style="font-size:13px;color:var(--muted);margin-top:4px">${S.user.business} · ${S.user.type}</div>
+          <div style="font-size:14px;color:var(--gold2);font-weight:800;margin-top:6px">★★★★★ ${S.user.rating} <span style="color:var(--muted);font-weight:600;font-size:12.5px">(${S.user.reviews} reviews)</span></div>
+        </div>
+      </div>
+
+      <div class="row"><span class="k">Identity verification</span><span class="v g">✓ Verified</span></div>
+      <div class="row"><span class="k">Account type</span><span class="v" style="font-family:inherit">${S.user.type}</span></div>
+      <div class="row"><span class="k">Email</span><span class="v" style="font-family:inherit">${S.user.email}</span></div>
+      <div class="row"><span class="k">Phone</span><span class="v" style="font-family:inherit">${S.user.phone}</span></div>
+      <div class="row"><span class="k">Location</span><span class="v" style="font-family:inherit">${S.user.city}</span></div>
+      <div class="row"><span class="k">Member since</span><span class="v" style="font-family:inherit">${S.user.joined}</span></div>
+    </div>
+
+    <div class="card card-green" style="margin-bottom:20px">
+      <div class="section-title">Public seller dossier</div>
+      <p class="muted" style="margin-bottom:12px">Buyers can find your page at <b style="color:var(--navy);font-family:Menlo,monospace">dealsgate.ng/seller/adaeze-electronics</b> before they pay. It shows your verified badge, deal counts, stars, and reviews — never your phone or address.</p>
+      <button class="btn o" onclick="toast('Preview dossier — visible publicly')">Preview my public dossier →</button>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div class="section-title">Bank account for payouts</div>
+      <div class="row">
+        <div class="k">
+          <div style="font-weight:800;color:var(--navy);font-size:13.5px">GTBank · ···· 6789</div>
+          <div style="font-size:11.5px;color:var(--muted);margin-top:2px">Adaeze Chioma Okafor · default</div>
+        </div>
+        <span class="pill green">Verified</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Security</div>
+      <div class="row"><span class="k">Google Authenticator</span><span class="v g">Enabled</span></div>
+      <div class="row"><span class="k">Default withdrawal method</span><span class="v" style="font-family:inherit">TOTP</span></div>
+      <div class="row"><span class="k">Email OTP</span><span class="v g">Available</span></div>
+      <div class="row"><span class="k">SMS OTP</span><span class="v g">Available</span></div>
+    </div>
+  `;
+}
+
+/* ============================================================
+   BECOME VET AGENT
+   ============================================================ */
+function renderAgent(){
+  if(S.agent.certified){
+    return renderAgentDashboard();
+  }
+  if(S.agent.applied){
+    return renderAgentTraining();
+  }
+
+  return `
+    <div class="pg-head">
+      <div class="kicker">Extra income opportunity</div>
+      <h1>Become a Vet Agent</h1>
+      <p>Turn your gadget expertise into steady income. Inspect items in your LGA, earn ₦4,200 per job, withdraw same-day.</p>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="stat green">
+        <div class="l">Per inspection</div>
+        <div class="v g">₦4,200</div>
+        <div class="s">70% of the ₦6,000 fee</div>
+      </div>
+      <div class="stat">
+        <div class="l">On-demand job</div>
+        <div class="v gold">60%</div>
+        <div class="s">From ₦6,000 minimum</div>
+      </div>
+      <div class="stat navy">
+        <div class="l">Withdrawal</div>
+        <div class="v">Same day</div>
+        <div class="s">Any Nigerian bank</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div class="section-title">How it works</div>
+      <div class="tl">
+        <div class="tli done"><div class="t">Verified identity</div><div class="d">You've already passed KYC as a seller. ✓</div></div>
+        <div class="tli now"><div class="t">Apply &amp; pick sectors</div><div class="d">Choose up to 3 sectors, LGAs, and travel radius</div></div>
+        <div class="tli pending"><div class="t">Complete 10 training modules</div><div class="d">Evidence standards · scam patterns · sector checklists</div></div>
+        <div class="tli pending"><div class="t">Pass the certification quiz</div><div class="d">85% pass mark · 100-question bank</div></div>
+        <div class="tli pending"><div class="t">Start earning on jobs</div><div class="d">First Accept wins · one active job per agent</div></div>
+      </div>
+    </div>
+
+    <div class="card card-gold" style="margin-bottom:20px">
+      <div class="section-title">Prerequisites</div>
+      <div style="font-size:13.5px;color:#78350F;line-height:1.65;font-weight:600">
+        ✓ Nigerian ID verified (done)<br>
+        ✓ Smartphone with working camera<br>
+        ✓ Can travel within chosen radius<br>
+        ✓ Nigerian bank account in your own name<br>
+        ✓ Ability to follow a written checklist precisely
+      </div>
+    </div>
+
+    <button class="btn g full" onclick="go('agent/apply')">Apply to become a Vet Agent →</button>
+  `;
+}
+
+function renderAgentApply(){
+  return `
+    <div class="pg-head">
+      <button class="btn o sm" onclick="go('agent')" style="margin-bottom:12px">← Back</button>
+      <h1>Agent application</h1>
+      <p>Two quick steps. Approval lands in your inbox within 48 hours.</p>
+    </div>
+
+    <div class="card">
+      <div class="fld">
+        <label>Primary sector *</label>
+        <select id="aSector1">
+          <option>Phones &amp; Tablets</option>
+          <option>Computers &amp; Laptops</option>
+          <option>Cameras &amp; Drones</option>
+          <option>Home Appliances</option>
+          <option>Vehicles</option>
+          <option>Bags &amp; Watches</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label>Second sector (optional)</label>
+        <select id="aSector2">
+          <option value="">None</option>
+          <option>Computers &amp; Laptops</option>
+          <option>Cameras &amp; Drones</option>
+          <option>Bags &amp; Watches</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label>Service LGA *</label>
+        <select id="aLga">
+          <option>Ikeja</option>
+          <option>Eti-Osa</option>
+          <option>Surulere</option>
+          <option>Kosofe</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label>Maximum travel distance</label>
+        <select id="aTravel">
+          <option>Up to 5km</option>
+          <option>Up to 10km</option>
+          <option selected>Up to 20km</option>
+          <option>Up to 30km</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label>Payout bank account</label>
+        <input value="GTBank · 1234567890 (Adaeze Okafor)" disabled style="background:var(--mist);color:var(--muted)">
+      </div>
+
+      <div class="al navy">
+        <span class="ic">🎓</span>
+        <div class="b"><div class="d">After submission you'll complete 10 free training modules and a certification quiz. Once you pass, you can start accepting jobs.</div></div>
+      </div>
+
+      <button class="btn g full" style="margin-top:20px" onclick="submitAgentApplication()">Submit application →</button>
+    </div>
+  `;
+}
+
+function submitAgentApplication(){
+  S.agent.applied = true;
+  saveState();
+  toast('Application submitted', 'ok');
+  setTimeout(() => go('agent/training'), 300);
+}
+
+function renderAgentTraining(){
+  const done = S.agent.modulesDone;
+  const modules = [
+    ['M01','Role & Conduct','Core duties · ethics · zero-affiliation rule'],
+    ['M02','Inspection Protocol','Pre-arrival · on-site · verdicts'],
+    ['M03','Evidence Upload','Photos · continuous video · hashing'],
+    ['M04','Smartphones','IMEI · battery · account lock checks'],
+    ['M05','Laptops','Serial · power-on · ports · battery'],
+    ['M06','Cameras & Drones','Serial · lens · gimbal · propellers'],
+    ['M07','Vehicles','VIN vs papers · odometer · engine'],
+    ['M08','Bags & Watches','Stitching · serials · hallmarks'],
+    ['M09','Other Sectors','Appliances · solar · B2B bulk counts'],
+    ['M10','Scam Detection','Top 10 Nigerian scam patterns'],
+  ];
+
+  return `
+    <div class="pg-head">
+      <div class="kicker">Certification</div>
+      <h1>Training modules</h1>
+      <p>${done} of 10 complete. Pass the certification quiz after all modules to unlock jobs.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div class="prg" style="height:8px"><div class="fill" style="width:${done * 10}%"></div></div>
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:700;margin-top:8px">
+        <span>${done} / 10 modules</span>
+        <span>${done * 10}%</span>
+      </div>
+    </div>
+
+    <div class="card" style="padding:0;margin-bottom:20px">
+      ${modules.map((m, i) => {
+        const isDone = i < done;
+        return `
+          <div style="display:flex;gap:12px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)">
+            <div style="width:22px;height:22px;border-radius:50%;background:${isDone?'var(--green)':'var(--mist)'};color:${isDone?'#fff':'#94A3B8'};display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0">${isDone?'✓':m[0].slice(1)}</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:13.5px;font-weight:800;color:var(--navy)">${m[0]} · ${m[1]}</div>
+              <div style="font-size:11.5px;color:var(--muted);margin-top:2px">${m[2]}</div>
+            </div>
+            ${!isDone && i === done ? `<button class="btn g sm" onclick="completeModule()">Read →</button>` : ''}
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    ${done === 10 ? `
+      <div class="card card-gold" style="margin-bottom:16px;text-align:center">
+        <div style="font-size:14px;color:#78350F;font-weight:700;line-height:1.6">All modules complete. Take the certification quiz (25 questions, 85% pass mark).</div>
+      </div>
+      <button class="btn g full" onclick="takeCertificationQuiz()">Start certification quiz →</button>
+    ` : `
+      <div class="al navy">
+        <span class="ic">📖</span>
+        <div class="b"><div class="d">Tap "Read →" on the next module to continue. Each takes about 3 minutes.</div></div>
+      </div>
+    `}
+  `;
+}
+
+function completeModule(){
+  S.agent.modulesDone++;
+  saveState();
+  toast('Module complete', 'ok');
+  render();
+}
+
+function takeCertificationQuiz(){
+  S.agent.certified = true;
+  saveState();
+  toast('Certified! You can now accept jobs.', 'ok');
+  go('agent/jobs');
+}
+
+function renderAgentDashboard(){
+  return `
+    <div class="pg-head">
+      <h1>Vet Agent</h1>
+      <p>You are Certified. Jobs in your LGAs appear below — first Accept wins.</p>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:24px">
+      <div class="stat green">
+        <div class="l">Agent earnings</div>
+        <div class="v g">${fmt(S.agent.earnings)}</div>
+        <div class="s">Available to withdraw</div>
+      </div>
+      <div class="stat">
+        <div class="l">Jobs completed</div>
+        <div class="v">${S.agent.jobsDone || 0}</div>
+        <div class="s">All-time</div>
+      </div>
+      <div class="stat navy">
+        <div class="l">Badge</div>
+        <div class="v" style="font-size:14px;color:var(--green)">✓ Certified</div>
+        <div class="s">Priority visibility</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div class="section-title">Job feed · your LGAs</div>
+      <div class="jobc">
+        <div class="l">
+          <div class="code">DG-240510</div>
+          <div class="item">iPhone 13 128GB</div>
+          <div class="meta">Ikeja LGA · 1.2km away · published 5 min ago</div>
+        </div>
+        <div style="text-align:right">
+          <div class="amt">+₦4,200</div>
+          <button class="btn g sm" style="margin-top:8px" onclick="acceptJob('DG-240510')">Accept →</button>
+        </div>
+      </div>
+      <div class="jobc purple">
+        <div class="l">
+          <div class="code">OD-240310</div>
+          <div class="item">Samsung TV on Jiji</div>
+          <div class="meta">Ikeja LGA · published 12 min ago</div>
+        </div>
+        <div style="text-align:right">
+          <div class="amt">+₦3,600</div>
+          <button class="btn g sm" style="margin-top:8px" onclick="acceptJob('OD-240310',true)">Accept →</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function acceptJob(code, isOD){
+  const amt = isOD ? 3600 : 4200;
+  S.agent.earnings += amt;
+  S.agent.jobsDone = (S.agent.jobsDone || 0) + 1;
+  saveState();
+  toast('Job accepted · ' + code, 'ok');
+  render();
+}
+
+function renderAgentJobs(){ return renderAgentDashboard(); }
+
+/* ============================================================
+   BUY MODE
+   ============================================================ */
+function renderBuyMarket(){
+  return `
+    <div class="pg-head">
+      <div class="kicker">One account, all roles</div>
+      <h1>Buy from other DealsGate sellers</h1>
+      <p>The same account you use to sell is your account to buy. No separate signup.</p>
+    </div>
+
+    <div class="card card-gold" style="margin-bottom:20px">
+      <div style="font-size:13.5px;color:#78350F;line-height:1.6;font-weight:600">
+        Every item below is a Protected Deal from another verified seller. Same escrow, same Vet Agent inspection, same evidence gate — you just happen to be the buyer this time.
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+      ${S.marketplace.map(m => `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px">
+            <div style="font-family:Menlo,monospace;font-size:11px;color:var(--muted);font-weight:700">${m.code}</div>
+            <span class="pill green">Protected</span>
+          </div>
+          <div style="font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.2px;line-height:1.3">${m.item}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+            <div style="font-size:12px;color:var(--muted);font-weight:600">${m.seller} · ${m.lga}</div>
+            <div style="font-size:12px;color:var(--gold2);font-weight:800">★ ${m.rating}</div>
+          </div>
+          <div style="font-family:Menlo,monospace;font-size:20px;font-weight:800;color:var(--green);margin-top:12px">${fmt(m.price)}</div>
+          <button class="btn g full" style="margin-top:14px" onclick="openBuyCheckout('${m.code}')">Buy this item →</button>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function openBuyCheckout(code){
+  const m = S.marketplace.find(x => x.code === code);
+  if(!m) return;
+  const buyerFee = Math.round(m.price * 0.02);
+  const vet = 6000;
+  const log = 3500;
+  const total = m.price + buyerFee + vet + log;
+
+  openModal(`
+    <div class="modal-head"><h3>Checkout · ${m.item}</h3><button class="x" onclick="closeModal()">×</button></div>
+    <div class="modal-body">
+      <div class="card card-sm" style="margin-bottom:14px">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94A3B8;margin-bottom:4px">Seller</div>
+        <div style="font-weight:800;color:var(--navy);font-size:14px">${m.seller}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">${m.lga} · ★ ${m.rating}</div>
+      </div>
+
+      <div class="row"><span class="k">Item price</span><span class="v">${fmt(m.price)}</span></div>
+      <div class="row"><span class="k">Buyer service fee (2%)</span><span class="v">${fmt(buyerFee)}</span></div>
+      <div class="row"><span class="k">Vet Agent fee</span><span class="v">${fmt(vet)}</span></div>
+      <div class="row"><span class="k">Logistics</span><span class="v">${fmt(log)}</span></div>
+      <div class="row total"><span class="k">Your total</span><span class="v">${fmt(total)}</span></div>
+
+      <div class="al green" style="margin-top:14px">
+        <span class="ic">🛡</span>
+        <div class="b"><div class="d">Same protection as when you sell. Escrow holds the money. Vet Agent inspects the item. You approve before the seller ships.</div></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn o" onclick="closeModal()">Cancel</button>
+      <button class="btn g" onclick="confirmBuy('${m.code}', ${total})">Pay ${fmt(total)} →</button>
+    </div>
+  `);
+}
+
+function confirmBuy(code, total){
+  if(S.wallet < total){ toast('Not enough wallet balance', 'er'); return; }
+  S.wallet -= total;
+  S.transactions.unshift({ type:'db', code:'BUY_ESCROW', desc:'Purchase into escrow · ' + code, amt: -total, at: Date.now() });
+  saveState();
+  closeModal();
+  toast('Payment secured in escrow · awaiting inspection', 'ok');
+  render();
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+render();
+</script>
+</body>
+</html>
