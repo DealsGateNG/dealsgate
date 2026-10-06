@@ -1,0 +1,828 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Additional Documents</title>
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1A4A;
+    --navy2: #142a70;
+    --green: #16A34A;
+    --gold: #F4B420;
+    --gold2: #C98A00;
+    --ink: #0F172A;
+    --muted: #64748B;
+    --line: #E2E8F0;
+    --mist: #F4F6FB;
+    --red: #DC2626;
+  }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #D5DAE4;
+    color: var(--ink);
+    font-size: 11pt;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ============================================================
+     PAGE
+     ============================================================ */
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    margin: 24px auto;
+    padding: 22mm 20mm 20mm;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(11,26,74,.14);
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page:last-child { page-break-after: auto; margin-bottom: 0; }
+
+  @media print {
+    html, body { background: #fff; font-size: 10pt; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      padding: 20mm 18mm 18mm;
+      min-height: 0;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+    .screen-note { display: none !important; }
+  }
+
+  /* ============================================================
+     SCREEN NOTE
+     ============================================================ */
+  .screen-note {
+    max-width: 210mm;
+    margin: 24px auto;
+    background: var(--navy);
+    color: #fff;
+    padding: 16px 22px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    box-shadow: 0 8px 24px rgba(11,26,74,.24);
+  }
+  .screen-note b { color: var(--gold); }
+  .screen-note kbd {
+    background: rgba(244,180,32,.16);
+    color: var(--gold);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'Menlo', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid rgba(244,180,32,.32);
+  }
+
+  /* ============================================================
+     DOCUMENT HEADER
+     ============================================================ */
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 14px;
+    border-bottom: 3px solid var(--navy);
+    margin-bottom: 22px;
+  }
+
+  .doc-header-left .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .doc-header-left .mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--navy);
+    color: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 17px;
+    font-weight: 900;
+    border: 2px solid var(--gold);
+  }
+
+  .doc-header-left .brandname {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+  }
+  .doc-header-left .brandname .g { color: var(--green); }
+
+  .doc-header-left .brandsub {
+    font-size: 9px;
+    color: var(--gold2);
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-top: 1px;
+  }
+
+  .doc-header-left .doctitle {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-top: 8px;
+  }
+
+  .doc-header-left .docsub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .doc-header-right {
+    text-align: right;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.7;
+    flex-shrink: 0;
+  }
+
+  .doc-header-right .meta-label {
+    font-size: 8px;
+    color: var(--gold2);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+
+  .doc-header-right .meta-value {
+    color: var(--navy);
+    font-weight: 700;
+    font-family: 'Menlo', monospace;
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+
+  /* ============================================================
+     SECTION
+     ============================================================ */
+  .section { margin-bottom: 22px; }
+
+  .section-title {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .section p {
+    font-size: 10.5pt;
+    color: #334155;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  /* ============================================================
+     TABLE
+     ============================================================ */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    margin-bottom: 12px;
+  }
+
+  thead th {
+    background: var(--navy);
+    color: #fff;
+    text-align: left;
+    padding: 9px 12px;
+    font-size: 9.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+
+  thead th:last-child { text-align: right; }
+
+  tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--line);
+    color: #334155;
+    font-size: 10pt;
+    vertical-align: top;
+  }
+
+  tbody td:first-child { font-weight: 700; color: var(--navy); }
+  tbody td:last-child {
+    text-align: right;
+    font-family: 'Menlo', monospace;
+    font-weight: 800;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  tbody tr.subtotal td {
+    background: var(--mist);
+    font-weight: 800;
+    color: var(--navy);
+    border-bottom: 1px solid var(--line);
+  }
+
+  tbody tr.subtotal td:last-child { font-size: 11pt; }
+
+  tbody tr.total td {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 800;
+    font-size: 11pt;
+    padding: 12px;
+    border-bottom: none;
+  }
+  tbody tr.total td:first-child { color: #fff; }
+  tbody tr.total td:last-child { color: var(--gold); font-size: 12pt; }
+
+  /* ============================================================
+     CALLOUTS
+     ============================================================ */
+  .callout {
+    background: #FEFBEB;
+    border-left: 3px solid var(--gold);
+    padding: 11px 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: 10pt;
+    color: #5A4A1A;
+    line-height: 1.55;
+    margin: 12px 0;
+  }
+  .callout b { color: var(--navy); }
+
+  .callout.green {
+    background: #F0FDF4;
+    border-left-color: var(--green);
+    color: #065F46;
+  }
+  .callout.green b { color: #065F46; }
+
+  .callout.navy {
+    background: var(--mist);
+    border-left-color: var(--navy);
+    color: #334155;
+  }
+
+  /* ============================================================
+     TECH SPEC — mini cards
+     ============================================================ */
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .spec-card {
+    background: var(--mist);
+    border-radius: 8px;
+    padding: 11px 13px;
+    border-left: 3px solid var(--gold);
+  }
+
+  .spec-card .k {
+    font-size: 8.5pt;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold2);
+    margin-bottom: 4px;
+  }
+
+  .spec-card .v {
+    font-size: 10pt;
+    color: var(--navy);
+    font-weight: 700;
+    line-height: 1.4;
+    font-family: 'Menlo', monospace;
+  }
+
+  .spec-card .d {
+    font-size: 9.5pt;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.45;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     CHECKLIST
+     ============================================================ */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+
+  .checklist li {
+    padding: 6px 0 6px 24px;
+    position: relative;
+    font-size: 10pt;
+    color: #334155;
+    line-height: 1.55;
+    border-bottom: 1px solid var(--line);
+  }
+  .checklist li:last-child { border-bottom: none; }
+
+  .checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    color: var(--green);
+    font-weight: 900;
+    font-size: 11pt;
+  }
+
+  .checklist li.pending::before {
+    content: "○";
+    color: var(--gold2);
+  }
+
+  .checklist li b { color: var(--navy); font-weight: 800; }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .page-footer {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 8.5pt;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .page-footer b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     SCREEN NOTE
+     ============================================================ -->
+<div class="screen-note">
+  <b>How to save as PDF:</b> open this file in <b>Chrome</b>, press
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> / <kbd>⌘</kbd>+<kbd>P</kbd>. Set destination to
+  <b>Save as PDF</b>, layout <b>Portrait</b>, paper <b>A4</b>, margins <b>None</b>,
+  and tick <b>Background graphics</b>. Save as
+  <b>DealsGate_Additional_Documents.pdf</b>.
+</div>
+
+<!-- ============================================================
+     DOC 1 · BUDGET
+     ============================================================ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Africa's Secure Transaction Gateway</div>
+        </div>
+      </div>
+      <div class="doctitle">Budget &amp; Use of Funds</div>
+      <div class="docsub">12-month launch plan · Student Grant Application</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Document</div>
+      <div class="meta-value">DOC-01 · Budget</div>
+      <div class="meta-label">Version</div>
+      <div class="meta-value">1.0 · 2026</div>
+      <div class="meta-label">Prepared by</div>
+      <div class="meta-value">A. Taofik, Founder</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Overview</div>
+    <p>
+      DealsGate is a protected-deal platform for Nigerian social commerce. The MVP
+      is complete — full specification, 13 working demo artifacts, an 11-document
+      legal policy library, and a 10-module agent training programme — all built
+      without external funding. This budget funds the transition from working
+      demonstration to live pilot.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Detailed Budget — 12 Months</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th style="text-align:right">Amount (₦)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Engineering — production platform build</td>
+          <td>₦900,000</td>
+        </tr>
+        <tr style="background:#FBFCFE">
+          <td style="font-weight:500;color:#64748B;font-size:9.5pt;padding-left:24px">
+            2 engineers × 6 months × ₦75,000/month
+          </td>
+          <td style="font-weight:500;color:#94A3B8;font-size:9.5pt">—</td>
+        </tr>
+
+        <tr>
+          <td>Escrow integration &amp; compliance setup</td>
+          <td>₦400,000</td>
+        </tr>
+        <tr style="background:#FBFCFE">
+          <td style="font-weight:500;color:#64748B;font-size:9.5pt;padding-left:24px">
+            Licensed payment partner integration, KYC provider setup, legal review
+          </td>
+          <td style="font-weight:500;color:#94A3B8;font-size:9.5pt">—</td>
+        </tr>
+
+        <tr>
+          <td>Vet Agent recruitment &amp; training</td>
+          <td>₦350,000</td>
+        </tr>
+        <tr style="background:#FBFCFE">
+          <td style="font-weight:500;color:#64748B;font-size:9.5pt;padding-left:24px">
+            50 certified agents · ₦5,000 completion bonus each · training materials
+          </td>
+          <td style="font-weight:500;color:#94A3B8;font-size:9.5pt">—</td>
+        </tr>
+
+        <tr>
+          <td>Pilot launch — Lagos (4 LGAs)</td>
+          <td>₦250,000</td>
+        </tr>
+        <tr style="background:#FBFCFE">
+          <td style="font-weight:500;color:#64748B;font-size:9.5pt;padding-left:24px">
+            First 500 deals subsidised · launch marketing · seller onboarding
+          </td>
+          <td style="font-weight:500;color:#94A3B8;font-size:9.5pt">—</td>
+        </tr>
+
+        <tr>
+          <td>Infrastructure &amp; tooling</td>
+          <td>₦100,000</td>
+        </tr>
+        <tr style="background:#FBFCFE">
+          <td style="font-weight:500;color:#64748B;font-size:9.5pt;padding-left:24px">
+            Domain, email, hosting, monitoring, cloud storage (12 months)
+          </td>
+          <td style="font-weight:500;color:#94A3B8;font-size:9.5pt">—</td>
+        </tr>
+
+        <tr class="total">
+          <td>Total grant requested</td>
+          <td>₦2,000,000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <b>Grant total: ₦2,000,000.</b> If the grant awarded is smaller, funding
+      prioritises in this order: (1) engineering, (2) escrow integration,
+      (3) agent recruitment. The pilot launch and infrastructure lines can be
+      deferred to a follow-on raise.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Funding Sources</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th style="text-align:right">Amount (₦)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>This grant</td>
+          <td>₦2,000,000</td>
+        </tr>
+        <tr>
+          <td>Founder's own contribution (in-kind)</td>
+          <td>₦500,000</td>
+        </tr>
+        <tr class="total">
+          <td>Total 12-month budget</td>
+          <td>₦2,500,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:9.5pt;color:#64748B;line-height:1.55;margin-top:8px">
+      Founder's in-kind contribution covers continued development time, travel for
+      agent recruitment, and administrative overhead during the grant period.
+    </p>
+  </div>
+
+  <div class="page-footer">
+    <span><b>DealsGate</b> · Budget · 2026</span>
+    <span>Page 1 of 3 · DOC-01</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     DOC 2 · TECHNICAL SPECS
+     ============================================================ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Africa's Secure Transaction Gateway</div>
+        </div>
+      </div>
+      <div class="doctitle">Technical Specification</div>
+      <div class="docsub">Architecture, data model, security, and integrations</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Document</div>
+      <div class="meta-value">DOC-02 · Tech Spec</div>
+      <div class="meta-label">Version</div>
+      <div class="meta-value">1.0 · 2026</div>
+      <div class="meta-label">Spec base</div>
+      <div class="meta-value">FINAL 1.0</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">System Architecture</div>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="k">Frontend</div>
+        <div class="v">Next.js · React · TypeScript</div>
+        <div class="d">Mobile-first progressive web app. Server-side rendering for public pages, client rendering for authenticated flows.</div>
+      </div>
+      <div class="spec-card">
+        <div class="k">Backend</div>
+        <div class="v">Node.js · NestJS</div>
+        <div class="d">REST API with server-side validation, authorization middleware, and idempotency layer.</div>
+      </div>
+      <div class="spec-card">
+        <div class="k">Database</div>
+        <div class="v">PostgreSQL</div>
+        <div class="d">ACID transactions, row-level locking for atomic job acceptance, full-text search for seller directory.</div>
+      </div>
+      <div class="spec-card">
+        <div class="k">Media storage</div>
+        <div class="v">S3-compatible object store</div>
+        <div class="d">Signed URLs for private inspection media. Server-side type, size, and duration validation.</div>
+      </div>
+      <div class="spec-card">
+        <div class="k">Payments</div>
+        <div class="v">Paystack / Flutterwave</div>
+        <div class="d">Escrow via licensed Nigerian payment partner. Verified webhooks. Never store card data.</div>
+      </div>
+      <div class="spec-card">
+        <div class="k">Logistics</div>
+        <div class="v">GIG / Kwik partner API</div>
+        <div class="d">Shipment creation, tracking webhooks with HMAC signature verification and idempotency keys.</div>
+      </div>
+      <div class="spec-card">
+        <div class="k">Identity (KYC)</div>
+        <div class="v">NIN · BVN · CAC provider</div>
+        <div class="d">Individual and business verification. Only provider reference stored, never raw numbers.</div>
+      </div>
+      <div class="spec-card">
+        <div class="k">Maps</div>
+        <div class="v">Google Maps JS + Places</div>
+        <div class="d">Seller pickup pins. Agent GPS verification within 500m radius on inspection submission.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Core Data Model</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Table</th>
+          <th style="text-align:left">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>users</td>
+          <td>Account type, verification status, public slug, sector, profile photo, star rating, Google auth flag</td>
+        </tr>
+        <tr>
+          <td>policy_acceptances</td>
+          <td>Policy key, version, accepted_at, IP, user agent — audit trail for regulatory compliance</td>
+        </tr>
+        <tr>
+          <td>deals</td>
+          <td>Seller/buyer, pricing, fees, guarantee status, condition, media, maps pin, logistics, state</td>
+        </tr>
+        <tr>
+          <td>deal_media</td>
+          <td>Images and continuous video with duration, sort order, and signed URL references</td>
+        </tr>
+        <tr>
+          <td>wallets &amp; wallet_ledger</td>
+          <td>Main, guarantee, and agent earnings buckets. Double-entry ledger on every movement.</td>
+        </tr>
+        <tr>
+          <td>withdrawal_requests</td>
+          <td>Amount, bank account, step-up method, status. Rate-limited and beneficiary-cooled.</td>
+        </tr>
+        <tr>
+          <td>vet_agent_profiles</td>
+          <td>Sectors, LGAs, training progress, certification date, active job reference</td>
+        </tr>
+        <tr>
+          <td>inspection_jobs</td>
+          <td>Type, price, platform share, status, accepted_by — one active per agent enforced by partial unique index</td>
+        </tr>
+        <tr>
+          <td>inspections</td>
+          <td>Checklist JSON, result, media, notes, timestamps, GPS distance from pin</td>
+        </tr>
+        <tr>
+          <td>disputes</td>
+          <td>Category, parties, evidence tiers, status, resolution, audit trail</td>
+        </tr>
+        <tr>
+          <td>referrals</td>
+          <td>Referrer, referee, reward status, lifetime discount progress tracking</td>
+        </tr>
+        <tr>
+          <td>audit_events</td>
+          <td>Immutable log: actor, action, before-state, after-state, IP, user agent, timestamp</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Security &amp; Integrity</div>
+    <ul class="checklist">
+      <li><b>Server-side validation</b> on every input — media count, video duration, quantity, latitude/longitude, monetary amounts</li>
+      <li><b>Row-level locking</b> for atomic job acceptance — no double-assignment under concurrent accepts</li>
+      <li><b>Idempotency keys</b> on all payment, refund, payout, guarantee, and wallet transfer operations</li>
+      <li><b>HMAC-verified webhooks</b> with replay protection — duplicate payment and logistics events dropped safely</li>
+      <li><b>Signed URLs</b> for all private media — inspection photos and videos are never publicly accessible</li>
+      <li><b>TLS in transit, AES-256 at rest</b> for all stored data and backups</li>
+      <li><b>Step-up 2FA</b> on all withdrawals — TOTP, Email OTP, or SMS OTP required</li>
+      <li><b>Role-based access control</b> for admin operations with dual-control on money-critical configuration</li>
+    </ul>
+  </div>
+
+  <div class="page-footer">
+    <span><b>DealsGate</b> · Technical Specification · 2026</span>
+    <span>Page 2 of 3 · DOC-02</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     DOC 3 · CERTIFICATIONS
+     ============================================================ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Africa's Secure Transaction Gateway</div>
+        </div>
+      </div>
+      <div class="doctitle">Certifications &amp; Credentials</div>
+      <div class="docsub">Founder qualifications, compliance status, and planned certifications</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Document</div>
+      <div class="meta-value">DOC-03 · Certs</div>
+      <div class="meta-label">Version</div>
+      <div class="meta-value">1.0 · 2026</div>
+      <div class="meta-label">Prepared by</div>
+      <div class="meta-value">A. Taofik, Founder</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Founder Credentials</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Credential</th>
+          <th style="text-align:left">Institution / Issuer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>B.Sc. Economics</td>
+          <td>University of Ibadan, Oyo State (2012–2017)</td>
+        </tr>
+        <tr>
+          <td>Business of Entertainment Certificate</td>
+          <td>Pan-Atlantic University, Lagos (2023)</td>
+        </tr>
+        <tr>
+          <td>Senior Secondary Certificate (NECO / WAEC)</td>
+          <td>Ogiio Community High School, Ogiio (2009)</td>
+        </tr>
+        <tr>
+          <td>Filmmakers Master Class — Screenwriting Module</td>
+          <td>Professional certification</td>
+        </tr>
+        <tr>
+          <td>Entrepreneurship Development Programme</td>
+          <td>Professional certification</td>
+        </tr>
+        <tr>
+          <td>Photography &amp; Videography Certification</td>
+          <td>Professional certification</td>
+        </tr>
+        <tr>
+          <td>Internet &amp; Web Design</td>
+          <td>Professional certification</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Business Registration</div>
+    <ul class="checklist">
+      <li><b>THE TAP OF GRACE MEDIA HOUSE</b> — operating entity, registered in Nigeria</li>
+      <li><b>DealsGate</b> — brand and product, trading under the above entity</li>
+      <li><b>Domain ownership:</b> dealsgate.ng · dealsgate.com.ng — to be confirmed on record</li>
+    </ul>
+    <div class="callout">
+      <b>Note on registration:</b> If CAC incorporation of DealsGate as a separate
+      legal entity is required for grant disbursement, this will be completed within
+      30 days of award. The existing media house entity can receive funds in the
+      interim.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Compliance Position</div>
+    <ul class="checklist">
+      <li><b>Nigeria Data Protection Act (NDPA) 2023</b> — full Privacy Policy drafted with NDPC-aligned retention and subject-rights framework</li>
+      <li><b>Terms of Service</b> — 22-section document covering eligibility, KYC, evidence gate, dispute mediation, and governing law</li>
+      <li><b>Refund &amp; Cancellation Policy</b> — mapping every §13 branch: failed inspection, pre-inspection cancel, change of mind, fraud, transit damage minor / total</li>
+      <li><b>Dispute Resolution Policy</b> — evidence-tier weighting and mediation workflow</li>
+      <li><b>Prohibited Items Policy</b> — 9 categories, enforcement procedure</li>
+      <li><b>Data Retention &amp; Security Policy</b> — retention periods per data category, security controls</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Planned Certifications &amp; Licenses</div>
+    <ul class="checklist">
+      <li class="pending"><b>SEC Crowdfunding Intermediary compliance</b> — via licensed payment partner, not in-house</li>
+      <li class="pending"><b>Payment Card Industry compliance</b> — via licensed payment partner integration</li>
+      <li class="pending"><b>KYC provider integration</b> — NIN, BVN, and CAC verification via authorised provider</li>
+      <li class="pending"><b>NDPC data controller registration</b> — upon launch of the live platform</li>
+      <li class="pending"><b>CAC incorporation of DealsGate</b> — as separate entity if required for grant disbursement</li>
+    </ul>
+
+    <div class="callout green">
+      <b>Compliance strategy:</b> DealsGate never holds client money directly —
+      all funds are custodied by a licensed Nigerian payment partner. This removes
+      the need for DealsGate to hold its own escrow licence while preserving full
+      buyer protection.
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span><b>DealsGate</b> · Certifications · 2026</span>
+    <span>Page 3 of 3 · DOC-03</span>
+  </div>
+</div>
+
+</body>
+</html>

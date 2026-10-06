@@ -1,0 +1,1975 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Vet Agent Demo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;--gold:#F4B420;--gold2:#D99A0F;
+--mist:#F1F3F5;--charcoal:#1F2937;--red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+--line:rgba(13,27,76,.10)}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--mist);
+color:var(--charcoal);font-size:14px;line-height:1.5;padding-bottom:78px}
+.hdr{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;padding:12px 16px 10px;
+box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.hdr-r{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hdr .who{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.hdr .av{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);
+display:grid;place-items:center;font-size:13px;font-weight:800;flex-shrink:0;position:relative;
+border:2px solid var(--gold)}
+.hdr .av .b{position:absolute;right:-4px;bottom:-4px;width:16px;height:16px;border-radius:50%;
+background:#fff;display:grid;place-items:center;font-size:9px;border:1px solid var(--line)}
+.hdr .info{min-width:0;flex:1}
+.hdr .n{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .s{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+margin-top:2px}
+.hdr .actions{display:flex;gap:6px}
+.hdr button{background:rgba(255,255,255,.15);color:#fff;border:none;font-size:10px;font-weight:700;
+padding:7px 11px;border-radius:20px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.hdr button.go{background:var(--gold);color:var(--navy)}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:10px}
+.kbox{background:rgba(255,255,255,.10);border-radius:8px;padding:7px 8px}
+.kbox .l{font-size:7px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kbox .v{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:800;color:#fff;margin-top:2px}
+.kbox.gold .v{color:var(--gold)}
+.kbox.green .v{color:#7EE787}
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);
+display:flex;overflow-x:auto;padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+box-shadow:0 -4px 20px rgba(13,27,76,.06);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;min-width:54px;display:flex;flex-direction:column;align-items:center;gap:3px;
+padding:7px 6px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;
+font-weight:800;color:#9CA3AF;letter-spacing:.04em;text-transform:uppercase}
+.tab.on{color:var(--navy)}
+.tab .ic{width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--mist);
+font-size:12px;line-height:1}
+.tab.on .ic{background:var(--gold);color:var(--navy)}
+.panel{display:none;padding:12px 10px 18px}
+.panel.on{display:block;animation:fu .25s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden;
+box-shadow:0 1px 3px rgba(13,27,76,.05)}
+.ch{padding:11px 14px;background:var(--mist);border-bottom:1px solid var(--line);font-size:10px;
+font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);display:flex;
+justify-content:space-between;align-items:center;gap:8px}
+.cb{padding:13px 14px}
+.bd{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;
+text-transform:uppercase;letter-spacing:.06em;line-height:1.4}
+.bd-navy{background:var(--navy);color:#fff}
+.bd-green{background:#DCFCE7;color:var(--green2)}
+.bd-gold{background:#FEF3C7;color:var(--gold2)}
+.bd-red{background:#FEE2E2;color:var(--red)}
+.bd-purple{background:#EDE9FE;color:var(--purple)}
+.bd-blue{background:#DBEAFE;color:var(--blue)}
+.bd-pink{background:#FCE7F3;color:var(--pink)}
+.bd-mist{background:var(--mist);color:#6B7280}
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:11px;font-size:13px;font-weight:700;
+cursor:pointer;font-family:inherit;transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.pr{background:linear-gradient(135deg,var(--navy),var(--green));color:#fff}
+.btn.nv{background:var(--navy);color:#fff}
+.btn.gr{background:var(--green);color:#fff}
+.btn.go{background:var(--gold);color:var(--navy)}
+.btn.gh{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.rd{background:var(--red);color:#fff}
+.btn.sm{padding:9px 11px;font-size:11px;border-radius:8px}
+.brow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;
+border-bottom:1px solid var(--line);font-size:12px}
+.row:last-child{border-bottom:none}
+.row .k{color:#4B5563;flex:1;min-width:0}
+.row .v{font-weight:700;color:var(--navy);text-align:right;flex-shrink:0;
+font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.row .v.g{color:var(--green)}
+.row .v.r{color:var(--red)}
+.row .v.pu{color:var(--purple)}
+.row.tot{background:#F8FAFC}
+.row.tot .v{font-size:16px;font-weight:800}
+.scn{display:flex;gap:11px;padding:12px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);
+text-align:left;cursor:pointer;font-family:inherit;width:100%}
+.scn:last-child{border-bottom:none}
+.scn.on{background:linear-gradient(90deg,rgba(13,27,76,.10),transparent)}
+.scn .em{font-size:22px;line-height:1;flex-shrink:0}
+.scn .txt{flex:1;min-width:0}
+.scn .t1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.scn .t2{font-size:10px;color:#6B7280;margin-top:3px;line-height:1.4}
+.steps{max-height:52vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.stp{display:flex;gap:11px;padding:11px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);
+text-align:left;cursor:pointer;font-family:inherit;width:100%;align-items:center}
+.stp:last-child{border-bottom:none}
+.stp.done{background:rgba(220,252,231,.5)}
+.stp.now{background:rgba(254,243,199,.6)}
+.stp:disabled{cursor:not-allowed;opacity:.7}
+.stp .dot{width:9px;height:9px;border-radius:50%;background:var(--mist);flex-shrink:0}
+.stp.done .dot{background:var(--green)}
+.stp.now .dot{background:var(--gold);animation:pl 1.2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.6)}}
+.stp .info{flex:1;min-width:0}
+.stp .l1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.stp.done .l1{color:#6B7280}
+.stp .l2{font-size:10px;color:#9CA3AF;margin-top:2px;line-height:1.3}
+.stp .amt{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;color:var(--green);
+flex-shrink:0}
+.stp .amt.r{color:var(--red)}.stp .amt.n{color:var(--charcoal)}
+.narr{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:14px;border-radius:14px;
+margin-bottom:11px;position:relative;overflow:hidden}
+.narr::after{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;border-radius:50%;
+background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2}
+.narr .who{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);
+margin-bottom:6px;position:relative;z-index:1}
+.narr .msg{font-size:13px;font-weight:600;line-height:1.5;color:#fff;position:relative;z-index:1}
+.narr .det{font-size:11px;color:rgba(255,255,255,.7);margin-top:6px;line-height:1.5;position:relative;z-index:1}
+.dh{background:var(--navy);color:#fff;padding:16px 14px;position:relative;overflow:hidden}
+.dh::after{content:"";position:absolute;right:-50px;top:-50px;width:160px;height:160px;border-radius:50%;
+background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.18}
+.dh .cd{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:rgba(255,255,255,.55);
+position:relative;z-index:1}
+.dh .it{font-size:15px;font-weight:800;color:#fff;margin-top:6px;line-height:1.3;position:relative;z-index:1}
+.dh .st{position:absolute;right:14px;top:14px;z-index:1}
+.tl{position:relative;padding:10px 14px 10px 34px}
+.tl::before{content:"";position:absolute;left:19px;top:16px;bottom:16px;width:2px;
+background:linear-gradient(180deg,var(--gold),var(--green),var(--navy));border-radius:2px;opacity:.35}
+.tli{position:relative;padding:5px 0}
+.tld{position:absolute;left:-19px;top:10px;width:10px;height:10px;border-radius:50%;background:var(--navy);
+border:2px solid #fff;box-shadow:0 0 0 1px rgba(13,27,76,.15)}
+.tli.red .tld{background:var(--red)}.tli.gold .tld{background:var(--gold)}.tli.green .tld{background:var(--green)}
+.tlt{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
+.tli.red .tlt{color:var(--red)}.tli.gold .tlt{color:var(--gold2)}
+.tltm{font-size:9px;color:#9CA3AF;margin-top:2px}
+.wtile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:9px;
+position:relative;overflow:hidden}
+.wtile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--navy)}
+.wtile.gr::before{background:var(--green)}
+.wtile.go::before{background:var(--gold)}
+.wtile .nm{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--navy)}
+.wtile .amt{font-family:ui-monospace,Menlo,monospace;font-size:24px;font-weight:800;color:var(--navy);
+line-height:1.1;margin-top:4px}
+.wtile.gr .amt{color:var(--green)}
+.wtile .sb{font-size:10px;color:#9CA3AF;margin-top:3px}
+.wtile .ac{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.lr{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);align-items:center}
+.lr:last-child{border-bottom:none}
+.li{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;font-size:11px;
+font-weight:900}
+.li.cr{background:#DCFCE7;color:var(--green2)}
+.li.db{background:#FEE2E2;color:var(--red)}
+.li.fe{background:#FEF3C7;color:var(--gold2)}
+.lb{flex:1;min-width:0}
+.la{font-family:ui-monospace,Menlo,monospace;font-size:9px;font-weight:800;color:var(--navy);letter-spacing:.03em}
+.ld{font-size:10px;color:#6B7280;margin-top:2px;line-height:1.4}
+.lm{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;flex-shrink:0}
+.lm.cr{color:var(--green)}.lm.db{color:var(--red)}.lm.fe{color:var(--gold2)}
+.filters{display:flex;gap:6px;padding:10px;overflow-x:auto;scrollbar-width:none;
+border-bottom:1px solid var(--line)}
+.filters::-webkit-scrollbar{display:none}
+.chip{padding:6px 12px;border-radius:20px;border:none;background:var(--mist);color:#6B7280;font-size:10px;
+font-weight:800;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;font-family:inherit;
+white-space:nowrap}
+.chip.on{background:var(--navy);color:#fff}
+.job{padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.job:last-child{border-bottom:none}
+.job-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.job-c{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#9CA3AF}
+.job-n{font-size:12px;font-weight:800;color:var(--navy);margin-top:2px;line-height:1.3}
+.job-m{display:flex;flex-wrap:wrap;gap:10px;font-size:10px;color:#6B7280;margin-top:6px}
+.job-m strong{color:var(--charcoal)}
+.job-p{display:flex;gap:3px;margin-top:8px}
+.job-p .s{flex:1;height:4px;background:var(--mist);border-radius:2px}
+.job-p .s.done{background:var(--green)}.job-p .s.now{background:var(--gold)}
+.mod{padding:11px 14px;border-bottom:1px solid var(--line);display:flex;gap:11px;align-items:center}
+.mod:last-child{border-bottom:none}
+.mod .ck{width:22px;height:22px;border-radius:50%;background:var(--mist);display:grid;place-items:center;
+font-size:11px;font-weight:900;color:#9CA3AF;flex-shrink:0}
+.mod.done .ck{background:var(--green);color:#fff}
+.mod .mi{flex:1;min-width:0}
+.mod .mt{font-size:12px;font-weight:800;color:var(--navy);line-height:1.3}
+.mod .ms{font-size:10px;color:#9CA3AF;margin-top:2px}
+.bdg{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.bdg:last-child{border-bottom:none}
+.bdg .bl{font-size:12px;font-weight:800;color:#6B7280}
+.bdg.earned .bl{color:var(--green2)}
+.bdg .bs{font-size:10px;color:#9CA3AF;margin-top:2px}
+.bdg .bi{width:30px;height:30px;border-radius:50%;background:var(--mist);display:grid;place-items:center;
+font-size:14px;flex-shrink:0}
+.bdg.earned .bi{background:#DCFCE7}
+.chk{padding:9px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;
+align-items:center;font-size:11px}
+.chk:last-child{border-bottom:none}
+.chk .l{flex:1;color:#4B5563}
+.chk .v{font-weight:800;font-size:10px;text-transform:uppercase;letter-spacing:.04em}
+.chk .v.pass{color:var(--green2)}
+.chk .v.fail{color:var(--red)}
+.chk .v.na{color:#9CA3AF}
+.prg{height:6px;background:rgba(13,27,76,.10);border-radius:20px;overflow:hidden;margin-top:10px}
+.prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));
+border-radius:20px;transition:width .4s}
+.em{text-align:center;padding:32px 16px;color:#9CA3AF;font-size:12px;line-height:1.6}
+.mk{position:fixed;inset:0;background:rgba(13,27,76,.6);backdrop-filter:blur(4px);z-index:100;
+display:none;align-items:flex-end;justify-content:center}
+.mk.on{display:flex}
+.md{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;
+animation:su .3s cubic-bezier(.4,.2,.2,1)}
+@keyframes su{from{transform:translateY(100%)}to{transform:none}}
+.mh{padding:16px 18px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;
+align-items:center;position:sticky;top:0;background:#fff;z-index:2}
+.mh h3{font-size:15px;font-weight:800;color:var(--navy)}
+.mcl{background:none;border:none;font-size:24px;color:#9CA3AF;cursor:pointer;font-family:inherit;line-height:1}
+.mb{padding:16px 18px 20px}
+.mf{padding:12px 18px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--line);
+position:sticky;bottom:0;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 13px;border:1px solid rgba(13,27,76,.18);
+border-radius:10px;font-size:13px;font-family:inherit;color:var(--charcoal);background:#fff;outline:none}
+.method{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--line);
+border-radius:10px;margin-bottom:8px;cursor:pointer}
+.method.on{border-color:var(--green);background:#F0FDF4}
+.method .r{flex:1}
+.method .t{font-size:12px;font-weight:800;color:var(--navy)}
+.method .d{font-size:10px;color:#6B7280;margin-top:2px}
+.method .chk{width:20px;height:20px;border-radius:50%;background:var(--mist);display:grid;place-items:center;
+font-size:11px;font-weight:900;color:#9CA3AF}
+.method.on .chk{background:var(--green);color:#fff}
+.quick{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.quick button{padding:7px 11px;border-radius:20px;background:var(--mist);border:none;font-size:11px;
+font-weight:700;color:#6B7280;cursor:pointer;font-family:inherit}
+.codes{display:flex;gap:6px;justify-content:center;margin:16px 0}
+.codes input{width:38px;height:46px;text-align:center;font-size:20px;font-weight:800;
+font-family:ui-monospace,Menlo,monospace;border:1px solid rgba(13,27,76,.2);border-radius:9px;
+outline:none;background:#fff}
+.codes input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(244,180,32,.2)}
+.nt{background:#FEF3C7;border-left:3px solid var(--gold);padding:11px 13px;border-radius:8px;font-size:11px;
+color:#78350F;line-height:1.55;margin:10px 0}
+.nt.gr{background:#DCFCE7;border-left-color:var(--green);color:#065F46}
+.nt.rd{background:#FEE2E2;border-left-color:var(--red);color:#7F1D1D}
+.nt.bl{background:#DBEAFE;border-left-color:var(--blue);color:#1E3A8A}
+.nt.pu{background:#EDE9FE;border-left-color:var(--purple);color:#5B21B6}
+.ts{position:fixed;left:12px;right:12px;bottom:90px;z-index:200;background:var(--navy);color:#fff;
+border-radius:12px;padding:12px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(13,27,76,.3);
+transform:translateY(140%);transition:transform .35s cubic-bezier(.4,.2,.2,1);display:flex;gap:10px;
+align-items:center;pointer-events:none}
+.ts.on{transform:translateY(0)}
+.ts.ok{background:var(--green)}.ts.er{background:var(--red)}
+.gps{padding:14px;background:linear-gradient(135deg,#DBEAFE,#BFDBFE);border-radius:12px;margin-bottom:11px;
+text-align:center;border:1px solid #93C5FD}
+.gps .v{font-family:ui-monospace,Menlo,monospace;font-size:20px;font-weight:800;color:#1E3A8A;margin-top:4px}
+.gps .l{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#1E40AF}
+.gps.ok{background:linear-gradient(135deg,#DCFCE7,#BBF7D0);border-color:#86EFAC}
+.gps.ok .v{color:var(--green2)}
+.gps.ok .l{color:var(--green2)}
+.gps.bad{background:linear-gradient(135deg,#FEE2E2,#FECACA);border-color:#FCA5A5}
+.gps.bad .v{color:var(--red)}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-r">
+    <div class="who">
+      <div class="av">BE<span class="b" id="hBadge">🎓</span></div>
+      <div class="info">
+        <div class="n">Blessing Eze</div>
+        <div class="s" id="hSub">Certified Eligible · Ikeja</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button onclick="resetAll()">Reset</button>
+      <button class="go" id="playBtn" onclick="togglePlay()">▶ Play</button>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kbox green"><div class="l">Earned</div><div class="v" id="kEarn">₦0</div></div>
+    <div class="kbox gold"><div class="l">Trust</div><div class="v" id="kTrust">—</div></div>
+    <div class="kbox"><div class="l">Jobs</div><div class="v" id="kJobs">0</div></div>
+    <div class="kbox"><div class="l">Badges</div><div class="v" id="kBadges">0/4</div></div>
+  </div>
+</header>
+
+<!-- FLOW -->
+<section class="panel on" id="p-flow">
+  <div class="card">
+    <div class="ch"><span>Vet Agent scenarios</span><span class="bd bd-navy" id="scnCount">18</span></div>
+    <div id="scnList"></div>
+  </div>
+  <div class="card">
+    <div class="ch">
+      <span>Run this scenario</span>
+      <button style="background:none;border:none;color:#9CA3AF;font-size:10px;font-weight:700;cursor:pointer"
+        onclick="resetJob()">Reset</button>
+    </div>
+    <div class="cb">
+      <button class="btn go" id="innerPlay" onclick="playScenario()">▶ Play scenario</button>
+      <div class="prg" id="prgWrap" style="display:none"><div class="fill" id="prgFill"></div></div>
+    </div>
+  </div>
+  <div class="card" id="narrCard" style="display:none">
+    <div class="cb" style="padding:0">
+      <div class="narr">
+        <div class="who" id="nWho">—</div>
+        <div class="msg" id="nMsg">—</div>
+        <div class="det" id="nDet"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Job journey · tap any step</div>
+    <div class="steps" id="stepList"></div>
+  </div>
+  <div class="card" id="jobCard" style="display:none">
+    <div class="dh">
+      <div class="cd" id="jCode">—</div>
+      <span class="bd bd-gold st" id="jStatus">—</span>
+      <div class="it" id="jItem">—</div>
+    </div>
+    <div id="jRows"></div>
+  </div>
+  <div class="card" id="gpsCard" style="display:none">
+    <div class="ch"><span>GPS verification</span><span class="bd bd-blue">500m radius</span></div>
+    <div class="cb"><div class="gps" id="gpsBox"></div></div>
+  </div>
+  <div class="card" id="inspCard" style="display:none">
+    <div class="ch"><span>Inspection detail</span><span class="bd bd-green" id="iBadge">—</span></div>
+    <div id="iRows"></div>
+  </div>
+  <div class="card" id="outCard" style="display:none">
+    <div class="ch"><span>Outcome</span><span class="bd bd-green" id="oBadge">—</span></div>
+    <div id="oRows"></div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:12px;color:#4B5563;line-height:1.6" id="oVerdict"></div>
+  </div>
+  <div class="card" id="tlCard" style="display:none">
+    <div class="ch">Event log</div>
+    <ol class="tl" id="tlList"></ol>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section class="panel" id="p-jobs">
+  <div class="card">
+    <div class="ch"><span>Job feed</span><span class="bd bd-green" id="openCount">0 open</span></div>
+    <div class="filters">
+      <button class="chip on" onclick="filterJobs('all',this)">All</button>
+      <button class="chip" onclick="filterJobs('protected',this)">Protected deals</button>
+      <button class="chip" onclick="filterJobs('ondemand',this)">On-demand</button>
+    </div>
+    <div id="openJobsList"><div class="em">No open jobs in your LGAs right now.</div></div>
+  </div>
+  <div class="card" id="activeCard" style="display:none">
+    <div class="ch"><span>Active job</span><span class="bd bd-gold">1 active max</span></div>
+    <div id="activeBody"></div>
+  </div>
+  <div class="card">
+    <div class="ch">Completed jobs</div>
+    <div id="completedList"><div class="em">No completed jobs yet.</div></div>
+  </div>
+</section>
+
+<!-- TRAINING -->
+<section class="panel" id="p-training">
+  <div class="card">
+    <div class="ch"><span>Certification progress</span><span class="bd bd-blue" id="certBadge">Not started</span></div>
+    <div class="cb" id="progressBox"></div>
+  </div>
+  <div class="card">
+    <div class="ch"><span>Training modules</span><span class="bd bd-mist" id="modCount">0 / 10</span></div>
+    <div id="modulesList"></div>
+  </div>
+  <div class="card">
+    <div class="ch"><span>Certification quiz</span><span class="bd bd-gold" id="quizBadge">Pending</span></div>
+    <div class="cb" id="quizBox">
+      <div style="font-size:12px;color:#4B5563;line-height:1.6">
+        Complete all 10 modules to unlock the certification quiz.
+        Pass mark: <b>85%</b> · 25 random questions from a 124-question bank · 30 minutes.
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Badge ladder</div>
+    <div id="badgeList"></div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Each tier unlocks more. <b>Certified Eligible</b> lets you accept jobs. <b>Certified</b> requires 3 successful inspections. <b>Super Vet</b> requires 10 at 4.5★+.
+    </div>
+  </div>
+</section>
+
+<!-- EARNINGS -->
+<section class="panel" id="p-earnings">
+  <div class="card">
+    <div class="ch"><span>Earnings summary</span><span class="bd bd-green">Paid on approval</span></div>
+    <div class="cb">
+      <div class="wtile gr">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="nm">Available to withdraw</span>
+          <span class="bd bd-green">Ready</span>
+        </div>
+        <div class="amt" id="availBal">₦0</div>
+        <div class="sb">Withdraw to Zenith Bank · ···· 9876</div>
+        <div class="ac">
+          <button class="btn nv sm" onclick="openWithdraw()" id="wBtn" disabled>Withdraw</button>
+          <button class="btn go sm" onclick="quickDeposit()">+ Deposit</button>
+        </div>
+      </div>
+      <div class="wtile go">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="nm">Held for in-flight jobs</span>
+          <span class="bd bd-gold">Pending</span>
+        </div>
+        <div class="amt" id="heldBal">₦0</div>
+        <div class="sb">Releases when the buyer approves your report</div>
+      </div>
+      <div class="wtile">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="nm">Lifetime earned</span>
+          <span class="bd bd-navy">Total</span>
+        </div>
+        <div class="amt" id="lifetime">₦0</div>
+        <div class="sb">Across <span id="lifetimeJobs">0</span> inspections</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><span>Fee splits you earn</span><span class="bd bd-purple">From spec §14 & §22</span></div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Protected-deal inspection fee</span><span class="v">₦6,000</span></div>
+      <div class="row"><span class="k">Your share (70%)</span><span class="v g">₦4,200</span></div>
+      <div class="row"><span class="k">Platform share (30%)</span><span class="v">₦1,800</span></div>
+      <div style="height:1px;background:var(--line)"></div>
+      <div class="row"><span class="k">On-demand job (min)</span><span class="v">₦6,000</span></div>
+      <div class="row"><span class="k">Your share (60%)</span><span class="v g">₦3,600</span></div>
+      <div class="row"><span class="k">Platform share (40%)</span><span class="v pu">₦2,400</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><span>Withdrawal methods — all 3 available</span><span class="bd bd-green">Your choice</span></div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Google Authenticator (TOTP)</span><span class="v g">Enabled</span></div>
+      <div class="row"><span class="k">Email OTP</span><span class="v g">Available</span></div>
+      <div class="row"><span class="k">SMS OTP</span><span class="v g">Available</span></div>
+      <div class="row"><span class="k">Partial withdrawals</span><span class="v g">✓</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Pick the amount you want to withdraw. Leave the rest in your wallet for later. Tiers: ₦10 / ₦25 / ₦50 + ₦50 stamp duty.
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Earnings ledger</div>
+    <div id="earnLedger"><div class="em">No earnings yet.</div></div>
+  </div>
+</section>
+
+<!-- REQUESTS -->
+<section class="panel" id="p-requests">
+  <div class="card">
+    <div class="ch"><span>My on-demand jobs</span><span class="bd bd-purple" id="myOdCount">0</span></div>
+    <div id="myOdList"><div class="em">No on-demand jobs yet.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Accept requests too</div>
+    <div class="cb" style="font-size:12px;color:#4B5563;line-height:1.65">
+      <p style="margin-bottom:12px">Signed-in users can request custom inspections for items not on DealsGate — Instagram, WhatsApp, Jiji, physical shops. You see them in your feed just like protected-deal jobs.</p>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">Minimum fee</span><span class="v">₦6,000</span></div>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">You earn</span><span class="v g">60%</span></div>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">Platform keeps</span><span class="v pu">40%</span></div>
+      <div class="row" style="padding-left:0;padding-right:0;border-bottom:none"><span class="k">First Accept wins</span><span class="v g">✓</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BUY/SELL -->
+<section class="panel" id="p-roles">
+  <div class="card">
+    <div class="ch"><span>One account, all roles</span><span class="bd bd-green">You can do this too</span></div>
+    <div class="cb" style="font-size:12px;color:#4B5563;line-height:1.65">
+      <p style="margin-bottom:12px">Being a Vet Agent does not lock your account. The same account can buy and sell on DealsGate any time — you are already a verified user.</p>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">Vet Agent — inspect items and earn fees</span><span class="v g">✓ Active</span></div>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">Buyer — pay into escrow for items you want</span><span class="v g">✓ Available</span></div>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">Seller — list items, pay guarantee, get paid</span><span class="v g">✓ Available</span></div>
+      <div class="row" style="padding-left:0;padding-right:0;border-bottom:none"><span class="k">Referrals — share link, earn ₦1,000</span><span class="v g">✓ Available</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Buy something on DealsGate</div>
+    <div class="cb">
+      <button class="btn go" onclick="showToast('Opens buyer flow — same account')">Browse listings as a buyer</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Sell something on DealsGate</div>
+    <div class="cb">
+      <button class="btn go" onclick="showToast('Opens seller flow — same account')">List an item as a seller</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">My seller listings</div>
+    <div id="myListings"><div class="em">No listings yet.</div></div>
+  </div>
+</section>
+
+<!-- REFERRALS -->
+<section class="panel" id="p-referrals">
+  <div class="card">
+    <div class="ch"><span>Your referral link</span><span class="bd bd-purple">From signup</span></div>
+    <div class="cb">
+      <div style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:800;background:var(--navy);
+        color:var(--gold);padding:12px;border-radius:10px;text-align:center;letter-spacing:.15em" id="refCode">DG-BLESSING-2026</div>
+      <div class="brow" style="margin-top:10px">
+        <button class="btn gh sm" onclick="copyRef()">📋 Copy link</button>
+        <button class="btn gr sm" onclick="shareRef()">💬 Share</button>
+      </div>
+      <div class="nt pu" style="margin-top:12px">
+        <b>Lifetime 50% discount</b> unlocks when 10 referrals sign up, 5 of them complete 5+ deals each.
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Reward structure</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">₦1,000 per referee first completed deal</span><span class="v g">₦1,000</span></div>
+      <div class="row"><span class="k">New seller referee — first guarantee waived</span><span class="v g">₦5,000</span></div>
+      <div class="row"><span class="k">New buyer referee — 50% off first buyer fee</span><span class="v g">50%</span></div>
+      <div class="row"><span class="k">Self-referral</span><span class="v r">Blocked</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Progress</div>
+    <div id="refProgress"></div>
+  </div>
+  <div class="card">
+    <div class="ch">Referred users</div>
+    <div id="refUsers"><div class="em">No referrals yet.</div></div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="panel" id="p-profile">
+  <div class="card">
+    <div class="ch"><span>Agent profile</span><span class="bd bd-green" id="pStatus">Verified</span></div>
+    <div class="cb">
+      <div style="display:flex;gap:14px;align-items:center">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--navy);color:var(--gold);
+          display:grid;place-items:center;font-size:22px;font-weight:800;border:2px solid var(--gold)">BE</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:15px;font-weight:800;color:var(--navy)">Blessing Eze</div>
+          <div style="font-size:11px;color:#6B7280;margin-top:3px">Ikeja, Lagos · Independent contractor</div>
+          <div style="margin-top:6px;font-size:12px">
+            <span style="color:var(--gold)">★★★★★</span>
+            <span style="font-weight:700;color:var(--gold2);margin-left:4px" id="pStars">4.9</span>
+            <span style="font-size:10px;color:#9CA3AF">(<span id="pReviews">187</span> inspections)</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
+        <div class="row" style="padding:5px 0"><span class="k">ID verification</span><span class="v g" id="pID">Verified</span></div>
+        <div class="row" style="padding:5px 0"><span class="k">Successful inspections</span><span class="v" id="pSuccess">0</span></div>
+        <div class="row" style="padding:5px 0"><span class="k">Overturned verdicts</span><span class="v r" id="pOver">0</span></div>
+        <div class="row" style="padding:5px 0"><span class="k">Bank account</span><span class="v">Zenith · 9876</span></div>
+        <div class="row" style="padding:5px 0"><span class="k">Withdrawal 2FA</span><span class="v g">Google Auth</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><span>Sectors selected (max 3)</span><span class="bd bd-mist" id="sectorCount">0 / 3</span></div>
+    <div id="sectorsList"><div class="em">Not yet selected.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch"><span>LGAs covered</span><span class="bd bd-mist" id="lgaCount">0</span></div>
+    <div id="lgasList"><div class="em">Not yet selected.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Trust Score breakdown</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Accuracy of verdicts</span><span class="v g">4.9</span></div>
+      <div class="row"><span class="k">Completeness of media</span><span class="v g">4.8</span></div>
+      <div class="row"><span class="k">Punctuality</span><span class="v g">4.9</span></div>
+      <div class="row"><span class="k">Buyer ratings</span><span class="v g">4.9</span></div>
+      <div class="row"><span class="k">Dispute overturns</span><span class="v">0</span></div>
+      <div class="row tot"><span class="k">Overall</span><span class="v g" id="trustTotal">4.9</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Bands: <b>4.5+</b> priority · <b>4.0–4.5</b> standard · <b>3.5–4.0</b> review · <b>below 3.5</b> suspension + retraining.
+    </div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab on" onclick="tab('flow',this)"><span class="ic">▶</span>Flow</button>
+  <button class="tab" onclick="tab('jobs',this)"><span class="ic">📋</span>Jobs</button>
+  <button class="tab" onclick="tab('training',this)"><span class="ic">🎓</span>Training</button>
+  <button class="tab" onclick="tab('earnings',this)"><span class="ic">💰</span>Earnings</button>
+  <button class="tab" onclick="tab('requests',this)"><span class="ic">📞</span>Requests</button>
+  <button class="tab" onclick="tab('roles',this)"><span class="ic">🔄</span>Roles</button>
+  <button class="tab" onclick="tab('referrals',this)"><span class="ic">🎁</span>Referrals</button>
+  <button class="tab" onclick="tab('profile',this)"><span class="ic">👤</span>Profile</button>
+</nav>
+
+<div class="mk" id="modal" onclick="if(event.target===this)closeModal()"><div class="md" id="modalBox"></div></div>
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
+const KEY='dg_agent_complete_v1';
+const PROTECTED_FEE=6000;
+const PROTECTED_AGENT_PCT=0.70;   // ₦4,200
+const ONDEMAND_AGENT_PCT=0.60;    // ₦3,600
+const GPS_RADIUS_M=500;
+const ACCEPT_SLA_MIN=120;
+const QUIZ_PASS_PCT=85;
+const CERT_REQUIRED_INSPECTIONS=3;
+const SUPERVET_REQUIRED=10;
+
+const fmt=n=>'₦'+Math.round(n).toLocaleString('en-NG');
+const ago=ts=>{const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';
+  if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';};
+function transferFee(n){return n<=5000?10:n<=50000?25:50;}
+
+/* ============================================================
+   STATE
+   ============================================================ */
+function fresh(){
+  return {
+    agent:{
+      name:'Blessing Eze', city:'Ikeja, Lagos',
+      idVerified:false, certEligible:false, certified:false, superVet:false,
+      quizScore:null, trust:4.9, rating:4.9, reviews:187,
+      successful:0, overturned:0,
+      sectors:[], lgas:[], maxTravel:20,
+      bank:'Zenith · ···· 9876',
+      totpEnabled:true, defaultMethod:'totp',
+    },
+    modulesDone:{},
+    available:0, held:0, lifetime:0, lifetimeJobs:0,
+    ledger:[], events:[],
+    activeJob:null, currentJob:null,
+    inspection:null,
+    openJobs:{},
+    completedJobs:[],
+    myListings:{},
+    referrals:{ code:'DG-BLESSING-2026', referred:[], earnings:0 },
+    scenario:'first', completedSteps:[],
+    _jobFilter:'all',
+  };
+}
+let S=load();
+function load(){try{const r=localStorage.getItem(KEY);return r?Object.assign(fresh(),JSON.parse(r)):fresh();}catch(e){return fresh();}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function uid(){return 'x'+Math.random().toString(36).slice(2,10);}
+function credit(amt,desc){S.available+=amt;S.ledger.unshift({id:uid(),dir:'CREDIT',amt,desc,ts:Date.now()});}
+function debit(amt,desc){S.available-=amt;S.ledger.unshift({id:uid(),dir:'DEBIT',amt,desc,ts:Date.now()});}
+function feeAmt(amt,desc){S.available-=amt;S.ledger.unshift({id:uid(),dir:'FEE',amt,desc,ts:Date.now()});}
+function ev(type,text,meta){S.events.push({type,text,meta,ts:Date.now()});if(S.events.length>250)S.events.shift();}
+
+/* ============================================================
+   18 SCENARIOS
+   ============================================================ */
+const SCENARIOS = {
+  onboard: {
+    key:'onboard', em:'🎯', title:'Onboarding & certification',
+    desc:'ID verify → pick sectors → pick LGAs → read 10 modules → pass quiz 85% → Certified Eligible',
+    steps:[
+      {k:'verifyID',  l1:'ID verification',          l2:'KYC pass → Verified badge',           amt:null},
+      {k:'sectors',   l1:'Pick 3 sectors',           l2:'Phones · Laptops · Bags & Watches',   amt:null},
+      {k:'lgas',      l1:'Pick LGAs + travel radius',l2:'Ikeja · Eti-Osa · Surulere · 20km',   amt:null},
+      {k:'read',      l1:'Read 10 training modules', l2:'Evidence · scam patterns · sectors',  amt:null},
+      {k:'quiz',      l1:'Pass certification quiz',  l2:'Score 92% · pass mark 85%',           amt:null},
+      {k:'eligible',  l1:'Certified Eligible',       l2:'You can now accept jobs',             amt:null},
+    ],
+    verdict:'Onboarding is the entry gate. ID is Verified. Training + quiz unlock Certified Eligible. Complete 3 successful inspections to upgrade to Certified.'
+  },
+  first: {
+    key:'first', em:'✅', title:'First job — full happy path',
+    desc:'Job appears → first Accept → GPS verify → inspect → PASS → buyer approves → paid',
+    steps:[
+      {k:'jobAppears',l1:'Job appears in feed',      l2:'iPhone 14 Pro · Ikeja LGA',           amt:null},
+      {k:'accept',    l1:'First Accept wins',        l2:'Locks to you · 1 active max',         amt:null},
+      {k:'gps',       l1:'GPS verified at pin',      l2:'47m from seller · within 500m',       amt:null},
+      {k:'inspect',   l1:'Begin inspection',         l2:'Checklist + evidence',                amt:null},
+      {k:'submitPass',l1:'Submit PASS',              l2:'3+ photos · continuous video · IMEI', amt:null},
+      {k:'approved',  l1:'Buyer approved evidence',  l2:'Job fee released to you',             amt:4200},
+      {k:'certified', l1:'Certified badge unlocked', l2:'3 successful inspections',            amt:null},
+    ],
+    verdict:'Standard job. You earned ₦4,200 (70% of the ₦6,000 inspection fee). Certified badge unlocked after this 3rd successful inspection.'
+  },
+  race: {
+    key:'race', em:'⏱️', title:'Race lost — another agent wins',
+    desc:'Job opens · you tap Accept · another agent accepted first · no penalty',
+    steps:[
+      {k:'jobAppears',l1:'Job appears in feed',      l2:'MacBook · Eti-Osa LGA',               amt:null},
+      {k:'enRoute',   l1:'Start travelling',         l2:'10 minutes away',                     amt:null},
+      {k:'raceLost',  l1:'Another agent accepted first',l2:'Job locks to them · no penalty',    amt:null},
+      {k:'backFeed',  l1:'Return to feed',           l2:'Try the next job',                    amt:null},
+    ],
+    verdict:'First-Accept-wins is enforced by a row lock in the database. Two concurrent accepts cannot both succeed. No penalty for the loser.'
+  },
+  gpsOut: {
+    key:'gpsOut', em:'📡', title:'GPS out of range — inspection rejected',
+    desc:'You are 1,200m from the seller pin · server rejects submission',
+    steps:[
+      {k:'jobAppears',l1:'Job appears',              l2:'Ikeja LGA',                           amt:null},
+      {k:'accept',    l1:'Accept job',               l2:'Locked to you',                       amt:null},
+      {k:'gpsBad',    l1:'GPS says 1,200m away',     l2:'Outside 500m radius',                 amt:null},
+      {k:'travel',    l1:'Travel closer to pin',     l2:'Now 220m away',                       amt:null},
+      {k:'gps',       l1:'GPS verified',             l2:'Within radius · proceed',             amt:null},
+      {k:'inspect',   l1:'Begin inspection',         l2:'Checklist + evidence',                amt:null},
+    ],
+    verdict:'The server verifies your GPS position against the seller’s pinned location. Anything beyond 500m is rejected before evidence submission. This protects the integrity of every report.'
+  },
+  fail: {
+    key:'fail', em:'❌', title:'FAIL verdict — item does not match',
+    desc:'Serial mismatch + undisclosed dent · you mark FAIL · buyer refunded · you still get paid',
+    steps:[
+      {k:'jobAppears',l1:'Job appears',              l2:'LG Inverter AC · Ikeja',              amt:null},
+      {k:'accept',    l1:'Accept job',               l2:'Locked to you',                       amt:null},
+      {k:'gps',       l1:'GPS verified',             l2:'At pin',                              amt:null},
+      {k:'inspect',   l1:'Begin inspection',         l2:'Checklist + evidence',                amt:null},
+      {k:'defect',    l1:'Serial mismatch found',    l2:'Undisclosed dent on condenser',       amt:null},
+      {k:'submitFail',l1:'Submit FAIL',              l2:'Full evidence preserved',             amt:null},
+      {k:'buyerRefund',l1:'Buyer refunded in full',  l2:'Item + fees + vet + logistics',       amt:null},
+      {k:'forfeit',   l1:'Seller guarantee forfeited',l2:'₦5,000',                             amt:null},
+      {k:'paidFail',  l1:'You are still paid',       l2:'Inspection work done',                amt:4200},
+    ],
+    verdict:'You still get paid for honest work when the verdict is FAIL. The seller loses their ₦5,000 guarantee. The buyer gets a full refund. Evidence over opinion protects everyone.'
+  },
+  review: {
+    key:'review', em:'⚠️', title:'NEEDS_REVIEW — buyer decides',
+    desc:'Item works but has an undisclosed minor scratch · you hand the decision to the buyer',
+    steps:[
+      {k:'jobAppears',l1:'Job appears',              l2:'Dell XPS 13 · Ikeja',                 amt:null},
+      {k:'accept',    l1:'Accept job',               l2:'Locked to you',                       amt:null},
+      {k:'gps',       l1:'GPS verified',             l2:'At pin',                              amt:null},
+      {k:'inspect',   l1:'Begin inspection',         l2:'Checklist + evidence',                amt:null},
+      {k:'variance',  l1:'Minor scratch found',      l2:'Not visible in listing media',        amt:null},
+      {k:'submitReview',l1:'Submit NEEDS_REVIEW',    l2:'Clear photos + notes for buyer',      amt:null},
+      {k:'buyerDecide',l1:'Buyer accepts the item',  l2:'Deal proceeds normally',              amt:null},
+      {k:'paidReview',l1:'Paid ₦4,200',              l2:'Job fee released',                    amt:4200},
+    ],
+    verdict:'NEEDS_REVIEW is not a soft FAIL. It is a proper handoff to the buyer when the item is functional but has a material variance worth their attention. You still get paid either way.'
+  },
+  ondemand: {
+    key:'ondemand', em:'📞', title:'On-demand inspection · 60/40 split',
+    desc:'User requests a custom inspection · you accept · report · user approves · you earn ₦3,600',
+    steps:[
+      {k:'odAppears', l1:'On-demand job appears',    l2:'Designer bag · Wuse LGA · ₦6,000',    amt:null},
+      {k:'odAccept',  l1:'First Accept wins',        l2:'Locked to you',                       amt:null},
+      {k:'gps',       l1:'GPS verified at pin',      l2:'At the designer bag store',           amt:null},
+      {k:'inspectOD', l1:'Inspect the bag',          l2:'Stitching · serials · hardware',      amt:null},
+      {k:'odSubmit',  l1:'Submit report',            l2:'NEEDS_REVIEW · stitching off',        amt:null},
+      {k:'odApprove', l1:'Requester approves',       l2:'No dispute raised',                   amt:null},
+      {k:'odPaid',    l1:'You earned ₦3,600',        l2:'60% of the ₦6,000 job',               amt:3600},
+    ],
+    verdict:'On-demand jobs work exactly like protected-deal jobs — first Accept wins, one active at a time, GPS verified, requester approves. The only difference is the fee split: 60/40 instead of 70/30.'
+  },
+  odReject: {
+    key:'odReject', em:'🚫', title:'Requester rejects your report',
+    desc:'Your report is accurate but the requester disagrees · mediation opens',
+    steps:[
+      {k:'odAppears', l1:'On-demand job appears',    l2:'Phone · Port Harcourt LGA · ₦8,000',  amt:null},
+      {k:'odAccept',  l1:'Accept job',               l2:'Locked to you',                       amt:null},
+      {k:'gps',       l1:'GPS verified',             l2:'At pin',                              amt:null},
+      {k:'inspectOD', l1:'Inspect thoroughly',       l2:'Full evidence captured',              amt:null},
+      {k:'odSubmit',  l1:'Submit report PASS',       l2:'Item matches listing',                amt:null},
+      {k:'odDispute', l1:'Requester rejects report', l2:'Says the phone is slow',              amt:null},
+      {k:'mediation', l1:'Mediation opens',          l2:'Admin reviews evidence tiers',        amt:null},
+      {k:'odRule',    l1:'Mediator rules for you',   l2:'Your evidence was clear',             amt:4800},
+    ],
+    verdict:'A rejected report is not a failed job. Mediation weighs evidence tiers. Clear photos, continuous video, and written notes make your work defensible. You get paid because the work was done.'
+  },
+  bribe: {
+    key:'bribe', em:'🚨', title:'Seller offers a bribe — refuse and report',
+    desc:'You find a real defect · seller offers ₦20,000 to mark PASS · you refuse and report',
+    steps:[
+      {k:'jobAppears',l1:'Job appears',              l2:'iPhone 13 · Ikeja',                   amt:null},
+      {k:'accept',    l1:'Accept job',               l2:'Locked to you',                       amt:null},
+      {k:'gps',       l1:'GPS verified',             l2:'At pin',                              amt:null},
+      {k:'inspect',   l1:'Begin inspection',         l2:'Checklist + evidence',                amt:null},
+      {k:'defect2',   l1:'Battery swelling found',   l2:'Real safety defect',                  amt:null},
+      {k:'bribeTry',  l1:'Seller offers ₦20,000',    l2:'"Just mark it PASS"',                 amt:null},
+      {k:'refuse',    l1:'You refuse',               l2:'No side deals · no verdict change',   amt:null},
+      {k:'report',    l1:'Report concern to Admin',  l2:'One-tap from inspection screen',      amt:null},
+      {k:'submitFail',l1:'Submit FAIL with evidence',l2:'All photos preserved',                amt:null},
+      {k:'adminAct',  l1:'Admin suspends the seller',l2:'Case file opened · audited',          amt:null},
+      {k:'paidBribe', l1:'You are paid ₦4,200',      l2:'Integrity is never penalised',        amt:4200},
+    ],
+    verdict:'Refusing a bribe is the single highest-trust action you can take. The platform backs you completely. This is why the Code of Conduct is explicit: no side deals, no verdict manipulation.'
+  },
+  safety: {
+    key:'safety', em:'⚠️', title:'Safety threat on site',
+    desc:'Seller becomes aggressive · you leave immediately · Admin handles the rest',
+    steps:[
+      {k:'jobAppears',l1:'Job appears',              l2:'Phones · Surulere LGA',               amt:null},
+      {k:'accept',    l1:'Accept job',               l2:'Locked to you',                       amt:null},
+      {k:'gps',       l1:'Arrive at pin',            l2:'GPS verified',                        amt:null},
+      {k:'threat',    l1:'Seller becomes aggressive',l2:'You feel unsafe · leave immediately', amt:null},
+      {k:'leave',     l1:'Leave the site',           l2:'Safety first · no penalty',           amt:null},
+      {k:'reportThreat',l1:'Report safety concern',  l2:'Admin notified instantly',            amt:null},
+      {k:'safetyAdmin',l1:'Admin reassigns to another agent',l2:'Your evidence stays',         amt:null},
+      {k:'releasedSafe',l1:'You are released',       l2:'No penalty · Trust Score intact',     amt:null},
+    ],
+    verdict:'Safety is the only non-negotiable. Leave immediately if you feel threatened. Report it. Admin handles the seller. Your Trust Score is not affected.'
+  },
+  release: {
+    key:'release', em:'🚪', title:'Release a job — personal emergency',
+    desc:'You accepted but cannot make it · release cleanly · job returns to feed',
+    steps:[
+      {k:'jobAppears',l1:'Job appears',              l2:'Phones · Ikeja',                      amt:null},
+      {k:'accept',    l1:'Accept job',               l2:'Locked to you',                       amt:null},
+      {k:'emergency', l1:'Personal emergency',       l2:'You cannot make it in time',          amt:null},
+      {k:'releaseJob',l1:'Release the job',          l2:'Reason: personal · logged',           amt:null},
+      {k:'reopened',  l1:'Job returns to feed',      l2:'Another agent can accept',            amt:null},
+      {k:'noPenalty', l1:'No penalty on first release',l2:'Repeated releases hurt Trust Score',amt:null},
+    ],
+    verdict:'Releasing is far better than going silent. The job returns to the feed immediately so the buyer is not blocked. First release is free; repeated releases affect Trust Score.'
+  },
+  oneActive: {
+    key:'oneActive', em:'🔒', title:'One active job at a time',
+    desc:'You already have a job · the Accept button is disabled on other jobs',
+    steps:[
+      {k:'jobAppears',l1:'First job appears',        l2:'You accept it',                       amt:null},
+      {k:'accept',    l1:'Job 1 locked to you',      l2:'Active job in progress',              amt:null},
+      {k:'jobAppears2',l1:'Second job appears',      l2:'Same LGA · same sector',              amt:null},
+      {k:'cantAccept',l1:'Accept disabled',          l2:'Complete or release Job 1 first',     amt:null},
+      {k:'gps',       l1:'Complete Job 1',           l2:'Submit PASS',                         amt:null},
+      {k:'submitPass',l1:'Job 1 done',               l2:'Now available to accept again',       amt:null},
+    ],
+    verdict:'The one-active-job rule is enforced by a partial unique index in the database. You cannot accept a second job while you have an active one. This keeps quality high and prevents agents from spreading too thin.'
+  },
+  supervet: {
+    key:'supervet', em:'🏆', title:'Unlock Super Vet — 10th successful job',
+    desc:'You already have Certified · this is your 10th successful inspection',
+    steps:[
+      {k:'alreadyCert',l1:'Already Certified',       l2:'9 successful inspections',            amt:null},
+      {k:'jobAppears',l1:'10th job appears',         l2:'Canon EOS R6 · Ikeja',                amt:null},
+      {k:'accept',    l1:'Accept job',               l2:'Locked to you',                       amt:null},
+      {k:'gps',       l1:'GPS verified',             l2:'At pin',                              amt:null},
+      {k:'inspect',   l1:'Inspect thoroughly',       l2:'Full evidence captured',              amt:null},
+      {k:'submitPass',l1:'Submit PASS',              l2:'Buyer approves',                      amt:null},
+      {k:'paid10',    l1:'Paid ₦4,200',              l2:'10th successful job',                 amt:4200},
+      {k:'superVet',  l1:'Super Vet badge unlocked', l2:'Priority visibility on new jobs',     amt:null},
+    ],
+    verdict:'Super Vet is the top tier. Priority visibility means you see new jobs first. Higher-value on-demand requests route to you first. The badge appears on your public profile and every report you submit.'
+  },
+  withdrawTOTP: {
+    key:'withdrawTOTP', em:'🔐', title:'Partial withdrawal · Google Auth',
+    desc:'Withdraw ₦4,200 of ₦12,600 using Google Authenticator',
+    steps:[
+      {k:'seedEarn',  l1:'Earnings balance',         l2:'₦12,600 from 3 jobs',                 amt:null},
+      {k:'withdrawOpen',l1:'Enter ₦4,200 (partial)',l2:'Not forced to withdraw all',           amt:null},
+      {k:'withdrawTOTP',l1:'Google Authenticator',  l2:'Scan code · verified',                 amt:null},
+      {k:'withdrawSettle',l1:'Withdrew ₦4,200',     l2:'Net to bank ₦4,150',                   amt:-4200},
+      {k:'withdrawLeave',l1:'₦8,400 remains',       l2:'Available for next withdrawal',        amt:null},
+    ],
+    verdict:'Partial withdrawal. TOTP verified. The remaining ₦8,400 stays in your wallet. You can withdraw again any time — the fee tiers apply per withdrawal, not on your total balance.'
+  },
+  withdrawEmail: {
+    key:'withdrawEmail', em:'📧', title:'Partial withdrawal · Email OTP',
+    desc:'Withdraw ₦2,000 using Email OTP',
+    steps:[
+      {k:'seedEarn',  l1:'Earnings balance',         l2:'₦12,600 available',                   amt:null},
+      {k:'withdrawOpen',l1:'Enter ₦2,000',           l2:'Partial amount',                      amt:null},
+      {k:'withdrawEmail',l1:'Choose Email OTP',      l2:'6-digit code sent to your email',     amt:null},
+      {k:'withdrawSettle',l1:'Withdrew ₦2,000',      l2:'Net to bank ₦1,990',                  amt:-2000},
+    ],
+    verdict:'Email OTP works out of the box. No setup required. The fee tier for amounts under ₦5,000 is ₦10. Every user has all 3 withdrawal methods from day one.'
+  },
+  withdrawSMS: {
+    key:'withdrawSMS', em:'📱', title:'Partial withdrawal · SMS OTP',
+    desc:'Withdraw ₦500 using SMS OTP',
+    steps:[
+      {k:'seedEarn',  l1:'Earnings balance',         l2:'₦12,600 available',                   amt:null},
+      {k:'withdrawOpen',l1:'Enter ₦500',             l2:'Small partial amount',                amt:null},
+      {k:'withdrawSMS',l1:'Choose SMS OTP',          l2:'6-digit code sent to your phone',     amt:null},
+      {k:'withdrawSettle',l1:'Withdrew ₦500',        l2:'Net to bank ₦490',                    amt:-500},
+    ],
+    verdict:'SMS OTP is the phone-only option — no email, no authenticator app. Fee tier for ₦500 is ₦10. Every user has all 3 withdrawal methods from day one.'
+  },
+  buyerSeller: {
+    key:'buyerSeller', em:'🔄', title:'Agent can also buy and sell',
+    desc:'Same account · buy an item · then list your own',
+    steps:[
+      {k:'browseMarket',l1:'Browse listings as a buyer',l2:'Same account · same wallet',      amt:null},
+      {k:'buyNow',    l1:'Buy an item from a seller', l2:'Escrow · 2% buyer fee',              amt:-468500},
+      {k:'listItem',  l1:'List your own item',        l2:'Same account switching to seller',   amt:null},
+      {k:'guarantee', l1:'Pay ₦5,000 guarantee',      l2:'Auto-debit from guarantee wallet',   amt:-5000},
+      {k:'publish',   l1:'Publish your listing',      l2:'Buyer link issued',                  amt:null},
+      {k:'referShare',l1:'Share your referral link',  l2:'Earn ₦1,000 per first deal',         amt:null},
+    ],
+    verdict:'Being a Vet Agent does not lock your account. The same verified identity can buy, sell, and inspect — the role is per transaction. Same wallet, same trust score, same bank account.'
+  },
+  swap: {
+    key:'swap', em:'🔍', title:'Your evidence catches a seller swap',
+    desc:'Post-delivery, the buyer receives a different item · your video evidence decides the case',
+    steps:[
+      {k:'jobAppears',l1:'Job appears',              l2:'iPhone · Ikeja',                      amt:null},
+      {k:'accept',    l1:'Accept job',               l2:'Locked to you',                       amt:null},
+      {k:'gps',       l1:'GPS verified',             l2:'At pin',                              amt:null},
+      {k:'inspect',   l1:'Capture continuous video', l2:'IMEI on camera · 45 seconds',         amt:null},
+      {k:'submitPass',l1:'Submit PASS with evidence',l2:'Buyer approves · item dispatched',    amt:null},
+      {k:'delivered', l1:'Buyer receives a different unit',l2:'Buyer opens dispute',           amt:null},
+      {k:'disputeWins',l1:'Your video matches the IMEI',l2:'Mediator rules for buyer',          amt:null},
+      {k:'paidPass',  l1:'You are paid ₦4,200',      l2:'Evidence never in doubt',             amt:4200},
+    ],
+    verdict:'This is why the platform requires continuous unedited video and identifier capture. Your work becomes the primary truth in a dispute. The buyer is made whole. The fraudulent seller is removed.'
+  },
+};
+
+/* ============================================================
+   HANDLERS
+   ============================================================ */
+const H = {
+  verifyID(){ S.agent.idVerified=true; ev('ID_VERIFIED','ID KYC passed','Verified badge issued'); return 'Verified'; },
+  sectors(){ S.agent.sectors=['Phones & Tablets','Computers & Laptops','Bags & Watches'];
+    ev('SECTORS','Picked 3 sectors','Phones · Laptops · Bags & Watches'); return '3 sectors'; },
+  lgas(){ S.agent.lgas=['Ikeja','Eti-Osa','Surulere']; S.agent.maxTravel=20;
+    ev('LGAS','Chose 3 LGAs','Ikeja · Eti-Osa · Surulere'); return '3 LGAs'; },
+  read(){ ['M01','M02','M03','M04','M05','M06','M07','M08','M09','M10'].forEach(m=>S.modulesDone[m]=true);
+    ev('TRAINING','Read 10 modules','Evidence · scam patterns · sectors'); return '10 modules'; },
+  quiz(){ S.agent.quizScore=92; ev('QUIZ','Quiz score 92%','Pass mark 85%'); return '92%'; },
+  eligible(){ S.agent.certEligible=true; ev('CERT_ELIGIBLE','Certified Eligible','Can now accept jobs'); return 'Certified Eligible'; },
+
+  jobAppears(){
+    const code='DG-'+Date.now().toString().slice(-6);
+    const job={
+      code, type:'protected', item:'iPhone 14 Pro 256GB',
+      lga:'Ikeja', sector:'Phones & Tablets',
+      fee:PROTECTED_FEE, agentShare:4200, platformShare:1800,
+      seller:'Tunde A.', buyer:'Musa I.',
+      status:'OPEN', createdAt:Date.now(),
+    };
+    S.openJobs[code]=job; S.currentJob=job;
+    ev('JOB_APPEARS','New job in your feed: '+code,'Ikeja · ₦4,200 share');
+    return code;
+  },
+  jobAppears2(){
+    const code='DG-'+Date.now().toString().slice(-6);
+    const job={
+      code, type:'protected', item:'Dell XPS 13',
+      lga:'Ikeja', sector:'Computers & Laptops',
+      fee:PROTECTED_FEE, agentShare:4200, platformShare:1800,
+      seller:'Adaeze O.', buyer:'Chioma O.',
+      status:'OPEN', createdAt:Date.now(),
+    };
+    S.openJobs[code]=job;
+    ev('JOB_APPEARS','Second job appears','Same LGA · same sector');
+    return code;
+  },
+  accept(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    if(S.activeJob) throw Error('You already have an active job');
+    j.status='ACCEPTED'; j.agentId='me'; j.acceptedAt=Date.now();
+    S.activeJob=j; S.held+=j.agentShare;
+    delete S.openJobs[j.code];
+    ev('ACCEPT','You accepted '+j.code,'Locked to you · 1 active max');
+    return 'Accepted';
+  },
+  cantAccept(){
+    ev('CANT_ACCEPT','Accept disabled','Complete or release your current job first');
+    return 'Blocked';
+  },
+  gps(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    j.gpsDistance=47; j.gpsOk=true;
+    ev('GPS_OK','GPS verified · 47m from pin','Within 500m radius');
+    return 'GPS ok';
+  },
+  gpsBad(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    j.gpsDistance=1200; j.gpsOk=false;
+    ev('GPS_BAD','GPS shows 1,200m','Outside 500m radius · rejected');
+    return 'Out of range';
+  },
+  travel(){
+    const j=S.currentJob;
+    if(j){ j.gpsDistance=220; j.gpsOk=true; }
+    ev('TRAVEL','Travelled closer','Now within radius');
+    return 'In range';
+  },
+  inspect(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.inspection={
+      checklist:[
+        {id:'imei',label:'IMEI matches physical label and box',value:'pass'},
+        {id:'battery',label:'Battery health captured',value:'pass'},
+        {id:'screen',label:'Screen: no cracks, dead pixels, lines',value:'pass'},
+        {id:'biometric',label:'Face ID / fingerprint works',value:'pass'},
+        {id:'camera',label:'Cameras capture sharp photo/video',value:'pass'},
+        {id:'charge',label:'Charging starts when plugged in',value:'pass'},
+        {id:'account',label:'No iCloud / FRP / Google lock',value:'pass'},
+        {id:'sim',label:'SIM tray present and ejects',value:'pass'},
+      ],
+      photos:4, videoDuration:42,
+      gpsDistance:j.gpsDistance||47,
+      notes:'Item powered on, tested Face ID, cameras, speakers, charging. IMEI matches physical label and box.',
+      signature:'8a4f2c91e7b3d5a9…',
+    };
+    j.status='INSPECTING';
+    ev('INSPECTING','Inspection started','Checklist + evidence being captured');
+    return 'Inspecting';
+  },
+  submitPass(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.inspection.verdict='PASS';
+    S.inspection.reason='Physical matches listing. Battery health 89% as declared.';
+    j.status='SUBMITTED'; j.verdict='PASS';
+    ev('PASS','Submitted PASS with evidence','3+ photos · 42s continuous video · IMEI');
+    return 'PASS';
+  },
+  approved(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.held-=j.agentShare;
+    credit(j.agentShare,'Inspection fee · '+j.code);
+    S.lifetime+=j.agentShare; S.lifetimeJobs++;
+    j.status='PAID'; S.agent.successful++;
+    S.completedJobs.unshift({...j,completedAt:Date.now()});
+    S.activeJob=null;
+    ev('PAID','Buyer approved · ₦4,200 credited','Available to withdraw');
+    return '+₦4,200';
+  },
+  certified(){
+    S.agent.certified=true;
+    ev('CERTIFIED','Certified badge unlocked','3 successful inspections');
+    return 'Certified';
+  },
+  raceLost(){
+    const j=S.currentJob; if(j){ j.status='TAKEN'; delete S.openJobs[j.code]; }
+    S.currentJob=null;
+    ev('RACE_LOST','Another agent accepted first','First-Accept-wins is atomic');
+    return 'Lost';
+  },
+  enRoute(){ ev('EN_ROUTE','Travelling to site','About 10 minutes away'); return 'En route'; },
+  backFeed(){ ev('BACK','Back to feed','Ready for the next job'); return 'Ready'; },
+  defect(){ const j=S.currentJob; if(j){ j.defect='Serial mismatch + dent'; }
+    ev('DEFECT','Serial mismatch found','Undisclosed dent'); return 'Noted'; },
+  defect2(){ const j=S.currentJob; if(j){ j.defect='Battery swelling'; }
+    ev('DEFECT','Battery swelling found','Real safety defect'); return 'Noted'; },
+  submitFail(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.inspection.verdict='FAIL';
+    S.inspection.reason=j.defect||'Material mismatch against listing';
+    j.status='SUBMITTED'; j.verdict='FAIL';
+    ev('FAIL','Submitted FAIL with evidence','Item does not match listing');
+    return 'FAIL';
+  },
+  buyerRefund(){ ev('BUYER_REFUND','Buyer refunded in full','Item + fees + vet + logistics'); return 'Refunded'; },
+  forfeit(){ ev('FORFEIT','Seller guarantee forfeited','₦5,000'); return 'Forfeited'; },
+  paidFail(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.held-=j.agentShare;
+    credit(j.agentShare,'Inspection (FAIL work) · '+j.code);
+    S.lifetime+=j.agentShare; S.lifetimeJobs++;
+    j.status='PAID'; S.agent.successful++;
+    S.completedJobs.unshift({...j,outcome:'FAIL',completedAt:Date.now()});
+    S.activeJob=null;
+    ev('PAID','Paid ₦4,200','Work done, evidence submitted');
+    return '+₦4,200';
+  },
+  variance(){ ev('VARIANCE','Minor scratch found','Not visible in listing media'); return 'Noted'; },
+  submitReview(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.inspection.verdict='NEEDS_REVIEW';
+    S.inspection.reason='Functional item with a minor scratch not visible in listing media.';
+    j.status='SUBMITTED'; j.verdict='NEEDS_REVIEW';
+    ev('REVIEW','Submitted NEEDS_REVIEW','Buyer will decide');
+    return 'NEEDS_REVIEW';
+  },
+  buyerDecide(){ ev('BUYER_DECIDED','Buyer accepted the item','Deal proceeds'); return 'Accepted'; },
+  paidReview(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.held-=j.agentShare;
+    credit(j.agentShare,'Inspection fee · '+j.code);
+    S.lifetime+=j.agentShare; S.lifetimeJobs++;
+    j.status='PAID'; S.agent.successful++;
+    S.completedJobs.unshift({...j,outcome:'NEEDS_REVIEW',completedAt:Date.now()});
+    S.activeJob=null;
+    ev('PAID','Paid ₦4,200','Job fee released');
+    return '+₦4,200';
+  },
+  odAppears(){
+    const code='OD-'+Date.now().toString().slice(-6);
+    const job={
+      code, type:'ondemand', item:'Designer bag on Instagram',
+      lga:'Wuse', sector:'Bags & Watches',
+      fee:6000, agentShare:3600, platformShare:2400,
+      requester:'Chioma O.', status:'OPEN', createdAt:Date.now(),
+    };
+    S.openJobs[code]=job; S.currentJob=job;
+    ev('OD_APPEARS','On-demand job in Wuse','Min ₦6,000 · you earn ₦3,600');
+    return code;
+  },
+  odAccept(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    if(S.activeJob) throw Error('You already have an active job');
+    j.status='ACCEPTED'; j.agentId='me'; j.acceptedAt=Date.now();
+    S.activeJob=j; S.held+=j.agentShare;
+    delete S.openJobs[j.code];
+    ev('OD_ACCEPT','You accepted '+j.code,'Locked to you');
+    return 'Accepted';
+  },
+  inspectOD(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.inspection={
+      checklist:[
+        {id:'stitch',label:'Stitching even, hardware correct',value:'fail'},
+        {id:'serial',label:'Serial / date code captured',value:'pass'},
+        {id:'feel',label:'Weight feels authentic',value:'na'},
+      ],
+      photos:3, videoDuration:28,
+      gpsDistance:j.gpsDistance||38,
+      notes:'Stitching inconsistent with authentic markers. Recommend buyer decide.',
+      signature:'7b3c9f81a2d4e6…',
+    };
+    j.status='INSPECTING';
+    ev('INSPECTING','On-demand inspection started','Checklist + evidence');
+    return 'Inspecting';
+  },
+  odSubmit(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.inspection.verdict='NEEDS_REVIEW';
+    S.inspection.reason='Stitching inconsistent with authentic markers.';
+    j.status='SUBMITTED'; j.verdict='NEEDS_REVIEW';
+    ev('OD_SUBMIT','Report submitted','NEEDS_REVIEW · stitching off');
+    return 'Report ready';
+  },
+  odApprove(){ ev('OD_APPROVE','Requester approved','No dispute raised'); return 'Approved'; },
+  odPaid(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.held-=j.agentShare;
+    credit(j.agentShare,'On-demand fee · '+j.code);
+    S.lifetime+=j.agentShare; S.lifetimeJobs++;
+    j.status='PAID'; S.agent.successful++;
+    S.completedJobs.unshift({...j,completedAt:Date.now()});
+    S.activeJob=null;
+    ev('OD_PAID','Earned ₦3,600','60% of ₦6,000 job');
+    return '+₦3,600';
+  },
+  odDispute(){ const j=S.currentJob; if(j) j.status='DISPUTED';
+    ev('OD_DISPUTE','Requester rejected your report','Opened for mediation'); return 'Disputed'; },
+  mediation(){ ev('MEDIATION','Mediation opens','Admin reviewing evidence tiers'); return 'In review'; },
+  odRule(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.held-=j.agentShare;
+    credit(j.agentShare,'On-demand fee (after mediation) · '+j.code);
+    S.lifetime+=j.agentShare; S.lifetimeJobs++;
+    j.status='PAID'; S.agent.successful++;
+    S.completedJobs.unshift({...j,completedAt:Date.now()});
+    S.activeJob=null;
+    ev('OD_RULE','Mediator ruled for you','Your evidence was clear');
+    return '+₦3,600';
+  },
+  bribeTry(){ ev('BRIBE','Seller offered ₦20,000 to mark PASS','"Just mark it PASS"'); return 'Bribe logged'; },
+  refuse(){ ev('REFUSED','You refused the bribe','Verdict stands · no side deals'); return 'Refused'; },
+  report(){ ev('REPORTED','Reported concern to Admin','One-tap from inspection screen'); return 'Reported'; },
+  adminAct(){ ev('ADMIN','Admin suspended the seller','Case file opened · audited'); return 'Admin acted'; },
+  paidBribe(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.held-=j.agentShare;
+    credit(j.agentShare,'Inspection (integrity) · '+j.code);
+    S.lifetime+=j.agentShare; S.lifetimeJobs++;
+    j.status='PAID'; S.agent.successful++;
+    S.completedJobs.unshift({...j,outcome:'FAIL',completedAt:Date.now()});
+    S.activeJob=null;
+    ev('PAID','Paid ₦4,200','Integrity is never penalised');
+    return '+₦4,200';
+  },
+  threat(){ ev('THREAT','Seller became aggressive','You feel unsafe'); return 'Unsafe'; },
+  leave(){ ev('LEAVE','You left the site','Safety first · no penalty'); return 'Left'; },
+  reportThreat(){ ev('REPORT','Reported safety concern','Admin notified instantly'); return 'Reported'; },
+  safetyAdmin(){ ev('REASSIGN','Admin reassigned to another agent','Your evidence stays'); return 'Reassigned'; },
+  releasedSafe(){ ev('RELEASED','You are released','Trust Score intact'); return 'Released'; },
+  emergency(){ ev('EMERGENCY','Personal emergency','You cannot make it'); return 'Emergency'; },
+  releaseJob(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    j.status='OPEN'; j.agentId=null;
+    S.openJobs[j.code]={...j};
+    S.activeJob=null; S.currentJob=null;
+    ev('RELEASE','Job returned to feed','Reason: personal · logged');
+    return 'Released';
+  },
+  reopened(){ ev('REOPENED','Job visible to other agents','Another agent can accept'); return 'Open again'; },
+  noPenalty(){ ev('OK','No penalty on first release','Repeated releases affect Trust Score'); return 'Clean'; },
+  alreadyCert(){
+    S.agent.idVerified=true; S.agent.certEligible=true; S.agent.certified=true;
+    S.agent.quizScore=88; S.agent.successful=9; S.agent.trust=4.9; S.agent.rating=4.9;
+    ['M01','M02','M03','M04','M05','M06','M07','M08','M09','M10'].forEach(m=>S.modulesDone[m]=true);
+    S.agent.sectors=['Phones & Tablets','Cameras & Drones','Computers & Laptops'];
+    S.agent.lgas=['Ikeja','Eti-Osa','Surulere'];
+    ev('CERTIFIED','Already Certified','9 successful inspections');
+    return '9 done';
+  },
+  paid10(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.held-=j.agentShare;
+    credit(j.agentShare,'Inspection fee · '+j.code);
+    S.lifetime+=j.agentShare; S.lifetimeJobs++;
+    j.status='PAID'; S.agent.successful++;
+    S.completedJobs.unshift({...j,completedAt:Date.now()});
+    S.activeJob=null;
+    ev('PAID','Paid ₦4,200','That was your 10th successful job');
+    return '+₦4,200';
+  },
+  superVet(){ S.agent.superVet=true; ev('SUPERVET','Super Vet badge unlocked','10 jobs at 4.9★'); return 'Super Vet'; },
+  seedEarn(){ credit(12600,'Earnings seed for demo'); ev('SEED','Loaded ₦12,600 earnings','From 3 jobs'); return 'Seeded'; },
+  withdrawOpen(){ ev('OPEN_WITHDRAW','Opened withdrawal screen','Entered partial amount'); return 'Opened'; },
+  withdrawTOTP(){ ev('WITHDRAW_TOTP','Chose Google Authenticator','Code verified'); return 'TOTP ok'; },
+  withdrawEmail(){ ev('WITHDRAW_EMAIL','Chose Email OTP','Code sent + verified'); return 'Email ok'; },
+  withdrawSMS(){ ev('WITHDRAW_SMS','Chose SMS OTP','Code sent + verified'); return 'SMS ok'; },
+  withdrawSettle(){
+    const amt = S._pendingWithdraw || 4200;
+    const f = transferFee(amt);
+    feeAmt(f,'Transfer fee');
+    debit(amt - f,'Payout to '+S.agent.bank);
+    ev('WITHDRAWN','Withdrew '+fmt(amt),'Net to bank '+fmt(amt - f));
+    return '-'+fmt(amt);
+  },
+  withdrawLeave(){ ev('REMAINDER','Remainder stays in wallet','Withdraw again any time'); return 'Left '+fmt(S.available); },
+
+  // Swap scenario
+  delivered(){ ev('DELIVERED','Item delivered','Buyer unboxed'); return 'Delivered'; },
+  disputeWins(){ ev('DISPUTE','Mediator ruled for buyer','Your video matched the IMEI'); return 'Ruled'; },
+  paidPass(){
+    const j=S.currentJob; if(!j) throw Error('No job');
+    S.held-=j.agentShare;
+    credit(j.agentShare,'Inspection fee · '+j.code);
+    S.lifetime+=j.agentShare; S.lifetimeJobs++;
+    j.status='PAID'; S.agent.successful++;
+    S.completedJobs.unshift({...j,completedAt:Date.now()});
+    S.activeJob=null;
+    ev('PAID','Paid ₦4,200','Evidence never in doubt');
+    return '+₦4,200';
+  },
+
+  // Roles
+  browseMarket(){ ev('BROWSE','Browsing listings as a buyer','Same account'); return 'Browsing'; },
+  buyNow(){ ev('BUY','Paid into escrow as a buyer','₦468,500 · 2% buyer fee'); return 'Paid'; },
+  listItem(){ ev('LIST','Switched to seller mode','Same account'); return 'Selling'; },
+  guarantee(){ ev('GUARANTEE','Paid ₦5,000 guarantee','Auto-debited'); return 'Paid'; },
+  publish(){ const code='DG-'+Date.now().toString().slice(-6);
+    S.myListings[code]={code,item:'Samsung Galaxy S23',price:380000,status:'AWAITING_BUYER_PAYMENT'};
+    ev('PUBLISH','Published your listing','Samsung Galaxy S23 · ₦380,000'); return code; },
+  referShare(){ ev('REF','Shared referral link','Earn ₦1,000 per first deal'); return 'Shared'; },
+};
+
+/* ============================================================
+   PLAY
+   ============================================================ */
+let playing=false, aborted=false, autoIdx=-1;
+
+function pickScenario(key){
+  if(playing) return;
+  if(!confirm('Switch scenario? Current job will be cleared.')) return;
+  const keep = {
+    agent:S.agent, modulesDone:S.modulesDone,
+    available:S.available, held:S.held, lifetime:S.lifetime, lifetimeJobs:S.lifetimeJobs,
+    ledger:S.ledger, referrals:S.referrals, completedJobs:S.completedJobs,
+    myListings:S.myListings,
+  };
+  S=fresh();
+  Object.assign(S, keep);
+  S.scenario=key;
+  S.completedSteps=[];
+  S.currentJob=null; S.activeJob=null; S.openJobs={}; S.inspection=null;
+  S.events=[];
+  // Pre-set state for scenarios that need a certified agent
+  if(['first','race','fail','review','ondemand','odReject','bribe','safety','release','oneActive','swap'].includes(key)){
+    S.agent.idVerified=true; S.agent.certEligible=true;
+    S.agent.quizScore=90;
+    ['M01','M02','M03','M04','M05','M06','M07','M08','M09','M10'].forEach(m=>S.modulesDone[m]=true);
+    S.agent.sectors=['Phones & Tablets','Computers & Laptops','Bags & Watches'];
+    S.agent.lgas=['Ikeja','Eti-Osa','Surulere','Wuse'];
+  }
+  save(); renderAll();
+  const scn=SCENARIOS[key];
+  narrate('Ready', scn.title + ' — ' + scn.desc);
+  document.getElementById('narrCard').style.display='';
+}
+
+async function playScenario(){
+  if(playing){ aborted=true; return; }
+  playing=true; aborted=false;
+  const scn=SCENARIOS[S.scenario];
+  const btn=document.getElementById('innerPlay');
+  btn.textContent='■ Stop'; btn.className='btn rd';
+  document.getElementById('prgWrap').style.display='';
+  for(let i=0;i<scn.steps.length;i++){
+    if(aborted) break;
+    autoIdx=i;
+    updatePrg(i);
+    renderSteps();
+    const stp=scn.steps[i];
+    try{
+      const h=H[stp.k];
+      if(!h) throw Error('No handler: '+stp.k);
+      const msg=h();
+      if(!S.completedSteps.includes(stp.k)) S.completedSteps.push(stp.k);
+      narrate('Vet Agent', stp.l1, msg + ' · ' + stp.l2);
+      document.getElementById('narrCard').style.display='';
+      renderAll();
+    }catch(e){
+      narrate('Error', e.message, '');
+      showToast(e.message,'er');
+      break;
+    }
+    await sleep(850);
+  }
+  playing=false; autoIdx=-1;
+  btn.textContent='▶ Replay scenario'; btn.className='btn go';
+  updatePrg(-1);
+  renderAll();
+  if(!aborted) showToast('Scenario complete','ok');
+}
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function togglePlay(){ if(playing){ aborted=true; return; } playScenario(); }
+function runStep(k){
+  const scn=SCENARIOS[S.scenario];
+  const stp=scn.steps.find(s=>s.k===k);
+  if(!stp) return;
+  try{
+    const msg=H[k]();
+    if(!S.completedSteps.includes(k)) S.completedSteps.push(k);
+    narrate('Vet Agent', stp.l1, msg + ' · ' + stp.l2);
+    document.getElementById('narrCard').style.display='';
+    renderAll();
+  }catch(e){ narrate('Error', e.message, ''); showToast(e.message,'er'); }
+}
+function updatePrg(i){
+  const total=SCENARIOS[S.scenario].steps.length;
+  if(i<0){ document.getElementById('prgWrap').style.display='none'; return; }
+  const pct=Math.round(((i+1)/total)*100);
+  document.getElementById('prgFill').style.width=pct+'%';
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderAll(){
+  renderHeader();
+  renderScenarios();
+  renderSteps();
+  renderJob();
+  renderGPS();
+  renderInspection();
+  renderOutcome();
+  renderTimeline();
+  renderJobs();
+  renderActive();
+  renderCompleted();
+  renderTraining();
+  renderEarnings();
+  renderMyOd();
+  renderMyListings();
+  renderReferrals();
+  renderProfile();
+  save();
+}
+function renderHeader(){
+  document.getElementById('kEarn').textContent=fmt(S.available);
+  document.getElementById('kTrust').textContent=S.agent.reviews>0?S.agent.trust.toFixed(1)+'★':'—';
+  document.getElementById('kJobs').textContent=S.agent.successful;
+  const badges=[S.agent.idVerified,S.agent.certEligible,S.agent.certified,S.agent.superVet].filter(Boolean).length;
+  document.getElementById('kBadges').textContent=badges+'/4';
+  // Header badge
+  const b=document.getElementById('hBadge');
+  if(S.agent.superVet){ b.textContent='🏆'; }
+  else if(S.agent.certified){ b.textContent='✅'; }
+  else if(S.agent.certEligible){ b.textContent='🎓'; }
+  else if(S.agent.idVerified){ b.textContent='🆔'; }
+  else { b.textContent='⏳'; }
+  const scn=SCENARIOS[S.scenario];
+  document.getElementById('hSub').textContent = S.currentJob
+    ? S.currentJob.code + ' · ' + S.currentJob.status
+    : (S.agent.superVet ? 'Super Vet · ' + S.agent.city :
+       S.agent.certified ? 'Certified · ' + S.agent.city :
+       S.agent.certEligible ? 'Certified Eligible · ' + S.agent.city :
+       S.agent.idVerified ? 'Verified · ' + S.agent.city : scn.title);
+}
+function renderScenarios(){
+  document.getElementById('scnList').innerHTML=Object.values(SCENARIOS).map(s=>`
+    <button class="scn ${S.scenario===s.key?'on':''}" onclick="pickScenario('${s.key}')">
+      <span class="em">${s.em}</span>
+      <span class="txt">
+        <span class="t1">${s.title}</span>
+        <span class="t2">${s.desc}</span>
+      </span>
+    </button>
+  `).join('');
+}
+function renderSteps(){
+  const scn=SCENARIOS[S.scenario];
+  document.getElementById('stepList').innerHTML=scn.steps.map((s,i)=>{
+    const done=S.completedSteps.includes(s.k);
+    const now=playing && autoIdx===i;
+    const cls=s.amt===null?'':s.amt<0?'r':s.amt>0?'':'n';
+    const txt=s.amt===null?'':(s.amt>0?'+':'')+fmt(s.amt);
+    return `<button class="stp ${done?'done':''} ${now?'now':''}"
+      onclick="runStep('${s.k}')" ${playing?'disabled':''}>
+      <span class="dot"></span>
+      <span class="info">
+        <span class="l1">${s.l1}</span>
+        <span class="l2">${s.l2}</span>
+      </span>
+      ${txt?`<span class="amt ${cls}">${txt}</span>`:''}
+    </button>`;
+  }).join('');
+}
+function renderJob(){
+  const el=document.getElementById('jobCard');
+  const j=S.currentJob;
+  if(!j){ el.style.display='none'; return; }
+  el.style.display='';
+  document.getElementById('jCode').textContent=j.code;
+  document.getElementById('jItem').textContent=j.item;
+  const stClass=j.status==='PAID'?'bd-green':j.status==='TAKEN'?'bd-red':
+    j.status==='OPEN'?'bd-gold':j.status==='ACCEPTED'?'bd-blue':
+    j.status==='SUBMITTED'?'bd-purple':'bd-mist';
+  const st=document.getElementById('jStatus');
+  st.textContent=j.status; st.className='bd '+stClass+' st';
+  document.getElementById('jRows').innerHTML=`
+    <div class="row"><span class="k">Type</span><span class="v" style="font-family:inherit">${j.type==='protected'?'Protected deal':'On-demand'}</span></div>
+    <div class="row"><span class="k">LGA</span><span class="v" style="font-family:inherit">${j.lga}</span></div>
+    <div class="row"><span class="k">Sector</span><span class="v" style="font-family:inherit">${j.sector}</span></div>
+    ${j.seller?`<div class="row"><span class="k">Seller</span><span class="v" style="font-family:inherit">${j.seller}</span></div>`:''}
+    ${j.buyer?`<div class="row"><span class="k">Buyer</span><span class="v" style="font-family:inherit">${j.buyer}</span></div>`:''}
+    ${j.requester?`<div class="row"><span class="k">Requester</span><span class="v" style="font-family:inherit">${j.requester}</span></div>`:''}
+    <div class="row"><span class="k">Job fee</span><span class="v">${fmt(j.fee)}</span></div>
+    <div class="row"><span class="k">Your share (${j.type==='protected'?'70':'60'}%)</span><span class="v g">${fmt(j.agentShare)}</span></div>
+    <div class="row"><span class="k">Platform share</span><span class="v pu">${fmt(j.platformShare)}</span></div>
+    ${j.gpsDistance?`<div class="row"><span class="k">GPS distance</span><span class="v ${j.gpsOk?'g':'r'}">${j.gpsDistance}m ${j.gpsOk?'· ✓ within 500m':'· ✗ outside radius'}</span></div>`:''}
+  `;
+}
+function renderGPS(){
+  const el=document.getElementById('gpsCard');
+  const j=S.currentJob;
+  if(!j || !j.gpsDistance){ el.style.display='none'; return; }
+  el.style.display='';
+  const box=document.getElementById('gpsBox');
+  box.className='gps ' + (j.gpsOk?'ok':'bad');
+  box.innerHTML=`
+    <div class="l">${j.gpsOk?'✓ Within inspection radius':'⚠ Outside inspection radius'}</div>
+    <div class="v">${j.gpsDistance}m</div>
+    <div style="font-size:10px;margin-top:6px;color:${j.gpsOk?'#166534':'#991B1B'}">
+      ${j.gpsOk?'Server-verified · policy max 500m':'Move within 500m of the seller pin to proceed'}
+    </div>
+  `;
+}
+function renderInspection(){
+  const el=document.getElementById('inspCard');
+  const i=S.inspection;
+  if(!i){ el.style.display='none'; return; }
+  el.style.display='';
+  const v=i.verdict||'PENDING';
+  const b=document.getElementById('iBadge');
+  b.textContent=v;
+  b.className='bd '+(v==='PASS'?'bd-green':v==='FAIL'?'bd-red':'bd-gold');
+  const chk=i.checklist.map(c=>`
+    <div class="chk"><span class="l">${c.label}</span><span class="v ${c.value}">${c.value}</span></div>
+  `).join('');
+  document.getElementById('iRows').innerHTML=`
+    ${chk}
+    <div class="row"><span class="k">Photos</span><span class="v">${i.photos} captured</span></div>
+    <div class="row"><span class="k">Continuous video</span><span class="v">${i.videoDuration}s</span></div>
+    <div class="row"><span class="k">GPS</span><span class="v g">${i.gpsDistance}m from pin</span></div>
+    <div class="row"><span class="k">Signature hash</span><span class="v" style="font-family:ui-monospace,Menlo,monospace;font-size:10px">${i.signature}</span></div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#4B5563;line-height:1.55">
+      <b>Notes:</b> ${i.notes}
+      ${i.reason?`<br><b style="display:block;margin-top:8px">Verdict reason:</b> ${i.reason}`:''}
+    </div>
+  `;
+}
+function renderOutcome(){
+  const j=S.currentJob;
+  const el=document.getElementById('outCard');
+  if(!j || j.status!=='PAID'){ el.style.display='none'; return; }
+  el.style.display='';
+  const scn=SCENARIOS[S.scenario];
+  const b=document.getElementById('oBadge');
+  const isFail=j.verdict==='FAIL';
+  b.textContent=j.verdict||'Done';
+  b.className='bd '+(isFail?'bd-red':'bd-green');
+  document.getElementById('oRows').innerHTML=`
+    <div class="row"><span class="k">Job type</span><span class="v" style="font-family:inherit">${j.type==='protected'?'Protected deal':'On-demand'}</span></div>
+    <div class="row"><span class="k">Job fee</span><span class="v">${fmt(j.fee)}</span></div>
+    <div class="row"><span class="k">Your share</span><span class="v g">+${fmt(j.agentShare)}</span></div>
+    <div class="row"><span class="k">Platform share</span><span class="v pu">${fmt(j.platformShare)}</span></div>
+    <div class="row tot"><span class="k">Credited to your wallet</span><span class="v g">+${fmt(j.agentShare)}</span></div>
+  `;
+  document.getElementById('oVerdict').textContent=scn.verdict;
+}
+function renderTimeline(){
+  const el=document.getElementById('tlCard');
+  if(S.events.length===0){ el.style.display='none'; return; }
+  el.style.display='';
+  document.getElementById('tlList').innerHTML=S.events.slice(-20).reverse().map(e=>{
+    const red=['FAIL','DEFECT','DEFECT2','BRIBE','THREAT','EMERGENCY','RELEASE','RACE_LOST','FORFEIT','GPS_BAD','DISPUTE'].includes(e.type);
+    const gold=['REVIEW','VARIANCE','EN_ROUTE','BACK','REPORTED','REFUSED','REPORT','OD_DISPUTE'].includes(e.type);
+    const green=['PAID','WITHDRAWN','SUPERVET','CERTIFIED','CERT_ELIGIBLE','OD_PAID','OD_RULE'].includes(e.type);
+    const cls=red?'red':gold?'gold':green?'green':'';
+    return `<li class="tli ${cls}">
+      <span class="tld"></span>
+      <div class="tlt">${e.type.replace(/_/g,' ')}</div>
+      <div style="font-size:11px;color:#4B5563;margin-top:3px;line-height:1.5">${e.text}</div>
+      ${e.meta?`<div class="tltm">${e.meta}</div>`:''}
+    </li>`;
+  }).join('');
+}
+function filterJobs(f,btn){
+  document.querySelectorAll('#p-jobs .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  S._jobFilter=f; renderJobs();
+}
+function renderJobs(){
+  const all=Object.values(S.openJobs);
+  document.getElementById('openCount').textContent=all.length+' open';
+  const f=S._jobFilter||'all';
+  const filtered=all.filter(j=>{
+    if(f==='all') return true;
+    if(f==='protected') return j.type==='protected';
+    if(f==='ondemand') return j.type==='ondemand';
+    return true;
+  });
+  const el=document.getElementById('openJobsList');
+  if(filtered.length===0){ el.innerHTML='<div class="em">No open jobs in your LGAs right now.</div>'; return; }
+  el.innerHTML=filtered.map(j=>{
+    const canAccept = !S.activeJob;
+    return `<div class="job">
+      <div class="job-h">
+        <div style="min-width:0;flex:1">
+          <div class="job-c">${j.code}</div>
+          <div class="job-n">${j.item}</div>
+        </div>
+        <span class="bd ${j.type==='protected'?'bd-gold':'bd-purple'}">${j.type==='protected'?'Protected':'On-demand'}</span>
+      </div>
+      <div class="job-m">
+        <span>LGA: <strong>${j.lga}</strong></span>
+        <span>Sector: <strong>${j.sector}</strong></span>
+      </div>
+      <div style="margin-top:8px;background:var(--mist);border-radius:9px;padding:8px 11px;display:flex;justify-content:space-between;font-size:11px">
+        <span style="color:#6B7280">${fmt(j.fee)} · ${j.type==='protected'?'70/30':'60/40'}</span>
+        <span><span style="font-family:ui-monospace,Menlo,monospace;font-weight:800;color:var(--green)">You ${fmt(j.agentShare)}</span> · <span style="font-family:ui-monospace,Menlo,monospace;font-weight:800;color:var(--purple)">Platform ${fmt(j.platformShare)}</span></span>
+      </div>
+      <button class="btn ${canAccept?'gr':'gh'} sm" style="margin-top:10px"
+        onclick="acceptFromFeed('${j.code}')" ${canAccept?'':'disabled'}>
+        ${canAccept?'Accept job → first-Accept-wins':'You have an active job'}
+      </button>
+    </div>`;
+  }).join('');
+}
+function acceptFromFeed(code){
+  const j=S.openJobs[code];
+  if(!j) return;
+  S.currentJob=j;
+  try{
+    const h=j.type==='protected' ? H.accept : H.odAccept;
+    h();
+    showToast('Accepted '+code,'ok');
+    renderAll();
+    tab('flow',document.querySelectorAll('.tab')[0]);
+  }catch(e){ showToast(e.message,'er'); }
+}
+function renderActive(){
+  const card=document.getElementById('activeCard');
+  const j=S.activeJob;
+  if(!j){ card.style.display='none'; return; }
+  card.style.display='';
+  document.getElementById('activeBody').innerHTML=`
+    <div class="job" style="cursor:default">
+      <div class="job-h">
+        <div style="min-width:0;flex:1">
+          <div class="job-c">${j.code}</div>
+          <div class="job-n">${j.item}</div>
+        </div>
+        <span class="bd bd-blue">${j.status}</span>
+      </div>
+      <div class="job-m">
+        <span>LGA: <strong>${j.lga}</strong></span>
+        <span>Your share: <strong>${fmt(j.agentShare)}</strong></span>
+      </div>
+      <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <button class="btn gh sm" onclick="tab('flow',document.querySelectorAll('.tab')[0])">Continue in Flow</button>
+        <button class="btn rd sm" onclick="showReleaseDialog()">Release</button>
+      </div>
+    </div>
+  `;
+}
+function showReleaseDialog(){
+  if(!confirm('Release this job? The buyer will need another agent. First release is free.')) return;
+  runStep('releaseJob');
+  showToast('Job returned to feed','ok');
+}
+function renderCompleted(){
+  const el=document.getElementById('completedList');
+  if(S.completedJobs.length===0){ el.innerHTML='<div class="em">No completed jobs yet.</div>'; return; }
+  el.innerHTML=S.completedJobs.slice(0,20).map(j=>{
+    const cls=j.verdict==='PASS'?'bd-green':j.verdict==='FAIL'?'bd-red':'bd-gold';
+    return `<div class="job" style="cursor:default">
+      <div class="job-h">
+        <div style="min-width:0;flex:1">
+          <div class="job-c">${j.code}</div>
+          <div class="job-n">${j.item}</div>
+        </div>
+        <span class="bd ${cls}">${j.verdict||'DONE'}</span>
+      </div>
+      <div class="job-m">
+        <span>LGA: <strong>${j.lga}</strong></span>
+        <span>Earned: <strong style="color:var(--green)">${fmt(j.agentShare)}</strong></span>
+        <span>${ago(j.completedAt)}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderTraining(){
+  const done=Object.values(S.modulesDone).filter(Boolean).length;
+  document.getElementById('modCount').textContent=done+' / 10';
+  const modules=[
+    ['M01','Role & Conduct','Core duties · ethics · zero-affiliation'],
+    ['M02','Inspection Protocol','Pre-arrival · on-site · verdicts'],
+    ['M03','Evidence Upload','Photos · continuous video · hashing'],
+    ['M04','Smartphones','IMEI · battery · account lock'],
+    ['M05','Laptops','Serial · power-on · ports · battery'],
+    ['M06','Cameras & Drones','Serial · lens · gimbal · propellers'],
+    ['M07','Vehicles','VIN vs papers · odometer · engine'],
+    ['M08','Bags & Watches','Stitching · serials · hallmarks'],
+    ['M09','Other Sectors','Appliances · solar · B2B bulk counts'],
+    ['M10','Scam Detection','Top 10 Nigerian scam patterns'],
+  ];
+  document.getElementById('modulesList').innerHTML=modules.map(([id,title,sub])=>{
+    const isDone=!!S.modulesDone[id];
+    return `<div class="mod ${isDone?'done':''}">
+      <div class="ck">${isDone?'✓':''}</div>
+      <div class="mi">
+        <div class="mt">${id} · ${title}</div>
+        <div class="ms">${sub}</div>
+      </div>
+    </div>`;
+  }).join('');
+  const cert=document.getElementById('certBadge');
+  if(S.agent.superVet){ cert.textContent='Super Vet'; cert.className='bd bd-purple'; }
+  else if(S.agent.certified){ cert.textContent='Certified'; cert.className='bd bd-green'; }
+  else if(S.agent.certEligible){ cert.textContent='Certified Eligible'; cert.className='bd bd-gold'; }
+  else { cert.textContent='Not started'; cert.className='bd bd-mist'; }
+  const pct=Math.round((done/10)*100);
+  document.getElementById('progressBox').innerHTML=`
+    <div style="font-size:11px;color:#6B7280;font-weight:700">Module completion</div>
+    <div class="prg" style="margin-top:8px"><div class="fill" style="width:${pct}%"></div></div>
+    <div style="display:flex;justify-content:space-between;font-size:10px;color:#9CA3AF;margin-top:6px">
+      <span>${done} / 10 done</span><span>${pct}%</span>
+    </div>
+  `;
+  const q=document.getElementById('quizBox');
+  const qb=document.getElementById('quizBadge');
+  if(S.agent.quizScore!==null){
+    const pass=S.agent.quizScore>=QUIZ_PASS_PCT;
+    qb.textContent=(pass?'PASS':'FAIL')+' · '+S.agent.quizScore+'%';
+    qb.className='bd '+(pass?'bd-green':'bd-red');
+    q.innerHTML=`<div style="font-size:12px;color:#4B5563;line-height:1.6">
+      You scored <b style="color:${pass?'var(--green)':'var(--red)'}">${S.agent.quizScore}%</b> on the 25-question exam. Pass mark: <b>85%</b>.
+    </div>`;
+  } else {
+    qb.textContent='Pending'; qb.className='bd bd-mist';
+    q.innerHTML='<div style="font-size:12px;color:#4B5563;line-height:1.6">Complete all 10 modules to unlock the certification quiz. Pass mark: <b>85%</b>. 25 random questions · 30 minutes.</div>';
+  }
+  const badges=[
+    ['ID Verified','Identity KYC passed',S.agent.idVerified,'🆔'],
+    ['Certified Eligible','All modules + quiz ≥85%',S.agent.certEligible,'🎓'],
+    ['Certified','Certified Eligible + 3 successful inspections',S.agent.certified,'✅'],
+    ['Super Vet','Certified + 10 inspections at 4.5★+',S.agent.superVet,'🏆'],
+  ];
+  document.getElementById('badgeList').innerHTML=badges.map(([t,s,earned,icon])=>{
+    return `<div class="bdg ${earned?'earned':''}">
+      <div style="display:flex;gap:11px;align-items:center">
+        <div class="bi">${icon}</div>
+        <div>
+          <div class="bl">${t}</div>
+          <div class="bs">${s}</div>
+        </div>
+      </div>
+      ${earned?'<span class="bd bd-green">✓</span>':'<span class="bd bd-mist">Locked</span>'}
+    </div>`;
+  }).join('');
+}
+function renderEarnings(){
+  document.getElementById('availBal').textContent=fmt(S.available);
+  document.getElementById('heldBal').textContent=fmt(S.held);
+  document.getElementById('lifetime').textContent=fmt(S.lifetime);
+  document.getElementById('lifetimeJobs').textContent=S.lifetimeJobs;
+  const btn=document.getElementById('wBtn');
+  if(btn) btn.disabled=S.available<=0;
+  const el=document.getElementById('earnLedger');
+  if(S.ledger.length===0){ el.innerHTML='<div class="em">No earnings yet.</div>'; return; }
+  el.innerHTML=S.ledger.slice(0,40).map(e=>{
+    const cls=e.dir==='CREDIT'?'cr':e.dir==='FEE'?'fe':'db';
+    const icon=e.dir==='CREDIT'?'↓':'↑';
+    return `<div class="lr">
+      <div class="li ${cls}">${icon}</div>
+      <div class="lb">
+        <div class="la">AGENT_EARNINGS</div>
+        <div class="ld">${e.desc}</div>
+      </div>
+      <div class="lm ${cls}">${e.dir==='CREDIT'?'+':'−'}${fmt(e.amt)}</div>
+    </div>`;
+  }).join('');
+}
+function renderMyOd(){
+  const list=S.completedJobs.filter(j=>j.type==='ondemand');
+  document.getElementById('myOdCount').textContent=list.length;
+  const el=document.getElementById('myOdList');
+  if(list.length===0){ el.innerHTML='<div class="em">No on-demand jobs yet.</div>'; return; }
+  el.innerHTML=list.map(j=>`
+    <div class="job" style="cursor:default">
+      <div class="job-h">
+        <div style="min-width:0;flex:1">
+          <div class="job-c">${j.code}</div>
+          <div class="job-n">${j.item}</div>
+        </div>
+        <span class="bd bd-purple">${j.verdict||'DONE'}</span>
+      </div>
+      <div class="job-m">
+        <span>LGA: <strong>${j.lga}</strong></span>
+        <span>Earned: <strong style="color:var(--green)">${fmt(j.agentShare)}</strong></span>
+      </div>
+    </div>
+  `).join('');
+}
+function renderMyListings(){
+  const el=document.getElementById('myListings');
+  const list=Object.values(S.myListings);
+  if(list.length===0){ el.innerHTML='<div class="em">No listings yet.</div>'; return; }
+  el.innerHTML=list.map(x=>`
+    <div class="row">
+      <div class="k">
+        <div style="font-weight:700;color:var(--navy);font-size:12px">${x.item}</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px">${x.code} · ₦${x.price.toLocaleString('en-NG')}</div>
+      </div>
+      <span class="bd bd-gold">${x.status.replace(/_/g,' ')}</span>
+    </div>
+  `).join('');
+}
+function renderReferrals(){
+  document.getElementById('refCode').textContent=S.referrals.code;
+  const refs=S.referrals.referred;
+  const qualified=refs.filter(r=>r.rewarded).length;
+  const progress=[
+    {t:'Referred signups', v:refs.length, max:10},
+    {t:'First-deal completions', v:qualified, max:10},
+    {t:'Power users (5+ deals)', v:refs.filter(r=>r.deals>=5).length, max:5},
+  ];
+  document.getElementById('refProgress').innerHTML=progress.map(p=>{
+    const pct=Math.min(100,Math.round((p.v/p.max)*100));
+    return `<div style="padding:11px 14px;border-bottom:1px solid var(--line)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--navy)">
+        <span>${p.t}</span><span>${p.v} / ${p.max}</span>
+      </div>
+      <div class="prg" style="margin-top:6px"><div class="fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+  const el=document.getElementById('refUsers');
+  if(refs.length===0){ el.innerHTML='<div class="em">No referrals yet.</div>'; return; }
+  el.innerHTML=refs.map(r=>`
+    <div class="row">
+      <div class="k">
+        <div style="font-weight:700;color:var(--navy);font-size:12px">${r.name}</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px">${r.type} · ${r.deals} deals</div>
+      </div>
+      <span class="bd ${r.rewarded?'bd-green':'bd-mist'}">${r.rewarded?'+₦1,000':'Pending'}</span>
+    </div>
+  `).join('');
+}
+function renderProfile(){
+  document.getElementById('pID').textContent=S.agent.idVerified?'✓ Verified':'Not verified';
+  document.getElementById('pSuccess').textContent=S.agent.successful;
+  document.getElementById('pOver').textContent=S.agent.overturned;
+  document.getElementById('pStars').textContent=S.agent.trust.toFixed(1);
+  document.getElementById('trustTotal').textContent=S.agent.trust.toFixed(1);
+  document.getElementById('sectorCount').textContent=S.agent.sectors.length+' / 3';
+  document.getElementById('lgaCount').textContent=S.agent.lgas.length;
+  const sec=document.getElementById('sectorsList');
+  sec.innerHTML=S.agent.sectors.length===0?'<div class="em">Not yet selected.</div>':
+    S.agent.sectors.map(s=>`<div class="row"><span class="k">${s}</span><span class="bd bd-gold">Selected</span></div>`).join('');
+  const lga=document.getElementById('lgasList');
+  lga.innerHTML=S.agent.lgas.length===0?'<div class="em">Not yet selected.</div>':
+    S.agent.lgas.map(l=>`<div class="row"><span class="k">${l}</span><span class="bd bd-blue">Covered</span></div>`).join('');
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function openWithdraw(){
+  const bal=S.available;
+  if(bal<=0) return;
+  S._pendingWithdraw=bal;
+  S._pendingMethod='totp';
+  document.getElementById('modalBox').innerHTML=`
+    <div class="mh"><h3>Withdraw earnings</h3><button class="mcl" onclick="closeModal()">×</button></div>
+    <div class="mb">
+      <div style="text-align:center;margin-bottom:14px">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;color:#6B7280">Available</div>
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:28px;font-weight:800;color:var(--navy);margin-top:4px">${fmt(bal)}</div>
+      </div>
+      <div class="fld">
+        <label>Amount (partial OK)</label>
+        <input id="wAmount" type="number" value="${bal}" min="100" max="${bal}" step="100"
+          style="font-size:20px;font-weight:800;font-family:ui-monospace,Menlo,monospace">
+        <div class="quick">
+          <button onclick="setW(500)">₦500</button>
+          <button onclick="setW(2000)">₦2,000</button>
+          <button onclick="setW(4200)">₦4,200</button>
+          <button onclick="setW(${bal})">Max</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Verification method (all 3 available)</label>
+        <div class="method on" id="m-totp" onclick="setMethod('totp')">
+          <div style="font-size:20px">🔐</div>
+          <div class="r"><div class="t">Google Authenticator</div><div class="d">TOTP · recommended</div></div>
+          <div class="chk">✓</div>
+        </div>
+        <div class="method" id="m-email" onclick="setMethod('email')">
+          <div style="font-size:20px">📧</div>
+          <div class="r"><div class="t">Email OTP</div><div class="d">Sent to your registered email</div></div>
+          <div class="chk"></div>
+        </div>
+        <div class="method" id="m-sms" onclick="setMethod('sms')">
+          <div style="font-size:20px">📱</div>
+          <div class="r"><div class="t">SMS OTP</div><div class="d">Sent to your registered phone</div></div>
+          <div class="chk"></div>
+        </div>
+      </div>
+      <div class="nt bl">
+        <b>Partial withdrawals.</b> Any amount up to your balance. The remainder stays for next time.
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn gh" onclick="closeModal()">Cancel</button>
+      <button class="btn gr" onclick="withdrawNext()">Continue → verify</button>
+    </div>`;
+  document.getElementById('modal').classList.add('on');
+}
+function setW(v){ S._pendingWithdraw=v; document.getElementById('wAmount').value=v; }
+function setMethod(m){
+  S._pendingMethod=m;
+  ['totp','email','sms'].forEach(x=>{
+    const el=document.getElementById('m-'+x);
+    if(el){ el.className='method'+(x===m?' on':''); el.querySelector('.chk').textContent=x===m?'✓':''; }
+  });
+}
+function withdrawNext(){
+  const amt=Number(document.getElementById('wAmount').value)||0;
+  if(amt<=0){ showToast('Enter an amount','er'); return; }
+  if(amt>S.available){ showToast('Amount exceeds balance','er'); return; }
+  S._pendingWithdraw=amt;
+  const f=transferFee(amt);
+  const net=amt-f;
+  const methods={totp:'Google Authenticator',email:'Email OTP',sms:'SMS OTP'};
+  const m=S._pendingMethod||'totp';
+  document.getElementById('modalBox').innerHTML=`
+    <div class="mh"><h3>Verify via ${methods[m]}</h3><button class="mcl" onclick="closeModal()">×</button></div>
+    <div class="mb">
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-size:40px">${m==='totp'?'🔐':m==='email'?'📧':'📱'}</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:8px">Enter the 6-digit code</div>
+      </div>
+      <div class="codes" id="codes">
+        ${[0,1,2,3,4,5].map(i=>`<input type="tel" maxlength="1" inputmode="numeric" data-i="${i}"
+          oninput="ci(this)" onkeydown="ck(event,${i})">`).join('')}
+      </div>
+      <div class="row"><span class="k">Withdraw</span><span class="v">${fmt(amt)}</span></div>
+      <div class="row"><span class="k">Transfer fee</span><span class="v r">−${fmt(f)}</span></div>
+      <div class="row tot"><span class="k">Net to bank</span><span class="v g">${fmt(net)}</span></div>
+      <div class="nt">Demo: any 6 digits work.</div>
+    </div>
+    <div class="mf">
+      <button class="btn gh" onclick="openWithdraw()">← Back</button>
+      <button class="btn gr" onclick="withdrawFinal()">Confirm withdrawal</button>
+    </div>`;
+  setTimeout(()=>document.querySelector('#codes input')?.focus(),100);
+}
+function ci(el){
+  el.value=el.value.replace(/\D/g,'').slice(0,1);
+  const i=Number(el.dataset.i);
+  if(el.value && i<5) document.querySelector(`#codes input[data-i="${i+1}"]`)?.focus();
+}
+function ck(e,i){
+  if(e.key==='Backspace' && !e.target.value && i>0)
+    document.querySelector(`#codes input[data-i="${i-1}"]`)?.focus();
+}
+function withdrawFinal(){
+  const code=Array.from(document.querySelectorAll('#codes input')).map(i=>i.value).join('');
+  if(code.length!==6){ showToast('Enter 6 digits','er'); return; }
+  const amt=S._pendingWithdraw;
+  const f=transferFee(amt);
+  const net=amt-f;
+  const m=S._pendingMethod||'totp';
+  const label={totp:'Google Authenticator',email:'Email OTP',sms:'SMS OTP'}[m];
+  feeAmt(f,`Transfer fee · ${label}`);
+  debit(amt-f,`Payout to ${S.agent.bank}`);
+  ev('WITHDRAWN',`Withdrew ${fmt(amt)} via ${label}`,`Net ${fmt(net)} · ${fmt(S.available)} remains`);
+  closeModal(); renderAll();
+  showToast(`Withdrew ${fmt(net)} via ${label}`,'ok');
+}
+function quickDeposit(){
+  credit(20000,'Deposit via Paystack (demo)');
+  ev('DEPOSIT','Deposited ₦20,000','Wallet credited');
+  renderAll(); showToast('Deposited ₦20,000','ok');
+}
+function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+
+/* ============================================================
+   MISC
+   ============================================================ */
+function tab(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  if(btn) btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showToast(msg,tone){
+  const el=document.getElementById('toast');
+  el.className='ts on '+(tone||'');
+  document.getElementById('toastIc').textContent=tone==='er'?'⚠':'✓';
+  document.getElementById('toastMsg').textContent=msg;
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='ts '+(tone||''),2400);
+}
+function narrate(who,msg,det){
+  document.getElementById('nWho').textContent=who;
+  document.getElementById('nMsg').textContent=msg;
+  document.getElementById('nDet').textContent=det||'';
+}
+function copyRef(){
+  const url='https://www.dealsgate.ng/signup?ref='+S.referrals.code;
+  if(navigator.clipboard) navigator.clipboard.writeText(url).then(()=>showToast('Link copied','ok')).catch(()=>showToast('Copied (demo)','ok'));
+  else showToast('Copied (demo)','ok');
+}
+function shareRef(){
+  const url='https://www.dealsgate.ng/signup?ref='+S.referrals.code;
+  if(navigator.share) navigator.share({title:'DealsGate',text:'Join me on DealsGate.',url}).catch(()=>{});
+  else copyRef();
+}
+function resetJob(){
+  if(!confirm('Clear current job? Earnings stay.')) return;
+  S.currentJob=null; S.activeJob=null; S.inspection=null;
+  S.completedSteps=[]; S.events=[]; S.openJobs={};
+  save(); renderAll();
+  document.getElementById('narrCard').style.display='none';
+}
+function resetAll(){
+  if(!confirm('Reset everything?')) return;
+  localStorage.removeItem(KEY);
+  S=fresh(); playing=false; aborted=true;
+  document.getElementById('narrCard').style.display='none';
+  document.getElementById('prgWrap').style.display='none';
+  save(); renderAll();
+  showToast('Reset','ok');
+}
+
+/* BOOT */
+renderAll();
+document.getElementById('narrCard').style.display='';
+narrate('Vet Agent','Pick a scenario above, then press ▶ Play scenario.','Every screen is what you see as a Vet Agent on DealsGate.');
+</script>
+</body>
+</html>

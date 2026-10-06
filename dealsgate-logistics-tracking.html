@@ -1,0 +1,1394 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Shared Tracking & Logistics</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;--gold:#F4B420;--gold2:#D99A0F;
+--mist:#F1F3F5;--charcoal:#1F2937;--red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+--line:rgba(13,27,76,.10);--line2:rgba(13,27,76,.06)}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Inter",sans-serif;background:var(--mist);
+color:var(--charcoal);font-size:14px;line-height:1.5;padding-bottom:78px}
+
+/* Header */
+.hdr{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;padding:12px 16px 10px;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.hdr-r{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hdr .who{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.hdr .av{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:13px;font-weight:800;flex-shrink:0;border:2px solid #fff}
+.hdr .av.seller{background:var(--gold)}
+.hdr .av.buyer{background:var(--green);color:#fff}
+.hdr .info{min-width:0;flex:1}
+.hdr .n{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .s{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.hdr .actions{display:flex;gap:6px}
+.hdr button{background:rgba(255,255,255,.15);color:#fff;border:none;font-size:10px;font-weight:700;padding:7px 11px;border-radius:20px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.hdr button.go{background:var(--gold);color:var(--navy)}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:10px}
+.kbox{background:rgba(255,255,255,.10);border-radius:8px;padding:7px 8px;position:relative}
+.kbox .l{font-size:7px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kbox .v{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:800;color:#fff;margin-top:2px}
+.kbox.gold .v{color:var(--gold)}.kbox.green .v{color:#7EE787}.kbox.red .v{color:#FCA5A5}
+.kbox.alert::after{content:"";position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--red);animation:pl 1.4s infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* Role toggle */
+.rolebar{position:sticky;top:0;z-index:45;background:#fff;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:9px 12px}
+.rolebar button{background:var(--mist);color:#6B7280;border:none;font-family:inherit;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:10px 12px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .15s}
+.rolebar button.on{background:var(--navy);color:#fff}
+.rolebar button.buyer.on{background:linear-gradient(135deg,var(--green2),var(--green))}
+.rolebar button.seller.on{background:linear-gradient(135deg,var(--navy),var(--navy2))}
+
+/* Tabs */
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);display:flex;overflow-x:auto;padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(13,27,76,.06);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;min-width:54px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 6px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;font-weight:800;color:#9CA3AF;letter-spacing:.04em;text-transform:uppercase}
+.tab.on{color:var(--navy)}
+.tab .ic{width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--mist);font-size:12px;line-height:1}
+.tab.on .ic{background:var(--gold);color:var(--navy)}
+
+/* Panels */
+.panel{display:none;padding:12px 10px 18px}
+.panel.on{display:block;animation:fu .25s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden;box-shadow:0 1px 3px rgba(13,27,76,.05)}
+.ch{padding:11px 14px;background:var(--mist);border-bottom:1px solid var(--line);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cb{padding:13px 14px}
+.bd{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;line-height:1.4}
+.bd-navy{background:var(--navy);color:#fff}.bd-green{background:#DCFCE7;color:var(--green2)}
+.bd-gold{background:#FEF3C7;color:var(--gold2)}.bd-red{background:#FEE2E2;color:var(--red)}
+.bd-purple{background:#EDE9FE;color:var(--purple)}.bd-blue{background:#DBEAFE;color:var(--blue)}
+.bd-pink{background:#FCE7F3;color:var(--pink)}.bd-mist{background:var(--mist);color:#6B7280}
+
+/* Buttons */
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .1s}
+.btn:active{transform:scale(.97)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.pr{background:linear-gradient(135deg,var(--navy),var(--green));color:#fff}
+.btn.nv{background:var(--navy);color:#fff}.btn.gr{background:var(--green);color:#fff}
+.btn.go{background:var(--gold);color:var(--navy)}.btn.gh{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.rd{background:var(--red);color:#fff}.btn.sm{padding:9px 11px;font-size:11px;border-radius:8px}
+.brow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Rows */
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px}
+.row:last-child{border-bottom:none}
+.row .k{color:#4B5563;flex:1;min-width:0}
+.row .v{font-weight:700;color:var(--navy);text-align:right;flex-shrink:0;font-family:ui-monospace,Menlo,monospace;font-size:11px}
+.row .v.g{color:var(--green)}.row .v.r{color:var(--red)}.row .v.pu{color:var(--purple)}
+.row.tot{background:#F8FAFC}.row.tot .v{font-size:15px;font-weight:800}
+
+/* Scenario list */
+.scn{display:flex;gap:11px;padding:12px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);text-align:left;cursor:pointer;font-family:inherit;width:100%}
+.scn:last-child{border-bottom:none}
+.scn.on{background:linear-gradient(90deg,rgba(13,27,76,.10),transparent)}
+.scn .em{font-size:22px;line-height:1;flex-shrink:0}
+.scn .txt{flex:1;min-width:0}
+.scn .t1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.scn .t2{font-size:10px;color:#6B7280;margin-top:3px;line-height:1.4}
+
+/* Steps */
+.steps{max-height:52vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.stp{display:flex;gap:11px;padding:11px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);text-align:left;cursor:pointer;font-family:inherit;width:100%;align-items:center}
+.stp:last-child{border-bottom:none}
+.stp.done{background:rgba(220,252,231,.5)}
+.stp.now{background:rgba(254,243,199,.6)}
+.stp:disabled{cursor:not-allowed;opacity:.7}
+.stp .dot{width:9px;height:9px;border-radius:50%;background:var(--mist);flex-shrink:0}
+.stp.done .dot{background:var(--green)}
+.stp.now .dot{background:var(--gold);animation:pl 1.2s ease-in-out infinite}
+.stp .info{flex:1;min-width:0}
+.stp .l1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.stp.done .l1{color:#6B7280}
+.stp .l2{font-size:10px;color:#9CA3AF;margin-top:2px;line-height:1.3}
+.stp .amt{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;color:var(--green);flex-shrink:0}
+.stp .amt.r{color:var(--red)}
+
+/* Narration */
+.narr{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:14px;border-radius:14px;margin-bottom:11px;position:relative;overflow:hidden}
+.narr::after{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2}
+.narr .who{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:6px;position:relative;z-index:1}
+.narr .msg{font-size:13px;font-weight:600;line-height:1.5;color:#fff;position:relative;z-index:1}
+.narr .det{font-size:11px;color:rgba(255,255,255,.7);margin-top:6px;line-height:1.5;position:relative;z-index:1}
+
+/* Shipment hero */
+.ship-hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:14px;padding:16px;position:relative;overflow:hidden;margin-bottom:11px}
+.ship-hero::after{content:"";position:absolute;right:-50px;top:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2}
+.ship-hero .code{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:rgba(255,255,255,.55);position:relative;z-index:1}
+.ship-hero .state{font-size:17px;font-weight:800;color:#fff;margin-top:5px;position:relative;z-index:1;line-height:1.2}
+.ship-hero .sub{font-size:11px;color:rgba(255,255,255,.7);margin-top:6px;position:relative;z-index:1;line-height:1.5}
+.ship-hero .tracking{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;color:var(--gold);background:rgba(244,180,32,.14);border:1px solid rgba(244,180,32,.32);padding:5px 10px;border-radius:8px;margin-top:10px;position:relative;z-index:1;letter-spacing:.06em}
+
+/* Timeline */
+.tl{position:relative;padding:6px 0}
+.tl-row{display:flex;gap:12px;padding:8px 0;position:relative}
+.tl-rail{position:relative;width:22px;flex-shrink:0}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--mist);position:absolute;left:4px;top:4px;z-index:2}
+.tl-dot.done{background:var(--green);border-color:var(--green)}
+.tl-dot.current{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 4px rgba(244,180,32,.22)}
+.tl-dot.fail{background:var(--red);border-color:var(--red)}
+.tl-dot.pending{background:#fff;border-color:#D1D5DB}
+.tl-rail::before{content:"";position:absolute;left:10px;top:20px;bottom:-8px;width:2px;background:var(--mist);border-radius:2px}
+.tl-row:last-child .tl-rail::before{display:none}
+.tl-row.done .tl-rail::before{background:var(--green)}
+.tl-row.current .tl-rail::before{background:linear-gradient(180deg,var(--gold),var(--mist))}
+.tl-body{flex:1;min-width:0;padding-bottom:8px}
+.tl-title{font-size:12.5px;font-weight:800;color:var(--navy);line-height:1.25;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tl-title.done{color:#6B7280}
+.tl-title .actor{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:20px;background:var(--mist);color:#6B7280}
+.tl-title .actor.webhook{background:#DBEAFE;color:var(--blue)}
+.tl-title .actor.system{background:var(--navy);color:var(--gold)}
+.tl-title .actor.buyer{background:#DCFCE7;color:var(--green2)}
+.tl-title .actor.seller{background:#FEF3C7;color:var(--gold2)}
+.tl-title .actor.agent{background:#EDE9FE;color:var(--purple)}
+.tl-title .actor.admin{background:#FEE2E2;color:var(--red)}
+.tl-detail{font-size:11px;color:#6B7280;margin-top:4px;line-height:1.5}
+.tl-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:10px;color:#9CA3AF;margin-top:5px}
+.tl-meta .tag{background:var(--mist);padding:1px 6px;border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:9px}
+.tl-sla{font-size:10px;color:var(--gold2);font-weight:700;background:#FEF3C7;display:inline-block;padding:2px 8px;border-radius:20px;margin-top:6px}
+.tl-cost{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:800;color:var(--green2);background:#DCFCE7;display:inline-block;padding:2px 8px;border-radius:6px;margin-top:6px;margin-left:6px}
+
+/* Webhook list */
+.wk{display:flex;gap:11px;padding:11px 14px;border-bottom:1px solid var(--line);align-items:flex-start}
+.wk:last-child{border-bottom:none}
+.wk-ic{width:30px;height:30px;border-radius:9px;background:#DBEAFE;color:var(--blue);display:grid;place-items:center;font-size:13px;flex-shrink:0}
+.wk-b{flex:1;min-width:0}
+.wk-t{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:800;color:var(--navy);letter-spacing:.02em}
+.wk-d{font-size:11px;color:#4B5563;margin-top:3px;line-height:1.5;word-break:break-word}
+.wk-ts{font-size:9.5px;color:#9CA3AF;margin-top:4px;font-family:ui-monospace,Menlo,monospace}
+
+/* Costs panel */
+.costs{padding:0}
+.costs .hd{padding:11px 14px;background:var(--mist);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.costs .row{padding:11px 14px}
+.costs .row.tot{background:#F8FAFC;border-top:2px solid var(--line)}
+
+/* SLA meter */
+.sla-box{background:#FEF3C7;border-left:3px solid var(--gold);padding:11px 13px;border-radius:8px;margin:10px 0;display:flex;gap:11px;align-items:flex-start}
+.sla-box.ok{background:#DCFCE7;border-left-color:var(--green)}
+.sla-box.rd{background:#FEE2E2;border-left-color:var(--red)}
+.sla-box .ic{font-size:19px;flex-shrink:0}
+.sla-box .b{flex:1;min-width:0}
+.sla-box .t{font-size:11.5px;font-weight:800;color:#78350F;margin-bottom:2px}
+.sla-box.ok .t{color:#065F46}.sla-box.rd .t{color:#7F1D1D}
+.sla-box .d{font-size:11px;color:#78350F;line-height:1.5}
+.sla-box.ok .d{color:#065F46}.sla-box.rd .d{color:#7F1D1D}
+
+/* Empty */
+.em{text-align:center;padding:32px 16px;color:#9CA3AF;font-size:12px;line-height:1.6}
+
+/* Progress */
+.prg{height:6px;background:rgba(13,27,76,.10);border-radius:20px;overflow:hidden;margin-top:10px}
+.prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:20px;transition:width .4s}
+
+/* Toast */
+.ts{position:fixed;left:12px;right:12px;bottom:90px;z-index:200;background:var(--navy);color:#fff;border-radius:12px;padding:12px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(13,27,76,.3);transform:translateY(140%);transition:transform .35s cubic-bezier(.4,.2,.2,1);display:flex;gap:10px;align-items:center;pointer-events:none;max-width:520px;margin:0 auto}
+.ts.on{transform:translateY(0)}
+.ts.ok{background:var(--green)}.ts.er{background:var(--red)}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-r">
+    <div class="who">
+      <div class="av buyer" id="hAv">MI</div>
+      <div class="info">
+        <div class="n" id="hName">Musa Ibrahim</div>
+        <div class="s" id="hSub">Buyer · viewing DG—</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button onclick="resetAll()">Reset</button>
+      <button class="go" id="playBtn" onclick="togglePlay()">▶ Play</button>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kbox gold"><div class="l">Deal</div><div class="v" id="kDeal">—</div></div>
+    <div class="kbox green"><div class="l">Stage</div><div class="v" id="kStage">—</div></div>
+    <div class="kbox"><div class="l">Tracking</div><div class="v" id="kTrack">—</div></div>
+    <div class="kbox red" id="kSlaBox"><div class="l">SLA</div><div class="v" id="kSla">—</div></div>
+  </div>
+</header>
+
+<!-- Role toggle -->
+<div class="rolebar" id="rolebar">
+  <button class="buyer on" id="rbBuyer" onclick="setRole('buyer')">🛒 Buyer view</button>
+  <button class="seller" id="rbSeller" onclick="setRole('seller')">🏪 Seller view</button>
+</div>
+
+<!-- FLOW -->
+<section class="panel on" id="p-flow">
+  <div class="card">
+    <div class="ch"><span>Shipment scenarios</span><span class="bd bd-navy" id="scnCount">0</span></div>
+    <div id="scnList"></div>
+  </div>
+  <div class="card">
+    <div class="ch">
+      <span>Run this scenario</span>
+      <button style="background:none;border:none;color:#9CA3AF;font-size:10px;font-weight:700;cursor:pointer" onclick="resetWork()">Reset</button>
+    </div>
+    <div class="cb">
+      <button class="btn go" id="innerPlay" onclick="playScenario()">▶ Play scenario</button>
+      <div class="prg" id="prgWrap" style="display:none"><div class="fill" id="prgFill"></div></div>
+    </div>
+  </div>
+  <div class="card" id="narrCard" style="display:none">
+    <div class="cb" style="padding:0">
+      <div class="narr">
+        <div class="who" id="nWho">—</div>
+        <div class="msg" id="nMsg">—</div>
+        <div class="det" id="nDet"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Tracking events · tap any step</div>
+    <div class="steps" id="stepList"></div>
+  </div>
+
+  <div id="heroCard"></div>
+
+  <div id="trackingCard"></div>
+
+  <div class="card" id="tlCard" style="display:none">
+    <div class="ch">Event log</div>
+    <ol class="tl" id="tlList" style="padding-left:0;padding-right:0"></ol>
+  </div>
+</section>
+
+<!-- SHIPMENT -->
+<section class="panel" id="p-shipment">
+  <div class="card">
+    <div class="ch"><span>Shipment record (§11)</span><span class="bd bd-blue" id="shipStatus">—</span></div>
+    <div class="cb" style="padding:0" id="shipBody">
+      <div class="em">No shipment yet. Run a scenario in the Flow tab.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Courier partner</div>
+    <div class="cb" style="padding:0" id="partnerBody">
+      <div class="row"><span class="k">Partner</span><span class="v" style="font-family:inherit">—</span></div>
+      <div class="row"><span class="k">Coverage</span><span class="v" style="font-family:inherit">—</span></div>
+      <div class="row"><span class="k">SLA</span><span class="v" style="font-family:inherit">—</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Delivery address</div>
+    <div class="cb" style="padding:0" id="addrBody">
+      <div class="row"><span class="k">Recipient</span><span class="v" style="font-family:inherit">—</span></div>
+      <div class="row"><span class="k">Address</span><span class="v" style="font-family:inherit">—</span></div>
+      <div class="row"><span class="k">LGA</span><span class="v" style="font-family:inherit">—</span></div>
+      <div class="row"><span class="k">Phone</span><span class="v" style="font-family:inherit">—</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- COSTS -->
+<section class="panel" id="p-costs">
+  <div class="card">
+    <div class="ch"><span>Cost lines — <span id="costRole">Buyer</span></span><span class="bd bd-purple">Role lens</span></div>
+    <div class="costs" id="costsBody">
+      <div class="em">No costs yet.</div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      <b style="color:var(--navy)">Buyer never sees the platform logistics margin</b> — only the courier price. The seller view shows their own net payout minus the seller success fee. Both views read the same underlying shipment.
+    </div>
+  </div>
+</section>
+
+<!-- WEBHOOKS -->
+<section class="panel" id="p-webhooks">
+  <div class="card">
+    <div class="ch"><span>Partner webhook log</span><span class="bd bd-blue" id="webhookCount">0</span></div>
+    <div id="webhookList"><div class="em">No webhooks yet.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Signature verification</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">HMAC-SHA512</span><span class="v g">✓ Verified</span></div>
+      <div class="row"><span class="k">Replay window</span><span class="v">± 5 min</span></div>
+      <div class="row"><span class="k">Idempotency key</span><span class="v" style="font-size:10px">whk_xxxxxxxx</span></div>
+      <div class="row"><span class="k">Duplicate handling</span><span class="v g">Ignored</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Every logistics webhook is verified before state transition. Duplicate events are dropped by idempotency key — the shipment never re-fires a transition twice.
+    </div>
+  </div>
+</section>
+
+<!-- SLA -->
+<section class="panel" id="p-sla">
+  <div class="card">
+    <div class="ch"><span>Service level agreements</span><span class="bd bd-gold">Live timers</span></div>
+    <div id="slaList"><div class="em">No active SLAs.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Policy defaults (§19)</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">policy.evidenceWindowHours</span><span class="v">48h</span></div>
+      <div class="row"><span class="k">policy.autoCompleteWindowHours</span><span class="v">72h</span></div>
+      <div class="row"><span class="k">policy.jobTimeoutHours</span><span class="v">24h</span></div>
+      <div class="row"><span class="k">policy.transitSlaHours</span><span class="v">72h</span></div>
+      <div class="row"><span class="k">policy.autoCompleteReminderHours</span><span class="v">24h</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- DISPUTES -->
+<section class="panel" id="p-disputes">
+  <div class="card">
+    <div class="ch"><span>Dispute branches</span><span class="bd bd-red" id="disputeCount">0</span></div>
+    <div id="disputeList"><div class="em">No disputes on this shipment.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Transit policy matrix (§13)</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k"><b style="color:var(--gold2)">Minor damage</b> · buyer accepts</span><span class="v" style="font-family:inherit">Carrier compensates</span></div>
+      <div class="row"><span class="k"><b style="color:var(--red)">Total rejection</b> · item destroyed</span><span class="v" style="font-family:inherit">Full refund + seller paid</span></div>
+      <div class="row"><span class="k"><b style="color:var(--red)">Lost in transit</b></span><span class="v" style="font-family:inherit">Full refund + carrier pays</span></div>
+      <div class="row"><span class="k"><b style="color:var(--red)">Fraud / swap</b></span><span class="v" style="font-family:inherit">Guarantee + return logistics</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIT -->
+<section class="panel" id="p-audit">
+  <div class="card">
+    <div class="ch"><span>Shipment audit log</span><span class="bd bd-navy">Immutable</span></div>
+    <div id="auditList"><div class="em">No events yet.</div></div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab on" onclick="tab('flow',this)"><span class="ic">▶</span>Flow</button>
+  <button class="tab" onclick="tab('shipment',this)"><span class="ic">📦</span>Shipment</button>
+  <button class="tab" onclick="tab('costs',this)"><span class="ic">💰</span>Costs</button>
+  <button class="tab" onclick="tab('webhooks',this)"><span class="ic">🔔</span>Webhooks</button>
+  <button class="tab" onclick="tab('sla',this)"><span class="ic">⏱️</span>SLA</button>
+  <button class="tab" onclick="tab('disputes',this)"><span class="ic">⚖️</span>Disputes</button>
+  <button class="tab" onclick="tab('audit',this)"><span class="ic">📋</span>Audit</button>
+</nav>
+
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
+const KEY='dg_logistics_tracking_v1';
+const fmt=n=>'₦'+Math.round(n).toLocaleString('en-NG');
+const ago=ts=>{const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';
+  if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';};
+const uid=()=>'x'+Math.random().toString(36).slice(2,10);
+const now=()=>Date.now();
+
+/* ============================================================
+   PARTNERS
+   ============================================================ */
+const PARTNERS = {
+  gig:{name:'GIG Logistics',coverage:'Nationwide · 36 states + FCT',sla:'48–72h',color:'#0D1B4C'},
+  kwik:{name:'Kwik Express',coverage:'Lagos · Abuja · PH same-day',sla:'Same-day Lagos',color:'#16A34A'},
+  hub:{name:'Buyer pickup at hub',coverage:'Courier hub',sla:'As scheduled',color:'#7C3AED'},
+};
+
+/* ============================================================
+   SHIPMENT STATES (§11)
+   ============================================================ */
+const STATES=[
+  {k:'CREATED',             l:'Created',              who:'system'},
+  {k:'GUARANTEE',           l:'Guarantee',            who:'system'},
+  {k:'PAID',                l:'Paid',                 who:'system'},
+  {k:'AGENT',               l:'Agent',                who:'agent'},
+  {k:'INSPECTED',           l:'Inspected',            who:'agent'},
+  {k:'EVIDENCE_APPROVED',   l:'Evidence approved',    who:'buyer'},
+  {k:'PICKED_UP',           l:'Picked up',            who:'webhook'},
+  {k:'IN_TRANSIT',          l:'In transit',           who:'webhook'},
+  {k:'DELIVERED',           l:'Delivered',            who:'webhook'},
+  {k:'COMPLETED',           l:'Completed',            who:'system'},
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+function fresh(){
+  return {
+    role:'buyer',
+    // Identity
+    buyer:{id:'musa',name:'Musa Ibrahim',initials:'MI',color:'#16A34A',phone:'+234 801 234 5678'},
+    seller:{id:'adaeze',name:'Adaeze Okafor',initials:'AO',color:'#F4B420',business:'Adaeze Electronics Ltd'},
+    // Deal baseline
+    deal:{
+      code:null,item:'',price:0,
+      buyerFee:0,sellerFee:0,vetFee:6000,logistics:0,
+      escrow:0,
+      sellerNet:0,
+    },
+    // Shipment record
+    shipment:{
+      code:null,
+      dealCode:null,
+      status:'',                     // current state key
+      courier:null,
+      trackingNumber:null,
+      events:[],                     // timeline
+      webhooks:[],                   // partner webhooks
+      slaDeadline:null,
+      slaLabel:null,
+      deliveredAt:null,
+      autoCompleteAt:null,
+      dispute:null,
+      costBuyer:{}, costSeller:{},
+    },
+    // Guard
+    _hasShipment:false,
+    // Scenario runner
+    scenario:'happy_gig',
+    completedSteps:[],
+    events:[], audit:[],
+  };
+}
+let S=load();
+function load(){try{const r=localStorage.getItem(KEY);return r?Object.assign(fresh(),JSON.parse(r)):fresh();}catch(e){return fresh();}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function evt(type,text,meta){S.events.push({id:uid(),type,text,meta,ts:now()});if(S.events.length>300)S.events.shift();}
+function audit(type,text,meta){S.audit.unshift({id:uid(),type,text,meta,ts:now(),ip:'102.89.'+Math.floor(Math.random()*250+1)+'.'+Math.floor(Math.random()*250+1)});if(S.audit.length>200)S.audit.pop();}
+
+/* Push a shipment event into the shared timeline */
+function pushShip(state,actor,detail,extra){
+  S.shipment.status=state;
+  S.shipment.events.push({
+    id:uid(),state,actor,detail,
+    ts:now(),
+    cost:extra&&extra.cost,
+    sla:extra&&extra.sla,
+  });
+}
+
+/* Push a webhook */
+function pushWebhook(event,meta){
+  S.shipment.webhooks.unshift({
+    id:uid(),
+    event,
+    sig:'sha512='+Math.random().toString(16).slice(2,18)+'…',
+    idempotency:'whk_'+Math.random().toString(36).slice(2,12),
+    meta:meta||{},
+    ts:now(),
+  });
+  if(S.shipment.webhooks.length>60)S.shipment.webhooks.pop();
+}
+
+/* ============================================================
+   BASELINE SETUP
+   ============================================================ */
+function seedDeal(price,item,code){
+  S.deal.code=code||'DG-240501';
+  S.deal.item=item||'iPhone 14 Pro 256GB — Deep Purple';
+  S.deal.price=price||450000;
+  S.deal.buyerFee=Math.round(S.deal.price*0.02);
+  S.deal.sellerFee=Math.round(S.deal.price*0.02);
+  S.deal.vetFee=6000;
+  S.deal.logistics=3500;
+  S.deal.escrow=S.deal.price+S.deal.buyerFee+S.deal.vetFee+S.deal.logistics;
+  S.deal.sellerNet=S.deal.price-S.deal.sellerFee;
+  S.shipment.dealCode=S.deal.code;
+  S.shipment.code='SHP-'+S.deal.code.replace('DG-','');
+
+  // Pre-logistics timeline — always present (deal goes through these before logistics)
+  if(!S.shipment.events.length){
+    pushShip('CREATED','seller','Seller created Protected Deal · guarantee held ₦5,000');
+    pushShip('GUARANTEE','system','Guarantee held · ₦5,000');
+    pushShip('PAID','buyer','Buyer paid '+fmt(S.deal.escrow)+' into escrow',{cost:S.deal.escrow});
+    pushShip('AGENT','agent','Blessing Eze accepted the inspection job · within 500m of pin');
+    pushShip('INSPECTED','agent','Inspection PASS · IMEI matched · continuous 45s video captured');
+  }
+  S._hasShipment=true;
+}
+
+/* ============================================================
+   SCENARIOS
+   ============================================================ */
+const SCENARIOS={
+  happy_gig:{
+    key:'happy_gig', em:'✅', title:'Happy path — GIG Lagos → Lagos',
+    desc:'Approved → picked up → in transit → delivered → auto-confirm → completed',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Logistics unlocked'},
+      {k:'s_dispatch',   l1:'Logistics dispatch call',  l2:'GIG Logistics API · shipment created'},
+      {k:'s_pickup',     l1:'Courier picks up',         l2:'Webhook: shipment.picked_up'},
+      {k:'s_transit',    l1:'In transit — Lagos → Lagos',l2:'Webhook: shipment.in_transit'},
+      {k:'s_delivered',  l1:'Delivered',                l2:'Webhook: shipment.delivered'},
+      {k:'s_autoconfirm',l1:'72h auto-complete window opens',l2:'Buyer can rate · or auto-confirm'},
+      {k:'s_confirm',    l1:'Buyer confirms · rates 5★',l2:'Funds released to seller'},
+      {k:'s_settle',     l1:'Settlement',               l2:'Seller paid · guarantee refunded'},
+    ],
+    verdict:'The shared timeline is identical for both roles. The buyer sees their own line items; the seller sees their own payout math. Both agree on every state — that is the whole point of shared tracking (§11).'
+  },
+
+  cross_state:{
+    key:'cross_state', em:'🚚', title:'Cross-state — Lagos → Kano',
+    desc:'3-5 day transit · longer SLA · mid-route check-ins',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Cross-state courier selected'},
+      {k:'s_dispatch_kw',l1:'Dispatch via GIG cross-state',l2:'Tracking issued'},
+      {k:'s_pickup',     l1:'Picked up in Lagos',       l2:'Webhook: shipment.picked_up'},
+      {k:'s_transit',    l1:'In transit — Lagos → Ibadan hub',l2:'Mid-route check-in'},
+      {k:'s_transit2',   l1:'In transit — Ibadan → Abuja hub',l2:'Mid-route check-in'},
+      {k:'s_transit3',   l1:'In transit — Abuja → Kano',l2:'Final leg'},
+      {k:'s_delivered',  l1:'Delivered in Kano',        l2:'Webhook: shipment.delivered'},
+      {k:'s_confirm',    l1:'Buyer confirms',           l2:'Deal complete'},
+    ],
+    verdict:'Cross-state deliveries still produce identical tracking for buyer and seller. The only difference is the SLA — 72h becomes 120h for inter-state routes.'
+  },
+
+  hub_pickup:{
+    key:'hub_pickup', em:'🏢', title:'Buyer pickup at courier hub',
+    desc:'Free logistics · buyer collects · no courier fee',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Chose hub pickup'},
+      {k:'s_dispatch_hub',l1:'Shipment to hub',         l2:'Free · no courier fee'},
+      {k:'s_pickup_hub', l1:'Item received at hub',     l2:'Ready for buyer collection'},
+      {k:'s_collected',  l1:'Buyer collected',          l2:'Signed at hub · webhook fired'},
+      {k:'s_confirm',    l1:'Buyer confirms',           l2:'Deal complete'},
+    ],
+    verdict:'Hub pickup is the cheapest option for the buyer — logistics is zero. The shipment still runs through the same tracking states so both parties can see exactly where the item is.'
+  },
+
+  transit_minor:{
+    key:'transit_minor', em:'📦', title:'Transit damage — minor · buyer accepts',
+    desc:'Small dent · buyer still accepts · carrier compensates',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Dispatched'},
+      {k:'s_pickup',     l1:'Picked up',                l2:'Webhook fired'},
+      {k:'s_transit',    l1:'In transit',               l2:'En route to buyer'},
+      {k:'s_minor',      l1:'Buyer reports minor damage',l2:'Photo + note uploaded'},
+      {k:'s_accept',     l1:'Buyer still accepts',      l2:'Deal proceeds'},
+      {k:'s_delivered',  l1:'Delivered',                l2:'Webhook confirmed'},
+      {k:'s_comp',       l1:'Carrier compensates buyer',l2:'₦22,500 from carrier SLA'},
+      {k:'s_settle',     l1:'Settlement',               l2:'Seller paid in full · carrier liable'},
+    ],
+    verdict:'The deal completes normally. The seller is paid as if nothing happened. The carrier compensates the buyer from their own SLA — nothing comes out of the seller\'s wallet. §13.5.'
+  },
+
+  transit_total:{
+    key:'transit_total', em:'💥', title:'Transit damage — total rejection',
+    desc:'Item destroyed · full refund · seller guarantee returned · carrier pays both ways',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Dispatched'},
+      {k:'s_pickup',     l1:'Picked up',                l2:'Webhook fired'},
+      {k:'s_transit',    l1:'In transit',               l2:'En route'},
+      {k:'s_reject',     l1:'Buyer rejects delivery',   l2:'Item destroyed in transit'},
+      {k:'s_refund_full',l1:'Full refund issued',       l2:'Item + buyer fee + vet + logistics'},
+      {k:'s_return',     l1:'Return logistics on carrier',l2:'To and from · carrier bears cost'},
+      {k:'s_guar_back',  l1:'Seller guarantee returned',l2:'Seller not at fault'},
+      {k:'s_comp_seller',l1:'Carrier compensates seller',l2:'70% of item value'},
+    ],
+    verdict:'Everyone is made whole by the carrier. Buyer full refund. Seller guarantee back plus damage compensation. Carrier bears return logistics both ways. §13.6.'
+  },
+
+  delivery_failed:{
+    key:'delivery_failed', em:'🔁', title:'Delivery attempt failed — retry',
+    desc:'Buyer not home · courier retries next day',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Dispatched'},
+      {k:'s_pickup',     l1:'Picked up',                l2:'Webhook fired'},
+      {k:'s_transit',    l1:'In transit',               l2:'En route'},
+      {k:'s_failed',     l1:'Delivery attempt failed',  l2:'Buyer not available · webhook fired'},
+      {k:'s_retry',      l1:'Retry scheduled',          l2:'Next-day delivery window'},
+      {k:'s_delivered',  l1:'Delivered on retry',       l2:'Webhook confirmed'},
+      {k:'s_confirm',    l1:'Buyer confirms',           l2:'Deal complete'},
+    ],
+    verdict:'Failed attempts do not break the shared tracking. Both parties see the failure and the retry schedule — nothing is hidden, nothing is guessed. The buyer can also reschedule from their side.'
+  },
+
+  lost_transit:{
+    key:'lost_transit', em:'🆘', title:'Lost in transit',
+    desc:'Courier reports item lost · full refund · carrier liable',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Dispatched'},
+      {k:'s_pickup',     l1:'Picked up',                l2:'Webhook fired'},
+      {k:'s_transit',    l1:'In transit',               l2:'En route'},
+      {k:'s_lost',       l1:'Courier reports lost',     l2:'Webhook: shipment.lost'},
+      {k:'s_refund_full',l1:'Full refund to buyer',     l2:'Item + buyer fee + vet + logistics'},
+      {k:'s_guar_back',  l1:'Seller guarantee returned',l2:'Not seller\'s fault'},
+      {k:'s_comp_seller',l1:'Carrier compensates seller',l2:'Per partner SLA'},
+    ],
+    verdict:'A lost shipment triggers the same shape as total rejection. Buyer full refund, seller guarantee returned, seller compensated by the carrier. The platform is never out of pocket.'
+  },
+
+  wrong_item:{
+    key:'wrong_item', em:'🚨', title:'Wrong item delivered — dispute',
+    desc:'Buyer opens dispute · IMEI mismatch vs inspection video',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Dispatched'},
+      {k:'s_pickup',     l1:'Picked up',                l2:'Webhook fired'},
+      {k:'s_transit',    l1:'In transit',               l2:'En route'},
+      {k:'s_delivered',  l1:'Delivered',                l2:'Buyer unboxes'},
+      {k:'s_mismatch',   l1:'Buyer reports mismatch',   l2:'IMEI does not match inspection video'},
+      {k:'s_dispute_open',l1:'Dispute opened',          l2:'Tier-1 evidence: agent video + IMEI'},
+      {k:'s_rule_fraud', l1:'Mediator rules fraud',     l2:'Full refund · guarantee forfeit'},
+      {k:'s_clawback',   l1:'Seller charged return logistics',l2:'₦3,500 clawback'},
+    ],
+    verdict:'The agent\'s continuous video with the IMEI on camera is decisive. Buyer refunded in full. Seller loses guarantee + return logistics. This is why evidence quality is enforced at inspection time.'
+  },
+
+  admin_hold:{
+    key:'admin_hold', em:'⏸️', title:'Admin hold — legal review',
+    desc:'Shipment in transit · admin pauses · resumes',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Dispatched'},
+      {k:'s_pickup',     l1:'Picked up',                l2:'Webhook fired'},
+      {k:'s_transit',    l1:'In transit',               l2:'En route'},
+      {k:'s_admin_hold', l1:'Admin pauses the shipment',l2:'Legal review pending · reason logged'},
+      {k:'s_admin_note', l1:'Note added to timeline',   l2:'Visible to both parties'},
+      {k:'s_admin_resume',l1:'Admin resumes',           l2:'Transit continues'},
+      {k:'s_delivered',  l1:'Delivered',                l2:'Webhook confirmed'},
+      {k:'s_confirm',    l1:'Buyer confirms',           l2:'Deal complete'},
+    ],
+    verdict:'An admin hold blocks all downstream state transitions — no delivery confirmation, no payout — but the tracking data remains visible to both parties. The reason is logged, audited, and shown in the timeline.'
+  },
+
+  sla_breach:{
+    key:'sla_breach', em:'⚠️', title:'SLA breach — 72h exceeded',
+    desc:'Shipment stuck in transit · platform flags both parties · admin alerted',
+    steps:[
+      {k:'s_approve',    l1:'Buyer approves evidence',  l2:'Dispatched'},
+      {k:'s_pickup',     l1:'Picked up',                l2:'Webhook fired'},
+      {k:'s_transit',    l1:'In transit',               l2:'En route'},
+      {k:'s_sla_warn',   l1:'24h SLA warning',          l2:'Auto-flag to both parties'},
+      {k:'s_sla_breach', l1:'72h SLA breached',         l2:'Admin alerted · carrier escalation'},
+      {k:'s_delivered',  l1:'Delivered late',           l2:'SLA breach recorded'},
+      {k:'s_confirm',    l1:'Buyer confirms',           l2:'Deal completes late'},
+    ],
+    verdict:'SLA breaches do not fail the deal — they escalate. Admin sees the breach in real time, the carrier gets an escalation ticket, both parties see the flag. The deal still completes.'
+  },
+};
+
+/* ============================================================
+   HANDLERS
+   ============================================================ */
+const H={
+  /* --- approval --- */
+  s_approve(){
+    pushShip('EVIDENCE_APPROVED','buyer','Buyer approved evidence · logistics unlocked');
+    evt('APPROVED','Evidence approved','Buyer unlocked logistics');
+    audit('shipment.approve','Evidence approved','');
+    return 'Approved';
+  },
+
+  /* --- dispatch --- */
+  s_dispatch(){
+    S.shipment.courier='gig';
+    S.shipment.trackingNumber='GIG-'+Math.random().toString(10).slice(2,10)+'-LG';
+    S.shipment.slaLabel='48–72h';
+    S.shipment.slaDeadline=now()+72*3600*1000;
+    pushWebhook('shipment.created',{courier:'gig',tracking:S.shipment.trackingNumber});
+    pushShip('EVIDENCE_APPROVED','webhook','Logistics dispatched · '+PARTNERS.gig.name,
+      {sla:'SLA 72h',cost:S.deal.logistics});
+    evt('DISPATCH','Shipment created via GIG API','Tracking issued');
+    audit('shipment.dispatch','GIG Logistics',`tracking=${S.shipment.trackingNumber}`);
+    return S.shipment.trackingNumber;
+  },
+  s_dispatch_kw(){
+    S.shipment.courier='gig';
+    S.shipment.trackingNumber='GIG-XS-'+Math.random().toString(10).slice(2,10);
+    S.shipment.slaLabel='120h (cross-state)';
+    S.shipment.slaDeadline=now()+120*3600*1000;
+    pushWebhook('shipment.created',{courier:'gig',route:'LOS→KAN'});
+    pushShip('EVIDENCE_APPROVED','webhook','Cross-state dispatch · LOS → KAN',
+      {sla:'SLA 120h',cost:S.deal.logistics});
+    evt('DISPATCH','Cross-state GIG shipment created','LOS → KAN');
+    audit('shipment.dispatch','GIG cross-state',`route=LOS-KAN`);
+    return S.shipment.trackingNumber;
+  },
+  s_dispatch_hub(){
+    S.shipment.courier='hub';
+    S.shipment.trackingNumber='HUB-'+Math.random().toString(10).slice(2,8);
+    S.shipment.slaLabel='Ready when buyer collects';
+    S.shipment.slaDeadline=null;
+    S.deal.logistics=0;
+    pushWebhook('shipment.created',{courier:'hub',hub:'Ikeja Hub'});
+    pushShip('EVIDENCE_APPROVED','webhook','Shipment to hub · buyer pickup',{cost:0});
+    evt('DISPATCH','Hub shipment created','Free · no courier fee');
+    audit('shipment.dispatch','Hub pickup',`hub=Ikeja`);
+    return 'Hub';
+  },
+
+  /* --- pickup --- */
+  s_pickup(){
+    pushWebhook('shipment.picked_up',{courier:S.shipment.courier,location:'Ikeja, Lagos'});
+    pushShip('PICKED_UP','webhook','Courier picked up the item · '+fmt(S.deal.logistics)+' logistics fee');
+    evt('PICKUP','Picked up in Ikeja','Webhook verified · HMAC');
+    return 'Picked up';
+  },
+  s_pickup_hub(){
+    pushWebhook('shipment.at_hub',{courier:'hub',hub:'Ikeja Hub'});
+    pushShip('PICKED_UP','webhook','Item received at Ikeja Hub · ready for buyer collection');
+    evt('AT_HUB','Item at hub','Ready for buyer');
+    return 'At hub';
+  },
+
+  /* --- transit --- */
+  s_transit(){
+    pushWebhook('shipment.in_transit',{courier:S.shipment.courier,location:'Lagos mainland'});
+    pushShip('IN_TRANSIT','webhook','In transit · Lagos → Lagos');
+    evt('TRANSIT','In transit','En route to buyer');
+    return 'In transit';
+  },
+  s_transit2(){
+    pushWebhook('shipment.in_transit',{location:'Ibadan hub'});
+    pushShip('IN_TRANSIT','webhook','In transit · arrived Ibadan hub');
+    evt('TRANSIT_2','Mid-route check-in','Ibadan hub');
+    return 'Ibadan hub';
+  },
+  s_transit3(){
+    pushWebhook('shipment.in_transit',{location:'Abuja → Kano'});
+    pushShip('IN_TRANSIT','webhook','In transit · Abuja → Kano · final leg');
+    evt('TRANSIT_3','Final leg','Abuja → Kano');
+    return 'Final leg';
+  },
+
+  /* --- delivered --- */
+  s_delivered(){
+    pushWebhook('shipment.delivered',{courier:S.shipment.courier,signed:'Yes'});
+    pushShip('DELIVERED','webhook','Delivered · buyer signed');
+    S.shipment.deliveredAt=now();
+    S.shipment.autoCompleteAt=now()+72*3600*1000;
+    evt('DELIVERED','Delivered','72h auto-complete window open');
+    audit('shipment.delivered','Delivered',`tracking=${S.shipment.trackingNumber}`);
+    return 'Delivered';
+  },
+  s_collected(){
+    pushWebhook('shipment.collected',{hub:'Ikeja Hub'});
+    pushShip('DELIVERED','webhook','Buyer collected from hub · signed');
+    S.shipment.deliveredAt=now();
+    S.shipment.autoCompleteAt=now()+72*3600*1000;
+    evt('COLLECTED','Collected at hub','72h window open');
+    return 'Collected';
+  },
+
+  /* --- auto-confirm window --- */
+  s_autoconfirm(){
+    evt('WINDOW','72h auto-complete window open','Buyer may rate or auto-confirm');
+    return '72h opened';
+  },
+  s_confirm(){
+    pushShip('COMPLETED','buyer','Buyer confirmed · rated seller 5★');
+    pushShip('COMPLETED','system','Settlement · '+fmt(S.deal.sellerNet)+' released to seller · ₦5,000 guarantee refunded');
+    evt('CONFIRM','Buyer confirmed','Funds released · guarantee refunded');
+    audit('shipment.complete','Deal completed','');
+    return 'Confirmed';
+  },
+  s_settle(){
+    evt('SETTLE','Settlement complete','Seller paid · guarantee refunded');
+    return 'Settled';
+  },
+
+  /* --- minor damage --- */
+  s_minor(){
+    pushShip('IN_TRANSIT','buyer','Buyer reports minor damage · photo + note attached');
+    evt('MINOR','Minor damage reported','Small dent on the lid');
+    return 'Reported';
+  },
+  s_accept(){
+    evt('ACCEPT','Buyer accepts item','Deal will complete');
+    return 'Accepted';
+  },
+  s_comp(){
+    const comp=Math.round(S.deal.price*0.05);
+    pushShip('COMPLETED','system','Courier compensates buyer '+fmt(comp)+' · paid from carrier SLA');
+    evt('COMP','Courier paid buyer '+fmt(comp),'From carrier SLA');
+    audit('shipment.comp','Carrier compensation',`amt=${comp}`);
+    return '+'+fmt(comp);
+  },
+
+  /* --- total rejection --- */
+  s_reject(){
+    pushShip('DELIVERED','buyer','Buyer rejected delivery · item destroyed in transit');
+    S.shipment.dispute={kind:'TRANSIT_TOTAL',at:now(),status:'OPEN'};
+    evt('REJECT','Buyer rejected','Total rejection');
+    return 'Rejected';
+  },
+  s_refund_full(){
+    pushShip('COMPLETED','system','Full refund to buyer '+fmt(S.deal.escrow)+' · item + fees + vet + logistics');
+    evt('REFUND_FULL','Full refund '+fmt(S.deal.escrow),'Buyer made whole');
+    audit('shipment.refund','Full refund',`amt=${S.deal.escrow}`);
+    return '+'+fmt(S.deal.escrow);
+  },
+  s_return(){
+    pushShip('COMPLETED','system','Item returning to seller · carrier bears cost both ways');
+    evt('RETURN','Return in progress','Carrier liable');
+    return 'Returning';
+  },
+  s_guar_back(){
+    evt('GUAR','Seller guarantee returned','Not seller fault');
+    return '+₦5,000';
+  },
+  s_comp_seller(){
+    const comp=Math.round(S.deal.price*0.7);
+    evt('COMP_SELLER','Carrier compensated seller '+fmt(comp),'70% of item value');
+    audit('shipment.comp.seller','Carrier compensation',`amt=${comp}`);
+    return '+'+fmt(comp);
+  },
+
+  /* --- failed attempt --- */
+  s_failed(){
+    pushWebhook('shipment.attempt_failed',{reason:'Recipient not available'});
+    pushShip('IN_TRANSIT','webhook','Delivery attempt failed · recipient not available');
+    evt('FAILED','Delivery attempt failed','Buyer not home');
+    return 'Failed';
+  },
+  s_retry(){
+    pushWebhook('shipment.retry_scheduled',{window:'Tomorrow 9am–12pm'});
+    pushShip('IN_TRANSIT','webhook','Retry scheduled · tomorrow 9am–12pm');
+    evt('RETRY','Retry scheduled','Next day window');
+    return 'Retry set';
+  },
+
+  /* --- lost in transit --- */
+  s_lost(){
+    pushWebhook('shipment.lost',{courier:S.shipment.courier,report:'Filed'});
+    pushShip('IN_TRANSIT','webhook','Courier reports item lost · incident filed');
+    S.shipment.dispute={kind:'LOST',at:now(),status:'OPEN'};
+    evt('LOST','Courier reports lost','Incident filed');
+    audit('shipment.lost','Shipment lost',`tracking=${S.shipment.trackingNumber}`);
+    return 'Lost';
+  },
+
+  /* --- wrong item --- */
+  s_mismatch(){
+    pushShip('DELIVERED','buyer','Buyer reports mismatch · IMEI does not match inspection video');
+    evt('MISMATCH','Mismatch reported','IMEI mismatch');
+    return 'Mismatch';
+  },
+  s_dispute_open(){
+    S.shipment.dispute={kind:'WRONG_ITEM',at:now(),status:'OPEN',rationale:'IMEI mismatch vs agent video'};
+    pushShip('DELIVERED','buyer','Dispute opened · Tier-1 evidence: agent continuous video + IMEI');
+    evt('DISPUTE','Dispute opened','Mediation queued');
+    audit('shipment.dispute.open','Dispute opened','kind=WRONG_ITEM');
+    return 'Dispute open';
+  },
+  s_rule_fraud(){
+    S.shipment.dispute.status='RESOLVED_REFUND';
+    pushShip('COMPLETED','system','Mediator ruled for buyer · full refund '+fmt(S.deal.escrow));
+    evt('RULING','Mediator ruled for buyer','IMEI mismatch proves swap');
+    audit('shipment.dispute.resolve','Ruled for buyer','');
+    return '+'+fmt(S.deal.escrow);
+  },
+  s_clawback(){
+    pushShip('COMPLETED','system','Seller charged ₦3,500 return logistics · clawback from wallet');
+    evt('CLAWBACK','Return logistics clawed back','₦3,500 from seller');
+    audit('shipment.clawback','Return logistics clawback',`amt=3500`);
+    return '-₦3,500';
+  },
+
+  /* --- admin hold --- */
+  s_admin_hold(){
+    S.shipment._hold=true;
+    pushShip('IN_TRANSIT','admin','Admin paused the shipment · legal review pending · reason logged');
+    evt('HOLD','Admin hold','Legal review');
+    audit('admin.shipment.hold','Shipment paused','reason=legal_review');
+    return 'Held';
+  },
+  s_admin_note(){
+    pushShip('IN_TRANSIT','admin','Note: both parties informed · no action needed');
+    evt('NOTE','Admin note','Visible to both parties');
+    return 'Note added';
+  },
+  s_admin_resume(){
+    S.shipment._hold=false;
+    pushShip('IN_TRANSIT','admin','Admin resumed the shipment · transit continues');
+    evt('RESUME','Hold lifted','Transit resumes');
+    audit('admin.shipment.resume','Shipment resumed','');
+    return 'Resumed';
+  },
+
+  /* --- SLA breach --- */
+  s_sla_warn(){
+    pushShip('IN_TRANSIT','system','24h SLA warning · auto-flag sent to both parties');
+    evt('SLA_WARN','24h warning','Flag sent');
+    return 'Warned';
+  },
+  s_sla_breach(){
+    pushShip('IN_TRANSIT','system','72h SLA breached · carrier escalation ticket opened · admin alerted');
+    evt('SLA_BREACH','72h breached','Escalation opened');
+    audit('admin.sla.breach','SLA breach','elapsed>72h');
+    return 'Breached';
+  },
+};
+
+/* ============================================================
+   PLAY
+   ============================================================ */
+let playing=false, aborted=false, autoIdx=-1;
+
+function pickScenario(key){
+  if(playing) return;
+  if(!confirm('Switch scenario? Current shipment will be reset.')) return;
+  const keep={role:S.role,buyer:S.buyer,seller:S.seller,audit:S.audit,events:S.events};
+  S=fresh(); Object.assign(S,keep);
+  S.scenario=key;
+  seedDeal();  // baseline
+  save(); renderAll();
+  const scn=SCENARIOS[key];
+  narrate('Ready',scn.title+' — '+scn.desc);
+  document.getElementById('narrCard').style.display='';
+}
+
+async function playScenario(){
+  if(playing){ aborted=true; return; }
+  playing=true; aborted=false;
+  const scn=SCENARIOS[S.scenario];
+  const btn=document.getElementById('innerPlay');
+  btn.textContent='■ Stop'; btn.className='btn rd';
+  document.getElementById('prgWrap').style.display='';
+  for(let i=0;i<scn.steps.length;i++){
+    if(aborted) break;
+    autoIdx=i; updatePrg(i); renderSteps();
+    const stp=scn.steps[i];
+    try{
+      const h=H[stp.k];
+      if(!h) throw Error('No handler: '+stp.k);
+      const msg=h();
+      if(!S.completedSteps.includes(stp.k)) S.completedSteps.push(stp.k);
+      narrate(S.role==='buyer'?'Buyer side':'Seller side',stp.l1,msg+' · '+stp.l2);
+      document.getElementById('narrCard').style.display='';
+      renderAll();
+    }catch(e){
+      narrate('Error',e.message,'');
+      showToast(e.message,'er');
+      break;
+    }
+    await sleep(850);
+  }
+  playing=false; autoIdx=-1;
+  btn.textContent='▶ Replay scenario'; btn.className='btn go';
+  updatePrg(-1); renderAll();
+  if(!aborted) showToast('Scenario complete','ok');
+}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function togglePlay(){ if(playing){aborted=true;return;} playScenario(); }
+function runStep(k){
+  const scn=SCENARIOS[S.scenario];
+  const stp=scn.steps.find(s=>s.k===k);
+  if(!stp) return;
+  try{
+    const msg=H[k]();
+    if(!S.completedSteps.includes(k)) S.completedSteps.push(k);
+    narrate(S.role==='buyer'?'Buyer side':'Seller side',stp.l1,msg+' · '+stp.l2);
+    document.getElementById('narrCard').style.display='';
+    renderAll();
+  }catch(e){ narrate('Error',e.message,''); showToast(e.message,'er'); }
+}
+function updatePrg(i){
+  const total=SCENARIOS[S.scenario].steps.length;
+  if(i<0){ document.getElementById('prgWrap').style.display='none'; return; }
+  document.getElementById('prgFill').style.width=Math.round(((i+1)/total)*100)+'%';
+}
+
+/* ============================================================
+   ROLE TOGGLE
+   ============================================================ */
+function setRole(role){
+  S.role=role;
+  save(); renderAll();
+  showToast(role==='buyer'?'Buyer view':'Seller view','ok');
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderAll(){
+  renderHeader();
+  renderRolebar();
+  renderScenarios();
+  renderSteps();
+  renderHero();
+  renderTracking();
+  renderTimeline();
+  renderShipment();
+  renderCosts();
+  renderWebhooks();
+  renderSla();
+  renderDisputes();
+  renderAudit();
+  save();
+}
+
+function renderHeader(){
+  const isBuyer=S.role==='buyer';
+  const av=document.getElementById('hAv');
+  av.className='av '+(isBuyer?'buyer':'seller');
+  if(isBuyer){
+    av.textContent=S.buyer.initials;
+    document.getElementById('hName').textContent=S.buyer.name;
+    document.getElementById('hSub').textContent='Buyer · '+(S.deal.code||'—');
+  } else {
+    av.textContent=S.seller.initials;
+    document.getElementById('hName').textContent=S.seller.name;
+    document.getElementById('hSub').textContent='Seller · '+(S.deal.code||'—');
+  }
+  document.getElementById('kDeal').textContent=S.deal.code||'—';
+  const s=S.shipment.status||'—';
+  document.getElementById('kStage').textContent=s.replace(/_/g,' ');
+  document.getElementById('kTrack').textContent=S.shipment.trackingNumber?S.shipment.trackingNumber.slice(0,8):'—';
+  // SLA
+  const closed=['COMPLETED'].includes(s)||S.shipment.dispute&&['RESOLVED_REFUND'].includes(S.shipment.dispute.status);
+  const slaEl=document.getElementById('kSla');
+  if(S.shipment.slaDeadline && !closed){
+    const left=S.shipment.slaDeadline-now();
+    if(left>0){
+      const h=Math.floor(left/3600000);
+      const m=Math.floor((left%3600000)/60000);
+      slaEl.textContent=h+'h '+m+'m';
+      document.getElementById('kSlaBox').className='kbox';
+    } else {
+      slaEl.textContent='BREACH';
+      document.getElementById('kSlaBox').className='kbox red alert';
+    }
+  } else if(closed){
+    slaEl.textContent='—';
+    document.getElementById('kSlaBox').className='kbox';
+  } else {
+    slaEl.textContent='—';
+    document.getElementById('kSlaBox').className='kbox';
+  }
+}
+
+function renderRolebar(){
+  document.getElementById('rbBuyer').className='buyer'+(S.role==='buyer'?' on':'');
+  document.getElementById('rbSeller').className='seller'+(S.role==='seller'?' on':'');
+  document.getElementById('costRole').textContent=S.role==='buyer'?'Buyer':'Seller';
+}
+
+function renderScenarios(){
+  document.getElementById('scnCount').textContent=Object.keys(SCENARIOS).length;
+  document.getElementById('scnList').innerHTML=Object.values(SCENARIOS).map(s=>`
+    <button class="scn ${S.scenario===s.key?'on':''}" onclick="pickScenario('${s.key}')">
+      <span class="em">${s.em}</span>
+      <span class="txt">
+        <span class="t1">${s.title}</span>
+        <span class="t2">${s.desc}</span>
+      </span>
+    </button>
+  `).join('');
+}
+
+function renderSteps(){
+  const scn=SCENARIOS[S.scenario];
+  document.getElementById('stepList').innerHTML=scn.steps.map((s,i)=>{
+    const done=S.completedSteps.includes(s.k);
+    const now=playing && autoIdx===i;
+    return `<button class="stp ${done?'done':''} ${now?'now':''}"
+      onclick="runStep('${s.k}')" ${playing?'disabled':''}>
+      <span class="dot"></span>
+      <span class="info"><span class="l1">${s.l1}</span><span class="l2">${s.l2}</span></span>
+    </button>`;
+  }).join('');
+}
+
+/* Shipment hero — same for both roles */
+function renderHero(){
+  const el=document.getElementById('heroCard');
+  if(!S._hasShipment){ el.innerHTML=''; return; }
+  const s=S.shipment;
+  const stateLabel=(STATES.find(x=>x.k===s.status)||{}).l||s.status||'—';
+  el.innerHTML=`<div class="ship-hero">
+    <div class="code">${s.dealCode||'—'} · ${s.code||'—'}</div>
+    <div class="state">${stateLabel}</div>
+    <div class="sub">${S.deal.item} · ${fmt(S.deal.price)}</div>
+    ${s.trackingNumber?`<div class="tracking">📦 ${s.trackingNumber}</div>`:''}
+  </div>`;
+}
+
+/* Shared tracking timeline — identical for buyer & seller */
+function renderTracking(){
+  const el=document.getElementById('trackingCard');
+  if(!S._hasShipment || S.shipment.events.length===0){
+    el.innerHTML='';
+    return;
+  }
+  // Build full state list including pending future states
+  const currentIdx=STATES.findIndex(x=>x.k===S.shipment.status);
+  const rows=STATES.map((st,i)=>{
+    const doneEvent=[...S.shipment.events].reverse().find(e=>e.state===st.k);
+    const isCurrent=i===currentIdx;
+    let cls='pending';
+    if(doneEvent){
+      if(st.k==='COMPLETED' && S.shipment.dispute && S.shipment.dispute.kind && S.shipment.dispute.status!=='RESOLVED_REFUND') cls='fail';
+      else cls='done';
+    } else if(isCurrent) cls='current';
+    const actor=(doneEvent&&doneEvent.actor)||st.who;
+    return {st,doneEvent,cls,actor,idx:i};
+  });
+
+  el.innerHTML=`<div class="card">
+    <div class="ch"><span>Shared tracking journey (§11)</span><span class="bd bd-green">Both parties</span></div>
+    <div class="cb" style="padding:14px">
+      <div class="tl">
+        ${rows.map(r=>{
+          const has=!!r.doneEvent;
+          const actorClass=r.actor||'system';
+          const actorLabel=actorClass==='webhook'?'Partner webhook':
+            actorClass==='buyer'?'Buyer':
+            actorClass==='seller'?'Seller':
+            actorClass==='agent'?'Vet Agent':
+            actorClass==='admin'?'Admin':'System';
+          return `<div class="tl-row ${r.cls}">
+            <div class="tl-rail"><div class="tl-dot ${r.cls}"></div></div>
+            <div class="tl-body">
+              <div class="tl-title ${has?'done':''}">
+                ${r.st.l}
+                ${has?`<span class="actor ${actorClass}">${actorLabel}</span>`:''}
+              </div>
+              ${has?`<div class="tl-detail">${r.doneEvent.detail||''}</div>`:''}
+              ${has?`<div class="tl-meta">
+                <span>${ago(r.doneEvent.ts)}</span>
+                ${r.doneEvent.sla?`<span class="tag">${r.doneEvent.sla}</span>`:''}
+              </div>`:''}
+              ${has&&r.doneEvent.cost?`<span class="tl-cost">${fmt(r.doneEvent.cost)}</span>`:''}
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      <b style="color:var(--navy)">Both parties see this exact timeline.</b> The buyer and seller views differ only in the cost panel — the state machine, timestamps, and audit trail are identical. That is the point of §11.
+    </div>
+  </div>`;
+}
+
+/* Shipment detail */
+function renderShipment(){
+  const body=document.getElementById('shipBody');
+  const partner=document.getElementById('partnerBody');
+  const addr=document.getElementById('addrBody');
+  const badge=document.getElementById('shipStatus');
+  if(!S._hasShipment){
+    body.innerHTML='<div class="em">No shipment yet.</div>';
+    badge.textContent='—'; badge.className='bd bd-mist';
+    partner.innerHTML=`<div class="row"><span class="k">Partner</span><span class="v">—</span></div>`;
+    addr.innerHTML=`<div class="row"><span class="k">Recipient</span><span class="v">—</span></div>`;
+    return;
+  }
+  const s=S.shipment;
+  badge.textContent=s.status.replace(/_/g,' ');
+  badge.className='bd '+(s.status==='COMPLETED'?'bd-green':s.dispute?'bd-red':'bd-blue');
+  body.innerHTML=`
+    <div class="row"><span class="k">Shipment code</span><span class="v">${s.code||'—'}</span></div>
+    <div class="row"><span class="k">Deal code</span><span class="v">${s.dealCode||'—'}</span></div>
+    <div class="row"><span class="k">Tracking number</span><span class="v" style="font-family:inherit;font-size:11px">${s.trackingNumber||'—'}</span></div>
+    <div class="row"><span class="k">Courier partner</span><span class="v" style="font-family:inherit">${s.courier?PARTNERS[s.courier].name:'—'}</span></div>
+    <div class="row"><span class="k">Current state</span><span class="v" style="font-family:inherit">${s.status||'—'}</span></div>
+    <div class="row"><span class="k">SLA</span><span class="v" style="font-family:inherit">${s.slaLabel||'—'}</span></div>
+    <div class="row"><span class="k">Delivered at</span><span class="v" style="font-family:inherit">${s.deliveredAt?new Date(s.deliveredAt).toLocaleString():'—'}</span></div>
+    <div class="row"><span class="k">Auto-complete at</span><span class="v" style="font-family:inherit">${s.autoCompleteAt?new Date(s.autoCompleteAt).toLocaleString():'—'}</span></div>
+  `;
+  if(s.courier){
+    const p=PARTNERS[s.courier];
+    partner.innerHTML=`
+      <div class="row"><span class="k">Partner</span><span class="v" style="font-family:inherit">${p.name}</span></div>
+      <div class="row"><span class="k">Coverage</span><span class="v" style="font-family:inherit">${p.coverage}</span></div>
+      <div class="row"><span class="k">SLA</span><span class="v" style="font-family:inherit">${p.sla}</span></div>
+      <div class="row"><span class="k">API key id</span><span class="v" style="font-size:10px">key_${(S.shipment.courier==='gig'?'gig':S.shipment.courier).slice(0,3)}_xxxx</span></div>
+    `;
+  } else {
+    partner.innerHTML=`<div class="row"><span class="k">Partner</span><span class="v">—</span></div>`;
+  }
+  addr.innerHTML=`
+    <div class="row"><span class="k">Recipient</span><span class="v" style="font-family:inherit">${S.buyer.name}</span></div>
+    <div class="row"><span class="k">Phone</span><span class="v" style="font-family:inherit">${S.buyer.phone}</span></div>
+    <div class="row"><span class="k">Address</span><span class="v" style="font-family:inherit;font-size:11px">1 Receiver Street, Ikeja</span></div>
+    <div class="row"><span class="k">LGA</span><span class="v" style="font-family:inherit">Ikeja, Lagos</span></div>
+  `;
+}
+
+/* Cost panel — role-dependent */
+function renderCosts(){
+  const el=document.getElementById('costsBody');
+  if(!S._hasShipment){ el.innerHTML='<div class="em">No costs yet.</div>'; return; }
+  if(S.role==='buyer'){
+    el.innerHTML=`
+      <div class="hd"><span>What you paid</span><span class="bd bd-green">Escrow</span></div>
+      <div class="row"><span class="k">Item price</span><span class="v">${fmt(S.deal.price)}</span></div>
+      <div class="row"><span class="k">Buyer service fee (2%)</span><span class="v">${fmt(S.deal.buyerFee)}</span></div>
+      <div class="row"><span class="k">Vet Agent inspection fee</span><span class="v">${fmt(S.deal.vetFee)}</span></div>
+      <div class="row"><span class="k">Logistics (${S.shipment.courier?PARTNERS[S.shipment.courier].name:'Courier'})</span><span class="v">${fmt(S.deal.logistics)}</span></div>
+      <div class="row tot"><span class="k">Total charged</span><span class="v g">${fmt(S.deal.escrow)}</span></div>
+      ${S.shipment.status==='COMPLETED'?'<div class="row"><span class="k" style="color:var(--green2);font-weight:800">✓ Deal complete · item delivered</span><span class="v g">—</span></div>':''}
+      ${S.shipment.dispute&&S.shipment.dispute.status==='RESOLVED_REFUND'?`<div class="row"><span class="k" style="color:var(--green2);font-weight:800">✓ Refunded in full</span><span class="v g">+${fmt(S.deal.escrow)}</span></div>`:''}
+    `;
+  } else {
+    el.innerHTML=`
+      <div class="hd"><span>What you received</span><span class="bd bd-gold">On success</span></div>
+      <div class="row"><span class="k">Item price</span><span class="v">${fmt(S.deal.price)}</span></div>
+      <div class="row"><span class="k">Seller success fee (2%)</span><span class="v r">−${fmt(S.deal.sellerFee)}</span></div>
+      <div class="row"><span class="k">Guarantee refund</span><span class="v g">+${fmt(5000)}</span></div>
+      <div class="row tot"><span class="k">Net payout on completion</span><span class="v g">${fmt(S.deal.sellerNet+5000)}</span></div>
+      ${S.shipment.status==='COMPLETED'?'<div class="row"><span class="k" style="color:var(--green2);font-weight:800">✓ Released</span><span class="v g">—</span></div>':''}
+      ${S.shipment.dispute&&S.shipment.dispute.kind==='WRONG_ITEM'&&S.shipment.dispute.status==='RESOLVED_REFUND'?`
+        <div class="row"><span class="k" style="color:var(--red);font-weight:800">Guarantee forfeited</span><span class="v r">−₦5,000</span></div>
+        <div class="row"><span class="k" style="color:var(--red);font-weight:800">Return logistics clawback</span><span class="v r">−₦3,500</span></div>
+      `:''}
+    `;
+  }
+}
+
+/* Webhook log */
+function renderWebhooks(){
+  document.getElementById('webhookCount').textContent=S.shipment.webhooks.length;
+  const el=document.getElementById('webhookList');
+  if(!S.shipment.webhooks.length){ el.innerHTML='<div class="em">No webhooks yet.</div>'; return; }
+  el.innerHTML=S.shipment.webhooks.map(w=>`
+    <div class="wk">
+      <div class="wk-ic">🔔</div>
+      <div class="wk-b">
+        <div class="wk-t">${w.event}</div>
+        <div class="wk-d">${Object.entries(w.meta).map(([k,v])=>`<b>${k}</b>=${v}`).join(' · ')}</div>
+        <div class="wk-ts">${w.sig} · idem: ${w.idempotency} · ${ago(w.ts)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* SLA panel */
+function renderSla(){
+  const el=document.getElementById('slaList');
+  if(!S.shipment.slaDeadline && !S.shipment.autoCompleteAt){ el.innerHTML='<div class="em">No active SLAs.</div>'; return; }
+  let html='';
+  if(S.shipment.slaDeadline && S.shipment.status!=='COMPLETED'){
+    const left=S.shipment.slaDeadline-now();
+    const cls=left<=0?'rd':left>24*3600*1000?'':left>6*3600*1000?'':'';
+    const label=left<=0?'SLA breached':(left>3600*1000?Math.floor(left/3600000)+'h left':Math.floor(left/60000)+'m left');
+    html+=`<div class="sla-box ${cls}">
+      <div class="ic">${left<=0?'⚠️':'⏱️'}</div>
+      <div class="b">
+        <div class="t">Transit SLA · ${S.shipment.slaLabel||'—'}</div>
+        <div class="d">${left<=0?'Breached · admin alerted · carrier escalation opened':label+' until SLA deadline'}</div>
+      </div>
+    </div>`;
+  }
+  if(S.shipment.autoCompleteAt){
+    const left=S.shipment.autoCompleteAt-now();
+    const label=left<=0?'Window expired · auto-completed':(left>3600*1000?Math.floor(left/3600000)+'h left':Math.floor(left/60000)+'m left');
+    html+=`<div class="sla-box ok">
+      <div class="ic">✓</div>
+      <div class="b">
+        <div class="t">Auto-complete window (72h)</div>
+        <div class="d">${label} · buyer can rate or raise a dispute</div>
+      </div>
+    </div>`;
+  }
+  el.innerHTML=html||'<div class="em">No active SLAs.</div>';
+}
+
+/* Disputes */
+function renderDisputes(){
+  const el=document.getElementById('disputeList');
+  const d=S.shipment.dispute;
+  document.getElementById('disputeCount').textContent=d?1:0;
+  if(!d){ el.innerHTML='<div class="em">No disputes on this shipment.</div>'; return; }
+  const cls=d.status==='RESOLVED_REFUND'?'bd-green':'bd-red';
+  el.innerHTML=`
+    <div class="row">
+      <div class="k">
+        <div style="font-weight:800;color:var(--navy);font-size:12px">${d.kind.replace(/_/g,' ')}</div>
+        <div style="font-size:10px;color:#6B7280;margin-top:3px">${d.rationale||'Opened by buyer'}</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:4px">Opened ${ago(d.at)}</div>
+      </div>
+      <span class="bd ${cls}">${d.status.replace(/_/g,' ')}</span>
+    </div>
+  `;
+}
+
+/* Audit */
+function renderAudit(){
+  const el=document.getElementById('auditList');
+  if(!S.audit.length){ el.innerHTML='<div class="em">No events yet.</div>'; return; }
+  el.innerHTML=S.audit.slice(0,80).map(a=>`
+    <div class="row" style="align-items:flex-start">
+      <div class="k">
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;font-weight:800;color:var(--navy)">${a.type}</div>
+        <div style="font-size:11px;color:#4B5563;margin-top:3px">${a.text}</div>
+        ${a.meta?`<div style="font-size:10px;color:#9CA3AF;margin-top:3px">${a.meta}</div>`:''}
+        <div style="font-size:9px;color:#9CA3AF;margin-top:4px;font-family:ui-monospace,Menlo,monospace">IP ${a.ip} · ${ago(a.ts)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* Event log timeline at bottom of flow tab */
+function renderTimeline(){
+  const el=document.getElementById('tlCard');
+  if(!S.events.length){ el.style.display='none'; return; }
+  el.style.display='';
+  document.getElementById('tlList').innerHTML=S.events.slice(-15).reverse().map(e=>{
+    const green=['CONFIRM','DELIVERED','COLLECTED','SETTLE','COMP','REFUND_FULL'].includes(e.type);
+    const red=['REJECT','LOST','MISMATCH','DISPUTE','SLA_BREACH','CLAWBACK','RULING'].includes(e.type);
+    const gold=['APPROVED','DISPATCH','PICKUP','AT_HUB','TRANSIT','TRANSIT_2','TRANSIT_3','RETRY','FAILED','HOLD','RESUME','NOTE','WINDOW','GUAR','SLA_WARN','COMP_SELLER','MINOR','ACCEPT'].includes(e.type);
+    const cls=red?'red':green?'green':gold?'gold':'';
+    return `<li class="tli ${cls}">
+      <span class="tld"></span>
+      <div class="tlt">${e.type.replace(/_/g,' ')}</div>
+      <div style="font-size:11px;color:#4B5563;margin-top:3px;line-height:1.5">${e.text}</div>
+      ${e.meta?`<div class="tltm">${e.meta}</div>`:''}
+    </li>`;
+  }).join('');
+}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+function tab(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  if(btn) btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showToast(msg,tone){
+  const el=document.getElementById('toast');
+  el.className='ts on '+(tone||'');
+  document.getElementById('toastIc').textContent=tone==='er'?'⚠':'✓';
+  document.getElementById('toastMsg').textContent=msg;
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='ts '+(tone||''),2400);
+}
+function narrate(who,msg,det){
+  document.getElementById('nWho').textContent=who;
+  document.getElementById('nMsg').textContent=msg;
+  document.getElementById('nDet').textContent=det||'';
+}
+function resetWork(){
+  if(!confirm('Clear current shipment? Audit log stays.')) return;
+  const keep={role:S.role,buyer:S.buyer,seller:S.seller,audit:S.audit,events:S.events,scenario:S.scenario};
+  S=fresh(); Object.assign(S,keep);
+  seedDeal();
+  S.completedSteps=[];
+  save(); renderAll();
+  document.getElementById('narrCard').style.display='none';
+}
+function resetAll(){
+  if(!confirm('Reset everything?')) return;
+  localStorage.removeItem(KEY);
+  S=fresh(); playing=false; aborted=true;
+  seedDeal();
+  document.getElementById('narrCard').style.display='none';
+  document.getElementById('prgWrap').style.display='none';
+  save(); renderAll();
+  showToast('Reset','ok');
+}
+
+/* BOOT */
+if(!S._hasShipment) seedDeal();
+renderAll();
+document.getElementById('narrCard').style.display='';
+narrate('Shared tracking','Pick a scenario above, then press ▶ Play scenario.','Buyer and seller see the exact same shipment timeline — only the cost lens differs.');
+</script>
+</body>
+</html>

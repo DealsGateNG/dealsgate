@@ -1,0 +1,1451 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Complete Platform Demo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;--gold:#F4B420;--gold2:#D99A0F;
+--mist:#F1F3F5;--charcoal:#1F2937;--red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+--line:rgba(13,27,76,.10)}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--mist);
+color:var(--charcoal);font-size:14px;line-height:1.5;padding-bottom:78px;overscroll-behavior-y:none}
+
+/* Header */
+.hdr{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;padding:12px 16px 10px;
+box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.hdr-r{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hdr .brand{font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px}
+.hdr .mark{width:22px;height:22px;background:var(--gold);border-radius:6px;display:grid;place-items:center;
+color:var(--navy);font-weight:900;font-size:12px}
+.hdr .sub{font-size:9px;color:var(--gold);font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.hdr .ctr{display:flex;gap:6px}
+.hdr button{background:rgba(255,255,255,.15);color:#fff;border:none;font-size:10px;font-weight:700;
+padding:6px 11px;border-radius:20px;cursor:pointer;font-family:inherit}
+.hdr button.primary{background:var(--gold);color:var(--navy)}
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:10px}
+.kpi{background:rgba(255,255,255,.10);border-radius:8px;padding:6px 7px}
+.kpi .l{font-size:7px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kpi .v{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:800;color:#fff;margin-top:2px}
+.kpi.gold .v{color:var(--gold)}
+
+/* Tabs */
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);
+display:flex;overflow-x:auto;padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+box-shadow:0 -4px 20px rgba(13,27,76,.06);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;min-width:56px;display:flex;flex-direction:column;align-items:center;gap:3px;
+padding:7px 6px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;
+font-weight:800;color:#9CA3AF;letter-spacing:.04em;text-transform:uppercase}
+.tab.on{color:var(--navy)}
+.tab .ic{width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--mist);
+font-size:12px;line-height:1}
+.tab.on .ic{background:var(--gold);color:var(--navy)}
+
+/* Panels */
+.panel{display:none;padding:12px 10px 18px}
+.panel.on{display:block;animation:fu .25s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden;
+box-shadow:0 1px 3px rgba(13,27,76,.05)}
+.ch{padding:11px 14px;background:var(--mist);border-bottom:1px solid var(--line);font-size:10px;
+font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);display:flex;
+justify-content:space-between;align-items:center;gap:8px}
+.cb{padding:13px 14px}
+.bd{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;
+text-transform:uppercase;letter-spacing:.06em;line-height:1.4}
+.bd-navy{background:var(--navy);color:#fff}
+.bd-green{background:#DCFCE7;color:var(--green2)}
+.bd-gold{background:#FEF3C7;color:var(--gold2)}
+.bd-red{background:#FEE2E2;color:var(--red)}
+.bd-purple{background:#EDE9FE;color:var(--purple)}
+.bd-blue{background:#DBEAFE;color:var(--blue)}
+.bd-pink{background:#FCE7F3;color:var(--pink)}
+.bd-mist{background:var(--mist);color:#6B7280}
+
+/* Scene banner */
+.scene{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy);padding:11px 14px;
+border-radius:12px;margin-bottom:11px;display:flex;align-items:center;gap:11px}
+.scene .n{width:34px;height:34px;background:var(--navy);color:var(--gold);border-radius:9px;font-size:12px;
+font-weight:900;display:grid;place-items:center;flex-shrink:0}
+.scene .info{flex:1;min-width:0}
+.scene .t{font-size:12px;font-weight:800;line-height:1.3}
+.scene .d{font-size:10px;opacity:.75;margin-top:2px}
+
+/* Live feed */
+.feed{max-height:64vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ev{display:flex;gap:11px;padding:11px 14px;border-bottom:1px solid var(--line);cursor:pointer;
+transition:background .15s;animation:si .3s ease-out}
+@keyframes si{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.ev:last-child{border-bottom:none}
+.ev:active{background:var(--mist)}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;
+font-size:13px;font-weight:800;flex-shrink:0;position:relative}
+.av .role{position:absolute;right:-3px;bottom:-3px;width:15px;height:15px;border-radius:50%;
+background:#fff;display:grid;place-items:center;font-size:9px;border:1px solid var(--line)}
+.ev-b{flex:1;min-width:0}
+.ev-l{font-size:12px;color:var(--charcoal);line-height:1.45}
+.ev-l b{color:var(--navy);font-weight:800}
+.ev-l .act{color:var(--green2);font-weight:700}
+.ev-m{display:flex;flex-wrap:wrap;gap:8px;font-size:10px;color:#9CA3AF;margin-top:3px}
+.ev-m .tag{background:var(--mist);padding:1px 6px;border-radius:10px;font-weight:700;
+text-transform:uppercase;letter-spacing:.04em;font-size:9px}
+.chapter{padding:11px 14px;border-bottom:1px solid var(--line);background:rgba(254,243,199,.5);
+font-size:11px;color:var(--gold2);font-weight:800;text-align:center;letter-spacing:.06em;text-transform:uppercase}
+
+/* User grid */
+.ug{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.uc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center;
+cursor:pointer}
+.uc:active{transform:scale(.97)}
+.uc .uav{width:48px;height:48px;border-radius:50%;margin:0 auto;display:grid;place-items:center;
+color:#fff;font-size:16px;font-weight:800;position:relative}
+.uc .uav .role{position:absolute;right:-4px;bottom:-4px;width:20px;height:20px;border-radius:50%;
+background:#fff;display:grid;place-items:center;font-size:11px;border:1px solid var(--line)}
+.uc .nm{font-size:12px;font-weight:800;color:var(--navy);margin-top:8px}
+.uc .tp{font-size:10px;color:#9CA3AF;margin-top:2px}
+.uc .roles{display:flex;justify-content:center;gap:3px;margin-top:6px}
+.uc .roles span{font-size:9px}
+
+/* Filters */
+.filters{display:flex;gap:6px;padding:10px;overflow-x:auto;scrollbar-width:none;
+border-bottom:1px solid var(--line)}
+.filters::-webkit-scrollbar{display:none}
+.chip{padding:6px 12px;border-radius:20px;border:none;background:var(--mist);color:#6B7280;font-size:10px;
+font-weight:800;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;font-family:inherit;
+white-space:nowrap}
+.chip.on{background:var(--navy);color:#fff}
+
+/* Deal/Request rows */
+.item{padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.item:last-child{border-bottom:none}
+.item:active{background:var(--mist)}
+.item-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.item-c{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#9CA3AF}
+.item-n{font-size:12px;font-weight:800;color:var(--navy);margin-top:2px;line-height:1.3}
+.item-m{display:flex;flex-wrap:wrap;gap:10px;font-size:10px;color:#6B7280;margin-top:6px}
+.item-m strong{color:var(--charcoal)}
+.item-p{display:flex;gap:3px;margin-top:8px}
+.item-p .s{flex:1;height:4px;background:var(--mist);border-radius:2px}
+.item-p .s.done{background:var(--green)}
+.item-p .s.now{background:var(--gold)}
+
+/* Wallet grid */
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wtile{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px;position:relative;
+overflow:hidden}
+.wtile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
+.wtile.gr::before{background:var(--green)}
+.wtile.nv::before{background:var(--navy)}
+.wtile .nm{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#6B7280}
+.wtile .amt{font-family:ui-monospace,Menlo,monospace;font-size:16px;font-weight:800;color:var(--navy);
+margin-top:4px}
+
+/* Ledger rows */
+.lr{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);align-items:center}
+.lr:last-child{border-bottom:none}
+.li{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;font-size:11px;
+font-weight:900}
+.li.cr{background:#DCFCE7;color:var(--green2)}
+.li.db{background:#FEE2E2;color:var(--red)}
+.li.fe{background:#FEF3C7;color:var(--gold2)}
+.li.od{background:#EDE9FE;color:var(--purple)}
+.lb{flex:1;min-width:0}
+.la{font-family:ui-monospace,Menlo,monospace;font-size:9px;font-weight:800;color:var(--navy);
+letter-spacing:.03em}
+.ld{font-size:10px;color:#6B7280;margin-top:2px;line-height:1.4}
+.lm{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;flex-shrink:0}
+.lm.cr{color:var(--green)}.lm.db{color:var(--red)}.lm.fe{color:var(--gold2)}
+
+/* Empty */
+.em{text-align:center;padding:32px 16px;color:#9CA3AF;font-size:12px;line-height:1.6}
+
+/* Progress */
+.prg{height:5px;background:rgba(13,27,76,.10);border-radius:20px;overflow:hidden;margin-top:10px}
+.prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));
+border-radius:20px;transition:width .4s}
+
+/* Speed */
+.spd{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px}
+.sp{padding:8px 4px;border-radius:8px;border:none;background:var(--mist);color:#6B7280;font-size:9px;
+font-weight:800;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;font-family:inherit}
+.sp.on{background:var(--navy);color:#fff}
+
+/* Buttons */
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:11px;font-size:13px;font-weight:700;
+cursor:pointer;font-family:inherit;transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.pr{background:linear-gradient(135deg,var(--navy),var(--green));color:#fff}
+.btn.go{background:var(--gold);color:var(--navy)}
+.btn.gr{background:var(--green);color:#fff}
+.btn.gh{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.sm{padding:9px 11px;font-size:11px;border-radius:8px}
+
+/* Drawer */
+.drawer{position:fixed;inset:0;z-index:100;background:rgba(13,27,76,.55);backdrop-filter:blur(4px);
+display:none;align-items:flex-end;justify-content:center}
+.drawer.on{display:flex}
+.dsh{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;max-height:88vh;overflow-y:auto;
+animation:su .3s cubic-bezier(.4,.2,.2,1)}
+@keyframes su{from{transform:translateY(100%)}to{transform:none}}
+
+/* Rows */
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 14px;
+border-bottom:1px solid var(--line);font-size:12px}
+.row:last-child{border-bottom:none}
+.row .k{color:#4B5563;flex:1;min-width:0}
+.row .v{font-weight:700;color:var(--navy);text-align:right;flex-shrink:0;
+font-family:ui-monospace,Menlo,monospace;font-size:11px}
+.row .v.g{color:var(--green)}
+.row .v.r{color:var(--red)}
+
+/* Stats */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.st{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px}
+.st .l{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF}
+.st .v{font-family:ui-monospace,Menlo,monospace;font-size:18px;font-weight:800;color:var(--navy);
+margin-top:3px}
+.st .v.g{color:var(--green)}
+
+/* Toast */
+.ts{position:fixed;left:12px;right:12px;bottom:90px;z-index:200;background:var(--navy);color:#fff;
+border-radius:12px;padding:12px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(13,27,76,.3);
+transform:translateY(140%);transition:transform .35s cubic-bezier(.4,.2,.2,1);display:flex;gap:10px;
+align-items:center;pointer-events:none}
+.ts.on{transform:translateY(0)}
+.ts.ok{background:var(--green)}.ts.er{background:var(--red)}
+
+/* Modal */
+.mk{position:fixed;inset:0;background:rgba(13,27,76,.6);backdrop-filter:blur(4px);z-index:100;
+display:none;align-items:flex-end;justify-content:center}
+.mk.on{display:flex}
+.md{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;
+animation:su .3s cubic-bezier(.4,.2,.2,1)}
+.mh{padding:16px 18px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;
+align-items:center;position:sticky;top:0;background:#fff;z-index:2}
+.mh h3{font-size:15px;font-weight:800;color:var(--navy)}
+.mcl{background:none;border:none;font-size:24px;color:#9CA3AF;cursor:pointer;font-family:inherit;line-height:1}
+.mb{padding:16px 18px 20px}
+.mf{padding:12px 18px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--line);
+position:sticky;bottom:0;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Code inputs */
+.codes{display:flex;gap:6px;justify-content:center;margin:16px 0}
+.codes input{width:38px;height:46px;text-align:center;font-size:20px;font-weight:800;
+font-family:ui-monospace,Menlo,monospace;border:1px solid rgba(13,27,76,.2);border-radius:9px;
+outline:none;background:#fff}
+.codes input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(244,180,32,.2)}
+
+/* Form fields */
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 13px;border:1px solid rgba(13,27,76,.18);
+border-radius:10px;font-size:13px;font-family:inherit;color:var(--charcoal);background:#fff;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--navy);
+box-shadow:0 0 0 3px rgba(244,180,32,.2)}
+.method{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--line);
+border-radius:10px;margin-bottom:8px;cursor:pointer}
+.method.on{border-color:var(--green);background:#F0FDF4}
+.method .r{flex:1}
+.method .t{font-size:12px;font-weight:800;color:var(--navy)}
+.method .d{font-size:10px;color:#6B7280;margin-top:2px}
+.method .chk{width:20px;height:20px;border-radius:50%;background:var(--mist);display:grid;place-items:center;
+font-size:11px;font-weight:900;color:#9CA3AF}
+.method.on .chk{background:var(--green);color:#fff}
+.quick{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.quick button{padding:7px 11px;border-radius:20px;background:var(--mist);border:none;font-size:11px;
+font-weight:700;color:#6B7280;cursor:pointer;font-family:inherit}
+.quick button:hover{background:var(--navy);color:#fff}
+.nt{background:#FEF3C7;border-left:3px solid var(--gold);padding:11px 13px;border-radius:8px;font-size:11px;
+color:#78350F;line-height:1.55;margin:10px 0}
+.nt.gr{background:#DCFCE7;border-left-color:var(--green);color:#065F46}
+.nt.bl{background:#DBEAFE;border-left-color:var(--blue);color:#1E3A8A}
+.nt.pu{background:#EDE9FE;border-left-color:var(--purple);color:#5B21B6}
+.nt.rd{background:#FEE2E2;border-left-color:var(--red);color:#7F1D1D}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-r">
+    <div>
+      <div class="brand"><span class="mark">✓</span>DealsGate Platform</div>
+      <div class="sub" id="hSub">Ready · press play</div>
+    </div>
+    <div class="ctr">
+      <button onclick="resetAll()">Reset</button>
+      <button class="primary" id="playBtn" onclick="togglePlay()">▶ Play</button>
+    </div>
+  </div>
+  <div class="kpi-strip">
+    <div class="kpi"><div class="l">Users</div><div class="v" id="kUsers">0</div></div>
+    <div class="kpi"><div class="l">Deals</div><div class="v" id="kDeals">0</div></div>
+    <div class="kpi"><div class="l">Requests</div><div class="v" id="kReqs">0</div></div>
+    <div class="kpi gold"><div class="l">Escrow</div><div class="v" id="kEscrow">₦0</div></div>
+    <div class="kpi gold"><div class="l">Revenue</div><div class="v" id="kRev">₦0</div></div>
+  </div>
+</header>
+
+<section class="panel on" id="p-live">
+  <div class="scene" id="sceneBanner" style="display:none">
+    <div class="n" id="sceneN">1</div>
+    <div class="info">
+      <div class="t" id="sceneT">—</div>
+      <div class="d" id="sceneD">—</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">
+      <span>Live activity feed</span>
+      <span class="bd bd-green" id="feedStatus">Idle</span>
+    </div>
+    <div class="filters" id="feedFilters">
+      <button class="chip on" onclick="filterFeed('all',this)">All</button>
+      <button class="chip" onclick="filterFeed('sellers',this)">Sellers</button>
+      <button class="chip" onclick="filterFeed('buyers',this)">Buyers</button>
+      <button class="chip" onclick="filterFeed('agents',this)">Agents</button>
+      <button class="chip" onclick="filterFeed('admin',this)">Admin</button>
+      <button class="chip" onclick="filterFeed('money',this)">Money</button>
+      <button class="chip" onclick="filterFeed('referrals',this)">Referrals</button>
+    </div>
+    <div class="prg" id="simWrap" style="display:none;margin:8px 14px 0"><div class="fill" id="simFill"></div></div>
+    <div class="feed" id="feed">
+      <div class="em">Platform is idle.<br>Tap <b>▶ Play</b> to watch all users transact.</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-users">
+  <div class="card">
+    <div class="ch"><span>Users on the platform</span><span class="bd bd-blue" id="userCount">0</span></div>
+    <div class="cb"><div class="ug" id="userGrid"></div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Roles per user</div>
+    <div class="cb" style="padding:0;font-size:12px;color:#4B5563;line-height:1.65">
+      <div class="row"><span class="k">Every user can be a buyer or seller</span><span class="v" style="color:var(--green)">✓</span></div>
+      <div class="row"><span class="k">Any user can request a Vet Agent</span><span class="v" style="color:var(--green)">✓</span></div>
+      <div class="row"><span class="k">Every user gets a referral link</span><span class="v" style="color:var(--green)">✓</span></div>
+      <div class="row"><span class="k">Vet Agent requires onboarding + training</span><span class="v" style="color:var(--green)">✓</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-deals">
+  <div class="card">
+    <div class="ch"><span>Protected Deals</span><span class="bd bd-gold" id="dealCount">0</span></div>
+    <div class="filters" id="dealFilters">
+      <button class="chip on" onclick="filterDeals('all',this)">All</button>
+      <button class="chip" onclick="filterDeals('active',this)">Active</button>
+      <button class="chip" onclick="filterDeals('completed',this)">Completed</button>
+      <button class="chip" onclick="filterDeals('failed',this)">Failed</button>
+    </div>
+    <div id="dealList"><div class="em">No deals yet.</div></div>
+  </div>
+</section>
+
+<section class="panel" id="p-reqs">
+  <div class="card">
+    <div class="ch"><span>On-demand Vet Agent requests</span><span class="bd bd-purple" id="reqCount">0</span></div>
+    <div class="filters" id="reqFilters">
+      <button class="chip on" onclick="filterReqs('all',this)">All</button>
+      <button class="chip" onclick="filterReqs('open',this)">Open</button>
+      <button class="chip" onclick="filterReqs('progress',this)">In progress</button>
+      <button class="chip" onclick="filterReqs('done',this)">Completed</button>
+    </div>
+    <div id="reqList"><div class="em">No on-demand requests yet.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">How on-demand works</div>
+    <div class="cb" style="padding:0;font-size:12px;color:#4B5563;line-height:1.65">
+      <div class="row"><span class="k">Any signed-in verified user can request</span><span class="v" style="color:var(--green)">✓</span></div>
+      <div class="row"><span class="k">Minimum fee</span><span class="v">₦6,000</span></div>
+      <div class="row"><span class="k">Agent share</span><span class="v" style="color:var(--green)">60%</span></div>
+      <div class="row"><span class="k">Platform share</span><span class="v" style="color:var(--purple)">40%</span></div>
+      <div class="row"><span class="k">First Accept wins</span><span class="v" style="color:var(--green)">✓</span></div>
+      <div class="row"><span class="k">One active job per agent</span><span class="v" style="color:var(--green)">✓</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-wallets">
+  <div class="card">
+    <div class="ch"><span>Every user's wallet</span><span class="bd bd-green">Live</span></div>
+    <div class="cb"><div class="wgrid" id="walletGrid"></div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Withdrawal options — every user has all 3</div>
+    <div class="cb" style="padding:0;font-size:12px;color:#4B5563;line-height:1.65">
+      <div class="row"><span class="k">Google Authenticator (TOTP)</span><span class="v" style="color:var(--green)">Available</span></div>
+      <div class="row"><span class="k">Email OTP</span><span class="v" style="color:var(--green)">Available</span></div>
+      <div class="row"><span class="k">SMS OTP</span><span class="v" style="color:var(--green)">Available</span></div>
+      <div class="row"><span class="k">Partial amounts allowed</span><span class="v" style="color:var(--green)">✓</span></div>
+      <div class="row"><span class="k">No forced full withdrawal</span><span class="v" style="color:var(--green)">✓</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Money movements</div>
+    <div id="moneyFeed"><div class="em">No movements yet.</div></div>
+  </div>
+</section>
+
+<section class="panel" id="p-referrals">
+  <div class="card">
+    <div class="ch"><span>Every user has a referral link</span><span class="bd bd-purple">From signup</span></div>
+    <div class="cb" style="padding:0;font-size:12px;color:#4B5563;line-height:1.65">
+      <div class="row"><span class="k">Referrer gets ₦1,000 per first completed deal</span><span class="v">₦1,000</span></div>
+      <div class="row"><span class="k">New seller referee guarantee waiver</span><span class="v">₦5,000</span></div>
+      <div class="row"><span class="k">New buyer referee service fee discount</span><span class="v">50%</span></div>
+      <div class="row"><span class="k">Lifetime discount threshold</span><span class="v">10 refs</span></div>
+      <div class="row"><span class="k">Lifetime discount rate</span><span class="v" style="color:var(--green)">50%</span></div>
+      <div class="row"><span class="k">Self-referral blocked</span><span class="v" style="color:var(--green)">✓</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Recent referral activity</div>
+    <div id="refFeed"><div class="em">No referral activity yet.</div></div>
+  </div>
+</section>
+
+<section class="panel" id="p-audit">
+  <div class="card">
+    <div class="ch"><span>Admin audit log</span><span class="bd bd-navy">Every action logged</span></div>
+    <div id="auditFeed"><div class="em">No events yet.</div></div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab on" onclick="tab('live',this)"><span class="ic">📡</span>Live</button>
+  <button class="tab" onclick="tab('users',this)"><span class="ic">👥</span>Users</button>
+  <button class="tab" onclick="tab('deals',this)"><span class="ic">📦</span>Deals</button>
+  <button class="tab" onclick="tab('reqs',this)"><span class="ic">🔍</span>Requests</button>
+  <button class="tab" onclick="tab('wallets',this)"><span class="ic">💰</span>Wallets</button>
+  <button class="tab" onclick="tab('referrals',this)"><span class="ic">🎁</span>Referrals</button>
+  <button class="tab" onclick="tab('audit',this)"><span class="ic">📋</span>Audit</button>
+</nav>
+
+<div class="drawer" id="drawer" onclick="if(event.target===this)closeDrawer()"><div class="dsh" id="drawerBox"></div></div>
+<div class="mk" id="modal" onclick="if(event.target===this)closeModal()"><div class="md" id="modalBox"></div></div>
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
+const KEY='dg_platform_v1';
+const P={
+  guarantee:5000, buyerFeePct:.02, sellerFeePct:.02,
+  vetFee:6000, vetAgentPct:.70,
+  onDemandMin:6000, onDemandAgentPct:.60,
+  logistics:3500, logisticsCost:2800,
+  returnLogistics:3500, stampDuty:50,
+};
+const fmt = n => '₦'+Math.round(n).toLocaleString('en-NG');
+const ago = ts => {const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';
+  if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';};
+function transferFee(n){return n<=5000?10:n<=50000?25:50;}
+
+/* ============================================================
+   USERS (all roles open to all users)
+   ============================================================ */
+const USERS = {
+  adaeze:{name:'Adaeze Okafor',type:'business',business:'Adaeze Electronics Ltd',
+    color:'#F4B420',initials:'AO',email:'adaeze@demo.ng',city:'Lagos',kyc:'CAC verified',
+    roles:{seller:true,buyer:true,agent:false}},
+  tunde:{name:'Tunde Adebayo',type:'individual',
+    color:'#2563EB',initials:'TA',email:'tunde@demo.ng',city:'Ibadan',kyc:'NIN verified',
+    roles:{seller:true,buyer:true,agent:false}},
+  fatima:{name:'Fatima Yusuf',type:'business',business:'Northern Gadgets Ltd',
+    color:'#7C3AED',initials:'FY',email:'fatima@demo.ng',city:'Kano',kyc:'CAC verified',
+    roles:{seller:true,buyer:true,agent:false}},
+  musa:{name:'Musa Ibrahim',type:'individual',
+    color:'#16A34A',initials:'MI',email:'musa@demo.ng',city:'Lagos',kyc:'NIN verified',
+    roles:{seller:true,buyer:true,agent:false}},
+  chioma:{name:'Chioma Obi',type:'individual',
+    color:'#EC4899',initials:'CO',email:'chioma@demo.ng',city:'Abuja',kyc:'NIN verified',
+    roles:{seller:true,buyer:true,agent:false}},
+  kelechi:{name:'Kelechi Nwosu',type:'individual',
+    color:'#0891B2',initials:'KN',email:'kelechi@demo.ng',city:'Port Harcourt',kyc:'NIN verified',
+    roles:{seller:true,buyer:true,agent:false}},
+  blessing:{name:'Blessing Eze',type:'individual',
+    color:'#0D1B4C',initials:'BE',email:'blessing@demo.ng',city:'Lagos',kyc:'ID + Certified',
+    roles:{seller:true,buyer:true,agent:true}},
+  segun:{name:'Segun Adebimpe',type:'individual',
+    color:'#B45309',initials:'SA',email:'segun@demo.ng',city:'Ibadan',kyc:'ID + Certified',
+    roles:{seller:true,buyer:true,agent:true}},
+  admin:{name:'DealsGate Ops',type:'admin',
+    color:'#0D1B4C',initials:'DG',email:'ops@dealsgate.ng',city:'Ibadan',kyc:'—',
+    roles:{admin:true}},
+};
+
+/* ============================================================
+   SCRIPT — every user active, every scenario represented
+   ============================================================ */
+const SCRIPT = [
+  // ─── SCENE 1 — Signups ─────────────────────────────────────
+  {scene:{n:1,t:'Users join DealsGate',d:'Every signup generates a referral link automatically'}},
+
+  {actor:'adaeze',type:'signup',text:'signed up as <b>Business</b>',
+    meta:'CAC verified · Lagos',money:{adaeze:{main:500000,guarantee:20000}}},
+  {actor:'adaeze',type:'referral.link',text:'referral link generated',
+    meta:'dealsgate.ng/signup?ref=DG-ADAEZE-2026'},
+
+  {actor:'tunde',type:'signup',text:'signed up as <b>Individual seller</b>',
+    meta:'NIN verified · Ibadan',money:{tunde:{guarantee:5000}}},
+  {actor:'tunde',type:'referral.link',text:'referral link generated',
+    meta:'dealsgate.ng/signup?ref=DG-TUNDE-2026'},
+
+  {actor:'musa',type:'signup',text:'signed up as <b>Individual buyer</b>',
+    meta:'NIN verified · Lagos',money:{musa:{main:800000}}},
+  {actor:'musa',type:'referral.link',text:'referral link generated',
+    meta:'dealsgate.ng/signup?ref=DG-MUSA-2026'},
+
+  {actor:'chioma',type:'signup',text:'signed up as <b>Individual buyer</b>',
+    meta:'NIN verified · Abuja',money:{chioma:{main:900000}}},
+  {actor:'chioma',type:'referral.link',text:'referral link generated',
+    meta:'dealsgate.ng/signup?ref=DG-CHIOMA-2026'},
+
+  {actor:'blessing',type:'signup',text:'signed up as <b>Individual + Vet Agent application</b>',
+    meta:'ID verified · Lagos'},
+  {actor:'blessing',type:'referral.link',text:'referral link generated',
+    meta:'dealsgate.ng/signup?ref=DG-BLESSING-2026'},
+
+  {actor:'segun',type:'signup',text:'signed up as <b>Individual + Vet Agent application</b>',
+    meta:'ID verified · Ibadan'},
+
+  {actor:'fatima',type:'signup',text:'signed up as <b>Business</b>',
+    meta:'CAC verified · Kano',money:{fatima:{main:400000,guarantee:50000}}},
+  {actor:'fatima',type:'referral.link',text:'referral link generated',
+    meta:'dealsgate.ng/signup?ref=DG-FATIMA-2026'},
+
+  {actor:'kelechi',type:'signup',text:'signed up as <b>Individual buyer</b>',
+    meta:'NIN verified · Port Harcourt',money:{kelechi:{main:250000}}},
+
+  // ─── SCENE 2 — Agent certification ─────────────────────────
+  {scene:{n:2,t:'Vet Agents get certified',d:'Training modules + 85% quiz → Certified Eligible'}},
+
+  {actor:'blessing',type:'agent.training',text:'read 10 training modules',
+    meta:'Evidence standards · scam patterns · sector checklists'},
+  {actor:'blessing',type:'agent.quiz',text:'passed certification quiz <b>92%</b>',
+    meta:'Pass mark 85%'},
+  {actor:'blessing',type:'agent.certified',text:'became <b>Certified Eligible</b>',
+    meta:'3 sectors · 3 LGAs · can accept jobs'},
+
+  {actor:'segun',type:'agent.training',text:'read 10 training modules',meta:''},
+  {actor:'segun',type:'agent.quiz',text:'passed certification quiz <b>88%</b>',
+    meta:'Pass mark 85%'},
+  {actor:'segun',type:'agent.certified',text:'became <b>Certified Eligible</b>',
+    meta:'2 sectors · 2 LGAs'},
+
+  // ─── SCENE 3 — First deal (happy path) ─────────────────────
+  {scene:{n:3,t:'First protected deal',d:'Tunde lists an iPhone · Musa buys · Blessing inspects'}},
+
+  {actor:'tunde',type:'deal.create',text:'published <b>iPhone 14 Pro 256GB</b>',
+    meta:'4 photos · 45s video · Ikeja pin · ₦450,000',
+    money:{tunde:{guarantee:-5000}},
+    deal:{code:'DG-240101',item:'iPhone 14 Pro 256GB',price:450000,sellerId:'tunde',
+      status:'AWAITING_BUYER_PAYMENT',lga:'Ikeja'}},
+
+  {actor:'musa',type:'deal.pay',text:'paid <b>₦468,500</b> into escrow',
+    meta:'Item + buyer fee + vet fee + logistics',
+    money:{musa:{main:-468500}},
+    dealUpdate:{code:'DG-240101',status:'PAID'}},
+
+  {actor:'system',type:'job.open',text:'job opened to <b>Certified agents in Ikeja</b>',
+    meta:'First Accept wins · 1 active job max'},
+
+  {actor:'blessing',type:'job.accept',text:'accepted inspection job <b>DG-240101</b>',
+    meta:'Locked to Blessing · GPS within 500m verified',
+    dealUpdate:{code:'DG-240101',status:'AGENT_ACCEPTED',agentId:'blessing'}},
+
+  {actor:'blessing',type:'job.inspect',text:'submitted inspection <b>PASS</b>',
+    meta:'IMEI · continuous video · 47m from pin',
+    dealUpdate:{code:'DG-240101',status:'EVIDENCE_REVIEW'}},
+
+  {actor:'musa',type:'evidence.approve',text:'approved evidence',
+    meta:'Logistics unlocked · agent paid',
+    money:{blessing:{agent:4200}},
+    dealUpdate:{code:'DG-240101',status:'APPROVED'}},
+
+  {actor:'system',type:'logistics.dispatch',text:'dispatched via <b>GIG Logistics</b>',
+    meta:'Tracking DG84K2P9',
+    dealUpdate:{code:'DG-240101',status:'IN_TRANSIT'}},
+
+  {actor:'musa',type:'deal.confirm',text:'confirmed delivery · <b>rated 5★</b>',
+    meta:'Payout + guarantee refund released',
+    money:{tunde:{main:441000,guarantee:5000}},
+    dealUpdate:{code:'DG-240101',status:'COMPLETED',outcome:'success'}},
+
+  {actor:'system',type:'platform.revenue',text:'platform retained <b>₦14,200</b>',
+    meta:'Buyer fee + seller fee + vet share + logistics margin',revenue:14200},
+
+  // ─── SCENE 4 — Withdrawals (all three methods) ─────────────
+  {scene:{n:4,t:'Sellers withdraw — three methods available',d:'Google Auth · Email OTP · SMS OTP'}},
+
+  {actor:'tunde',type:'withdraw.open',text:'opened withdrawal screen',
+    meta:'Chose partial amount: ₦200,000 of ₦441,000 available'},
+  {actor:'tunde',type:'withdraw.stepup',text:'selected <b>Google Authenticator</b>',
+    meta:'TOTP verified · withdrawal approved'},
+  {actor:'tunde',type:'withdraw.settle',text:'withdrew <b>₦199,950</b> to bank',
+    meta:'₦200,000 − ₦50 transfer fee · stamp duty covered',
+    money:{tunde:{main:-200000}}},
+
+  {actor:'adaeze',type:'withdraw.open',text:'opened withdrawal screen',
+    meta:'Chose partial amount: ₦100,000 of ₦500,000 available'},
+  {actor:'adaeze',type:'withdraw.stepup',text:'selected <b>Email OTP</b>',
+    meta:'6-digit code sent to registered email · verified'},
+  {actor:'adaeze',type:'withdraw.settle',text:'withdrew <b>₦99,950</b> to bank',
+    meta:'₦100,000 − ₦50 transfer fee',
+    money:{adaeze:{main:-100000}}},
+
+  {actor:'blessing',type:'withdraw.open',text:'opened withdrawal screen',
+    meta:'Chose partial amount: ₦2,000 of ₦4,200 available'},
+  {actor:'blessing',type:'withdraw.stepup',text:'selected <b>SMS OTP</b>',
+    meta:'6-digit code sent to registered phone · verified'},
+  {actor:'blessing',type:'withdraw.settle',text:'withdrew <b>₦1,990</b> to bank',
+    meta:'₦2,000 − ₦10 transfer fee',
+    money:{blessing:{agent:-2000}}},
+
+  // ─── SCENE 5 — Second deal + parallel activity ─────────────
+  {scene:{n:5,t:'Parallel activity — multiple deals running',d:'Users buy and sell interchangeably'}},
+
+  {actor:'adaeze',type:'deal.create',text:'published <b>MacBook Pro 14" M3</b>',
+    meta:'Eti-Osa · ₦850,000',
+    money:{adaeze:{guarantee:-5000}},
+    deal:{code:'DG-240102',item:'MacBook Pro 14" M3',price:850000,sellerId:'adaeze',
+      status:'AWAITING_BUYER_PAYMENT',lga:'Eti-Osa'}},
+
+  {actor:'chioma',type:'deal.pay',text:'paid <b>₦884,500</b> into escrow',
+    meta:'Buyer on Adaeze\'s MacBook',
+    money:{chioma:{main:-884500}},
+    dealUpdate:{code:'DG-240102',status:'PAID'}},
+
+  {actor:'blessing',type:'job.accept',text:'accepted inspection <b>DG-240102</b>',
+    meta:'Blessing covers Eti-Osa',
+    dealUpdate:{code:'DG-240102',status:'AGENT_ACCEPTED',agentId:'blessing'}},
+
+  {actor:'blessing',type:'job.inspect',text:'submitted <b>PASS</b> on MacBook',
+    meta:'Serial captured · battery cycle count 42',
+    dealUpdate:{code:'DG-240102',status:'EVIDENCE_REVIEW'}},
+
+  {actor:'chioma',type:'evidence.approve',text:'approved evidence',
+    money:{blessing:{agent:4200}},
+    dealUpdate:{code:'DG-240102',status:'APPROVED'}},
+
+  {actor:'system',type:'logistics.dispatch',text:'dispatched via <b>Kwik Express</b>',
+    meta:'Same-day Lagos',
+    dealUpdate:{code:'DG-240102',status:'IN_TRANSIT'}},
+
+  {actor:'chioma',type:'deal.confirm',text:'confirmed · <b>rated 5★</b>',
+    money:{adaeze:{main:833000,guarantee:5000}},
+    dealUpdate:{code:'DG-240102',status:'COMPLETED',outcome:'success'}},
+
+  {actor:'system',type:'platform.revenue',text:'platform retained <b>₦24,200</b>',revenue:24200},
+
+  // ─── SCENE 6 — On-demand requests ──────────────────────────
+  {scene:{n:6,t:'Any user can request a Vet Agent',d:'Chioma · Kelechi · Fatima — all buyers, all can request'}},
+
+  {actor:'chioma',type:'od.create',text:'requested inspection: <b>Designer bag on Instagram</b>',
+    meta:'Wuse 2, Abuja · ₦6,000 offered',
+    money:{chioma:{main:-6000}},
+    odJob:{code:'OD-240301',title:'Designer bag — Instagram seller',
+      requesterId:'chioma',agentId:null,price:6000,lga:'Wuse',sector:'Bags & Watches',
+      reportNeeds:['Authenticity check','Serial / date code'],status:'OPEN'}},
+
+  {actor:'blessing',type:'od.accept',text:'accepted on-demand <b>OD-240301</b>',
+    odUpdate:{code:'OD-240301',status:'ACCEPTED',agentId:'blessing'}},
+
+  {actor:'blessing',type:'od.inspect',text:'submitted inspection report',
+    meta:'Verdict: <b>NEEDS_REVIEW</b> · stitching inconsistent',
+    odUpdate:{code:'OD-240301',status:'SUBMITTED'}},
+
+  {actor:'chioma',type:'od.approve',text:'approved report · <b>decided not to buy</b>',
+    meta:'Agent paid for honest work',
+    money:{blessing:{agent:3600}},
+    odUpdate:{code:'OD-240301',status:'COMPLETED'}},
+
+  {actor:'kelechi',type:'od.create',text:'requested inspection: <b>iPhone 13 on Jiji</b>',
+    meta:'Port Harcourt · ₦8,000 offered',
+    money:{kelechi:{main:-8000}},
+    odJob:{code:'OD-240302',title:'iPhone 13 — Jiji seller',
+      requesterId:'kelechi',agentId:null,price:8000,lga:'Port Harcourt',sector:'Phones & Tablets',
+      reportNeeds:['IMEI match','Battery health','Account lock'],status:'OPEN'}},
+
+  {actor:'system',type:'od.timeout',text:'no agent accepted within SLA',
+    meta:'Admin alerted · expanding coverage',
+    odUpdate:{code:'OD-240302',status:'OPEN'}},
+
+  {actor:'admin',type:'admin.expand',text:'expanded radius to <b>Port Harcourt + Obio-Akpor</b>',
+    meta:'Audited · retry window opened'},
+
+  {actor:'segun',type:'od.accept',text:'accepted <b>OD-240302</b>',
+    meta:'Covered by expanded radius',
+    odUpdate:{code:'OD-240302',status:'ACCEPTED',agentId:'segun'}},
+
+  {actor:'segun',type:'od.inspect',text:'submitted inspection report',
+    meta:'Verdict: PASS · IMEI matched · battery 87%',
+    odUpdate:{code:'OD-240302',status:'SUBMITTED'}},
+
+  {actor:'kelechi',type:'od.approve',text:'approved report',
+    money:{segun:{agent:4800}},
+    odUpdate:{code:'OD-240302',status:'COMPLETED'}},
+
+  {actor:'system',type:'platform.revenue',text:'platform retained <b>₦7,200</b>',revenue:7200},
+
+  // ─── SCENE 7 — Failed inspection exception ─────────────────
+  {scene:{n:7,t:'Exception flow — failed inspection',d:'Fatima\'s AC does not match listing'}},
+
+  {actor:'fatima',type:'deal.create',text:'published <b>LG 2HP Inverter AC</b>',
+    meta:'Nassarawa · ₦320,000',
+    money:{fatima:{guarantee:-5000}},
+    deal:{code:'DG-240103',item:'LG 2HP Inverter AC',price:320000,sellerId:'fatima',
+      status:'AWAITING_BUYER_PAYMENT',lga:'Nassarawa'}},
+
+  {actor:'musa',type:'deal.pay',text:'paid <b>₦336,900</b> into escrow',
+    money:{musa:{main:-336900}},
+    dealUpdate:{code:'DG-240103',status:'PAID'}},
+
+  {actor:'segun',type:'job.accept',text:'accepted inspection <b>DG-240103</b>',
+    meta:'Segun covers Nassarawa (expanded)',
+    dealUpdate:{code:'DG-240103',status:'AGENT_ACCEPTED',agentId:'segun'}},
+
+  {actor:'segun',type:'job.inspect',text:'submitted <b>FAIL</b>',
+    meta:'Serial mismatch + undisclosed dent on condenser',
+    dealUpdate:{code:'DG-240103',status:'FAILED_INSPECTION'}},
+
+  {actor:'system',type:'refund.full',text:'buyer refunded <b>₦336,900</b> · seller guarantee forfeited',
+    meta:'Item + fees + vet + logistics · dealer loses ₦5,000',
+    money:{musa:{main:336900},fatima:{guarantee:-5000}},
+    dealUpdate:{code:'DG-240103',status:'REFUNDED',outcome:'failed'}},
+
+  {actor:'segun',type:'paid.fail',text:'still paid <b>₦4,200</b> for honest work',
+    meta:'Inspection fee released',
+    money:{segun:{agent:4200}}},
+
+  {actor:'system',type:'platform.revenue',text:'platform retained <b>₦1,800</b> (vet share)',revenue:1800},
+
+  // ─── SCENE 8 — Cancel and change of mind ───────────────────
+  {scene:{n:8,t:'Buyer exceptions — cancel and change of mind',d:'Handled cleanly for the seller'}},
+
+  {actor:'tunde',type:'deal.create',text:'published <b>iPhone 13 Pro 128GB</b>',
+    meta:'Ikeja · ₦420,000',
+    money:{tunde:{guarantee:-5000}},
+    deal:{code:'DG-240104',item:'iPhone 13 Pro 128GB',price:420000,sellerId:'tunde',
+      status:'AWAITING_BUYER_PAYMENT',lga:'Ikeja'}},
+
+  {actor:'musa',type:'deal.pay',text:'paid <b>₦438,900</b> into escrow',
+    money:{musa:{main:-438900}},
+    dealUpdate:{code:'DG-240104',status:'PAID'}},
+
+  {actor:'musa',type:'deal.cancel',text:'cancelled before inspection',
+    meta:'Buyer changes mind · service fee forfeited',
+    dealUpdate:{code:'DG-240104',status:'CANCELLED_PRE_INSPECT'}},
+
+  {actor:'system',type:'refund.cancel',text:'refunded buyer <b>₦429,900</b>',
+    meta:'Item + vet + logistics refunded · seller guarantee returned',
+    money:{musa:{main:429900},tunde:{guarantee:5000}},
+    dealUpdate:{code:'DG-240104',status:'CANCELLED',outcome:'cancelled'}},
+
+  // ─── SCENE 9 — Referral rewards fire ───────────────────────
+  {scene:{n:9,t:'Referral rewards trigger automatically',d:'Every user has a link; rewards fire on first completed deal'}},
+
+  {actor:'musa',type:'referral.share',text:'shared referral link with <b>Ngozi</b>',
+    meta:'Code DG-MUSA-2026'},
+  {actor:'system',type:'referral.signup',text:'<b>Ngozi</b> signed up via Musa\'s link',
+    meta:'Attribution locked · first-write-wins'},
+  {actor:'system',type:'referral.reward',text:'Ngozi completed first deal · <b>Musa earned ₦1,000</b>',
+    meta:'Reward credited to main wallet',
+    money:{musa:{main:1000}}},
+
+  {actor:'chioma',type:'referral.share',text:'shared referral link with <b>Adeyemi</b>',
+    meta:'Code DG-CHIOMA-2026'},
+  {actor:'system',type:'referral.signup',text:'<b>Adeyemi</b> signed up as a seller',
+    meta:'Gets first ₦5,000 guarantee waived'},
+  {actor:'system',type:'referral.waiver',text:'Adeyemi\'s first deal published · <b>₦5,000 guarantee waived</b>',
+    meta:'Seller referee incentive applied'},
+
+  // ─── SCENE 10 — Bribe pressure ────────────────────────────
+  {scene:{n:10,t:'Seller pressures Vet Agent — integrity upheld',d:'Real defect found · bribe refused · Admin intervenes'}},
+
+  {actor:'adaeze',type:'deal.create',text:'published <b>iPhone 12 64GB</b>',
+    meta:'Ikeja · ₦250,000',
+    money:{adaeze:{guarantee:-5000}},
+    deal:{code:'DG-240105',item:'iPhone 12 64GB',price:250000,sellerId:'adaeze',
+      status:'AWAITING_BUYER_PAYMENT',lga:'Ikeja'}},
+
+  {actor:'chioma',type:'deal.pay',text:'paid <b>₦261,500</b> into escrow',
+    money:{chioma:{main:-261500}},
+    dealUpdate:{code:'DG-240105',status:'PAID'}},
+
+  {actor:'blessing',type:'job.accept',text:'accepted inspection <b>DG-240105</b>',
+    dealUpdate:{code:'DG-240105',status:'AGENT_ACCEPTED',agentId:'blessing'}},
+
+  {actor:'blessing',type:'agent.inspect',text:'found <b>battery swelling</b> on the iPhone',
+    meta:'Real safety defect · unsafe to sell'},
+
+  {actor:'adaeze',type:'agent.pressure',text:'seller offered <b>₦20,000</b> to mark PASS',
+    meta:'"Just mark it PASS, I\'ll send ₦20k"'},
+
+  {actor:'blessing',type:'agent.refuse',text:'refused the bribe · verdict stands',
+    meta:'No side deals · no verdict manipulation'},
+
+  {actor:'blessing',type:'agent.report',text:'reported concern to Admin',
+    meta:'One-tap path from the inspection screen'},
+
+  {actor:'blessing',type:'job.inspect',text:'submitted <b>FAIL</b> with full evidence',
+    meta:'Battery swelling photographed · continuous video',
+    dealUpdate:{code:'DG-240105',status:'FAILED_INSPECTION'}},
+
+  {actor:'admin',type:'admin.suspend',text:'suspended seller <b>Adaeze</b>',
+    meta:'Bribe attempt logged · audit trail preserved'},
+
+  {actor:'system',type:'refund.fraud',text:'buyer refunded <b>₦261,500</b> · seller guarantee forfeited',
+    money:{chioma:{main:261500},adaeze:{guarantee:-5000}},
+    dealUpdate:{code:'DG-240105',status:'REFUNDED',outcome:'failed'}},
+
+  {actor:'blessing',type:'paid.fail',text:'still paid <b>₦4,200</b> for integrity',
+    money:{blessing:{agent:4200}}},
+
+  // ─── SCENE 11 — Super Vet unlock ──────────────────────────
+  {scene:{n:11,t:'Super Vet unlocked',d:'Agent hits 10 successful inspections · top badge'}},
+
+  {actor:'blessing',type:'agent.milestone',text:'completed 10th successful inspection',
+    meta:'Trust score 4.9 · priority visibility now on'},
+  {actor:'blessing',type:'agent.supervet',text:'<b>Super Vet</b> badge unlocked',
+    meta:'Top tier · highest-value jobs routed first'},
+
+  // ─── SCENE 12 — Wrap ─────────────────────────────────────
+  {scene:{n:12,t:'Week 1 complete',d:'Every user type · every scenario · four invariants proven'}},
+
+  {actor:'system',type:'week.wrap',
+    text:'<b>End of week 1.</b> All flows exercised end-to-end.',
+    meta:'Buyer · seller · agent · admin · on-demand · refunds · referrals · withdrawals'},
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let S = load();
+function fresh(){
+  return {
+    idx:-1, playing:false,
+    users:{}, wallets:{}, deals:{}, odJobs:{},
+    feed:[], audit:[], money:[],
+    revenue:0, escrow:0,
+    filter:'all', dealFilter:'all', reqFilter:'all',
+    speed:'normal',
+  };
+}
+function load(){try{const r=localStorage.getItem(KEY);return r?Object.assign(fresh(),JSON.parse(r)):fresh();}catch(e){return fresh();}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+function initUsers(){
+  S.users={}; S.wallets={};
+  for(const [id,u] of Object.entries(USERS)){
+    S.users[id]={id,...u,joined:false,wallet:0,guarantee:0,agentEarn:0,activity:0,
+      certified:false,superVet:false,referralCode:'DG-'+id.toUpperCase()+'-2026'};
+    S.wallets[id]={main:0,guarantee:0,agent:0};
+  }
+}
+
+const SPEEDS={slow:2200,normal:1100,fast:500,turbo:120};
+let timer=null;
+
+function togglePlay(){
+  if(S.playing){pause();return;}
+  if(S.idx>=SCRIPT.length-1){resetAll();return;}
+  S.playing=true;
+  document.getElementById('playBtn').textContent='■ Pause';
+  document.getElementById('playBtn').className='primary';
+  document.getElementById('simWrap').style.display='';
+  timer=setInterval(step,SPEEDS[S.speed]);
+  updateStatus();
+}
+function pause(){
+  S.playing=false;
+  clearInterval(timer);timer=null;
+  document.getElementById('playBtn').textContent='▶ Resume';
+  document.getElementById('playBtn').className='primary';
+  save();updateStatus();
+}
+function step(){
+  if(S.idx>=SCRIPT.length-1){pause();
+    document.getElementById('hSub').textContent='Week 1 complete · all flows exercised';
+    toast('Demo complete','ok');return;}
+  S.idx++;
+  const ev=SCRIPT[S.idx];
+  if(ev.scene){
+    document.getElementById('sceneBanner').style.display='';
+    document.getElementById('sceneN').textContent=ev.scene.n;
+    document.getElementById('sceneT').textContent=ev.scene.t;
+    document.getElementById('sceneD').textContent=ev.scene.d;
+    addFeed({actor:'system',chapter:true,text:`<b>${ev.scene.t}</b> — ${ev.scene.d}`});
+    updateProgress();save();render();return;
+  }
+  applyEvent(ev);
+  updateProgress();save();render();
+}
+
+function applyEvent(ev){
+  const u=S.users[ev.actor];
+  if(u){
+    u.activity++;
+    if(ev.type==='signup')u.joined=true;
+    if(ev.type==='agent.certified')u.certified=true;
+    if(ev.type==='agent.supervet')u.superVet=true;
+  }
+  // Money
+  if(ev.money){
+    for(const [uid,deltas] of Object.entries(ev.money)){
+      const usr=S.users[uid];if(!usr)continue;
+      for(const [kind,amt] of Object.entries(deltas)){
+        if(kind==='main'){usr.wallet=(usr.wallet||0)+amt;S.wallets[uid].main=(S.wallets[uid].main||0)+amt;}
+        if(kind==='guarantee'){usr.guarantee=(usr.guarantee||0)+amt;S.wallets[uid].guarantee=(S.wallets[uid].guarantee||0)+amt;}
+        if(kind==='agent'){usr.agentEarn=(usr.agentEarn||0)+amt;S.wallets[uid].agent=(S.wallets[uid].agent||0)+amt;}
+        const k=kind==='main'?'Main':kind==='guarantee'?'Guarantee':'Agent Earnings';
+        if(amt!==0)addMoney({actor:uid,amount:amt,kind:k});
+      }
+    }
+  }
+  if(ev.deal)S.deals[ev.deal.code]={...ev.deal,timeline:[ev.deal.status],createdAt:Date.now()};
+  if(ev.dealUpdate){
+    const d=S.deals[ev.dealUpdate.code];
+    if(d){
+      Object.assign(d,ev.dealUpdate);
+      if(!d.timeline)d.timeline=[];
+      if(!d.timeline.includes(ev.dealUpdate.status))d.timeline.push(ev.dealUpdate.status);
+    }
+  }
+  if(ev.odJob)S.odJobs[ev.odJob.code]={...ev.odJob,createdAt:Date.now()};
+  if(ev.odUpdate){
+    const j=S.odJobs[ev.odUpdate.code];
+    if(j)Object.assign(j,ev.odUpdate);
+  }
+  if(ev.revenue)S.revenue+=ev.revenue;
+  // Recompute escrow
+  let escrow=0;
+  for(const d of Object.values(S.deals)){
+    const held=['PAID','OPEN_FOR_AGENT','AGENT_ACCEPTED','EVIDENCE_REVIEW','APPROVED','IN_TRANSIT','DELIVERED'].includes(d.status);
+    if(held)escrow+=d.price*1.04+9500;
+  }
+  for(const j of Object.values(S.odJobs)){
+    const held=['PAID','OPEN','ACCEPTED','SUBMITTED'].includes(j.status);
+    if(held)escrow+=j.price;
+  }
+  S.escrow=Math.round(escrow);
+  addFeed(ev);
+  addAudit(ev);
+}
+
+function addFeed(ev){
+  S.feed.unshift({id:'f'+Date.now()+Math.random().toString(36).slice(2,6),
+    actor:ev.actor,type:ev.type,text:ev.text,meta:ev.meta,
+    chapter:!!ev.chapter,system:ev.actor==='system',at:Date.now()});
+  if(S.feed.length>300)S.feed.pop();
+}
+function addAudit(ev){
+  S.audit.unshift({id:'a'+Date.now()+Math.random().toString(36).slice(2,6),
+    actor:ev.actor,type:ev.type,text:ev.text,meta:ev.meta,at:Date.now()});
+  if(S.audit.length>300)S.audit.pop();
+}
+function addMoney(m){
+  S.money.unshift({id:'m'+Date.now()+Math.random().toString(36).slice(2,6),...m,at:Date.now()});
+  if(S.money.length>150)S.money.pop();
+}
+
+function updateProgress(){
+  const pct=Math.round(((S.idx+1)/SCRIPT.length)*100);
+  document.getElementById('simFill').style.width=pct+'%';
+}
+function updateStatus(){
+  const users=Object.values(S.users).filter(u=>u.joined).length;
+  const activeDeals=Object.values(S.deals).filter(d=>!['COMPLETED','REFUNDED','FAILED_INSPECTION'].includes(d.status)).length;
+  const activeReqs=Object.values(S.odJobs).filter(j=>!['COMPLETED'].includes(j.status)).length;
+  document.getElementById('kUsers').textContent=users;
+  document.getElementById('kDeals').textContent=activeDeals;
+  document.getElementById('kReqs').textContent=activeReqs;
+  document.getElementById('kEscrow').textContent='₦'+(S.escrow/1000).toFixed(0)+'k';
+  document.getElementById('kRev').textContent='₦'+(S.revenue/1000).toFixed(0)+'k';
+  document.getElementById('feedStatus').textContent=S.playing?'Running':'Paused';
+  if(!S.playing){
+    document.getElementById('hSub').textContent=S.idx>=0?
+      'Step '+(S.idx+1)+' of '+SCRIPT.length:'Ready · press play';
+  } else {
+    document.getElementById('hSub').textContent='Running · step '+(S.idx+1)+' of '+SCRIPT.length;
+  }
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render(){
+  renderFeed();renderUsers();renderDeals();renderReqs();
+  renderWallets();renderMoney();renderReferrals();renderAudit();
+  updateStatus();
+}
+
+function filterFeed(f,btn){
+  document.querySelectorAll('#feedFilters .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  S.filter=f;renderFeed();
+}
+
+function renderFeed(){
+  const el=document.getElementById('feed');
+  if(S.feed.length===0){
+    el.innerHTML='<div class="em">Platform is idle.<br>Tap <b>▶ Play</b> to watch all users transact.</div>';
+    return;
+  }
+  let items=S.feed;
+  const f=S.filter||'all';
+  if(f!=='all'){
+    items=items.filter(e=>{
+      if(e.chapter)return true;
+      const u=S.users[e.actor];
+      if(!u)return true;
+      if(f==='sellers')return e.type.includes('deal')||e.type.includes('seller');
+      if(f==='buyers')return e.type.includes('buy')||e.type.includes('evidence')||e.type.includes('confirm')||e.type.includes('od.create')||e.type.includes('od.approve');
+      if(f==='agents')return e.type.includes('job')||e.type.includes('agent')||e.type.includes('od.accept')||e.type.includes('od.inspect')||e.type.includes('paid');
+      if(f==='admin')return e.type.startsWith('admin');
+      if(f==='money')return e.type.includes('withdraw')||e.type.includes('revenue')||e.type.includes('refund');
+      if(f==='referrals')return e.type.includes('referral');
+      return true;
+    });
+  }
+  el.innerHTML=items.slice(0,150).map(e=>{
+    if(e.chapter)return `<div class="chapter">${e.text}</div>`;
+    const u=S.users[e.actor];
+    if(!u)return '';
+    const roleIcon={seller:'🏪',buyer:'🛒',agent:'🔍',admin:'⚙️'};
+    // Determine role from event type
+    let role='buyer';
+    if(e.type.includes('deal.create')||e.type.includes('seller'))role='seller';
+    else if(e.type.includes('job')||e.type.includes('agent')||e.type.includes('od.accept')||e.type.includes('od.inspect'))role='agent';
+    else if(e.type.startsWith('admin'))role='admin';
+    else if(u.roles?.admin)role='admin';
+    const roleColor={seller:'#F4B420',buyer:'#16A34A',agent:'#0D1B4C',admin:'#0D1B4C'}[role];
+    return `<div class="ev" onclick="openUser('${e.actor}')">
+      <div class="av" style="background:${u.color}">${u.initials}
+        <span class="role" style="color:${roleColor}">${roleIcon[role]}</span>
+      </div>
+      <div class="ev-b">
+        <div class="ev-l"><b>${u.name.split(' ')[0]}</b> · <span class="act">${e.type}</span></div>
+        <div class="ev-l" style="margin-top:2px">${e.text}</div>
+        <div class="ev-m">${e.meta?`<span>${e.meta}</span>`:''}<span>${ago(e.at)}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderUsers(){
+  const active=Object.values(S.users).filter(u=>u.joined);
+  document.getElementById('userCount').textContent=active.length+' active';
+  if(active.length===0){
+    document.getElementById('userGrid').innerHTML='<div class="em" style="grid-column:1/-1">No users yet.</div>';
+    return;
+  }
+  document.getElementById('userGrid').innerHTML=active.map(u=>{
+    const bal=u.roles?.agent ? u.agentEarn||0 : u.wallet||0;
+    const roleIcons=[];
+    if(u.roles?.seller)roleIcons.push('🏪');
+    if(u.roles?.buyer)roleIcons.push('🛒');
+    if(u.roles?.agent)roleIcons.push('🔍');
+    if(u.roles?.admin)roleIcons.push('⚙️');
+    return `<div class="uc" onclick="openUser('${u.id}')">
+      <div class="uav" style="background:${u.color}">${u.initials}
+        ${u.superVet?'<span class="role">🏆</span>':u.certified?'<span class="role">✅</span>':''}
+      </div>
+      <div class="nm">${u.name}</div>
+      <div class="tp">${u.type==='business'?u.business:u.type==='admin'?'Admin':u.city}</div>
+      <div class="roles">${roleIcons.map(r=>`<span>${r}</span>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function filterDeals(f,btn){
+  document.querySelectorAll('#dealFilters .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  S.dealFilter=f;renderDeals();
+}
+function renderDeals(){
+  const all=Object.values(S.deals);
+  document.getElementById('dealCount').textContent=all.length+' total';
+  const f=S.dealFilter||'all';
+  const filtered=all.filter(d=>{
+    if(f==='all')return true;
+    if(f==='active')return !['COMPLETED','REFUNDED','FAILED_INSPECTION'].includes(d.status);
+    if(f==='completed')return d.status==='COMPLETED';
+    if(f==='failed')return ['REFUNDED','FAILED_INSPECTION'].includes(d.status);
+    return true;
+  });
+  const el=document.getElementById('dealList');
+  if(filtered.length===0){el.innerHTML='<div class="em">No deals match.</div>';return;}
+  el.innerHTML=filtered.map(d=>{
+    const cls=d.status==='COMPLETED'?'bd-green':
+      ['REFUNDED','FAILED_INSPECTION'].includes(d.status)?'bd-red':
+      d.status==='EVIDENCE_REVIEW'?'bd-gold':
+      d.status==='IN_TRANSIT'||d.status==='DELIVERED'?'bd-blue':'bd-gold';
+    const stages=['PAID','AGENT_ACCEPTED','EVIDENCE_REVIEW','APPROVED','IN_TRANSIT','COMPLETED'];
+    const curIdx=stages.indexOf(d.status);
+    const seller=S.users[d.sellerId];
+    return `<div class="item" onclick="openDeal('${d.code}')">
+      <div class="item-h">
+        <div style="min-width:0;flex:1">
+          <div class="item-c">${d.code}</div>
+          <div class="item-n">${d.item}</div>
+        </div>
+        <span class="bd ${cls}">${d.status.replace(/_/g,' ')}</span>
+      </div>
+      <div class="item-m">
+        <span>Seller: <strong>${seller?seller.name.split(' ')[0]:'—'}</strong></span>
+        <span>LGA: <strong>${d.lga||'—'}</strong></span>
+        <span>₦<strong>${(d.price/1000).toFixed(0)}k</strong></span>
+      </div>
+      <div class="item-p">
+        ${stages.map((s,i)=>{
+          const c=d.status==='REFUNDED'?'done':i<curIdx?'done':i===curIdx?'now':'';
+          return `<div class="s ${c}"></div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterReqs(f,btn){
+  document.querySelectorAll('#reqFilters .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  S.reqFilter=f;renderReqs();
+}
+function renderReqs(){
+  const all=Object.values(S.odJobs);
+  document.getElementById('reqCount').textContent=all.length;
+  const f=S.reqFilter||'all';
+  const filtered=all.filter(j=>{
+    if(f==='all')return true;
+    if(f==='open')return j.status==='OPEN';
+    if(f==='progress')return ['ACCEPTED','SUBMITTED'].includes(j.status);
+    if(f==='done')return j.status==='COMPLETED';
+    return true;
+  });
+  const el=document.getElementById('reqList');
+  if(filtered.length===0){el.innerHTML='<div class="em">No requests match.</div>';return;}
+  el.innerHTML=filtered.map(j=>{
+    const cls=j.status==='COMPLETED'?'bd-green':j.status==='OPEN'?'bd-gold':
+      j.status==='ACCEPTED'?'bd-blue':j.status==='SUBMITTED'?'bd-purple':'bd-mist';
+    const req=S.users[j.requesterId];
+    const agent=j.agentId?S.users[j.agentId]:null;
+    const agentShare=Math.round(j.price*0.60);
+    return `<div class="item" onclick="openReq('${j.code}')">
+      <div class="item-h">
+        <div style="min-width:0;flex:1">
+          <div class="item-c">${j.code}</div>
+          <div class="item-n">${j.title}</div>
+        </div>
+        <span class="bd ${cls}">${j.status}</span>
+      </div>
+      <div class="item-m">
+        <span>By: <strong>${req?req.name.split(' ')[0]:'—'}</strong></span>
+        <span>LGA: <strong>${j.lga}</strong></span>
+        <span>₦<strong>${j.price.toLocaleString('en-NG')}</strong></span>
+        ${agent?`<span>Agent: <strong>${agent.name.split(' ')[0]}</strong></span>`:''}
+      </div>
+      <div class="item-m" style="margin-top:8px">
+        <span style="color:var(--green);font-weight:700">Agent ${fmt(agentShare)}</span>
+        <span style="color:var(--purple);font-weight:700">Platform ${fmt(j.price-agentShare)}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderWallets(){
+  const active=Object.values(S.users).filter(u=>u.joined&&u.roles&&!u.roles.admin);
+  document.getElementById('walletGrid').innerHTML=active.map(u=>{
+    const bal=u.roles?.agent ? u.agentEarn||0 : u.wallet||0;
+    const cls=u.roles?.agent?'nv':u.roles?.buyer&&!u.roles?.seller?'gr':'';
+    return `<div class="wtile ${cls}">
+      <div class="nm">${u.name.split(' ')[0]}</div>
+      <div class="amt">₦${Math.round(bal/1000)}k</div>
+    </div>`;
+  }).join('')||'<div class="em" style="grid-column:1/-1">No wallets yet.</div>';
+}
+function renderMoney(){
+  const el=document.getElementById('moneyFeed');
+  if(S.money.length===0){el.innerHTML='<div class="em">No movements yet.</div>';return;}
+  el.innerHTML=S.money.slice(0,60).map(m=>{
+    const u=S.users[m.actor];if(!u)return '';
+    const isCr=m.amount>0;
+    return `<div class="row">
+      <div class="k">
+        <div style="font-weight:700;color:var(--navy);font-size:12px">${u.name}</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px">${m.kind} · ${ago(m.at)}</div>
+      </div>
+      <div class="v ${isCr?'g':'r'}">${isCr?'+':'−'}₦${Math.abs(m.amount).toLocaleString('en-NG')}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderReferrals(){
+  const el=document.getElementById('refFeed');
+  const refEvents=S.feed.filter(e=>e.type&&e.type.includes('referral')).slice(0,20);
+  if(refEvents.length===0){el.innerHTML='<div class="em">No referral activity yet.</div>';return;}
+  el.innerHTML=refEvents.map(e=>{
+    const u=S.users[e.actor];if(!u)return '';
+    return `<div class="row">
+      <div class="k">
+        <div style="font-weight:700;color:var(--navy);font-size:12px">${u.name}</div>
+        <div style="font-size:10px;color:#6B7280;margin-top:2px">${e.text}</div>
+        ${e.meta?`<div style="font-size:9px;color:#9CA3AF;margin-top:2px">${e.meta}</div>`:''}
+      </div>
+      <div style="font-size:10px;color:#9CA3AF">${ago(e.at)}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderAudit(){
+  const el=document.getElementById('auditFeed');
+  if(S.audit.length===0){el.innerHTML='<div class="em">No events yet.</div>';return;}
+  el.innerHTML=S.audit.slice(0,100).map(e=>{
+    const u=S.users[e.actor];
+    const name=u?u.name:'System';
+    const color=u?u.color:'#0D1B4C';
+    const init=u?u.initials:'⚙';
+    return `<div class="lr">
+      <div class="li cr" style="background:${color};color:#fff">${init}</div>
+      <div class="lb">
+        <div class="la">${e.type}</div>
+        <div class="ld">${e.text}</div>
+      </div>
+      <div style="font-size:10px;color:#9CA3AF;flex-shrink:0">${ago(e.at)}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ============================================================
+   DRAWERS
+   ============================================================ */
+function openUser(uid){
+  const u=S.users[uid];if(!u)return;
+  const bal=u.roles?.agent?u.agentEarn||0:u.wallet||0;
+  const myDeals=Object.values(S.deals).filter(d=>d.sellerId===uid||d.agentId===uid);
+  const myReqs=Object.values(S.odJobs).filter(j=>j.requesterId===uid||j.agentId===uid);
+  const myActivity=S.feed.filter(e=>e.actor===uid).slice(0,12);
+  const roleList=[];
+  if(u.roles?.seller)roleList.push('Seller');
+  if(u.roles?.buyer)roleList.push('Buyer');
+  if(u.roles?.agent)roleList.push('Vet Agent');
+  if(u.roles?.admin)roleList.push('Admin');
+  const badges=[];
+  if(u.certified)badges.push('✅ Certified');
+  if(u.superVet)badges.push('🏆 Super Vet');
+  document.getElementById('drawerBox').innerHTML=`
+    <div style="padding:20px 18px;background:linear-gradient(135deg,${u.color},${adjust(u.color,-20)});color:#fff;border-radius:20px 20px 0 0;position:relative;overflow:hidden">
+      <div style="position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2"></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1">
+        <div style="display:flex;gap:14px;align-items:center">
+          <div style="width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:22px;font-weight:800">${u.initials}</div>
+          <div>
+            <div style="font-size:16px;font-weight:800">${u.name}</div>
+            <div style="font-size:11px;opacity:.85;margin-top:3px">${u.type==='business'?u.business:u.city} · ${u.kyc}</div>
+            <div style="display:flex;gap:4px;margin-top:6px;flex-wrap:wrap">
+              ${roleList.map(r=>`<span style="background:rgba(255,255,255,.2);padding:2px 7px;border-radius:20px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em">${r}</span>`).join('')}
+            </div>
+            ${badges.length?`<div style="font-size:11px;margin-top:6px">${badges.join(' · ')}</div>`:''}
+          </div>
+        </div>
+        <button onclick="closeDrawer()" style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer;line-height:1">×</button>
+      </div>
+    </div>
+    <div style="padding:16px 18px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+        <div style="background:var(--mist);padding:11px;border-radius:11px;text-align:center">
+          <div style="font-size:9px;color:#6B7280;font-weight:800;text-transform:uppercase">Wallet</div>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:16px;font-weight:800;color:var(--navy);margin-top:4px">₦${Math.round(bal).toLocaleString('en-NG')}</div>
+        </div>
+        <div style="background:var(--mist);padding:11px;border-radius:11px;text-align:center">
+          <div style="font-size:9px;color:#6B7280;font-weight:800;text-transform:uppercase">Referral code</div>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;color:var(--purple);margin-top:4px">${u.referralCode}</div>
+        </div>
+      </div>
+
+      ${myDeals.length?`
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);margin-bottom:8px">Deals</div>
+        ${myDeals.map(d=>`
+          <div style="padding:8px 0;border-bottom:1px solid var(--line);font-size:11px">
+            <div style="display:flex;justify-content:space-between;font-weight:700">
+              <span style="color:var(--navy)">${d.item}</span>
+              <span style="color:var(--green2);font-size:9px">${d.status.replace(/_/g,' ')}</span>
+            </div>
+            <div style="color:#9CA3AF;font-size:10px;margin-top:2px">${d.code}</div>
+          </div>
+        `).join('')}
+      `:''}
+
+      ${myReqs.length?`
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);margin:14px 0 8px">On-demand requests</div>
+        ${myReqs.map(j=>`
+          <div style="padding:8px 0;border-bottom:1px solid var(--line);font-size:11px">
+            <div style="display:flex;justify-content:space-between;font-weight:700">
+              <span style="color:var(--navy)">${j.title}</span>
+              <span style="color:var(--purple);font-size:9px">${j.status}</span>
+            </div>
+            <div style="color:#9CA3AF;font-size:10px;margin-top:2px">${j.code}</div>
+          </div>
+        `).join('')}
+      `:''}
+
+      ${myActivity.length?`
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);margin:14px 0 8px">Recent activity</div>
+        ${myActivity.map(e=>`
+          <div style="padding:6px 0;border-bottom:1px solid var(--line);font-size:10px">
+            <div style="color:var(--navy);font-weight:700">${e.type}</div>
+            <div style="color:#6B7280;margin-top:2px">${e.text}</div>
+          </div>
+        `).join('')}
+      `:''}
+    </div>`;
+  document.getElementById('drawer').classList.add('on');
+}
+
+function openDeal(code){
+  const d=S.deals[code];if(!d)return;
+  const seller=S.users[d.sellerId];
+  const stages=['PAID','AGENT_ACCEPTED','EVIDENCE_REVIEW','APPROVED','IN_TRANSIT','COMPLETED'];
+  const curIdx=stages.indexOf(d.status);
+  document.getElementById('drawerBox').innerHTML=`
+    <div style="padding:20px 18px;background:var(--navy);color:#fff;border-radius:20px 20px 0 0;position:relative;overflow:hidden">
+      <div style="position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2"></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1">
+        <div>
+          <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:800">Protected Deal</div>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(255,255,255,.55);margin-top:6px">${d.code}</div>
+          <div style="font-size:15px;font-weight:800;margin-top:6px">${d.item}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:4px">${d.lga} · Seller: ${seller?seller.name:'—'}</div>
+        </div>
+        <button onclick="closeDrawer()" style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer;line-height:1">×</button>
+      </div>
+      <div style="margin-top:12px">
+        ${stages.map((s,i)=>{
+          const c=d.status==='REFUNDED'?'done':i<curIdx?'done':i===curIdx?'now':'';
+          return `<span style="display:inline-block;padding:3px 8px;margin:2px 4px 2px 0;border-radius:12px;font-size:9px;font-weight:700;background:${c==='done'?'rgba(22,163,74,.3)':c==='now'?'rgba(244,180,32,.4)':'rgba(255,255,255,.1)'};color:#fff">${s.replace(/_/g,' ')}</span>`;
+        }).join('')}
+      </div>
+    </div>
+    <div style="padding:16px 18px">
+      <div class="row"><span class="k">Item price</span><span class="v">${fmt(d.price)}</span></div>
+      <div class="row"><span class="k">Buyer service fee (2%)</span><span class="v">${fmt(d.price*0.02)}</span></div>
+      <div class="row"><span class="k">Vet Agent fee</span><span class="v">${fmt(6000)}</span></div>
+      <div class="row"><span class="k">Logistics</span><span class="v">${fmt(3500)}</span></div>
+      <div class="row tot" style="background:#F8FAFC"><span class="k" style="font-weight:800">Buyer paid</span><span class="v" style="color:var(--green);font-size:15px">${fmt(d.price*1.04+9500)}</span></div>
+      <div class="row"><span class="k">Guarantee status</span><span class="v">${d.status==='COMPLETED'?'refunded':d.status==='REFUNDED'?'forfeited':'held'}</span></div>
+    </div>`;
+  document.getElementById('drawer').classList.add('on');
+}
+
+function openReq(code){
+  const j=S.odJobs[code];if(!j)return;
+  const req=S.users[j.requesterId];
+  const agent=j.agentId?S.users[j.agentId]:null;
+  const agentShare=Math.round(j.price*0.60);
+  document.getElementById('drawerBox').innerHTML=`
+    <div style="padding:20px 18px;background:linear-gradient(135deg,var(--purple),#5B21B6);color:#fff;border-radius:20px 20px 0 0;position:relative;overflow:hidden">
+      <div style="position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2"></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1">
+        <div>
+          <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);font-weight:800">On-demand request</div>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:rgba(255,255,255,.55);margin-top:6px">${j.code}</div>
+          <div style="font-size:15px;font-weight:800;margin-top:6px">${j.title}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:4px">${j.lga} · ${j.sector}</div>
+        </div>
+        <button onclick="closeDrawer()" style="background:none;border:none;color:#fff;font-size:24px;cursor:pointer;line-height:1">×</button>
+      </div>
+    </div>
+    <div style="padding:16px 18px">
+      <div class="row"><span class="k">Requested by</span><span class="v" style="font-family:inherit">${req?req.name:'—'}</span></div>
+      <div class="row"><span class="k">Assigned agent</span><span class="v" style="font-family:inherit">${agent?agent.name:'Awaiting accept'}</span></div>
+      <div class="row"><span class="k">Job fee</span><span class="v">${fmt(j.price)}</span></div>
+      <div class="row"><span class="k">Agent share (60%)</span><span class="v g">${fmt(agentShare)}</span></div>
+      <div class="row"><span class="k">Platform share (40%)</span><span class="v" style="color:var(--purple)">${fmt(j.price-agentShare)}</span></div>
+      <div style="margin-top:14px">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);margin-bottom:8px">Report requirements</div>
+        ${(j.reportNeeds||[]).map(r=>`<div style="padding:5px 0;font-size:11px;color:#4B5563;border-bottom:1px solid var(--line)">✓ ${r}</div>`).join('')||'<div style="color:#9CA3AF;font-size:11px">Standard report</div>'}
+      </div>
+    </div>`;
+  document.getElementById('drawer').classList.add('on');
+}
+
+function adjust(hex,amt){
+  let n=parseInt(hex.slice(1),16);
+  let r=(n>>16)+amt,g=((n>>8)&0xff)+amt,b=(n&0xff)+amt;
+  r=Math.max(0,Math.min(255,r));g=Math.max(0,Math.min(255,g));b=Math.max(0,Math.min(255,b));
+  return '#'+((r<<16)|(g<<8)|b).toString(16).padStart(6,'0');
+}
+
+function closeDrawer(){document.getElementById('drawer').classList.remove('on');}
+function closeModal(){document.getElementById('modal').classList.remove('on');}
+
+/* ============================================================
+   TABS + TOAST
+   ============================================================ */
+function tab(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  if(btn)btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toast(msg,tone){
+  const el=document.getElementById('toast');
+  el.className='ts on '+(tone||'');
+  document.getElementById('toastIc').textContent=tone==='er'?'⚠':'✓';
+  document.getElementById('toastMsg').textContent=msg;
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='ts '+(tone||''),2400);
+}
+
+function resetAll(){
+  if(!confirm('Reset the demo?'))return;
+  localStorage.removeItem(KEY);
+  S=fresh();initUsers();
+  if(timer)clearInterval(timer);timer=null;
+  document.getElementById('sceneBanner').style.display='none';
+  document.getElementById('simWrap').style.display='none';
+  document.getElementById('playBtn').textContent='▶ Play';
+  document.getElementById('playBtn').className='primary';
+  save();render();
+  toast('Reset','ok');
+}
+
+/* BOOT */
+initUsers();
+if(S.idx>=0){
+  // Replay script to restore state
+  const saved=S;S=fresh();initUsers();
+  for(let i=0;i<=saved.idx;i++){
+    const ev=SCRIPT[i];
+    if(ev.scene){addFeed({actor:'system',chapter:true,text:`<b>${ev.scene.t}</b> — ${ev.scene.d}`});continue;}
+    applyEvent(ev);
+  }
+  S.idx=saved.idx;
+  document.getElementById('simWrap').style.display='';
+  updateProgress();
+  for(let i=S.idx;i>=0;i--){
+    if(SCRIPT[i].scene){
+      document.getElementById('sceneBanner').style.display='';
+      document.getElementById('sceneN').textContent=SCRIPT[i].scene.n;
+      document.getElementById('sceneT').textContent=SCRIPT[i].scene.t;
+      document.getElementById('sceneD').textContent=SCRIPT[i].scene.d;
+      break;
+    }
+  }
+}
+render();
+</script>
+</body>
+</html>

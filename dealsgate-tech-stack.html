@@ -1,0 +1,775 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Technical Stack</title>
+<style>
+  @page { size: A4 portrait; margin: 10mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D1B4C;
+    --navy2: #142a70;
+    --green: #16A34A;
+    --green2: #15803D;
+    --gold: #F4B420;
+    --gold2: #C98A00;
+    --ink: #0F172A;
+    --muted: #64748B;
+    --line: #E2E8F0;
+    --mist: #F4F6FB;
+    --blue: #2563EB;
+    --purple: #7C3AED;
+    --red: #DC2626;
+  }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #D5DAE4;
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 210mm;
+    margin: 24px auto;
+    background: #fff;
+    box-shadow: 0 12px 40px rgba(13,27,76,.16);
+    overflow: hidden;
+  }
+
+  @media print {
+    html, body { background: #fff; }
+    .sheet { margin: 0; box-shadow: none; max-width: none; }
+    .screen-note { display: none !important; }
+    .layer { page-break-inside: avoid; }
+  }
+
+  .screen-note {
+    max-width: 210mm;
+    margin: 20px auto 0;
+    padding: 14px 20px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+  .screen-note b { color: var(--gold); }
+  .screen-note kbd {
+    background: rgba(244,180,32,.16);
+    color: var(--gold);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-family: 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid rgba(244,180,32,.32);
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero {
+    background:
+      radial-gradient(circle at 88% 12%, rgba(244,180,32,.24), transparent 45%),
+      radial-gradient(circle at 8% 92%, rgba(22,163,74,.18), transparent 50%),
+      linear-gradient(155deg, #061133 0%, var(--navy) 55%, var(--navy2) 100%);
+    color: #fff;
+    padding: 30px 30px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0);
+    background-size: 26px 26px;
+    opacity: .8;
+    pointer-events: none;
+  }
+
+  .hero-inner { position: relative; z-index: 1; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  .hero h1 {
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    line-height: 1.08;
+    color: #fff;
+  }
+  .hero h1 .g { color: var(--gold); }
+
+  .hero .sub {
+    font-size: 12.5px;
+    color: rgba(255,255,255,.82);
+    margin-top: 10px;
+    line-height: 1.55;
+    max-width: 175mm;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 28px;
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.14);
+  }
+
+  .hero-stats .stat .v {
+    font-family: 'Menlo', monospace;
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .hero-stats .stat .v.g { color: var(--gold); }
+  .hero-stats .stat .v.gr { color: #4ADE80; }
+
+  .hero-stats .stat .l {
+    font-size: 9.5px;
+    color: rgba(255,255,255,.6);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  /* ============================================================
+     BODY
+     ============================================================ */
+  .body {
+    padding: 24px 30px 22px;
+    background: #fff;
+  }
+
+  /* ============================================================
+     LAYER
+     ============================================================ */
+  .layer { margin-bottom: 18px; }
+
+  .layer-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .layer-pill {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .lp-navy { background: var(--navy); color: var(--gold); }
+  .lp-gold { background: var(--gold); color: var(--navy); }
+  .lp-green { background: var(--green); color: #fff; }
+  .lp-blue { background: var(--blue); color: #fff; }
+  .lp-purple { background: var(--purple); color: #fff; }
+  .lp-red { background: var(--red); color: #fff; }
+  .lp-navy2 { background: #E0E7FF; color: #3730A3; }
+  .lp-gray { background: var(--mist); color: var(--navy); border: 1px solid var(--line); }
+
+  .layer-rail {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line) 0%, transparent 100%);
+  }
+
+  /* ============================================================
+     TILE GRID
+     ============================================================ */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .tiles.wide {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tiles.single {
+    grid-template-columns: 1fr;
+  }
+
+  .tile {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    padding: 12px 11px 11px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 96px;
+    position: relative;
+  }
+
+  .tile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+    margin-bottom: 8px;
+    color: #fff;
+    font-weight: 900;
+  }
+
+  .ti-navy { background: linear-gradient(135deg, var(--navy), var(--navy2)); }
+  .ti-gold { background: linear-gradient(135deg, var(--gold), var(--gold2)); color: var(--navy); }
+  .ti-green { background: linear-gradient(135deg, #22C55E, var(--green2)); }
+  .ti-blue { background: linear-gradient(135deg, #60A5FA, var(--blue)); }
+  .ti-purple { background: linear-gradient(135deg, #A78BFA, var(--purple)); }
+  .ti-red { background: linear-gradient(135deg, #F87171, var(--red)); }
+  .ti-teal { background: linear-gradient(135deg, #14B8A6, #0D9488); }
+  .ti-pink { background: linear-gradient(135deg, #F472B6, #DB2777); }
+  .ti-orange { background: linear-gradient(135deg, #FB923C, #EA580C); }
+  .ti-gray { background: linear-gradient(135deg, #94A3B8, #475569); }
+
+  .tile-name {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.15px;
+    line-height: 1.2;
+  }
+
+  .tile-role {
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-top: 3px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* ============================================================
+     CALLOUT
+     ============================================================ */
+  .callout {
+    background: #F0FDF4;
+    border-left: 4px solid var(--green);
+    border-radius: 0 10px 10px 0;
+    padding: 13px 16px;
+    margin-top: 6px;
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+  }
+
+  .callout .ic { font-size: 18px; flex-shrink: 0; line-height: 1; }
+
+  .callout .msg {
+    font-size: 12px;
+    line-height: 1.6;
+    color: #065F46;
+    font-weight: 600;
+  }
+  .callout .msg b { color: #065F46; font-weight: 800; }
+
+  .callout.navy {
+    background: var(--mist);
+    border-left-color: var(--navy);
+  }
+  .callout.navy .msg { color: #334155; }
+  .callout.navy .msg b { color: var(--navy); }
+
+  /* ============================================================
+     INVARIANT STRIP
+     ============================================================ */
+  .invariant {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    color: #fff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 6px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .invariant::after {
+    content: "";
+    position: absolute;
+    right: -30px; top: -30px;
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(244,180,32,.28), transparent 70%);
+  }
+
+  .invariant .ic {
+    font-size: 26px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .invariant .msg {
+    font-size: 12.5px;
+    line-height: 1.55;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+  }
+  .invariant .msg b { color: var(--gold); font-weight: 800; }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 30px 18px;
+    border-top: 1px solid var(--line);
+    background: #FCFDFF;
+  }
+
+  .foot-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .foot-brand .mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--navy);
+    color: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 900;
+    border: 2px solid var(--gold);
+  }
+
+  .foot-brand .name {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.2px;
+  }
+  .foot-brand .name .g { color: var(--green); }
+
+  .foot-meta {
+    font-family: 'Menlo', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: right;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="screen-note">
+  <b>How to save as PDF:</b> open in <b>Chrome</b>, press
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> / <kbd>⌘</kbd>+<kbd>P</kbd>. Destination <b>Save as PDF</b>,
+  layout <b>Portrait</b>, paper <b>A4</b>, margins <b>Default</b>, tick <b>Background graphics</b>.
+</div>
+
+<div class="sheet">
+
+  <!-- ============================================================ -->
+  <!-- HERO                                                          -->
+  <!-- ============================================================ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        Technical Requirements Document · FINAL 1.0
+      </div>
+      <h1>
+        DealsGate Technical Stack<br>
+        <span class="g">Escrow · Verification · Payout</span>
+      </h1>
+      <p class="sub">
+        The architecture powering protected peer-to-peer trade — a web-first PWA,
+        a PostgreSQL-backed state machine, escrow custodied by licensed payment
+        partners, and physical inspection enforced through an evidence gate.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="v">7</div>
+          <div class="l">User roles</div>
+        </div>
+        <div class="stat">
+          <div class="v g">14</div>
+          <div class="l">Legal states</div>
+        </div>
+        <div class="stat">
+          <div class="v g">13</div>
+          <div class="l">MVP artifacts</div>
+        </div>
+        <div class="stat">
+          <div class="v gr">0</div>
+          <div class="l">Client principal held</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BODY                                                          -->
+  <!-- ============================================================ -->
+  <div class="body">
+
+    <!-- ===== FRONTEND ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-navy">Frontend</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-navy">N</div>
+          <div class="tile-name">Next.js</div>
+          <div class="tile-role">React framework · SSR + API routes</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-blue">TS</div>
+          <div class="tile-name">TypeScript</div>
+          <div class="tile-role">End-to-end type safety</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-green">📱</div>
+          <div class="tile-name">PWA</div>
+          <div class="tile-role">Installable · mobile-first · offline-capable</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BACKEND ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-gold">Backend &amp; API</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-navy">N</div>
+          <div class="tile-name">Node.js</div>
+          <div class="tile-role">Server runtime</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-red">⬢</div>
+          <div class="tile-name">NestJS</div>
+          <div class="tile-role">Modular API framework</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-gold">⇄</div>
+          <div class="tile-name">State Machine</div>
+          <div class="tile-role">14-state transition verifier · rejects illegal edges with HTTP 422</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== DATA ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-blue">Database &amp; Cache</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-blue">🗄</div>
+          <div class="tile-name">PostgreSQL</div>
+          <div class="tile-role">ACID transactions · row-level locking · full-text search</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-red">◉</div>
+          <div class="tile-name">Redis</div>
+          <div class="tile-role">Cache · idempotency keys · job queues</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-purple">🔑</div>
+          <div class="tile-name">Idempotency Layer</div>
+          <div class="tile-role">Every payment, refund, payout carries a unique key</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MEDIA & HOSTING ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-navy">Media Storage &amp; Hosting</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-gold">☁</div>
+          <div class="tile-name">S3-Compatible Store</div>
+          <div class="tile-role">Private inspection media · signed URLs only</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-navy">▲</div>
+          <div class="tile-name">Vercel / Cloud Run</div>
+          <div class="tile-role">Application hosting · edge delivery</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-teal">🌐</div>
+          <div class="tile-name">Cloudflare</div>
+          <div class="tile-role">CDN · WAF · DDoS protection</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== AUTH ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-green">Auth &amp; Identity</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles">
+        <div class="tile">
+          <div class="tile-icon ti-green">🔐</div>
+          <div class="tile-name">JWT</div>
+          <div class="tile-role">Session tokens</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-blue">G</div>
+          <div class="tile-name">Google OAuth</div>
+          <div class="tile-role">Optional sign-in</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-gold">✉</div>
+          <div class="tile-name">Email / SMS OTP</div>
+          <div class="tile-role">Primary access factor</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-purple">🔑</div>
+          <div class="tile-name">TOTP (Google Auth)</div>
+          <div class="tile-role">Withdrawal step-up</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== KYC ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-purple">KYC &amp; Compliance</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-purple">🆔</div>
+          <div class="tile-name">NIN Provider</div>
+          <div class="tile-role">Individual identity verification</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-blue">🏦</div>
+          <div class="tile-name">BVN Provider</div>
+          <div class="tile-role">Alternative individual verification</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-red">🏛</div>
+          <div class="tile-name">CAC Lookup</div>
+          <div class="tile-role">Business registration verification</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAYMENTS ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-gold">Escrow &amp; Payments</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-blue">₦</div>
+          <div class="tile-name">Paystack</div>
+          <div class="tile-role">Escrow collections · verified webhooks</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-orange">⇄</div>
+          <div class="tile-name">Flutterwave</div>
+          <div class="tile-role">Payouts · refunds · payout webhooks</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-navy">🔒</div>
+          <div class="tile-name">Licensed Partner Custody</div>
+          <div class="tile-role">DealsGate never holds principal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LOGISTICS ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-navy">Logistics &amp; Tracking</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-navy">🚚</div>
+          <div class="tile-name">GIG Logistics API</div>
+          <div class="tile-role">Shipment creation · tracking webhooks</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-green">⚡</div>
+          <div class="tile-name">Kwik Express API</div>
+          <div class="tile-role">Same-day Lagos courier</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-gold">🔔</div>
+          <div class="tile-name">HMAC Webhook Verifier</div>
+          <div class="tile-role">Signature check · ±5min replay window</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LOCATION ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-blue">Location Services</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-blue">📍</div>
+          <div class="tile-name">Google Maps JS</div>
+          <div class="tile-role">Seller pickup pin selection</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-green">🔍</div>
+          <div class="tile-name">Google Places API</div>
+          <div class="tile-role">Address autocomplete</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-red">📡</div>
+          <div class="tile-name">GPS Verification</div>
+          <div class="tile-role">Agent must be within 500m of pin</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== NOTIFICATIONS ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-green">Notifications</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-green">💬</div>
+          <div class="tile-name">WhatsApp Business API</div>
+          <div class="tile-role">Primary messaging channel</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-gold">✉</div>
+          <div class="tile-name">Transactional Email</div>
+          <div class="tile-role">Receipts · OTP · dispute notices</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-blue">📱</div>
+          <div class="tile-name">SMS Gateway</div>
+          <div class="tile-role">Fallback OTP delivery</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== OBSERVABILITY ===== -->
+    <div class="layer">
+      <div class="layer-head">
+        <span class="layer-pill lp-gray">Observability &amp; Audit</span>
+        <span class="layer-rail"></span>
+      </div>
+      <div class="tiles wide">
+        <div class="tile">
+          <div class="tile-icon ti-gray">📊</div>
+          <div class="tile-name">Analytics</div>
+          <div class="tile-role">Deal funnel · agent performance · SLA tracking</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-red">⚠</div>
+          <div class="tile-name">Error Tracking</div>
+          <div class="tile-role">Sentry-style exception capture</div>
+        </div>
+        <div class="tile">
+          <div class="tile-icon ti-navy">📜</div>
+          <div class="tile-name">Audit Log</div>
+          <div class="tile-role">Actor · action · before/after · IP · UA</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== INVARIANT ===== -->
+    <div class="invariant">
+      <div class="ic">🛡️</div>
+      <div class="msg">
+        <b>The evidence gate is a structural property, not a UI check.</b>
+        No legal transition exists from <code style="background:rgba(255,255,255,.12);padding:1px 6px;border-radius:4px;font-family:Menlo,monospace;font-size:11px">EVIDENCE_REVIEW</code>
+        to <code style="background:rgba(255,255,255,.12);padding:1px 6px;border-radius:4px;font-family:Menlo,monospace;font-size:11px">LOGISTICS_DISPATCHED</code>
+        except via buyer approval. The transition function rejects every illegal edge with HTTP 422 — before any database write.
+      </div>
+    </div>
+
+    <!-- ===== NOTE ===== -->
+    <div class="callout navy" style="margin-top:14px">
+      <div class="ic">ℹ️</div>
+      <div class="msg">
+        <b>Web-first PWA, not native mobile.</b> The MVP is delivered as a progressive
+        web app that runs on any modern mobile browser — reducing surface area, avoiding
+        app store review cycles, and letting reviewers open the product with a single link.
+        A native capture client for Vet Agents is planned for the production build to enable
+        hardware-backed device attestation on inspection media.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER                                                        -->
+  <!-- ============================================================ -->
+  <div class="foot">
+    <div class="foot-brand">
+      <div class="mark">✓</div>
+      <div class="name">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="foot-meta">
+      Technical Requirements · FINAL 1.0<br>
+      dealsgate.ng
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,921 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Social Poster Pack</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1A4A;
+    --navy-deep: #061133;
+    --green: #16A34A;
+    --green-deep: #0E7A3A;
+    --gold: #F4B420;
+    --gold-deep: #C98A00;
+    --ink: #0F172A;
+    --mist: #F4F6FB;
+    --white: #FFFFFF;
+  }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #D5DAE4;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px 60px;
+  }
+
+  /* ============================================================
+     SCREEN NOTE
+     ============================================================ */
+  .screen-note {
+    max-width: 900px;
+    margin: 0 auto 32px;
+    background: var(--navy);
+    color: #fff;
+    padding: 18px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    box-shadow: 0 8px 24px rgba(11,26,74,.24);
+  }
+  .screen-note b { color: var(--gold); }
+  .screen-note kbd {
+    background: rgba(244,180,32,.16);
+    color: var(--gold);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'Menlo', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid rgba(244,180,32,.32);
+  }
+
+  /* ============================================================
+     GRID
+     ============================================================ */
+  .grid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+  }
+
+  .poster-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .poster-label {
+    font-family: 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 800;
+    color: #6B7280;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ============================================================
+     POSTER BASE
+     ============================================================ */
+  .poster {
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 4 / 5;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    container-type: inline-size;
+    box-shadow: 0 16px 48px rgba(11,26,74,.24);
+    display: flex;
+    flex-direction: column;
+    padding: 5cqw 5.5cqw;
+    color: var(--ink);
+  }
+
+  /* ---------- HEADER ---------- */
+  .p-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4cqw;
+  }
+
+  .p-logo {
+    display: flex;
+    align-items: center;
+    gap: 1.8cqw;
+  }
+
+  .p-logo .mark {
+    width: 6.5cqw;
+    height: 6.5cqw;
+    border-radius: 1.8cqw;
+    background: var(--navy);
+    color: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 3.6cqw;
+    font-weight: 900;
+    border: 0.4cqw solid var(--gold);
+  }
+
+  .p-logo .name {
+    font-size: 4.2cqw;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+  }
+  .p-logo .name .g { color: var(--green); }
+
+  .p-url {
+    font-family: 'Menlo', monospace;
+    font-size: 2.3cqw;
+    font-weight: 700;
+    color: var(--navy);
+    opacity: 0.7;
+  }
+
+  /* ---------- HEADLINE BOX ---------- */
+  .p-headline-box {
+    border: 0.5cqw solid var(--navy);
+    border-radius: 1.5cqw;
+    padding: 3cqw 4cqw;
+    margin-bottom: 3.5cqw;
+    background: #fff;
+  }
+
+  .p-headline {
+    font-size: 5.4cqw;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+
+  /* ---------- SUBHEAD ---------- */
+  .p-subhead {
+    font-size: 5cqw;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-bottom: 4cqw;
+  }
+
+  .p-subhead mark {
+    background: var(--gold);
+    color: var(--navy);
+    padding: 0.3cqw 1.5cqw;
+    border-radius: 0.8cqw;
+  }
+
+  .p-subhead mark.green {
+    background: var(--green);
+    color: #fff;
+  }
+
+  /* ---------- PHONE MOCKUP ---------- */
+  .p-phone-wrap {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: 1cqw 0;
+    position: relative;
+  }
+
+  .phone {
+    width: 46cqw;
+    aspect-ratio: 9 / 18;
+    background: #1A1A1A;
+    border-radius: 6cqw;
+    padding: 1.2cqw;
+    box-shadow: 0 8cqw 12cqw -4cqw rgba(11,26,74,.28);
+    position: relative;
+  }
+
+  .phone::before {
+    content: "";
+    position: absolute;
+    top: 2.2cqw;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12cqw;
+    height: 1.6cqw;
+    background: #000;
+    border-radius: 20cqw;
+    z-index: 2;
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border-radius: 5cqw;
+    padding: 5.5cqw 3.2cqw 3.2cqw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .screen-check {
+    width: 9cqw;
+    height: 9cqw;
+    border-radius: 50%;
+    background: var(--green);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 5cqw;
+    margin: 2cqw auto 2.5cqw;
+    font-weight: 900;
+  }
+
+  .screen-title {
+    font-size: 3.6cqw;
+    font-weight: 800;
+    color: var(--navy);
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 1.2cqw;
+  }
+
+  .screen-sub {
+    font-size: 2.4cqw;
+    color: #6B7280;
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 3cqw;
+  }
+
+  .screen-rows {
+    background: #F4F6FB;
+    border-radius: 2cqw;
+    padding: 2.2cqw 2.4cqw;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6cqw;
+    margin-bottom: 2.5cqw;
+  }
+
+  .screen-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.2cqw;
+  }
+
+  .screen-row span:first-child { color: #6B7280; }
+  .screen-row span:last-child {
+    color: var(--navy);
+    font-weight: 800;
+    font-family: 'Menlo', monospace;
+  }
+
+  .screen-row.total {
+    padding-top: 1.6cqw;
+    border-top: 0.25cqw solid #DCE2EE;
+    margin-top: 0.6cqw;
+  }
+
+  .screen-row.total span:first-child {
+    color: var(--navy);
+    font-weight: 800;
+  }
+
+  .screen-row.total span:last-child {
+    font-size: 2.6cqw;
+    color: var(--green);
+  }
+
+  .screen-cta {
+    background: var(--navy);
+    color: var(--gold);
+    font-size: 2.6cqw;
+    font-weight: 800;
+    text-align: center;
+    padding: 2.4cqw;
+    border-radius: 1.6cqw;
+    margin-top: auto;
+  }
+
+  /* Seller notification phone (different content) */
+  .screen-notify {
+    display: flex;
+    align-items: flex-start;
+    gap: 2cqw;
+    background: #F0FDF4;
+    border-left: 0.6cqw solid var(--green);
+    border-radius: 1.6cqw;
+    padding: 2.4cqw;
+    margin-bottom: 2cqw;
+  }
+
+  .screen-notify .icon {
+    width: 5cqw;
+    height: 5cqw;
+    border-radius: 50%;
+    background: var(--green);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 2.8cqw;
+    flex-shrink: 0;
+  }
+
+  .screen-notify .body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .screen-notify .n-title {
+    font-size: 2.6cqw;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.3;
+    margin-bottom: 0.6cqw;
+  }
+
+  .screen-notify .n-amt {
+    font-family: 'Menlo', monospace;
+    font-size: 3.2cqw;
+    font-weight: 800;
+    color: var(--green);
+  }
+
+  .screen-notify .n-sub {
+    font-size: 2cqw;
+    color: #6B7280;
+    margin-top: 0.6cqw;
+  }
+
+  /* Job feed phone */
+  .screen-job {
+    background: #FFF7E6;
+    border-radius: 2cqw;
+    padding: 2.4cqw;
+    margin-bottom: 2cqw;
+  }
+
+  .screen-job .j-code {
+    font-family: 'Menlo', monospace;
+    font-size: 2cqw;
+    color: #8A93A6;
+    font-weight: 700;
+  }
+
+  .screen-job .j-item {
+    font-size: 2.8cqw;
+    font-weight: 800;
+    color: var(--navy);
+    margin: 0.8cqw 0 1.6cqw;
+    line-height: 1.2;
+  }
+
+  .screen-job .j-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.2cqw;
+  }
+
+  .screen-job .j-meta .share {
+    font-family: 'Menlo', monospace;
+    font-weight: 800;
+    color: var(--green);
+  }
+
+  .screen-job .j-meta .lga {
+    color: #6B7280;
+    font-weight: 600;
+  }
+
+  /* Seller dossier phone */
+  .screen-seller {
+    background: #F4F6FB;
+    border-radius: 2cqw;
+    padding: 2.4cqw;
+    display: flex;
+    align-items: center;
+    gap: 2cqw;
+    margin-bottom: 2cqw;
+  }
+
+  .screen-seller .avatar {
+    width: 7cqw;
+    height: 7cqw;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy);
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 3cqw;
+    flex-shrink: 0;
+  }
+
+  .screen-seller .info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .screen-seller .s-name {
+    font-size: 2.6cqw;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+
+  .screen-seller .s-meta {
+    font-size: 2cqw;
+    color: #6B7280;
+    margin-top: 0.4cqw;
+  }
+
+  .screen-seller .s-stars {
+    color: var(--gold);
+    font-weight: 800;
+    font-size: 2.4cqw;
+  }
+
+  /* ---------- FEATURES ROW ---------- */
+  .p-features {
+    display: flex;
+    justify-content: center;
+    gap: 4cqw;
+    margin-top: 3cqw;
+    font-size: 2.6cqw;
+    font-weight: 700;
+    color: var(--navy);
+    flex-wrap: wrap;
+  }
+
+  .p-feature {
+    display: flex;
+    align-items: center;
+    gap: 1cqw;
+  }
+
+  .p-feature .em { font-size: 3cqw; }
+
+  /* ---------- FOOTER ---------- */
+  .p-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3cqw;
+    padding-top: 3cqw;
+    border-top: 0.3cqw solid rgba(11,26,74,.1);
+    font-size: 2.4cqw;
+    font-weight: 700;
+  }
+
+  .p-footer .socials {
+    color: var(--navy);
+    font-family: 'Menlo', monospace;
+  }
+
+  .p-footer .url {
+    color: var(--navy);
+    font-family: 'Menlo', monospace;
+    font-weight: 800;
+  }
+
+  /* ============================================================
+     POSTER VARIANTS
+     ============================================================ */
+
+  /* P1 — Hero */
+  .p1 {
+    background:
+      radial-gradient(circle at 12% 8%, rgba(96,165,250,.14), transparent 40%),
+      radial-gradient(circle at 88% 92%, rgba(244,180,32,.12), transparent 45%),
+      linear-gradient(160deg, #F0F4FF 0%, #FFFFFF 50%, #F0FDF4 100%);
+  }
+
+  /* P2 — Buyer */
+  .p2 {
+    background:
+      radial-gradient(circle at 88% 10%, rgba(22,163,74,.14), transparent 45%),
+      linear-gradient(160deg, #F0FDF4 0%, #FFFFFF 55%, #ECFDF5 100%);
+  }
+
+  /* P3 — Seller (dark) */
+  .p3 {
+    background:
+      radial-gradient(circle at 88% 12%, rgba(244,180,32,.22), transparent 45%),
+      radial-gradient(circle at 12% 92%, rgba(22,163,74,.12), transparent 50%),
+      linear-gradient(155deg, #061133 0%, #0B1A4A 55%, #142a70 100%);
+    color: #fff;
+  }
+  .p3 .p-logo .mark {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: #fff;
+  }
+  .p3 .p-logo .name { color: #fff; }
+  .p3 .p-logo .name .g { color: #4ADE80; }
+  .p3 .p-url { color: rgba(255,255,255,.7); }
+  .p3 .p-headline-box {
+    border-color: var(--gold);
+    background: rgba(255,255,255,.06);
+  }
+  .p3 .p-headline { color: #fff; }
+  .p3 .p-subhead { color: #fff; }
+  .p3 .p-subhead mark { background: var(--gold); color: var(--navy); }
+  .p3 .p-features { color: rgba(255,255,255,.9); }
+  .p3 .p-footer {
+    border-top-color: rgba(255,255,255,.14);
+  }
+  .p3 .p-footer .socials,
+  .p3 .p-footer .url { color: rgba(255,255,255,.85); }
+
+  /* P4 — Trust / Public */
+  .p4 {
+    background:
+      radial-gradient(circle at 12% 88%, rgba(244,180,32,.16), transparent 45%),
+      linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  }
+
+  /* P5 — Vet Agent */
+  .p5 {
+    background:
+      radial-gradient(circle at 15% 12%, rgba(244,180,32,.20), transparent 45%),
+      radial-gradient(circle at 85% 88%, rgba(22,163,74,.18), transparent 50%),
+      linear-gradient(155deg, #061133 0%, #0B1A4A 55%, #142a70 100%);
+    color: #fff;
+  }
+  .p5 .p-logo .mark {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: #fff;
+  }
+  .p5 .p-logo .name { color: #fff; }
+  .p5 .p-logo .name .g { color: #4ADE80; }
+  .p5 .p-url { color: rgba(255,255,255,.7); }
+  .p5 .p-headline-box {
+    border-color: var(--gold);
+    background: rgba(255,255,255,.06);
+  }
+  .p5 .p-headline { color: #fff; }
+  .p5 .p-subhead { color: #fff; }
+  .p5 .p-subhead mark { background: var(--gold); color: var(--navy); }
+  .p5 .p-features { color: rgba(255,255,255,.9); }
+  .p5 .p-footer {
+    border-top-color: rgba(255,255,255,.14);
+  }
+  .p5 .p-footer .socials,
+  .p5 .p-footer .url { color: rgba(255,255,255,.85); }
+
+  /* print */
+  @media print {
+    html, body { background: #fff; padding: 0; }
+    .screen-note { display: none; }
+    .grid { display: block; }
+    .poster-wrap { page-break-after: always; }
+    .poster { box-shadow: none; margin: 0 auto; }
+    .poster-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="screen-note">
+  <b>How to export these posters:</b> Use your browser's screenshot tool, or press
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> / <kbd>⌘</kbd>+<kbd>P</kbd> and choose
+  <b>Save as PDF</b> — one poster per page. For highest resolution, zoom in with
+  <kbd>Ctrl</kbd>+<kbd>+</kbd> before screenshotting. Recommended export size for Instagram: <b>1080×1350</b>.
+</div>
+
+<div class="grid">
+
+  <!-- ============================================================
+       POSTER 1 · HERO
+       ============================================================ -->
+  <div class="poster-wrap">
+    <div class="poster-label">Poster 1 · Hero · "Protect a Deal"</div>
+    <div class="poster p1">
+      <div class="p-header">
+        <div class="p-logo">
+          <span class="mark">✓</span>
+          <span class="name">Deals<span class="g">Gate</span></span>
+        </div>
+        <span class="p-url">dealsgate.ng</span>
+      </div>
+
+      <div class="p-headline-box">
+        <div class="p-headline">Don't send money to strangers again.</div>
+      </div>
+
+      <div class="p-subhead">
+        Share a <mark>Protected Deal</mark> link in your bio or DMs instead.
+      </div>
+
+      <div class="p-phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="screen-check">✓</div>
+            <div class="screen-title">Payment secured</div>
+            <div class="screen-sub">Held in escrow until you approve</div>
+            <div class="screen-rows">
+              <div class="screen-row"><span>Item</span><span>₦450,000</span></div>
+              <div class="screen-row"><span>Buyer fee</span><span>₦9,000</span></div>
+              <div class="screen-row"><span>Vet inspection</span><span>₦6,000</span></div>
+              <div class="screen-row"><span>Logistics</span><span>₦3,500</span></div>
+              <div class="screen-row total"><span>Protected total</span><span>₦468,500</span></div>
+            </div>
+            <div class="screen-cta">View deal</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-features">
+        <div class="p-feature"><span class="em">🛡️</span><span>Verified sellers</span></div>
+        <div class="p-feature"><span class="em">💰</span><span>Escrow protected</span></div>
+        <div class="p-feature"><span class="em">📦</span><span>Tracked delivery</span></div>
+      </div>
+
+      <div class="p-footer">
+        <span class="socials">@dealsgate.ng</span>
+        <span class="url">dealsgate.ng</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       POSTER 2 · BUYER
+       ============================================================ -->
+  <div class="poster-wrap">
+    <div class="poster-label">Poster 2 · Buyer · "Stop gambling"</div>
+    <div class="poster p2">
+      <div class="p-header">
+        <div class="p-logo">
+          <span class="mark">✓</span>
+          <span class="name">Deals<span class="g">Gate</span></span>
+        </div>
+        <span class="p-url">dealsgate.ng</span>
+      </div>
+
+      <div class="p-headline-box">
+        <div class="p-headline">Buy from Instagram without gambling your money.</div>
+      </div>
+
+      <div class="p-subhead">
+        Escrow holds it. An agent inspects it. <mark class="green">You approve</mark> it.
+      </div>
+
+      <div class="p-phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="screen-check">🔍</div>
+            <div class="screen-title">Inspection complete</div>
+            <div class="screen-sub">Blessing Eze · Certified Vet Agent</div>
+            <div class="screen-rows">
+              <div class="screen-row"><span>IMEI</span><span>✓ matched</span></div>
+              <div class="screen-row"><span>Battery</span><span>89%</span></div>
+              <div class="screen-row"><span>Condition</span><span>Used</span></div>
+              <div class="screen-row total"><span>Verdict</span><span>PASS</span></div>
+            </div>
+            <div class="screen-cta">Approve &amp; continue →</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-features">
+        <div class="p-feature"><span class="em">✓</span><span>Real inspection</span></div>
+        <div class="p-feature"><span class="em">✓</span><span>Full refund if it fails</span></div>
+        <div class="p-feature"><span class="em">✓</span><span>You control the money</span></div>
+      </div>
+
+      <div class="p-footer">
+        <span class="socials">@dealsgate.ng</span>
+        <span class="url">dealsgate.ng</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       POSTER 3 · SELLER
+       ============================================================ -->
+  <div class="poster-wrap">
+    <div class="poster-label">Poster 3 · Seller · "Stop chasing alerts"</div>
+    <div class="poster p3">
+      <div class="p-header">
+        <div class="p-logo">
+          <span class="mark">✓</span>
+          <span class="name">Deals<span class="g">Gate</span></span>
+        </div>
+        <span class="p-url">dealsgate.ng</span>
+      </div>
+
+      <div class="p-headline-box">
+        <div class="p-headline">Stop chasing fake alerts on WhatsApp.</div>
+      </div>
+
+      <div class="p-subhead">
+        Buyers pay into <mark>escrow</mark>. You ship when the money is real.
+      </div>
+
+      <div class="p-phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="screen-title" style="margin-top:3cqw;margin-bottom:3cqw">Escrow funded ✓</div>
+
+            <div class="screen-notify">
+              <div class="icon">✓</div>
+              <div class="body">
+                <div class="n-title">Buyer paid into escrow</div>
+                <div class="n-amt">₦468,500</div>
+                <div class="n-sub">Held safely · DG-240501</div>
+              </div>
+            </div>
+
+            <div class="screen-notify" style="background:#FFF7E6;border-left-color:#C98A00">
+              <div class="icon" style="background:#C98A00">🔍</div>
+              <div class="body">
+                <div class="n-title">Vet Agent accepted</div>
+                <div class="n-sub">Blessing E. · 47m from your pin</div>
+              </div>
+            </div>
+
+            <div class="screen-notify" style="background:#EFF6FF;border-left-color:#2563EB">
+              <div class="icon" style="background:#2563EB">📦</div>
+              <div class="body">
+                <div class="n-title">Ship when buyer approves</div>
+                <div class="n-sub">Evidence gate is active</div>
+              </div>
+            </div>
+
+            <div class="screen-cta" style="margin-top:auto">View deal →</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-features">
+        <div class="p-feature"><span class="em">✓</span><span>No fake alerts</span></div>
+        <div class="p-feature"><span class="em">✓</span><span>No ghost buyers</span></div>
+        <div class="p-feature"><span class="em">✓</span><span>₦5,000 refundable</span></div>
+      </div>
+
+      <div class="p-footer">
+        <span class="socials">@dealsgate.ng</span>
+        <span class="url">dealsgate.ng</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       POSTER 4 · PUBLIC TRUST
+       ============================================================ -->
+  <div class="poster-wrap">
+    <div class="poster-label">Poster 4 · Public · "Check the vendor"</div>
+    <div class="poster p4">
+      <div class="p-header">
+        <div class="p-logo">
+          <span class="mark">✓</span>
+          <span class="name">Deals<span class="g">Gate</span></span>
+        </div>
+        <span class="p-url">dealsgate.ng</span>
+      </div>
+
+      <div class="p-headline-box">
+        <div class="p-headline">Check any vendor before you pay.</div>
+      </div>
+
+      <div class="p-subhead">
+        Search real deal history on <mark>dealsgate.ng</mark>. No login.
+      </div>
+
+      <div class="p-phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="screen-title" style="margin-top:3cqw">Seller dossier</div>
+
+            <div class="screen-seller" style="margin-top:3cqw">
+              <div class="avatar">AO</div>
+              <div class="info">
+                <div class="s-name">Adaeze Okafor</div>
+                <div class="s-meta">Business · Verified ✓</div>
+                <div class="s-stars">★★★★★ 4.9 · 34 deals</div>
+              </div>
+            </div>
+
+            <div class="screen-seller">
+              <div class="avatar" style="background:#16A34A;color:#fff">TA</div>
+              <div class="info">
+                <div class="s-name">Tunde Adebayo</div>
+                <div class="s-meta">Individual · Verified ✓</div>
+                <div class="s-stars">★★★★☆ 4.7 · 15 deals</div>
+              </div>
+            </div>
+
+            <div class="screen-seller">
+              <div class="avatar" style="background:#7C3AED;color:#fff">FY</div>
+              <div class="info">
+                <div class="s-name">Fatima Yusuf</div>
+                <div class="s-meta">Business · Verified ✓</div>
+                <div class="s-stars">★★★★★ 4.8 · 42 deals</div>
+              </div>
+            </div>
+
+            <div class="screen-cta" style="margin-top:auto">View full dossier →</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-features">
+        <div class="p-feature"><span class="em">🔍</span><span>Public search</span></div>
+        <div class="p-feature"><span class="em">★</span><span>Real reviews</span></div>
+        <div class="p-feature"><span class="em">🔒</span><span>No PII shown</span></div>
+      </div>
+
+      <div class="p-footer">
+        <span class="socials">@dealsgate.ng</span>
+        <span class="url">dealsgate.ng</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       POSTER 5 · VET AGENT
+       ============================================================ -->
+  <div class="poster-wrap">
+    <div class="poster-label">Poster 5 · Vet Agent · "Get paid to inspect"</div>
+    <div class="poster p5">
+      <div class="p-header">
+        <div class="p-logo">
+          <span class="mark">✓</span>
+          <span class="name">Deals<span class="g">Gate</span></span>
+        </div>
+        <span class="p-url">dealsgate.ng/agent</span>
+      </div>
+
+      <div class="p-headline-box">
+        <div class="p-headline">Get paid ₦4,200 to inspect iPhones.</div>
+      </div>
+
+      <div class="p-subhead">
+        Certified Vet Agents earn per job. <mark>Withdraw same day.</mark>
+      </div>
+
+      <div class="p-phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="screen-title" style="margin-top:3cqw;margin-bottom:1cqw">Job feed · Ikeja</div>
+            <div class="screen-sub" style="margin-bottom:3cqw">First Accept wins</div>
+
+            <div class="screen-job">
+              <div class="j-code">DG-240501</div>
+              <div class="j-item">iPhone 14 Pro 256GB</div>
+              <div class="j-meta">
+                <span class="lga">Ikeja LGA</span>
+                <span class="share">+₦4,200</span>
+              </div>
+            </div>
+
+            <div class="screen-job">
+              <div class="j-code">DG-240502</div>
+              <div class="j-item">MacBook Pro 14" M3</div>
+              <div class="j-meta">
+                <span class="lga">Eti-Osa LGA</span>
+                <span class="share">+₦4,200</span>
+              </div>
+            </div>
+
+            <div class="screen-job">
+              <div class="j-code">OD-240301</div>
+              <div class="j-item">Designer bag on IG</div>
+              <div class="j-meta">
+                <span class="lga">Wuse 2, Abuja</span>
+                <span class="share">+₦3,600</span>
+              </div>
+            </div>
+
+            <div class="screen-cta" style="margin-top:auto">Accept job →</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-features">
+        <div class="p-feature"><span class="em">📍</span><span>Your LGA only</span></div>
+        <div class="p-feature"><span class="em">💸</span><span>Withdraw same day</span></div>
+        <div class="p-feature"><span class="em">🎓</span><span>Free training</span></div>
+      </div>
+
+      <div class="p-footer">
+        <span class="socials">@dealsgate.ng</span>
+        <span class="url">dealsgate.ng/agent</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

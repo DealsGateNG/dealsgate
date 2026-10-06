@@ -1,0 +1,973 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Full Journey Runthrough</title>
+<meta name="description" content="The complete DealsGate deal lifecycle orchestrated end to end — from first signup to settled payout, across all nine demos.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;
+  --gold:#F4B420;--gold2:#D99A0F;--mist:#F1F3F5;--charcoal:#1F2937;
+  --red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+  --line:rgba(13,27,76,.10);--line2:rgba(13,27,76,.06);
+  --r:14px;
+  --shadow:0 1px 3px rgba(13,27,76,.06), 0 1px 2px rgba(13,27,76,.04);
+  --shadow-lg:0 8px 24px rgba(13,27,76,.10);
+}
+html,body{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Inter",sans-serif;
+  background:var(--mist);color:var(--charcoal);font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;padding-bottom:20px;
+}
+a{color:inherit;text-decoration:none}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.hdr{
+  position:sticky;top:0;z-index:60;background:rgba(13,27,76,.97);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  color:#fff;padding:10px 16px;box-shadow:0 2px 14px rgba(0,0,0,.16);
+}
+.hdr-inner{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.brand-txt{min-width:0}
+.brand-txt .n{font-size:15px;font-weight:800;letter-spacing:-.3px;line-height:1.05;white-space:nowrap}
+.brand-txt .n .d{color:#fff}
+.brand-txt .n .g{color:var(--green)}
+.brand-txt .s{font-size:8px;color:var(--gold);letter-spacing:1.4px;text-transform:uppercase;font-weight:800;margin-top:2px;white-space:nowrap}
+.hdr-actions{display:flex;gap:6px}
+.hdr-actions button{
+  background:rgba(255,255,255,.15);color:#fff;border:none;
+  font-size:10px;font-weight:700;padding:7px 11px;border-radius:20px;
+  cursor:pointer;font-family:inherit;white-space:nowrap;
+}
+.hdr-actions button.go{background:var(--gold);color:var(--navy)}
+
+/* ============================================================
+   PROGRESS RAIL
+   ============================================================ */
+.rail{
+  position:sticky;top:56px;z-index:55;background:#fff;
+  border-bottom:1px solid var(--line);
+  box-shadow:0 2px 10px rgba(13,27,76,.06);
+}
+.rail-inner{max-width:960px;margin:0 auto;padding:10px 16px 12px}
+.rail-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.rail-lbl{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8A93A6}
+.rail-now{font-size:11px;font-weight:800;color:var(--navy)}
+.rail-bar{height:6px;background:rgba(13,27,76,.08);border-radius:20px;overflow:hidden}
+.rail-bar .fill{
+  height:100%;background:linear-gradient(90deg,var(--gold),var(--green));
+  border-radius:20px;transition:width .5s cubic-bezier(.4,.2,.2,1);
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  background:
+    radial-gradient(circle at 85% 15%, rgba(244,180,32,.22), transparent 45%),
+    radial-gradient(circle at 15% 90%, rgba(22,163,74,.18), transparent 50%),
+    linear-gradient(135deg, var(--navy) 0%, #14205C 60%, var(--navy2) 100%);
+  color:#fff;padding:40px 20px 44px;position:relative;overflow:hidden;
+}
+.hero-inner{max-width:720px;margin:0 auto;position:relative;z-index:1;text-align:center}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(244,180,32,.14);border:1px solid rgba(244,180,32,.32);
+  color:var(--gold);padding:6px 14px;border-radius:999px;
+  font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+.hero h1{
+  font-size:clamp(24px,4.6vw,36px);font-weight:800;letter-spacing:-.8px;line-height:1.1;
+}
+.hero h1 .g{color:var(--gold)}
+.hero h1 .gr{color:#4ADE80}
+.hero p{
+  font-size:14.5px;color:rgba(255,255,255,.78);margin-top:14px;line-height:1.6;
+  max-width:560px;margin-left:auto;margin-right:auto;
+}
+.cast{
+  display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:24px;
+  position:relative;z-index:1;
+}
+.cast-member{
+  display:flex;align-items:center;gap:9px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  padding:8px 12px 8px 8px;border-radius:999px;
+}
+.cast-av{
+  width:28px;height:28px;border-radius:50%;
+  display:grid;place-items:center;color:#fff;
+  font-size:11px;font-weight:800;flex-shrink:0;
+}
+.cast-name{font-size:11px;font-weight:800;letter-spacing:.02em}
+.cast-role{font-size:9px;color:rgba(255,255,255,.6);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
+
+/* ============================================================
+   WRAP / MAIN
+   ============================================================ */
+.wrap{max-width:960px;margin:0 auto;padding:24px 16px 32px}
+
+/* ============================================================
+   ACT CARD
+   ============================================================ */
+.act{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow);
+  transition:transform .18s ease, box-shadow .22s ease;
+  position:relative;
+}
+.act:hover{box-shadow:var(--shadow-lg)}
+.act.current{border-color:var(--gold);box-shadow:0 0 0 3px rgba(244,180,32,.18)}
+.act.done{background:linear-gradient(135deg,#F0FDF4,#F8FEFB)}
+.act-stripe{height:4px;background:linear-gradient(90deg,var(--navy),var(--navy2))}
+.act.done .act-stripe{background:linear-gradient(90deg,var(--green2),var(--green))}
+.act.public .act-stripe{background:linear-gradient(90deg,var(--green),#4ADE80)}
+.act.auth .act-stripe{background:linear-gradient(90deg,var(--pink),#F472B6)}
+.act.wizard .act-stripe{background:linear-gradient(90deg,var(--gold2),var(--gold))}
+.act.buyer .act-stripe{background:linear-gradient(90deg,var(--green2),var(--green))}
+.act.agent .act-stripe{background:linear-gradient(90deg,var(--navy),var(--navy2))}
+.act.admin .act-stripe{background:linear-gradient(90deg,var(--purple),#A78BFA)}
+.act.platform .act-stripe{background:linear-gradient(90deg,var(--blue),#60A5FA)}
+.act-head{display:flex;align-items:flex-start;gap:12px;padding:16px 18px 0}
+.act-num{
+  width:38px;height:38px;border-radius:11px;flex-shrink:0;
+  background:var(--navy);color:var(--gold);
+  display:grid;place-items:center;
+  font-size:15px;font-weight:800;letter-spacing:-.5px;
+  border:2px solid var(--gold);transition:all .2s;
+}
+.act.done .act-num{background:var(--green);color:#fff;border-color:var(--green)}
+.act.current .act-num{animation:actPulse 1.6s ease-in-out infinite}
+@keyframes actPulse{0%,100%{box-shadow:0 0 0 0 rgba(244,180,32,.55)}70%{box-shadow:0 0 0 12px rgba(244,180,32,0)}}
+.act-title{font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.25px;line-height:1.25}
+.act-who{
+  display:inline-flex;align-items:center;gap:5px;margin-top:5px;
+  font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--green2);
+}
+.act-who .em{font-size:11px}
+.act-body{padding:12px 18px 16px}
+.act-desc{font-size:13.5px;color:#4B5563;line-height:1.6}
+.act-watch{
+  background:var(--mist);border-left:3px solid var(--gold);
+  padding:10px 12px;border-radius:8px;margin-top:12px;
+  font-size:11.5px;color:#4B5563;line-height:1.6;
+}
+.act-watch .lbl{
+  display:block;font-size:9px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gold2);margin-bottom:4px;
+}
+.act-watch b{color:var(--navy)}
+.act-foot{
+  padding:12px 18px 16px;border-top:1px solid var(--line2);
+  display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.act-file{
+  font-family:ui-monospace,Menlo,monospace;font-size:10.5px;
+  color:#8A93A6;display:flex;align-items:center;gap:6px;
+}
+.act-file .pill{
+  background:var(--mist);color:var(--navy);
+  padding:3px 8px;border-radius:6px;border:1px solid var(--line2);
+  font-weight:700;letter-spacing:.02em;
+}
+.act-cta{display:flex;gap:8px;align-items:center}
+.btn-launch{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--navy);color:#fff;
+  padding:10px 14px;border-radius:10px;
+  font-size:12.5px;font-weight:800;letter-spacing:.01em;
+  transition:background .15s, transform .12s;
+  border:none;font-family:inherit;cursor:pointer;
+}
+.btn-launch:hover{background:var(--navy2)}
+.btn-launch:active{transform:scale(.97)}
+.btn-launch .ar{font-size:14px;transition:transform .18s}
+.btn-launch:hover .ar{transform:translateX(3px)}
+.btn-mark{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 14px;border-radius:10px;
+  font-size:12.5px;font-weight:800;
+  background:#fff;color:var(--navy);
+  border:1px solid var(--line);cursor:pointer;font-family:inherit;
+  transition:all .15s;
+}
+.btn-mark:hover{border-color:var(--green);color:var(--green2)}
+.btn-mark.on{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-mark .box{
+  width:16px;height:16px;border:2px solid currentColor;border-radius:5px;
+  display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0;
+}
+.btn-mark.on .box{background:#fff;color:var(--green);border-color:#fff}
+
+/* ============================================================
+   NARRATION CARD
+   ============================================================ */
+.narr{
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;padding:18px;border-radius:var(--r);
+  margin-bottom:18px;position:relative;overflow:hidden;
+  box-shadow:0 4px 20px rgba(13,27,76,.16);
+}
+.narr::after{
+  content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;
+  border-radius:50%;
+  background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2;
+}
+.narr-who{
+  font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--gold);margin-bottom:8px;position:relative;z-index:1;
+}
+.narr-msg{
+  font-size:14.5px;font-weight:700;line-height:1.55;
+  color:#fff;position:relative;z-index:1;
+}
+.narr-det{
+  font-size:11.5px;color:rgba(255,255,255,.72);
+  margin-top:8px;line-height:1.6;position:relative;z-index:1;
+}
+
+/* ============================================================
+   SECTION HEAD
+   ============================================================ */
+.sec-head{margin-bottom:16px}
+.sec-kicker{
+  font-size:10.5px;font-weight:800;color:var(--green2);
+  letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;display:block;
+}
+.sec-head h2{
+  font-size:20px;font-weight:800;color:var(--navy);
+  letter-spacing:-.4px;line-height:1.2;
+}
+.sec-head p{font-size:13px;color:#5A6478;margin-top:8px;line-height:1.6}
+
+/* ============================================================
+   COMPLETE CARD
+   ============================================================ */
+.complete-card{
+  background:linear-gradient(135deg,var(--green2),var(--green));
+  color:#fff;border-radius:var(--r);padding:24px;text-align:center;
+  position:relative;overflow:hidden;margin-bottom:16px;
+  box-shadow:0 8px 32px rgba(22,163,74,.28);
+  animation:celeb .5s cubic-bezier(.4,.2,.2,1);
+}
+@keyframes celeb{from{transform:scale(.94);opacity:0}to{transform:none;opacity:1}}
+.complete-card::after{
+  content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;
+  border-radius:50%;
+  background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.28;
+}
+.complete-card .ic{font-size:44px;position:relative;z-index:1}
+.complete-card h3{
+  font-size:22px;font-weight:800;margin-top:12px;
+  position:relative;z-index:1;letter-spacing:-.4px;
+}
+.complete-card p{
+  font-size:13.5px;color:rgba(255,255,255,.9);margin-top:8px;
+  position:relative;z-index:1;line-height:1.6;
+  max-width:480px;margin-left:auto;margin-right:auto;
+}
+.complete-stats{
+  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-top:20px;
+  position:relative;z-index:1;
+}
+.complete-stat .v{font-size:22px;font-weight:800;font-family:ui-monospace,Menlo,monospace}
+.complete-stat .l{font-size:9.5px;color:rgba(255,255,255,.7);font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+
+/* ============================================================
+   DEAL SUMMARY
+   ============================================================ */
+.deal-strip{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:16px 18px;margin-bottom:18px;box-shadow:var(--shadow);
+  display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.deal-strip .it{font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.2px}
+.deal-strip .cd{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:#8A93A6;margin-top:3px}
+.deal-strip .money{
+  font-family:ui-monospace,Menlo,monospace;font-size:20px;font-weight:800;color:var(--green2);
+  letter-spacing:-.4px;
+}
+.deal-strip .money-lbl{font-size:9.5px;color:#8A93A6;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-align:right;margin-bottom:2px}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.ts{
+  position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);
+  background:var(--navy);color:#fff;border-radius:12px;
+  padding:12px 18px;font-size:12.5px;font-weight:700;
+  box-shadow:0 12px 32px rgba(13,27,76,.35);
+  display:flex;gap:10px;align-items:center;
+  z-index:200;pointer-events:none;
+  transition:transform .35s cubic-bezier(.4,.2,.2,1);
+  max-width:calc(100vw - 32px);
+}
+.ts.on{transform:translate(-50%,0)}
+.ts.ok{background:var(--green)}.ts.er{background:var(--red)}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  background:var(--navy);color:#fff;padding:32px 20px 24px;
+  position:relative;overflow:hidden;margin-top:24px;
+}
+.footer::before{
+  content:"";position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,180,32,.14),transparent 70%);
+}
+.footer-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
+.footer-brand{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.footer-brand .n{font-size:15px;font-weight:800;letter-spacing:-.3px}
+.footer-brand .n .g{color:var(--green)}
+.footer-brand .s{font-size:9px;color:var(--gold);letter-spacing:1.3px;text-transform:uppercase;font-weight:800;margin-top:2px}
+.footer p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.7;max-width:560px}
+.footer-meta{
+  border-top:1px solid rgba(255,255,255,.1);margin-top:18px;padding-top:14px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:11px;color:rgba(255,255,255,.55);line-height:1.7;
+}
+
+@media (max-width:600px){
+  .rail-lbl,.rail-now{font-size:9px}
+  .act-head{gap:10px;padding:14px 14px 0}
+  .act-body{padding:10px 14px 14px}
+  .act-foot{padding:10px 14px 14px}
+  .deal-strip{padding:13px 14px}
+  .deal-strip .money{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="brand">
+      <svg width="28" height="28" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="h-navy" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0D1B4C"/><stop offset="1" stop-color="#1A2F7A"/>
+          </linearGradient>
+          <linearGradient id="h-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F4B420"/><stop offset="1" stop-color="#D99A0F"/>
+          </linearGradient>
+          <linearGradient id="h-green" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#22C55E"/><stop offset="1" stop-color="#15803D"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 5 L88 20 V50 C88 74 71 88 50 96 C29 88 12 74 12 50 V20 Z"
+              fill="url(#h-navy)" stroke="url(#h-gold)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M50 5 L88 20 V50 C88 60 84 68 78 75 L78 22 Z" fill="url(#h-gold)" opacity="0.28"/>
+        <circle cx="50" cy="32" r="11" fill="url(#h-green)" stroke="#fff" stroke-width="2"/>
+        <path d="M44.5 32.2 L48.3 36 L55.8 28.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M34 44 L40 44 L44 56 L62 56 L66 46 L42 46" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="47" cy="61" r="2.6" fill="#fff"/>
+        <circle cx="60" cy="61" r="2.6" fill="#fff"/>
+        <path d="M30 76 C36 70 44 70 50 74 C56 70 64 70 70 76" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M42 75 L48 80 L54 75" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="brand-txt">
+        <div class="n"><span class="d">Deals</span><span class="g">Gate</span> · Runthrough</div>
+        <div class="s">Africa's Secure Transaction Gateway</div>
+      </div>
+    </div>
+    <div class="hdr-actions">
+      <button onclick="resetAll()">Reset</button>
+      <button class="go" id="nextBtn" onclick="jumpNext()">Next act →</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     PROGRESS RAIL
+     ============================================================ -->
+<div class="rail">
+  <div class="rail-inner">
+    <div class="rail-top">
+      <span class="rail-lbl" id="railLbl">Not started</span>
+      <span class="rail-now" id="railNow">Act 1 of 11</span>
+    </div>
+    <div class="rail-bar"><div class="fill" id="railFill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><span class="dot"></span>The Full Journey · One Deal End to End</div>
+    <h1>
+      From signup to <span class="g">settled payout</span>.<br>
+      One protected deal, eleven acts.
+    </h1>
+    <p>
+      Follow Adaeze's iPhone 14 Pro from listing to completion. Every demo in the
+      bundle plays a role — the seller, the buyer, the Vet Agent, the admin, the courier.
+      Press <b style="color:var(--gold)">Next act</b> to move forward, or jump to any act.
+    </p>
+    <div class="cast">
+      <div class="cast-member">
+        <div class="cast-av" style="background:#F4B420;color:#0D1B4C">AO</div>
+        <div>
+          <div class="cast-name">Adaeze Okafor</div>
+          <div class="cast-role">Seller · Business</div>
+        </div>
+      </div>
+      <div class="cast-member">
+        <div class="cast-av" style="background:#16A34A">MI</div>
+        <div>
+          <div class="cast-name">Musa Ibrahim</div>
+          <div class="cast-role">Buyer · Individual</div>
+        </div>
+      </div>
+      <div class="cast-member">
+        <div class="cast-av" style="background:#0D1B4C;border:1px solid var(--gold)">BE</div>
+        <div>
+          <div class="cast-name">Blessing Eze</div>
+          <div class="cast-role">Vet Agent · Certified</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WRAP
+     ============================================================ -->
+<main class="wrap">
+
+  <!-- Live narration -->
+  <div class="narr" id="narr">
+    <div class="narr-who" id="narrWho">Ready</div>
+    <div class="narr-msg" id="narrMsg">Press "Next act →" to begin.</div>
+    <div class="narr-det" id="narrDet">Or jump to any act below.</div>
+  </div>
+
+  <!-- Deal reference -->
+  <div class="deal-strip">
+    <div>
+      <div class="it">iPhone 14 Pro 256GB — Deep Purple</div>
+      <div class="cd" id="stripCode">DG-240501 · Protected Deal</div>
+    </div>
+    <div style="text-align:right">
+      <div class="money-lbl">Buyer pays</div>
+      <div class="money">₦468,500</div>
+    </div>
+  </div>
+
+  <!-- Acts -->
+  <div class="sec-head">
+    <span class="sec-kicker">The Eleven Acts</span>
+    <h2>Follow the deal. Watch every screen.</h2>
+    <p>Each act is a real demo. Open it in a new tab, press <b>▶ Play</b>, and watch the scenario unfold. Come back here and tick it complete.</p>
+  </div>
+
+  <div id="acts"></div>
+
+  <!-- Complete card -->
+  <div id="completeCard"></div>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg width="34" height="34" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="f-navy" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0D1B4C"/><stop offset="1" stop-color="#1A2F7A"/>
+          </linearGradient>
+          <linearGradient id="f-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F4B420"/><stop offset="1" stop-color="#D99A0F"/>
+          </linearGradient>
+          <linearGradient id="f-green" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#22C55E"/><stop offset="1" stop-color="#15803D"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 5 L88 20 V50 C88 74 71 88 50 96 C29 88 12 74 12 50 V20 Z"
+              fill="url(#f-navy)" stroke="url(#f-gold)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M50 5 L88 20 V50 C88 60 84 68 78 75 L78 22 Z" fill="url(#f-gold)" opacity="0.28"/>
+        <circle cx="50" cy="32" r="11" fill="url(#f-green)" stroke="#fff" stroke-width="2"/>
+        <path d="M44.5 32.2 L48.3 36 L55.8 28.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M34 44 L40 44 L44 56 L62 56 L66 46 L42 46" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="47" cy="61" r="2.6" fill="#fff"/>
+        <circle cx="60" cy="61" r="2.6" fill="#fff"/>
+        <path d="M30 76 C36 70 44 70 50 74 C56 70 64 70 70 76" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M42 75 L48 80 L54 75" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="n">Deals<span class="g">Gate</span></div>
+        <div class="s">Africa's Secure Transaction Gateway</div>
+      </div>
+    </div>
+    <p>
+      THE TAP OF GRACE MEDIA HOUSE · Trading as DealsGate · CEO/Founder: Akinwunmi Taofik.
+      support@dealsgate.ng · info@dealsgate.ng · +234 807 921 9165 · +234 903 565 5184 ·
+      www.dealsgate.ng · www.dealsgate.com.ng · @dealsgate.ng
+    </p>
+    <div class="footer-meta">
+      <div>Full journey runthrough · 11 acts · 9 demos · 95+ scenarios</div>
+      <div>Spec FINAL 1.0 · 25 September 2026</div>
+    </div>
+  </div>
+</footer>
+
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   ACTS — the story
+   ============================================================ */
+const ACTS = [
+  {
+    id:'discover',
+    num:1,
+    title:'Discover the platform',
+    who:'Anyone · no login',
+    actor:'public',
+    file:'dealsgate-public-complete.html',
+    desc:'Adaeze runs an Instagram electronics store. Before she sells, she visits dealsgate.ng and sees how the protected-deal flow works. She searches for her own name — nothing yet — then reads the How It Works steps and the refund policy.',
+    watch:[
+      'The hero promise: <b>verify the item · protect the payment · track the delivery</b>.',
+      'Public seller search bar sits above the fold — no login required.',
+      'The <b>How It Works</b> six-step explainer maps exactly to the state machine in §21.',
+      'The policy library holds all 11 documents.',
+    ],
+    narration:{
+      who:'Act 1 · Public',
+      msg:'Before any money moves, the platform has to earn the seller\'s trust.',
+      det:'Public demo · hero, search, How It Works, blog, policy library, About & Contact.',
+    },
+  },
+  {
+    id:'signup',
+    num:2,
+    title:'Sign up · accept policies · verify ID',
+    who:'Adaeze · seller onboarding',
+    actor:'auth',
+    file:'dealsgate-auth-complete.html',
+    desc:'Adaeze signs up as a Business account. She cannot complete registration until she accepts three mandatory policies. Then she verifies her CAC number and the authorized officer\'s NIN — only after which the ID gate opens.',
+    watch:[
+      'Signup is <b>rejected</b> if any required policy box is unticked — try the <b>consent_gate</b> scenario.',
+      'Each acceptance stores <b>policy_key, policy_version, accepted_at, IP, user_agent</b>.',
+      'The ID gate blocks <b>create-deal · accept payment · agent jobs · withdraw</b> until verified.',
+      'Withdrawals later require step-up 2FA — TOTP, Email, or SMS.',
+    ],
+    narration:{
+      who:'Act 2 · Auth',
+      msg:'Consent + verification are the two hard gates before any money can move.',
+      det:'Run the <b>business_signup</b> scenario. Then try <b>consent_gate</b> to see the rejection.',
+    },
+  },
+  {
+    id:'create',
+    num:3,
+    title:'Create the Protected Deal',
+    who:'Adaeze · seller',
+    actor:'wizard',
+    file:'dealsgate-create-deal-wizard.html',
+    desc:'The seven-step wizard walks Adaeze through item basics, taxonomy, condition, quality notes, media uploads, and a Google Maps pin. Every field is validated client-side and re-validated server-side before publish.',
+    watch:[
+      'Run the <b>validation_fail</b> scenario — 11 rejected inputs, all traced to §23 server rules.',
+      'Media: <b>2–4 photos · 1 continuous video ≤ 60s</b>. Try <b>media_rules</b> to see each boundary.',
+      'Taxonomy is <b>typeahead-suggested</b> but every level is manually overridable.',
+      'Location requires <b>both</b> the address text and lat/lng — one without the other fails.',
+    ],
+    narration:{
+      who:'Act 3 · Create',
+      msg:'The wizard is the seller\'s front door. Everything the buyer later relies on starts here.',
+      det:'Run the <b>happy_path</b> scenario, then try <b>validation_fail</b> for the error sweep.',
+    },
+  },
+  {
+    id:'guarantee',
+    num:4,
+    title:'Fund the ₦5,000 guarantee',
+    who:'Adaeze · seller',
+    actor:'wizard',
+    file:'dealsgate-create-deal-wizard.html',
+    desc:'Before the buyer link is issued, the ₦5,000 guarantee must be paid. Adaeze tops up her guarantee wallet from her main wallet, then the platform auto-debits ₦5,000 as a hold. The buyer never sees this money — it is proof the seller stands behind the listing.',
+    watch:[
+      'Two funding paths: <b>auto-debit from guarantee wallet</b>, or <b>gateway via card</b>.',
+      'If the guarantee wallet is short, publish returns <b>HTTP 402</b> until topped up — see <b>guarantee_topup_first</b>.',
+      'The guarantee is a <b>hold</b>, not a fee. It refunds on success, forfeits on failure.',
+      'Status lifecycle: <b>held → refunded · forfeited · paid</b>.',
+    ],
+    narration:{
+      who:'Act 4 · Guarantee',
+      msg:'₦5,000 held is the single strongest trust signal a seller can send a stranger.',
+      det:'Try <b>guarantee_auto_debit</b>, then <b>guarantee_topup_first</b> to see the 402.',
+    },
+  },
+  {
+    id:'publish',
+    num:5,
+    title:'Publish · issue the buyer link',
+    who:'Adaeze · seller',
+    actor:'wizard',
+    file:'dealsgate-create-deal-wizard.html',
+    desc:'With all seven steps complete and the guarantee held, the wizard publishes. Two outputs are issued: a public deal code (DG-xxxxxx) and an unguessable buyer token. Adaeze copies the link into her Instagram bio and shares it via WhatsApp.',
+    watch:[
+      'Every publish issues a <b>fresh Deal ID</b> and a <b>fresh buyer token</b> — never reused.',
+      'Try <b>clone_relist</b> to see the clone path — prefilled but always new ID + new guarantee.',
+      'Buyer URL format: <b>dealsgate.ng/deal/DG-XXXXXX?t=tok_xxxxxxxx</b>.',
+    ],
+    narration:{
+      who:'Act 5 · Publish',
+      msg:'The link is the doorway. It is unguessable, unique per deal, and always issued fresh.',
+      det:'Follow the publish step, then test the <b>clone_relist</b> scenario.',
+    },
+  },
+  {
+    id:'escrow',
+    num:6,
+    title:'Buyer pays into escrow',
+    who:'Musa · buyer',
+    actor:'buyer',
+    file:'dealsgate-buyer-complete.html',
+    desc:'Musa opens the link. He sees the seller\'s public dossier, the item media, and a breakdown of every naira he will pay. He pays ₦468,500 into regulated escrow. The seller\'s phone buzzes with the payment — but the money is not theirs yet.',
+    watch:[
+      'The buyer sees only <b>Item + Buyer fee + Vet fee + Logistics</b>. The platform logistics margin is <b>never</b> shown.',
+      'Run <b>wallet_plus_card</b> to see split payment — wallet balance first, card for the rest.',
+      'Escrow is funded through a licensed partner. The platform never holds client money directly.',
+      'Webhook is verified before state transitions — idempotency key prevents double-credit.',
+    ],
+    narration:{
+      who:'Act 6 · Escrow',
+      msg:'Musa\'s money is safe. Adaeze can now proceed — but she cannot touch the funds yet.',
+      det:'Run the <b>first</b> scenario, then try <b>wallet_plus_card</b> for the split payment path.',
+    },
+  },
+  {
+    id:'inspect',
+    num:7,
+    title:'Vet Agent accepts · inspects',
+    who:'Blessing · Vet Agent',
+    actor:'agent',
+    file:'dealsgate-agent-complete.html',
+    desc:'The moment the deal is PAID, a job opens to certified agents in Ikeja. Blessing Eze — a Certified Vet Agent — is the first to Accept. The job locks to her. She travels to Adaeze\'s pin, verifies GPS within 500m, tests the phone, captures continuous video with the IMEI on camera, and submits a PASS.',
+    watch:[
+      'First-Accept-Wins. Only one active inspection per agent.',
+      'GPS must be within <b>500m</b> of the seller pin — <b>gpsOut</b> scenario shows the rejection.',
+      'Try <b>fail</b> — item does not match. Try <b>review</b> — needs_review. See the verdict options.',
+      'Try <b>bribe</b> — seller offers ₦20,000 to mark PASS. Blessing refuses and reports.',
+    ],
+    narration:{
+      who:'Act 7 · Vet Agent',
+      msg:'Physical inspection is what separates DealsGate from every other escrow service.',
+      det:'Run <b>first</b> for the happy path. Then try <b>fail</b>, <b>bribe</b>, and <b>gpsOut</b>.',
+    },
+  },
+  {
+    id:'evidence',
+    num:8,
+    title:'Buyer reviews evidence · approves',
+    who:'Musa · buyer',
+    actor:'buyer',
+    file:'dealsgate-buyer-complete.html',
+    desc:'Blessing\'s report lands on Musa\'s screen: photos, continuous video, IMEI match, notes. Logistics cannot pick up the item until Musa clicks Approve. This is the Evidence Gate — the single most important buyer protection in the platform.',
+    watch:[
+      'Logistics is <b>blocked</b> until Approve — this is a server-side rule, not a UI hint.',
+      'Try <b>dispute</b> — Musa sees a mismatch and disputes. Mediation rules in his favour.',
+      'Try <b>change_mind</b> — Musa changes his mind after PASS. Item price refunds, vet + service fees forfeit.',
+      'The agent does <b>not</b> get paid until Musa approves. This aligns everyone\'s incentives.',
+    ],
+    narration:{
+      who:'Act 8 · Evidence Gate',
+      msg:'Nothing moves — not the item, not the money — until the buyer says the report is good.',
+      det:'Run <b>approve</b> for the happy path. Try <b>dispute</b> and <b>change_mind</b> for the branches.',
+    },
+  },
+  {
+    id:'transit',
+    num:9,
+    title:'Dispatch · shared tracking',
+    who:'Courier · both parties watching',
+    actor:'platform',
+    file:'dealsgate-logistics-tracking.html',
+    desc:'GIG Logistics picks up the item from Adaeze and dispatches it to Musa. From this moment, both parties see the exact same tracking timeline — same states, same timestamps, same webhooks. The only difference is the cost lens in their own dashboard.',
+    watch:[
+      'Toggle <b>Buyer view / Seller view</b> — the timeline is identical. Only the cost panel changes.',
+      'Every state transition is driven by a <b>verified webhook</b> from the courier.',
+      'Try <b>cross_state</b> — Lagos → Kano. The SLA stretches to 120h automatically.',
+      'Try <b>transit_minor</b> and <b>transit_total</b> for the §13 damage branches.',
+    ],
+    narration:{
+      who:'Act 9 · Shared tracking',
+      msg:'One journey. One timeline. Two roles. Zero information asymmetry.',
+      det:'Toggle between Buyer and Seller views to see the same journey. Then run cross_state.',
+    },
+  },
+  {
+    id:'settle',
+    num:10,
+    title:'Delivered · confirmed · settled',
+    who:'Musa · buyer',
+    actor:'logistics',
+    file:'dealsgate-logistics-tracking.html',
+    desc:'The item is delivered. Musa has 72 hours to confirm or dispute — the auto-complete window. He confirms and rates Adaeze 5 stars and Blessing 5 stars. Escrow releases: Adaeze nets ₦441,000 after the 2% seller fee, and her ₦5,000 guarantee returns to her guarantee wallet.',
+    watch:[
+      'The 72h auto-complete window protects the seller from ghost buyers.',
+      'Seller net = <b>item − 2% seller fee</b>. Guarantee is <b>refunded</b>, not spent.',
+      'Ratings feed the public dossier and the agent\'s trust score.',
+      'Try <b>sla_breach</b> — shipment exceeds 72h. Admin is alerted, but the deal still completes.',
+    ],
+    narration:{
+      who:'Act 10 · Settled',
+      msg:'Adaeze is paid. Musa has his iPhone. Blessing has her earnings. Everyone trusts the platform.',
+      det:'Follow the delivered → confirm → settle path. Then try <b>sla_breach</b> for the edge case.',
+    },
+  },
+  {
+    id:'admin',
+    num:11,
+    title:'Admin oversight · audit',
+    who:'DealsGate Ops · admin',
+    actor:'admin',
+    file:'dealsgate-admin-complete.html',
+    desc:'Behind the scenes, DealsGate Ops watched every step. Overdue jobs were auto-escalated. Disputes were mediated. Fee config was dual-controlled. Every action — across all ten acts — lives in an immutable audit log with actor, IP, before-state, after-state, and timestamp.',
+    watch:[
+      'Try <b>dispute_fraud</b> — mediator rules for buyer, clawback return logistics, suspends the seller.',
+      'Try <b>fee_config</b> — a fee change requires <b>dual control</b> from two separate admins.',
+      'Try <b>audit_review</b> — filter the log to reconstruct any incident end-to-end.',
+      'Admin never manually assigns happy-path jobs — the LGA feed does that automatically.',
+    ],
+    narration:{
+      who:'Act 11 · Admin',
+      msg:'The platform runs itself. Admin only steps in on the exceptions.',
+      det:'Try <b>dispute_fraud</b>, then <b>fee_config</b> to see dual control in action.',
+    },
+  },
+];
+
+/* Add a bonus 12th card — platform pulse — as a wrap */
+const BONUS = {
+  id:'pulse',
+  num:12,
+  title:'Bonus · Platform Pulse',
+  who:'All 9 users · live',
+  actor:'platform',
+  file:'dealsgate-platform.html',
+  desc:'Step back and watch all 9 users transact in parallel — Adaeze selling, Musa buying, Blessing inspecting, the admin mediating, referrals firing, withdrawals landing. Twelve scenes running in one live feed.',
+  watch:[
+    'Every user is live at once — buyer, seller, agent, admin.',
+    'Revenue and escrow update in real time as deals close.',
+    'Feed filters let you isolate sellers / buyers / agents / admin / money / referrals.',
+  ],
+  narration:{
+    who:'Bonus',
+    msg:'The full platform, running.',
+    det:'Press ▶ Play and let it run. This is the whole MVP at a glance.',
+  },
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const KEY='dg_runthrough_v1';
+let S=load();
+function load(){
+  try{
+    const r=localStorage.getItem(KEY);
+    return r?JSON.parse(r):{done:{},current:0,total:ACTS.length+1};
+  }catch(e){return {done:{},current:0,total:ACTS.length+1};}
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render(){
+  const all=[...ACTS,BONUS];
+  const total=all.length;
+  const doneCount=Object.values(S.done).filter(Boolean).length;
+  const pct=Math.round((doneCount/total)*100);
+
+  // Rail
+  document.getElementById('railFill').style.width=pct+'%';
+  document.getElementById('railLbl').textContent=
+    doneCount===0?'Not started':
+    doneCount===total?'Journey complete':
+    doneCount+' of '+total+' acts done';
+  const currentAct=S.current<total?all[S.current]:null;
+  document.getElementById('railNow').textContent=
+    doneCount===total?'✓ Complete':
+    'Act '+(S.current+1)+' of '+total+' · '+(currentAct?currentAct.title:'');
+
+  // Narration
+  if(currentAct){
+    document.getElementById('narrWho').textContent=currentAct.narration.who;
+    document.getElementById('narrMsg').textContent=currentAct.narration.msg;
+    document.getElementById('narrDet').innerHTML=currentAct.narration.det;
+  } else {
+    document.getElementById('narrWho').textContent='✓ Complete';
+    document.getElementById('narrMsg').textContent='You have walked the full lifecycle.';
+    document.getElementById('narrDet').textContent='Every act done. Reset to run again.';
+  }
+
+  // Acts
+  document.getElementById('acts').innerHTML=all.map((a,i)=>{
+    const done=!!S.done[a.id];
+    const current=i===S.current;
+    const cls=[
+      'act',
+      a.actor,
+      done?'done':'',
+      current&&!done?'current':'',
+    ].filter(Boolean).join(' ');
+    return `<div class="${cls}" id="act-${a.id}">
+      <div class="act-stripe"></div>
+      <div class="act-head">
+        <div class="act-num">${done?'✓':a.num}</div>
+        <div style="flex:1;min-width:0">
+          <div class="act-title">${a.title}</div>
+          <div class="act-who"><span class="em">${emojiFor(a.actor)}</span>${a.who}</div>
+        </div>
+      </div>
+      <div class="act-body">
+        <p class="act-desc">${a.desc}</p>
+        <div class="act-watch">
+          <span class="lbl">What to watch for</span>
+          <ul style="margin:0;padding-left:16px;list-style:disc">
+            ${a.watch.map(w=>`<li style="margin-bottom:4px">${w}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      <div class="act-foot">
+        <div class="act-file">
+          <span class="pill">${a.file}</span>
+        </div>
+        <div class="act-cta">
+          <a class="btn-launch" href="${a.file}" target="_blank" rel="noopener">
+            Open demo <span class="ar">→</span>
+          </a>
+          <button class="btn-mark ${done?'on':''}" onclick="toggleDone('${a.id}')">
+            <span class="box">${done?'✓':''}</span>
+            <span>${done?'Done':'Mark done'}</span>
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Complete card
+  const el=document.getElementById('completeCard');
+  if(doneCount===total){
+    el.innerHTML=`<div class="complete-card">
+      <div class="ic">🎉</div>
+      <h3>Journey complete</h3>
+      <p>
+        You have walked a full Protected Deal from first signup to settled payout —
+        across all nine demos and the entire §1–§19 feature surface.
+      </p>
+      <div class="complete-stats">
+        <div class="complete-stat"><div class="v">${total}</div><div class="l">Acts</div></div>
+        <div class="complete-stat"><div class="v">9</div><div class="l">Demos</div></div>
+        <div class="complete-stat"><div class="v">95+</div><div class="l">Scenarios</div></div>
+        <div class="complete-stat"><div class="v">23/23</div><div class="l">Acceptance tests</div></div>
+      </div>
+    </div>`;
+  } else {
+    el.innerHTML='';
+  }
+
+  save();
+}
+
+function emojiFor(actor){
+  return {
+    public:'🌐', auth:'🔐', wizard:'🪄', buyer:'🛒',
+    agent:'🔍', admin:'⚙️', platform:'📡',
+  }[actor]||'·';
+}
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+function toggleDone(id){
+  S.done[id]=!S.done[id];
+  // Advance current if we just marked the current act done
+  const all=[...ACTS,BONUS];
+  if(S.done[id]){
+    const idx=all.findIndex(a=>a.id===id);
+    if(idx===S.current) S.current=Math.min(idx+1, all.length);
+  }
+  render();
+  const all0=[...ACTS,BONUS];
+  const doneCount=Object.values(S.done).filter(Boolean).length;
+  if(doneCount===all0.length){
+    toast('🏆 Full journey complete','ok');
+    setTimeout(()=>document.getElementById('completeCard')?.scrollIntoView({behavior:'smooth',block:'center'}),100);
+  } else if(S.done[id]){
+    toast('Marked done ✓','ok');
+  } else {
+    toast('Unmarked');
+  }
+}
+
+function jumpNext(){
+  const all=[...ACTS,BONUS];
+  // Find the next undone act
+  let idx=S.current;
+  if(idx>=all.length) idx=0;
+  // If current is done, look for next undone
+  while(idx<all.length && S.done[all[idx].id]) idx++;
+  if(idx>=all.length){
+    // Everything from current onwards is done — wrap to first undone anywhere
+    idx=all.findIndex(a=>!S.done[a.id]);
+    if(idx===-1){ toast('All acts complete · reset to run again','ok'); return; }
+  }
+  S.current=idx;
+  render();
+  const el=document.getElementById('act-'+all[idx].id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  const off=el?el.getBoundingClientRect().top:0;
+  if(el) window.scrollBy({top:off-140,behavior:'smooth'});
+}
+
+function resetAll(){
+  if(!confirm('Reset your progress through the journey?')) return;
+  localStorage.removeItem(KEY);
+  S={done:{},current:0,total:ACTS.length+1};
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+  toast('Progress reset','ok');
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function toast(msg,tone){
+  const el=document.getElementById('toast');
+  el.className='ts on '+(tone||'');
+  document.getElementById('toastIc').textContent=tone==='er'?'⚠':'✓';
+  document.getElementById('toastMsg').textContent=msg;
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='ts '+(tone||''),2200);
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+render();
+</script>
+</body>
+</html>

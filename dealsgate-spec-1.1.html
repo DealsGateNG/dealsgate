@@ -1,0 +1,870 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Specification FINAL 1.1</title>
+<style>
+  @page { size: A4 portrait; margin: 12mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D1B4C;
+    --navy2: #142a70;
+    --green: #16A34A;
+    --green2: #15803D;
+    --gold: #F4B420;
+    --gold2: #C98A00;
+    --ink: #0F172A;
+    --muted: #64748B;
+    --line: #E2E8F0;
+    --mist: #F4F6FB;
+    --blue: #2563EB;
+    --red: #DC2626;
+  }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #D5DAE4;
+    color: var(--ink);
+    font-size: 11pt;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    margin: 24px auto;
+    padding: 18mm 18mm 16mm;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(13,27,76,.14);
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page:last-child { page-break-after: auto; margin-bottom: 0; }
+
+  @media print {
+    html, body { background: #fff; font-size: 10pt; }
+    .page {
+      margin: 0; box-shadow: none;
+      padding: 14mm 14mm 12mm;
+      min-height: 0;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+    .screen-note { display: none !important; }
+  }
+
+  .screen-note {
+    max-width: 210mm; margin: 20px auto;
+    background: var(--navy); color: #fff;
+    padding: 14px 20px; border-radius: 10px;
+    font-size: 12.5px; line-height: 1.6;
+  }
+  .screen-note b { color: var(--gold); }
+  .screen-note kbd {
+    background: rgba(244,180,32,.16); color: var(--gold);
+    padding: 2px 7px; border-radius: 5px;
+    font-family: 'Menlo', monospace; font-size: 11px;
+    font-weight: 700; border: 1px solid rgba(244,180,32,.32);
+  }
+
+  /* HEADER */
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--navy);
+    margin-bottom: 18px;
+  }
+
+  .doc-header-left .brand {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .doc-header-left .mark {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: var(--navy); color: var(--gold);
+    display: grid; place-items: center;
+    font-size: 15px; font-weight: 900;
+    border: 2px solid var(--gold);
+  }
+
+  .doc-header-left .brandname {
+    font-size: 15px; font-weight: 800;
+    color: var(--navy); letter-spacing: -0.3px;
+  }
+  .doc-header-left .brandname .g { color: var(--green); }
+
+  .doc-header-left .brandsub {
+    font-size: 8.5px; color: var(--gold2);
+    letter-spacing: 1.3px; text-transform: uppercase;
+    font-weight: 800; margin-top: 1px;
+  }
+
+  .doc-header-left .doctitle {
+    font-size: 20px; font-weight: 800;
+    color: var(--navy); letter-spacing: -0.5px;
+    line-height: 1.1; margin-top: 6px;
+  }
+
+  .doc-header-left .docsub {
+    font-size: 11px; color: var(--muted);
+    margin-top: 3px; font-weight: 500;
+  }
+
+  .doc-header-right {
+    text-align: right; font-size: 9.5px;
+    color: var(--muted); line-height: 1.6; flex-shrink: 0;
+  }
+
+  .doc-header-right .meta-label {
+    font-size: 7.5px; color: var(--gold2);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    font-weight: 800; margin-bottom: 2px;
+  }
+
+  .doc-header-right .meta-value {
+    color: var(--navy); font-weight: 700;
+    font-family: 'Menlo', monospace;
+    font-size: 9.5px; margin-bottom: 6px;
+  }
+
+  /* REVISION BADGE */
+  .rev-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    color: #fff;
+    padding: 8px 14px; border-radius: 999px;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .rev-badge .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4ADE80; box-shadow: 0 0 8px #4ADE80;
+  }
+
+  /* SECTIONS */
+  .section { margin-bottom: 18px; }
+
+  .section-title {
+    font-size: 11pt; font-weight: 800;
+    color: var(--navy); letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    border-bottom: 1.5px solid var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .section-title .code {
+    font-family: 'Menlo', monospace;
+    font-size: 10pt; color: var(--gold2);
+    margin-right: 6px;
+  }
+
+  .section p {
+    font-size: 10pt; color: #334155;
+    line-height: 1.6; margin-bottom: 8px;
+  }
+
+  .section p b { color: var(--navy); font-weight: 800; }
+
+  /* REVISION TABLE */
+  .rev-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 9.5pt; margin-bottom: 10px;
+  }
+  .rev-table thead th {
+    background: var(--navy); color: #fff;
+    text-align: left; padding: 8px 11px;
+    font-size: 9pt; letter-spacing: 0.08em;
+    text-transform: uppercase; font-weight: 800;
+  }
+  .rev-table tbody td {
+    padding: 7px 11px;
+    border-bottom: 1px solid var(--line);
+    color: #334155; vertical-align: top;
+  }
+  .rev-table tbody td:first-child {
+    font-weight: 800; color: var(--navy);
+    font-family: 'Menlo', monospace;
+    white-space: nowrap;
+    width: 70px;
+  }
+
+  /* STATE GRID */
+  .state-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    margin: 8px 0 12px;
+  }
+
+  .state-cell {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 7px 6px;
+    text-align: center;
+    font-family: 'Menlo', monospace;
+    font-size: 8pt;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+  .state-cell.main {
+    background: #DCFCE7; border-color: var(--green); color: #065F46;
+  }
+  .state-cell.gate {
+    background: var(--gold); border-color: var(--gold2); color: var(--navy); font-weight: 900;
+  }
+  .state-cell.terminal {
+    background: var(--navy); color: var(--gold); border-color: var(--navy);
+  }
+  .state-cell.branch {
+    background: #FEE2E2; border-color: #FCA5A5; color: #7F1D1D;
+  }
+
+  .state-legend {
+    display: flex; flex-wrap: wrap; gap: 14px;
+    font-size: 8.5pt; color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .state-legend div { display: flex; align-items: center; gap: 6px; font-weight: 600; }
+  .state-legend .sw {
+    width: 11px; height: 11px; border-radius: 3px;
+    border: 1px solid var(--line);
+  }
+  .sw.main { background: #DCFCE7; border-color: var(--green); }
+  .sw.gate { background: var(--gold); border-color: var(--gold2); }
+  .sw.term { background: var(--navy); border-color: var(--navy); }
+  .sw.br { background: #FEE2E2; border-color: #FCA5A5; }
+
+  /* BULLET LIST */
+  .bullets { list-style: none; padding: 0; margin: 0; }
+  .bullets li {
+    padding: 5px 0 5px 20px;
+    position: relative;
+    font-size: 10pt; color: #334155;
+    line-height: 1.55;
+    border-bottom: 1px solid var(--line);
+  }
+  .bullets li:last-child { border-bottom: none; }
+  .bullets li::before {
+    content: "▪"; position: absolute; left: 0; top: 5px;
+    color: var(--gold); font-weight: 900; font-size: 11.5pt;
+  }
+  .bullets li b { color: var(--navy); font-weight: 800; }
+  .bullets li code {
+    font-family: 'Menlo', monospace;
+    font-size: 9pt; background: var(--mist);
+    color: var(--navy); padding: 1px 5px;
+    border-radius: 4px; border: 1px solid var(--line);
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: #FEFBEB;
+    border-left: 3px solid var(--gold);
+    padding: 10px 13px;
+    border-radius: 0 8px 8px 0;
+    font-size: 9.5pt;
+    color: #5A4A1A;
+    line-height: 1.55;
+    margin: 8px 0;
+  }
+  .callout b { color: var(--navy); }
+
+  .callout.red {
+    background: #FEF2F2;
+    border-left-color: var(--red);
+    color: #7F1D1D;
+  }
+  .callout.red b { color: #7F1D1D; }
+
+  .callout.green {
+    background: #F0FDF4;
+    border-left-color: var(--green);
+    color: #065F46;
+  }
+  .callout.green b { color: #065F46; }
+
+  /* CODE BLOCK */
+  .code-block {
+    font-family: 'Menlo', monospace;
+    font-size: 8.5pt;
+    background: var(--mist);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--navy);
+    line-height: 1.55;
+    margin: 8px 0;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* FOOTER */
+  .page-footer {
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 8.5pt;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .page-footer b { color: var(--navy); font-weight: 800; }
+
+  /* COVER PAGE */
+  .cover {
+    background:
+      radial-gradient(circle at 88% 12%, rgba(244,180,32,.22), transparent 45%),
+      radial-gradient(circle at 12% 88%, rgba(22,163,74,.18), transparent 50%),
+      linear-gradient(155deg, #061133 0%, var(--navy) 55%, var(--navy2) 100%);
+    color: #fff;
+    padding: 30mm 22mm;
+    justify-content: center;
+  }
+  .cover .doc-header { border-bottom-color: rgba(255,255,255,.16); }
+  .cover .doc-header-left .brandname { color: #fff; }
+  .cover .doc-header-left .brandname .g { color: #4ADE80; }
+  .cover .doc-header-left .brandsub { color: var(--gold); }
+  .cover .doc-header-left .doctitle { color: #fff; }
+  .cover .doc-header-left .docsub { color: rgba(255,255,255,.65); }
+  .cover .doc-header-right .meta-label { color: var(--gold); }
+  .cover .doc-header-right .meta-value { color: #fff; }
+
+  .cover h1 {
+    font-size: 36pt; font-weight: 800;
+    letter-spacing: -1.2px; line-height: 1.06;
+    color: #fff; margin-top: 30px;
+  }
+  .cover h1 .g { color: var(--gold); }
+  .cover h1 .gr { color: #4ADE80; }
+
+  .cover .sub {
+    font-size: 12pt; color: rgba(255,255,255,.82);
+    margin-top: 20px; line-height: 1.6;
+    max-width: 160mm;
+  }
+
+  .cover-meta {
+    display: flex; gap: 32px;
+    margin-top: 40px; padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,.16);
+    flex-wrap: wrap;
+  }
+  .cover-meta .item .l {
+    font-size: 8.5pt; color: rgba(255,255,255,.55);
+    font-weight: 800; letter-spacing: 0.14em;
+    text-transform: uppercase; margin-bottom: 5px;
+  }
+  .cover-meta .item .v {
+    font-size: 11pt; color: #fff; font-weight: 700;
+  }
+  .cover-meta .item .v.mono {
+    font-family: 'Menlo', monospace; font-size: 10pt;
+  }
+
+  .cover-notice {
+    margin-top: 40px;
+    padding: 16px 20px;
+    background: rgba(244,180,32,.12);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    font-size: 10.5pt;
+    line-height: 1.65;
+    color: rgba(255,255,255,.9);
+    max-width: 165mm;
+  }
+  .cover-notice b { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="screen-note">
+  <b>How to save as PDF:</b> open in <b>Chrome</b>, press
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> / <kbd>⌘</kbd>+<kbd>P</kbd>. Destination <b>Save as PDF</b>,
+  layout <b>Portrait</b>, paper <b>A4</b>, margins <b>Default</b>, tick
+  <b>Background graphics</b>. Save as <b>DealsGate_Specification_FINAL_1.1.pdf</b>.
+</div>
+
+<!-- ============================================================
+     PAGE 1 · COVER
+     ============================================================ -->
+<div class="page cover">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Africa's Secure Transaction Gateway</div>
+        </div>
+      </div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Revision</div>
+      <div class="meta-value">FINAL 1.1</div>
+      <div class="meta-label">Base</div>
+      <div class="meta-value">FINAL 1.0</div>
+      <div class="meta-label">Date</div>
+      <div class="meta-value">October 2026</div>
+    </div>
+  </div>
+
+  <h1>
+    Master Specification<br>
+    <span class="g">FINAL 1.1</span><br>
+    <span class="gr">Addendum</span>
+  </h1>
+
+  <p class="sub">
+    Consolidated addendum to the FINAL 1.0 master specification. Locks in the
+    technical decisions, state machine enumeration, policy library, training
+    programme, and security threat model developed during the Proof of Concept phase.
+  </p>
+
+  <div class="cover-notice">
+    <b>This addendum supersedes specific clauses of FINAL 1.0.</b> It does not replace the base document.
+    Sections not listed here remain unchanged and authoritative in FINAL 1.0.
+    Read this addendum <b>alongside</b> FINAL 1.0, not instead of it.
+  </div>
+
+  <div class="cover-meta">
+    <div class="item">
+      <div class="l">Company</div>
+      <div class="v">THE TAP OF GRACE MEDIA HOUSE</div>
+    </div>
+    <div class="item">
+      <div class="l">Brand</div>
+      <div class="v">DealsGate</div>
+    </div>
+    <div class="item">
+      <div class="l">CEO / Founder</div>
+      <div class="v">Taofik Akinwunmi</div>
+    </div>
+    <div class="item">
+      <div class="l">Document</div>
+      <div class="v mono">DG-SPEC-1.1</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 2 · REVISION LOG + §21.A
+     ============================================================ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Specification FINAL 1.1 · Addendum</div>
+        </div>
+      </div>
+      <div class="doctitle">Revision Log &amp; State Machine</div>
+      <div class="docsub">What changed from 1.0, and the full 21-state enumeration</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Page</div>
+      <div class="meta-value">02 / 05</div>
+      <div class="meta-label">Rev</div>
+      <div class="meta-value">FINAL 1.1</div>
+    </div>
+  </div>
+
+  <div class="rev-badge">
+    <span class="dot"></span>
+    Revision Log · FINAL 1.0 → FINAL 1.1
+  </div>
+
+  <div class="section">
+    <table class="rev-table">
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>§21.A</td>
+          <td>Full 21-state enumeration with closed transition function and HTTP 422 rejection rule. Corrects the abridged count previously described in external documents.</td>
+        </tr>
+        <tr>
+          <td>§9.2.A</td>
+          <td>Training specifics locked: 10 named modules, 100-question certification bank, 85% pass mark.</td>
+        </tr>
+        <tr>
+          <td>§18.A</td>
+          <td>Full 11-document policy library enumerated (FINAL 1.0 §18 listed 4).</td>
+        </tr>
+        <tr>
+          <td>§23.7</td>
+          <td>New section: Byzantine agent threat model and mitigation path. The single largest technical risk in the system, added as a named concern.</td>
+        </tr>
+        <tr>
+          <td>§24.A</td>
+          <td>Delivery model decision locked: web-first PWA. Planned native capture client for Vet Agents deferred to production build.</td>
+        </tr>
+        <tr>
+          <td>§28</td>
+          <td>Document control updated with revision history.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="code">§21.A</span>State Machine — Full Enumeration</div>
+    <p>
+      FINAL 1.0 §21 lists the happy path and eight branches. This section formalises the
+      complete set: <b>13 main-path states</b> plus <b>8 branch/terminal states</b> = <b>21 legal states</b>.
+      Every transition is verified server-side against a closed whitelist before any database write.
+      Illegal transitions are rejected with <b>HTTP 422</b>.
+    </p>
+
+    <div class="state-grid">
+      <div class="state-cell main">DRAFT</div>
+      <div class="state-cell main">GUARANTEE_PENDING</div>
+      <div class="state-cell main">AWAITING_BUYER_PAYMENT</div>
+      <div class="state-cell main">PAID</div>
+      <div class="state-cell main">OPEN_FOR_AGENT</div>
+      <div class="state-cell main">AGENT_ACCEPTED</div>
+      <div class="state-cell main">INSPECTED</div>
+      <div class="state-cell gate">EVIDENCE_REVIEW</div>
+      <div class="state-cell main">APPROVED</div>
+      <div class="state-cell main">LOGISTICS_DISPATCHED</div>
+      <div class="state-cell main">IN_TRANSIT</div>
+      <div class="state-cell main">DELIVERED</div>
+      <div class="state-cell terminal">COMPLETED</div>
+      <div class="state-cell branch">FAILED_INSPECTION</div>
+      <div class="state-cell branch">CANCELLED_PRE_INSPECT</div>
+      <div class="state-cell branch">CHANGE_MIND_POST_INSPECT</div>
+      <div class="state-cell branch">DISPUTED</div>
+      <div class="state-cell branch">TRANSIT_DAMAGE_MINOR</div>
+      <div class="state-cell branch">TRANSIT_TOTAL_REJECTION</div>
+      <div class="state-cell branch">FRAUD_SWAP</div>
+      <div class="state-cell branch">CANCELLED</div>
+    </div>
+
+    <div class="state-legend">
+      <div><span class="sw main"></span>Main path · 13 states</div>
+      <div><span class="sw gate"></span>Evidence gate</div>
+      <div><span class="sw term"></span>Terminal success</div>
+      <div><span class="sw br"></span>Branch · 8 states</div>
+    </div>
+
+    <div class="code-block">
+LEGAL[state] = set of permitted next states
+
+LEGAL[DRAFT]                       = {GUARANTEE_PENDING, CANCELLED}
+LEGAL[GUARANTEE_PENDING]           = {AWAITING_BUYER_PAYMENT, CANCELLED}
+LEGAL[AWAITING_BUYER_PAYMENT]      = {PAID, CANCELLED_PRE_INSPECT}
+LEGAL[PAID]                        = {OPEN_FOR_AGENT, CANCELLED_PRE_INSPECT}
+LEGAL[OPEN_FOR_AGENT]              = {AGENT_ACCEPTED, CANCELLED_PRE_INSPECT}
+LEGAL[AGENT_ACCEPTED]              = {INSPECTED}
+LEGAL[INSPECTED]                   = {EVIDENCE_REVIEW}
+LEGAL[EVIDENCE_REVIEW]             = {APPROVED, FAILED_INSPECTION, DISPUTED,
+                                      CHANGE_MIND_POST_INSPECT}
+LEGAL[APPROVED]                    = {LOGISTICS_DISPATCHED}
+LEGAL[LOGISTICS_DISPATCHED]        = {IN_TRANSIT}
+LEGAL[IN_TRANSIT]                  = {DELIVERED, TRANSIT_DAMAGE_MINOR,
+                                      TRANSIT_TOTAL_REJECTION, FRAUD_SWAP,
+                                      DISPUTED}
+LEGAL[DELIVERED]                   = {COMPLETED, DISPUTED, FRAUD_SWAP,
+                                      TRANSIT_DAMAGE_MINOR}
+LEGAL[COMPLETED]                   = {}  # terminal
+LEGAL[FAILED_INSPECTION]           = {}  # terminal
+LEGAL[CANCELLED_PRE_INSPECT]       = {}  # terminal
+LEGAL[CANCELLED]                   = {}  # terminal
+LEGAL[CHANGE_MIND_POST_INSPECT]    = {}  # terminal
+LEGAL[TRANSIT_DAMAGE_MINOR]        = {COMPLETED}
+LEGAL[TRANSIT_TOTAL_REJECTION]     = {}  # terminal
+LEGAL[FRAUD_SWAP]                  = {}  # terminal
+LEGAL[DISPUTED]                    = {COMPLETED, CANCELLED}  # via mediator
+    </div>
+
+    <div class="callout green">
+      <b>The invariant.</b> No edge exists from <code>EVIDENCE_REVIEW</code> to
+      <code>LOGISTICS_DISPATCHED</code> except via <code>APPROVED</code>.
+      The evidence gate is a structural property of the transition graph, not a UI constraint.
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span><b>DealsGate</b> · Specification FINAL 1.1 · Addendum</span>
+    <span>Page 2 of 5</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 3 · §9.2.A + §18.A
+     ============================================================ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Specification FINAL 1.1 · Addendum</div>
+        </div>
+      </div>
+      <div class="doctitle">Training &amp; Policy Library</div>
+      <div class="docsub">Formal enumeration of agent training and legal documents</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Page</div>
+      <div class="meta-value">03 / 05</div>
+      <div class="meta-label">Rev</div>
+      <div class="meta-value">FINAL 1.1</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="code">§9.2.A</span>Vet Agent Training Programme</div>
+    <p>
+      FINAL 1.0 §9.2 specified a read-only module sequence with a quiz. This section
+      locks the exact structure.
+    </p>
+
+    <ul class="bullets">
+      <li><b>Module 01 ·</b> Role &amp; Conduct — core duties, ethics, zero-affiliation rule</li>
+      <li><b>Module 02 ·</b> Inspection Protocol — pre-arrival, on-site, verdicts</li>
+      <li><b>Module 03 ·</b> Evidence Upload — photos, continuous video, content hashing</li>
+      <li><b>Module 04 ·</b> Smartphones — IMEI, battery health, account lock checks</li>
+      <li><b>Module 05 ·</b> Laptops — serial, power-on, ports, battery</li>
+      <li><b>Module 06 ·</b> Cameras &amp; Drones — serial, lens, gimbal, propellers</li>
+      <li><b>Module 07 ·</b> Vehicles — VIN vs papers, odometer, engine</li>
+      <li><b>Module 08 ·</b> Bags &amp; Watches — stitching, serials, hallmarks</li>
+      <li><b>Module 09 ·</b> Other Sectors — appliances, solar, B2B bulk counts</li>
+      <li><b>Module 10 ·</b> Scam Detection — top 10 Nigerian scam patterns</li>
+    </ul>
+
+    <div class="callout">
+      <b>Certification gate:</b> 10 modules complete + quiz ≥ <b>85%</b> pass mark.
+      Quiz bank: <b>100 questions</b>, 25 randomly drawn per attempt, 30-minute time limit.
+      Badges: <b>Certified Eligible</b> (post-quiz) → <b>Certified</b> (3 successful inspections) → <b>Super Vet</b> (10 at 4.5★+).
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="code">§18.A</span>Policy Library — Full Enumeration</div>
+    <p>
+      FINAL 1.0 §4.1 and §18 listed 4 required policies. The production policy library
+      contains <b>11 documents</b>, all drafted to NDPA 2023 standards.
+    </p>
+
+    <ul class="bullets">
+      <li><b>01 ·</b> Terms of Service</li>
+      <li><b>02 ·</b> Privacy Policy — NDPA 2023 aligned</li>
+      <li><b>03 ·</b> Refund &amp; Cancellation Policy — maps §13 branches</li>
+      <li><b>04 ·</b> Dispute Resolution Policy — evidence-tier weighting</li>
+      <li><b>05 ·</b> Acceptable Use Policy</li>
+      <li><b>06 ·</b> Prohibited Items List — 9 categories</li>
+      <li><b>07 ·</b> Data Retention &amp; Security Policy</li>
+      <li><b>08 ·</b> Complaints &amp; Escalation Policy — FCCPC aligned</li>
+      <li><b>09 ·</b> Cookie Policy</li>
+      <li><b>10 ·</b> Fee Schedule</li>
+      <li><b>11 ·</b> Frequently Asked Questions</li>
+    </ul>
+
+    <div class="callout">
+      <b>Mandatory consent set:</b> at signup, users must accept Terms of Service, Privacy Policy,
+      and Refund &amp; Dispute Policy. Acceptable Use is optional. Acceptance is persisted with
+      <code style="font-family:Menlo,monospace;font-size:9pt;background:var(--mist);padding:1px 5px;border-radius:4px;">policy_key</code>,
+      <code style="font-family:Menlo,monospace;font-size:9pt;background:var(--mist);padding:1px 5px;border-radius:4px;">policy_version</code>,
+      <code style="font-family:Menlo,monospace;font-size:9pt;background:var(--mist);padding:1px 5px;border-radius:4px;">accepted_at</code>,
+      IP, and user agent.
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span><b>DealsGate</b> · Specification FINAL 1.1 · Addendum</span>
+    <span>Page 3 of 5</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 4 · §23.7 Byzantine agent threat model
+     ============================================================ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Specification FINAL 1.1 · Addendum</div>
+        </div>
+      </div>
+      <div class="doctitle">Threat Model · Byzantine Agent</div>
+      <div class="docsub">The single largest technical risk in the system, formally named</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Page</div>
+      <div class="meta-value">04 / 05</div>
+      <div class="meta-label">Rev</div>
+      <div class="meta-value">FINAL 1.1</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="code">§23.7</span>Byzantine Agent Threat Model</div>
+    <p>
+      FINAL 1.0 §23 listed validation, authorization, webhook verification, idempotency,
+      signed URLs, and 2FA. It did not name the largest single technical risk in the system.
+      This section adds it.
+    </p>
+
+    <div class="callout red">
+      <b>The risk.</b> The evidence gate assumes that continuous video and IMEI-on-camera
+      evidence capture the actual physical item at the actual inspection location. If an
+      agent's device is rooted or jailbroken, or the app itself is modified, the agent can
+      inject pre-recorded footage or spoof GPS position. The buyer then approves a report
+      that does not correspond to the item they will receive.
+    </div>
+
+    <p><b>Why it matters.</b> The evidence gate is the structural invariant the entire protocol rests on. If a single compromised device can break it, the platform's security reduces to the weakest mobile client — and DealsGate becomes a standard escrow service with extra steps.</p>
+
+    <div class="section-title" style="margin-top:14px;">Mitigation path</div>
+    <ul class="bullets">
+      <li><b>Hardware-backed device attestation.</b> Mobile capture client signs each frame with a device-bound key (Android Keystore / iOS Secure Enclave). Server rejects any unverifiable signature.</li>
+      <li><b>Motion co-capture.</b> Accelerometer and gyroscope readings captured with each frame. Injected footage will not match the device's motion profile.</li>
+      <li><b>Monotonic server timestamps.</b> Each frame carries a server-issued timestamp. Pre-recorded footage cannot be replayed against a later timestamp.</li>
+      <li><b>Structured red-team exercise.</b> Quarterly adversarial testing — one team attempts frame injection on a rooted device, one attempts GPS spoofing via mock location providers. Every successful bypass is patched and re-tested.</li>
+      <li><b>Fallback controls.</b> If attestation can be bypassed, escalate to dual-device signing (seller and agent cross-verify) and mandatory buyer unboxing video stored as Tier-2 evidence.</li>
+    </ul>
+
+    <div class="callout">
+      <b>Status:</b> Attestation layer is scheduled for the production build. It requires the
+      mobile capture client, which requires the engineering team that funding enables.
+      The MVP artifacts demonstrate the flow but do not carry cryptographic attestation.
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span><b>DealsGate</b> · Specification FINAL 1.1 · Addendum</span>
+    <span>Page 4 of 5</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 5 · §24.A + §28
+     ============================================================ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Specification FINAL 1.1 · Addendum</div>
+        </div>
+      </div>
+      <div class="doctitle">Delivery Model &amp; Document Control</div>
+      <div class="docsub">Web-first PWA decision, revision history, sign-off</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Page</div>
+      <div class="meta-value">05 / 05</div>
+      <div class="meta-label">Rev</div>
+      <div class="meta-value">FINAL 1.1</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="code">§24.A</span>Delivery Model — Web-First PWA</div>
+    <p>
+      FINAL 1.0 §24 said "mobile-first." FINAL 1.1 locks the delivery decision
+      precisely: DealsGate ships as a <b>progressive web app</b>.
+    </p>
+
+    <ul class="bullets">
+      <li><b>Web-first PWA.</b> Runs on any modern mobile browser. Installable to the home screen. No app store review cycle, no forced updates, no per-platform builds.</li>
+      <li><b>Reduced surface area.</b> One codebase, one deployment, one security perimeter. Critical at the PoC-to-MVP stage.</li>
+      <li><b>Single-link access.</b> Reviewers, investors, and early users open the product from a URL — no install required. This is why the 13 MVP artifacts already run in a browser.</li>
+      <li><b>Native capture client deferred.</b> A dedicated mobile capture app for Vet Agents is planned for the production build, driven by the hardware-attestation requirement in §23.7. The web PWA remains the primary buyer and seller surface.</li>
+    </ul>
+
+    <div class="callout green">
+      <b>Confirmed stack:</b> Next.js + React + TypeScript · Node.js / NestJS ·
+      PostgreSQL · Redis · S3-compatible object storage · Paystack / Flutterwave
+      behind a PaymentService abstraction · GIG / Kwik behind a LogisticsService abstraction.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title"><span class="code">§28</span>Document Control</div>
+
+    <table class="rev-table">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>FINAL 1.0</td>
+          <td>Consolidated master specification. Sections §1 through §28 as originally issued.</td>
+        </tr>
+        <tr>
+          <td>FINAL 1.1</td>
+          <td>Addendum issued October 2026. Adds §21.A (21-state enumeration), §9.2.A (training specifics), §18.A (11-document policy library), §23.7 (Byzantine agent threat model), §24.A (web-first PWA decision). Updates this §28.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:10px;">
+      <b>Superseding rule:</b> Where FINAL 1.1 conflicts with FINAL 1.0, FINAL 1.1 is authoritative.
+      Where FINAL 1.1 is silent, FINAL 1.0 remains in force.
+    </p>
+  </div>
+
+  <div class="section" style="margin-top:auto;">
+    <div class="section-title">Sign-off</div>
+    <table class="rev-table">
+      <tbody>
+        <tr>
+          <td style="width:120px;color:var(--gold2);font-weight:800;letter-spacing:0.08em;text-transform:uppercase;font-size:8.5pt;">Company</td>
+          <td>THE TAP OF GRACE MEDIA HOUSE · Trading as DealsGate</td>
+        </tr>
+        <tr>
+          <td style="color:var(--gold2);font-weight:800;letter-spacing:0.08em;text-transform:uppercase;font-size:8.5pt;">CEO / Founder</td>
+          <td>Taofik Akinwunmi</td>
+        </tr>
+        <tr>
+          <td style="color:var(--gold2);font-weight:800;letter-spacing:0.08em;text-transform:uppercase;font-size:8.5pt;">Contact</td>
+          <td>taofik@dealsgate.ng · dealsgate.ng</td>
+        </tr>
+        <tr>
+          <td style="color:var(--gold2);font-weight:800;letter-spacing:0.08em;text-transform:uppercase;font-size:8.5pt;">Date</td>
+          <td>October 2026</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="page-footer">
+    <span><b>DealsGate</b> · Specification FINAL 1.1 · Addendum</span>
+    <span>Page 5 of 5</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2058 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Public Pages</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;--gold:#F4B420;--gold2:#D99A0F;
+--mist:#F1F3F5;--charcoal:#1F2937;--red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--line:rgba(13,27,76,.10)}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--mist);
+color:var(--charcoal);font-size:14px;line-height:1.5;padding-bottom:78px}
+.hdr{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line)}
+.hdr-top{background:var(--navy);color:var(--gold);font-size:10px;font-weight:700;text-align:center;padding:5px 12px;letter-spacing:.04em}
+.hdr-main{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;gap:10px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit;cursor:pointer}
+.brand-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--navy),var(--navy2));border-radius:8px;display:grid;place-items:center;color:var(--gold);font-size:15px;font-weight:900;border:2px solid var(--gold);flex-shrink:0}
+.brand-txt{line-height:1}
+.brand-txt .n{font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.brand-txt .n .g{color:var(--green)}
+.brand-txt .s{font-size:8px;color:var(--navy);opacity:.6;letter-spacing:1.4px;text-transform:uppercase;font-weight:700;margin-top:2px}
+.cta{display:flex;gap:6px}
+.cta button{font-size:11px;font-weight:700;padding:8px 12px;border-radius:9px;border:none;font-family:inherit;cursor:pointer;white-space:nowrap}
+.cta .login{background:transparent;color:var(--navy);border:1px solid var(--line)}
+.cta .signup{background:linear-gradient(135deg,var(--navy),var(--green));color:#fff}
+.hdr-nav{display:flex;gap:2px;padding:0 8px 8px;overflow-x:auto;scrollbar-width:none}
+.hdr-nav::-webkit-scrollbar{display:none}
+.hdr-nav button{padding:8px 12px;background:none;border:none;font-family:inherit;font-size:11px;font-weight:700;color:#6B7280;cursor:pointer;border-radius:8px;white-space:nowrap}
+.hdr-nav button.on{background:var(--mist);color:var(--navy)}
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);display:flex;overflow-x:auto;padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(13,27,76,.06);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;min-width:56px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 6px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;font-weight:800;color:#9CA3AF;text-transform:uppercase}
+.tab.on{color:var(--navy)}
+.tab .ic{width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--mist);font-size:12px;line-height:1}
+.tab.on .ic{background:var(--gold);color:var(--navy)}
+.panel{display:none;padding:0}
+.panel.on{display:block;animation:fu .25s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.sec-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);padding:14px 14px 8px;display:flex;justify-content:space-between;align-items:center}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;margin:0 12px 11px;overflow:hidden;box-shadow:0 1px 3px rgba(13,27,76,.05)}
+.ch{padding:11px 14px;background:var(--mist);border-bottom:1px solid var(--line);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cb{padding:13px 14px}
+.bd{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;line-height:1.4}
+.bd-navy{background:var(--navy);color:#fff}.bd-green{background:#DCFCE7;color:var(--green2)}.bd-gold{background:#FEF3C7;color:var(--gold2)}
+.bd-red{background:#FEE2E2;color:var(--red)}.bd-blue{background:#DBEAFE;color:var(--blue)}.bd-purple{background:#EDE9FE;color:var(--purple)}.bd-mist{background:var(--mist);color:#6B7280}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px}
+.row:last-child{border-bottom:none}
+.row .k{color:#4B5563;flex:1;min-width:0}
+.row .v{font-weight:700;color:var(--navy);text-align:right;flex-shrink:0;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.row .v.g{color:var(--green)}.row .v.r{color:var(--red)}.row .v.pu{color:var(--purple)}
+.row.tot{background:#F8FAFC}.row.tot .v{font-size:15px;font-weight:800}
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;text-align:center}
+.btn.pr{background:linear-gradient(135deg,var(--navy),var(--green));color:#fff}
+.btn.nv{background:var(--navy);color:#fff}
+.btn.go{background:var(--gold);color:var(--navy)}
+.btn.gh{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.brow{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px 12px}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 60%,var(--green2) 100%);color:#fff;padding:22px 16px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.4),transparent 70%)}
+.hero-inner{position:relative;z-index:1}
+.hero .eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);padding:5px 12px;border-radius:20px;font-size:10px;font-weight:800;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.hero h1{font-size:26px;font-weight:800;line-height:1.15;letter-spacing:-.5px}
+.hero h1 .g{color:var(--gold)}
+.hero p{font-size:13px;color:rgba(255,255,255,.85);margin-top:10px;line-height:1.55}
+.hero-trust{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.hero-trust div{display:flex;align-items:center;gap:5px;font-size:11px;color:rgba(255,255,255,.9);font-weight:600}
+.hero-cta{margin-top:18px;display:flex;gap:8px;flex-wrap:wrap}
+.hero-cta a{padding:11px 18px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.hero-cta .p{background:var(--gold);color:var(--navy)}
+.hero-cta .s{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.hero-founder{margin-top:18px;display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,.10);border-radius:12px;border:1px solid rgba(255,255,255,.15)}
+.hero-founder .avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:grid;place-items:center;color:var(--navy);font-size:18px;font-weight:900;flex-shrink:0}
+.hero-founder .n{font-size:12px;font-weight:800}
+.hero-founder .r{font-size:10px;color:rgba(255,255,255,.7);margin-top:2px}
+.search{position:relative;margin:14px 12px}
+.search input{width:100%;padding:14px 14px 14px 42px;border:1px solid var(--line);border-radius:12px;font-size:13px;font-family:inherit;outline:none;background:#fff;color:var(--charcoal);box-shadow:0 2px 8px rgba(13,27,76,.06)}
+.search input:focus{border-color:var(--navy)}
+.search .ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none}
+.search-hint{font-size:10px;color:#9CA3AF;padding:6px 14px 0;text-align:center;font-weight:600}
+.seller-card{display:flex;gap:12px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.seller-card:last-child{border-bottom:none}
+.seller-av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:15px;font-weight:800;flex-shrink:0;position:relative}
+.seller-av .verified{position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:10px;border:1px solid var(--line)}
+.seller-info{flex:1;min-width:0}
+.seller-name{font-size:13px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seller-type{font-size:10px;color:#6B7280;margin-top:2px}
+.seller-stats{display:flex;gap:10px;font-size:10px;margin-top:5px;flex-wrap:wrap}
+.seller-stats strong{color:var(--green2)}
+.seller-rating{font-size:11px;color:var(--gold2);font-weight:800}
+.step-row{display:flex;gap:12px;padding:14px;border-bottom:1px solid var(--line)}
+.step-row:last-child{border-bottom:none}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:11px;font-weight:900;flex-shrink:0}
+.step-body{flex:1;min-width:0}
+.step-title{font-size:12px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.step-desc{font-size:11px;color:#6B7280;line-height:1.55}
+.blog-card{padding:14px;border-bottom:1px solid var(--line);cursor:pointer}
+.blog-card:last-child{border-bottom:none}
+.blog-img{aspect-ratio:16/9;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:12px;margin-bottom:12px;display:grid;place-items:center;font-size:32px;color:#6366F1}
+.blog-tag{font-size:9px;font-weight:800;color:var(--green2);letter-spacing:.08em;text-transform:uppercase}
+.blog-title{font-size:15px;font-weight:800;color:var(--navy);line-height:1.3;margin-top:4px}
+.blog-ex{font-size:12px;color:#6B7280;margin-top:6px;line-height:1.55}
+.blog-meta{font-size:10px;color:#9CA3AF;margin-top:8px;display:flex;gap:8px}
+.prose{padding:14px 16px;font-size:13px;line-height:1.75;color:#374151}
+.prose h1{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px;line-height:1.2}
+.prose h2{font-size:15px;font-weight:800;color:var(--navy);margin-top:22px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.prose h3{font-size:13px;font-weight:800;color:var(--green2);margin-top:16px;margin-bottom:6px}
+.prose p{margin-bottom:12px}
+.prose ul,.prose ol{margin:10px 0 14px 20px;font-size:13px}
+.prose li{margin-bottom:6px}
+.prose strong{color:var(--navy);font-weight:800}
+.prose em{color:#6B7280}
+.prose blockquote{border-left:3px solid var(--gold);background:var(--mist);padding:10px 14px;margin:14px 0;border-radius:0 8px 8px 0;font-style:italic;font-size:12px;color:#4B5563}
+.prose table{width:100%;font-size:12px;border-collapse:collapse;margin:12px 0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.prose th{background:var(--mist);color:var(--navy);text-align:left;padding:8px 10px;font-weight:800;font-size:11px;text-transform:uppercase}
+.prose td{padding:8px 10px;border-top:1px solid var(--line);color:#4B5563}
+.prose .callout{background:#FEF3C7;border-left:3px solid var(--gold);padding:11px 13px;border-radius:8px;font-size:12px;color:#78350F;line-height:1.6;margin:14px 0}
+.prose .callout.g{background:#DCFCE7;border-color:var(--green);color:#065F46}
+.prose .callout.b{background:#DBEAFE;border-color:var(--blue);color:#1E3A8A}
+.prose .callout.r{background:#FEE2E2;border-color:var(--red);color:#7F1D1D}
+.back{display:flex;align-items:center;gap:6px;padding:12px 14px;font-size:12px;font-weight:700;color:var(--navy);cursor:pointer;background:transparent;border:none;font-family:inherit}
+.filters{display:flex;gap:6px;padding:10px 12px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--line);background:#fff}
+.filters::-webkit-scrollbar{display:none}
+.chip{padding:6px 12px;border-radius:20px;border:none;background:var(--mist);color:#6B7280;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;font-family:inherit;white-space:nowrap}
+.chip.on{background:var(--navy);color:#fff}
+.deal-hero{background:var(--navy);color:#fff;padding:16px;position:relative;overflow:hidden}
+.deal-hero::after{content:"";position:absolute;right:-50px;top:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.25),transparent 70%)}
+.deal-hero .code{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:rgba(255,255,255,.55);position:relative;z-index:1}
+.deal-hero .item{font-size:18px;font-weight:800;margin-top:6px;line-height:1.25;position:relative;z-index:1}
+.deal-media{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:12px}
+.deal-media .img{aspect-ratio:1;background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border-radius:10px;display:grid;place-items:center;font-size:22px;color:#6366F1;position:relative}
+.deal-media .img.v{background:linear-gradient(135deg,#FEF3C7,#FDE68A);color:#D97706}
+.deal-media .img::after{content:attr(data-l);position:absolute;bottom:4px;right:6px;font-size:9px;font-weight:700;color:rgba(0,0,0,.4)}
+.about-hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:26px 16px;text-align:center;position:relative;overflow:hidden}
+.about-hero::after{content:"";position:absolute;left:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.3),transparent 70%)}
+.about-hero .shield{width:64px;height:64px;margin:0 auto 12px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:18px;display:grid;place-items:center;font-size:32px;color:var(--navy);position:relative;z-index:1;border:3px solid #fff}
+.about-hero h1{font-size:22px;font-weight:800;position:relative;z-index:1;line-height:1.2}
+.about-hero p{font-size:12px;color:rgba(255,255,255,.85);margin-top:10px;position:relative;z-index:1;line-height:1.6;max-width:340px;margin-left:auto;margin-right:auto}
+.contact-grid{padding:14px;display:grid;gap:10px}
+.contact-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.contact-card .ic{width:36px;height:36px;border-radius:10px;background:var(--mist);display:grid;place-items:center;font-size:16px;margin-bottom:8px}
+.contact-card .t{font-size:12px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.contact-card .l{font-size:12px;color:#4B5563;line-height:1.7}
+.contact-card .l a{color:var(--navy);text-decoration:none;font-weight:600}
+.footer{background:var(--navy);color:#fff;padding:20px 16px;margin-top:20px}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.footer-brand .mark{width:36px;height:36px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:10px;display:grid;place-items:center;font-size:18px;color:var(--navy);font-weight:900}
+.footer-brand .n{font-size:14px;font-weight:800}
+.footer-brand .n .g{color:var(--gold)}
+.footer-brand .s{font-size:8px;color:var(--gold);letter-spacing:1.2px;text-transform:uppercase;margin-top:2px;font-weight:700}
+.footer h4{font-size:11px;font-weight:800;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;margin-top:16px;margin-bottom:8px}
+.footer p,.footer a{font-size:11px;color:rgba(255,255,255,.75);line-height:1.7;text-decoration:none;display:block;margin-bottom:3px;cursor:pointer}
+.footer a:hover{color:var(--gold)}
+.footer .contact-list div{display:flex;align-items:flex-start;gap:6px;font-size:11px;color:rgba(255,255,255,.75);margin-bottom:4px}
+.footer .copy{border-top:1px solid rgba(255,255,255,.1);margin-top:16px;padding-top:12px;font-size:10px;color:rgba(255,255,255,.55);text-align:center;line-height:1.6}
+.empty{text-align:center;padding:32px 20px;color:#9CA3AF;font-size:12px;line-height:1.6}
+.legal-list{padding:0}
+.legal-item{padding:13px 14px;border-bottom:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.legal-item:last-child{border-bottom:none}
+.legal-item .t{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.legal-item .s{font-size:10px;color:#6B7280;margin-top:2px}
+.legal-item .arrow{font-size:14px;color:#9CA3AF;flex-shrink:0}
+.ts{position:fixed;left:12px;right:12px;bottom:90px;z-index:200;background:var(--navy);color:#fff;border-radius:12px;padding:12px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(13,27,76,.3);transform:translateY(140%);transition:transform .35s;display:flex;gap:10px;align-items:center;pointer-events:none}
+.ts.on{transform:translateY(0)}.ts.ok{background:var(--green)}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-top">🛡️ Africa's Secure Transaction Gateway · Nigeria</div>
+  <div class="hdr-main">
+    <a class="brand" onclick="go('home')">
+      <div class="brand-mark">✓</div>
+      <div class="brand-txt"><div class="n">Deals<span class="g">Gate</span></div><div class="s">Africa's Secure Gateway</div></div>
+    </a>
+    <div class="cta">
+      <button class="login" onclick="toast('Opens login')">Log in</button>
+      <button class="signup" onclick="toast('Opens signup')">Sign up</button>
+    </div>
+  </div>
+  <nav class="hdr-nav" id="hdrNav"></nav>
+</header>
+
+<main id="app"></main>
+
+<nav class="tabs">
+  <button class="tab on" data-t="home" onclick="go('home',null,this)"><span class="ic">🏠</span>Home</button>
+  <button class="tab" data-t="discover" onclick="go('discover',null,this)"><span class="ic">🔍</span>Discover</button>
+  <button class="tab" data-t="deal" onclick="go('deal',null,this)"><span class="ic">📦</span>Deal</button>
+  <button class="tab" data-t="blog" onclick="go('blog',null,this)"><span class="ic">📝</span>Blog</button>
+  <button class="tab" data-t="legal" onclick="go('legal',null,this)"><span class="ic">⚖️</span>Legal</button>
+  <button class="tab" data-t="agent" onclick="go('agent',null,this)"><span class="ic">🎓</span>Agent</button>
+  <button class="tab" data-t="about" onclick="go('about',null,this)"><span class="ic">ℹ️</span>About</button>
+</nav>
+
+<div class="ts" id="toast"><span>✓</span><span id="toastMsg"></span></div>
+
+<script>
+const SUPPORT = `
+---
+
+**Contact**
+
+THE TAP OF GRACE MEDIA HOUSE · Trading as **DealsGate** · CEO/Founder: **Akinwunmi Taofik**
+
+- support@dealsgate.ng · info@dealsgate.ng
+- +234 807 921 9165 · +234 903 565 5184
+- www.dealsgate.ng · www.dealsgate.com.ng · @dealsgate.ng
+`;
+
+const SELLERS = [
+  {slug:'adaeze-electronics', name:'Adaeze Electronics Ltd', type:'Business', owner:'Adaeze Okafor', sector:'Phones & Tablets', stars:4.9, reviews:34, success:34, unsuccessful:0, verified:true, color:'#F4B420', initials:'AO'},
+  {slug:'chidinma-home', name:'Chidinma Home Appliances', type:'Business', owner:'Chidinma Eze', sector:'Home Appliances', stars:5.0, reviews:19, success:19, unsuccessful:0, verified:true, color:'#EC4899', initials:'CE'},
+  {slug:'tunde-phones', name:'Tunde Adebayo', type:'Individual', owner:'Tunde Adebayo', sector:'Phones & Tablets', stars:4.7, reviews:15, success:15, unsuccessful:0, verified:true, color:'#2563EB', initials:'TA'},
+  {slug:'northern-gadgets', name:'Northern Gadgets Ltd', type:'Business', owner:'Fatima Yusuf', sector:'Cameras & Drones', stars:4.8, reviews:42, success:40, unsuccessful:2, verified:true, color:'#059669', initials:'FY'},
+  {slug:'musa-laptops', name:'Musa Ibrahim', type:'Individual', owner:'Musa Ibrahim', sector:'Computers & Laptops', stars:4.6, reviews:12, success:10, unsuccessful:1, verified:true, color:'#16A34A', initials:'MI'},
+];
+
+const TOP_DEALS = [
+  {seller:'Adaeze Okafor', item:'iPhone 14 Pro', stars:5.0, count:34},
+  {seller:'Chidinma Eze', item:'LG Inverter AC', stars:5.0, count:19},
+  {seller:'Tunde Adebayo', item:'iPhone 13 Pro', stars:4.9, count:15},
+  {seller:'Fatima Yusuf', item:'Canon EOS R6', stars:4.8, count:40},
+];
+
+const POLICIES = [
+  {id:'terms', t:'Terms of Service', s:'v2.0 · Sep 2026'},
+  {id:'privacy', t:'Privacy Policy', s:'v2.0 · NDPA 2023'},
+  {id:'refund-policy', t:'Refund & Cancellation Policy', s:'v2.0 · §13 rules'},
+  {id:'dispute-resolution', t:'Dispute Resolution Policy', s:'v2.0 · Evidence tiers'},
+  {id:'complaints', t:'Complaints & Escalation Policy', s:'v2.0 · FCCPC aligned'},
+  {id:'cookie-policy', t:'Cookie Policy', s:'v2.0 · Consent required'},
+  {id:'data-retention', t:'Data Retention & Security Policy', s:'v2.0 · AML & NDPC'},
+  {id:'prohibited-items', t:'Prohibited Items List', s:'v2.0 · Zero tolerance'},
+  {id:'community-guidelines', t:'Community Guidelines', s:'v2.0 · Conduct'},
+  {id:'fee-schedule', t:'Fee Schedule', s:'v2.0 · ₦6,000 vet fee'},
+  {id:'faq', t:'Frequently Asked Questions', s:'v2.0 · Q&A'},
+];
+
+const AGENT_DOCS = [
+  {id:'code', t:'Code of Conduct & Operating Standards', s:'Role · ethics · protocol', em:'📜'},
+  {id:'training', t:'Training Guide', s:'10 modules · certification path', em:'🎓'},
+  {id:'quiz-bank', t:'Quiz Bank (100 Questions)', s:'10 modules · pass mark 85%', em:'📝'},
+  {id:'scam-playbook', t:'Scam Detection Playbook', s:'Top 10 Nigerian scam patterns', em:'🚨'},
+  {id:'module10', t:'Module 10 Expanded (30 Qs)', s:'Scam detection deep-dive', em:'🔍'},
+];
+
+/* ============================================================
+   24 BLOG POSTS
+   ============================================================ */
+const POSTS = [
+  {
+    slug:'how-to-buy-and-sell-safely-in-nigeria', cat:'Safe Trading', cover:'🛡️', date:'25 Sep 2026', read:8,
+    title:'How to Buy and Sell Online in Nigeria Without Getting Scammed',
+    excerpt:'Proven strategies to trade safely in Nigerian social commerce — and how DealsGate is changing the game.',
+    body:`
+<h1>How to Buy and Sell Online in Nigeria Without Getting Scammed</h1>
+
+<p>Online shopping, social commerce, and peer-to-peer trading have completely transformed how we buy and sell in Nigeria. Whether you are sourcing a pre-owned laptop from an Instagram vendor, ordering smartphones from a vendor across state lines, or selling gadgets to eager customers online, digital marketplaces have unlocked incredible convenience.</p>
+
+<p>However, this growth comes with a dark side: the persistent anxiety of online fraud. From the dreaded "pay before delivery and get ghosted" cycle to receiving items that look nothing like their online pictures, trust deficit remains the biggest bottleneck in African e-commerce.</p>
+
+<h2>1. The Real Cost of the "Trust Deficit"</h2>
+
+<ul>
+  <li><strong>The Buyer's Fear:</strong> Paying money upfront into a seller's bank account only for the vendor to block their phone number or send a fake, faulty product.</li>
+  <li><strong>The Seller's Fear:</strong> Sending out high-value goods based on unverified payment screenshots, only to realize the alert was fake or that the buyer is running an overpayment scam.</li>
+</ul>
+
+<p>Traditionally, people relied on blind faith, social media follower counts, or unverified reviews. But follower counts and aesthetic screenshots are not legal or financial guarantees. To trade safely, you need structural protection.</p>
+
+<h2>2. Golden Rules for Buyers</h2>
+
+<ul>
+  <li><strong>Never Buy Blind:</strong> Demand clear, unedited visual evidence. On modern protected platforms, verified sellers upload 2 to 4 high-resolution photos and a ≤60-second video of the exact item.</li>
+  <li><strong>Avoid Unverified Direct Bank Transfers:</strong> Sending full payment directly to an unverified individual's account leaves you with little recourse.</li>
+  <li><strong>Insist on Physical Verification:</strong> Having a certified local professional physically inspect the item's IMEI, serial number, and condition before money is released guarantees you get what you pay for.</li>
+  <li><strong>Watch Out for Red Flags:</strong> If a price is drastically lower than the normal market rate or if the seller is rushing you, pause and walk away.</li>
+</ul>
+
+<h2>3. Golden Rules for Sellers</h2>
+
+<ul>
+  <li><strong>Never Trust Screenshots or SMS Alerts:</strong> Scammers frequently edit fake bank alert screenshots. Always log into your official banking app to confirm funds have settled.</li>
+  <li><strong>Establish Clear Baseline Records:</strong> Timestamped photos and videos protect you against false buyer disputes.</li>
+  <li><strong>Prove Your Legitimacy:</strong> Using platforms that back your inventory with a professional seller guarantee (like DealsGate's refundable ₦5,000 guarantee fee) instantly separates you from fraudsters.</li>
+</ul>
+
+<h2>4. The Ultimate Solution</h2>
+
+<p>This is why DealsGate was built. We integrate three vital layers of protection into every single trade:</p>
+
+<div class="callout b"><strong>Regulated Escrow Custody:</strong> Buyer funds are safely locked in escrow.</div>
+
+<div class="callout g"><strong>Mandatory Vet Agent Physical Inspection:</strong> A certified local Vet Agent verifies condition, checks serial numbers/IMEIs against baseline media, and uploads a report.</div>
+
+<div class="callout"><strong>Buyer Inspection & Approval:</strong> Buyers review the report and choose to Approve & Continue or Report a Problem before delivery.</div>
+
+<h2>Ready to Trade Without Fear?</h2>
+<p>DealsGate makes every transaction safe, transparent, and fully protected.</p>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'what-is-an-escrow-service-nigeria', cat:'Payments', cover:'💳', date:'25 Sep 2026', read:6,
+    title:'What is an Escrow Service and Why Every Nigerian Online Shopper Needs One',
+    excerpt:'A complete guide to escrow — how it eliminates payment anxiety and protects both buyers and sellers.',
+    body:`
+<h1>What is an Escrow Service and Why Every Nigerian Online Shopper Needs One</h1>
+
+<p>E-commerce and social commerce in Nigeria are booming like never before. Yet, ask any regular Nigerian internet user about their biggest hesitation when shopping online, and you will hear a familiar phrase: <em>"What if I pay and don't get what I ordered?"</em></p>
+
+<p>This persistent trust deficit has long plagued our digital economy. But there is a proven solution: <strong>the escrow service</strong>.</p>
+
+<h2>1. What Exactly is an Escrow Service?</h2>
+
+<p>An escrow service is a financial arrangement where a trusted, neutral third party holds and regulates payment of funds on behalf of two parties involved in a transaction.</p>
+
+<p>Instead of sending your money directly to a seller's personal bank account before seeing the item, the money is securely locked in a protected vault.</p>
+
+<ul>
+  <li><strong>The Deal is Set:</strong> Buyer and seller agree on the item, price, and terms.</li>
+  <li><strong>Funds are Locked:</strong> Buyer deposits payment into regulated escrow protection.</li>
+  <li><strong>Verification & Inspection:</strong> A certified Vet Agent physically inspects the item.</li>
+  <li><strong>Delivery & Release:</strong> Once the buyer reviews the report and receives the item, escrow releases payment.</li>
+</ul>
+
+<h2>2. Why Traditional Payment Methods Fail</h2>
+
+<div class="callout r"><strong>Pay Before Delivery (100% Risk for Buyers):</strong> Buyers transfer funds upfront to unknown vendors based on social media trust.</div>
+
+<div class="callout r"><strong>Pay on Delivery (100% Risk for Sellers):</strong> Sellers dispatch riders only for buyers to reject items at the last minute.</div>
+
+<p>Neither model scales sustainably. Escrow bridges this gap by protecting both sides equally.</p>
+
+<h2>3. Why Every Nigerian Shopper and Vendor Needs Escrow</h2>
+
+<ul>
+  <li><strong>Total Elimination of Payment Anxiety:</strong> Your money is safe until fulfillment is proven.</li>
+  <li><strong>Guaranteed Item Authenticity:</strong> Physical inspection ensures what you see online is what you get.</li>
+  <li><strong>Protection Against Fake Alerts:</strong> Sellers receive verifiable notification before dispatch.</li>
+  <li><strong>Transparent Dispute Resolution:</strong> Structured mediation protects the innocent party.</li>
+</ul>
+
+<h2>4. The Future of Safe Commerce</h2>
+
+<p>DealsGate combines regulated escrow custody, mandatory Vet Agent physical inspections, a refundable ₦5,000 seller guarantee fee, and integrated logistics to act as Africa's secure transaction gateway.</p>
+
+<div class="callout g"><strong>For Buyers:</strong> Review Vet Agent reports before delivery happens.</div>
+<div class="callout b"><strong>For Sellers:</strong> Unlock serious buyers who previously refused to pay upfront.</div>
+
+<h2>Ready to Trade With 100% Confidence?</h2>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'welcome-to-dealsgate', cat:'Announcements', cover:'🚀', date:'25 Sep 2026', read:5,
+    title:"Welcome to DealsGate: Introducing Africa's Secure Transaction Gateway",
+    excerpt:"We're launching Africa's Secure Transaction Gateway — combining regulated escrow, mandatory physical inspections, and public reputation into one protected-deal platform.",
+    body:`
+<h1>Welcome to DealsGate: Introducing Africa's Secure Transaction Gateway</h1>
+
+<p>The rise of social commerce across Nigeria is one of the most remarkable entrepreneurial stories of our decade. Every single day, millions of MSMEs, independent creators, and retail vendors leverage Instagram, TikTok, and WhatsApp to build vibrant businesses.</p>
+
+<p>Yet, for all its immense potential, social commerce has long been plagued by a crippling bottleneck: <strong>the trust deficit</strong>.</p>
+
+<p>Today, we are thrilled to formally announce the public launch of <strong>DealsGate</strong> — Africa's Secure Transaction Gateway, operated under THE TAP OF GRACE MEDIA HOUSE by CEO Akinwunmi Taofik.</p>
+
+<h2>1. What Makes DealsGate Different?</h2>
+
+<p>Unlike traditional e-commerce platforms that force merchants into rigid product catalogs, DealsGate fits seamlessly into how social commerce actually happens.</p>
+
+<ul>
+  <li><strong>Regulated Escrow Custody:</strong> Buyer funds held safely with regulated financial partners.</li>
+  <li><strong>Mandatory Vet Agent Physical Inspections:</strong> Certified local Vet Agents physically visit the seller's location.</li>
+  <li><strong>The Evidence Gate:</strong> Logistics pickup is strictly locked until the buyer clicks "Approve".</li>
+  <li><strong>Public Seller Reputation Directories:</strong> Anyone can search a vendor by name.</li>
+</ul>
+
+<h2>2. Designed for Everyone</h2>
+
+<h3>For Instagram and WhatsApp Vendors</h3>
+<p>Build instant credibility with your buyers by dropping your verified public dossier link in your social bios.</p>
+
+<h3>For Everyday Shoppers</h3>
+<p>Say goodbye to the fear of "Pay Before Delivery."</p>
+
+<h3>For Local Verification Professionals</h3>
+<p>Turn your technical expertise into flexible income.</p>
+
+<h2>Join the Revolution</h2>
+
+<p>The era of blind bank transfers is officially over.</p>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'why-instagram-whatsapp-vendors-need-dealsgate', cat:'For Sellers', cover:'🏪', date:'25 Sep 2026', read:6,
+    title:'Why Instagram and WhatsApp Vendors Need DealsGate',
+    excerpt:"Legitimate vendors lose sales because buyers have been scammed before. Here's how to convert skeptics instantly.",
+    body:`
+<h1>Why Instagram and WhatsApp Vendors Need DealsGate: The Ultimate Trust Multiplier</h1>
+
+<p>If you run a social commerce business on Instagram, TikTok, or WhatsApp in Nigeria, you already know the biggest bottleneck to your growth: <strong>buyer skepticism</strong>.</p>
+
+<h2>1. Eliminate Buyer Anxiety with Protected Deals</h2>
+<p>Create a Protected Deal on DealsGate, deposit your refundable ₦5,000 guarantee fee, and share the unique unguessable buyer link.</p>
+
+<h2>2. Instant Social Proof: The Public Reputation Dossier</h2>
+<p>Anyone can search for your business name without logging in and view your verified track record.</p>
+
+<h2>3. Save Time with One-Click Deal Cloning</h2>
+<p>Reuse product descriptions, photos, and videos with a fresh Deal ID.</p>
+
+<h2>4. Full Protection for Honest Vendors</h2>
+
+<ul>
+  <li><strong>Secured Escrow Funds:</strong> You never have to guess if a payment alert is real.</li>
+  <li><strong>Fair Dispute Rules:</strong> Item proceeds and guarantee fee released back to you.</li>
+  <li><strong>Logistics Protection:</strong> Transit damage is the courier's liability.</li>
+</ul>
+
+<h2>Take Your Business to the Next Level</h2>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'danger-of-pay-before-delivery', cat:'Safe Trading', cover:'⚠️', date:'25 Sep 2026', read:7,
+    title:'The Danger of "Pay Before Delivery"',
+    excerpt:"Advance-fee scams have trained Nigerian buyers to treat upfront transfers like a gamble. DealsGate breaks the deadlock.",
+    body:`
+<h1>The Danger of "Pay Before Delivery": Why Trust Deficit is Killing Local E-Commerce</h1>
+
+<p>If you have ever shopped online in Nigeria, you know the intense psychological friction that precedes every payment.</p>
+
+<h2>1. The Anatomy of the Trust Deficit</h2>
+
+<ul>
+  <li><strong>The Scars of Online Fraud:</strong> Countless shoppers have lost money to rogue operators.</li>
+  <li><strong>Zero Recourse Mechanisms:</strong> Once a vendor receives a direct transfer, the power dynamic shifts entirely.</li>
+  <li><strong>The Fear of the Unknown:</strong> The buyer bears 100% of the financial risk.</li>
+</ul>
+
+<h2>2. The Hidden Trap of Pay-On-Delivery</h2>
+
+<ul>
+  <li><strong>Rejected Deliveries and Wasted Logistics:</strong> Buyer changes their mind at the door.</li>
+  <li><strong>Ghost Buyers:</strong> Orders placed, goods dispatched, buyer unreachable.</li>
+  <li><strong>Item Tampering:</strong> Packages return damaged and unsellable.</li>
+</ul>
+
+<h2>3. The Solution: Trusted Infrastructure</h2>
+
+<ol>
+  <li><strong>Regulated Escrow Custody</strong></li>
+  <li><strong>Mandatory Vet Agent Inspections</strong></li>
+  <li><strong>The Evidence Gate</strong></li>
+  <li><strong>Transparent Public Reputation</strong></li>
+</ol>
+
+<h2>Trade Without Fear</h2>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'behind-the-scenes-escrow-and-inspections', cat:'How It Works', cover:'🛡️', date:'25 Sep 2026', read:6,
+    title:"Behind the Scenes: How DealsGate's Escrow Protection and Inspections Work",
+    excerpt:"A step-by-step look at the platform architecture that eliminates the trust deficit.",
+    body:`
+<h1>Behind the Scenes: How DealsGate's Escrow Protection and Vet Agent Inspections Work</h1>
+
+<p>A secure transaction platform is only as strong as its underlying infrastructure.</p>
+
+<h2>Step 1: Seller Creates a Protected Deal</h2>
+<ul>
+  <li>Item details, category, condition, quantity, quality notes</li>
+  <li>2-4 high-resolution photos + 50-60s continuous video</li>
+  <li>Exact location via Google Maps pin</li>
+  <li>₦5,000 refundable guarantee fee</li>
+</ul>
+
+<h2>Step 2: Secure Escrow Funding</h2>
+<p>Buyer funds through our regulated payment/escrow partner.</p>
+
+<h2>Step 3: Mandatory Vet Agent Physical Inspection</h2>
+<p>First-Accept-Win job feed. Agent visits pinned location, tests functionality, checks serials/IMEIs, submits verdict.</p>
+
+<h2>Step 4: Buyer Review & Evidence Gate</h2>
+<p>Logistics strictly blocked until the buyer explicitly clicks Approve.</p>
+
+<h2>Step 5: Logistics & Final Confirmation</h2>
+<p>Shipment via logistics partner API. Seller receives net payout + full guarantee refund.</p>
+
+<h2>Total Transparency: The Public Reputation Search Bar</h2>
+<p>Anyone can view a public dossier showing successful vs. unsuccessful deals.</p>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'mastering-the-dealsgate-lifecycle', cat:'How It Works', cover:'🔄', date:'25 Sep 2026', read:7,
+    title:'Mastering the DealsGate Lifecycle: From Deal Creation to Successful Payout',
+    excerpt:"Every stage of a protected deal mapped end to end.",
+    body:`
+<h1>Mastering the DealsGate Lifecycle</h1>
+
+<h2>Stage 1: Deal Creation and Seller Verification</h2>
+<ul>
+  <li>Verified seller inputs item details, category, condition, quantity</li>
+  <li>2-4 images + continuous 50-60s video + Google Maps coordinates</li>
+  <li>₦5,000 refundable guarantee fee</li>
+</ul>
+
+<h2>Stage 2: Secure Escrow Funding</h2>
+<p>Funds locked in segregated holding account.</p>
+
+<h2>Stage 3: Mandatory Vet Agent Inspection</h2>
+<p>First-Accept-Win job feed.</p>
+
+<h2>Stage 4: Logistics, Completion, and Ratings</h2>
+<ul>
+  <li>Shipment initiated via logistics partner API</li>
+  <li>Seller receives payout + full guarantee refund</li>
+  <li>Star ratings update the public dossier</li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'evidence-gate-and-dispute-resolution-guide', cat:'Trust & Safety', cover:'⚖️', date:'25 Sep 2026', read:8,
+    title:"Comprehensive Guide: How DealsGate's Evidence Gate and Dispute Resolution Protect Every Transaction",
+    excerpt:"The Evidence Gate blocks logistics until you approve. Failed inspections trigger full refunds.",
+    body:`
+<h1>How DealsGate's Evidence Gate and Dispute Resolution Protect Every Transaction</h1>
+
+<h2>1. The Power of the Evidence Gate</h2>
+<ul>
+  <li><strong>Inspection Phase:</strong> Certified Vet Agent visits seller's pinned location</li>
+  <li><strong>Agent's Verdict:</strong> PASS, FAIL, or NEEDS_REVIEW</li>
+  <li><strong>Buyer's Control:</strong> Logistics strictly blocked until "Approve"</li>
+</ul>
+
+<h2>2. Fair Resolution Rules</h2>
+
+<h3>Failed Inspections</h3>
+<p>Buyer receives 100% full refund. Seller forfeits ₦5,000 guarantee.</p>
+
+<h3>Buyer Cancellation Before Inspection</h3>
+<p>Buyer forfeits service fees. Item and vet fees refunded.</p>
+
+<h3>Change of Mind After Passed Inspection</h3>
+<p>Buyer receives refund for item cost only.</p>
+
+<h3>Seller Fraud / Item Swapping</h3>
+<p>Seller forfeits guarantee + liable for 100% return logistics.</p>
+
+<h2>3. Handling Transit Realities</h2>
+<ul>
+  <li><strong>Minor Transit Damage:</strong> Deal completes. Courier compensates buyer.</li>
+  <li><strong>Total Transit Rejection:</strong> Full refund to buyer, guarantee refund to seller.</li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'how-dispute-mediation-protects-your-money', cat:'Trust & Safety', cover:'🛡️', date:'25 Sep 2026', read:6,
+    title:"How DealsGate's Dispute Mediation Protects Your Money",
+    excerpt:"Escrow freezes instantly. Evidence is reviewed in tiers. Fraud is penalised.",
+    body:`
+<h1>How DealsGate's Dispute Mediation Protects Your Money</h1>
+
+<h2>1. Why Traditional Transactions Fail During Disputes</h2>
+<ul>
+  <li><strong>Power Imbalance:</strong> Seller holds all leverage.</li>
+  <li><strong>No Objective Record:</strong> No standardized inspection media.</li>
+  <li><strong>Zero Accountability:</strong> No formal mediation.</li>
+</ul>
+
+<h2>2. The Mediation Lifecycle</h2>
+
+<h3>Instant Fund Freezing</h3>
+<p>Escrow funds locked the moment a dispute is raised.</p>
+
+<h3>The Evidence Vault</h3>
+<p>Review of baseline listing media, agent inspection report, delivery data, and chat logs.</p>
+
+<h3>Impartial Determinations</h3>
+<ul>
+  <li>Item fails inspection → 100% refund to buyer</li>
+  <li>Buyer fraud → verified data protects merchant</li>
+</ul>
+
+<h2>3. Clear Rules for Edge Cases</h2>
+<ul>
+  <li><strong>Seller Item-Swapping:</strong> Guarantee forfeited + return logistics clawback</li>
+  <li><strong>Buyer Protection:</strong> Refund to wallet or bank withdrawal</li>
+  <li><strong>Zero Tolerance:</strong> Immediate suspension and blacklisting</li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'becoming-a-dealsgate-vet-agent', cat:'For Vet Agents', cover:'🔍', date:'25 Sep 2026', read:7,
+    title:'Becoming a DealsGate Vet Agent: How to Earn Money Inspecting Online Transactions',
+    excerpt:"Turn your expertise into flexible income.",
+    body:`
+<h1>Becoming a DealsGate Vet Agent</h1>
+
+<h2>1. What is a DealsGate Vet Agent?</h2>
+<p>An independent, ID-verified professional responsible for conducting physical inspections.</p>
+
+<h2>2. Onboarding, Training, and Certification</h2>
+<ul>
+  <li><strong>ID Verification:</strong> Mandatory identity verification</li>
+  <li><strong>In-App Training:</strong> Evidence standards, checklists, fraud flags</li>
+  <li><strong>Certified Badge:</strong> 100% modules + 85% quiz</li>
+</ul>
+
+<h2>3. Job Assignment: First-Accept-Wins</h2>
+<ul>
+  <li>Job opens to eligible certified agents in that LGA</li>
+  <li>First agent to Accept locks the job</li>
+  <li>One active inspection at a time</li>
+</ul>
+
+<h2>4. Conducting the Inspection</h2>
+<ul>
+  <li>Reference baseline listing media</li>
+  <li>Physical examination: IMEIs, functionality, timestamped photos</li>
+  <li>Verdict: PASS, FAIL, or NEEDS_REVIEW</li>
+</ul>
+
+<h2>5. Instant Earnings</h2>
+<ul>
+  <li><strong>Protected Deal Share:</strong> Credited on buyer approval</li>
+  <li><strong>On-Demand Jobs:</strong> ₦6,000 minimum, 40/60 split</li>
+  <li><strong>Instant Withdrawals:</strong> Partial or full with 2FA</li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'on-demand-vet-agent-jobs', cat:'For Vet Agents', cover:'📞', date:'25 Sep 2026', read:5,
+    title:'On-Demand Vet Agent Jobs: Flexible Physical Verification for Any Custom Task',
+    excerpt:"Any signed-in user can request a custom inspection from ₦6,000.",
+    body:`
+<h1>On-Demand Vet Agent Jobs</h1>
+
+<h2>1. What Are On-Demand Jobs?</h2>
+<p>Signed-in users create custom physical verification tasks from their dashboard.</p>
+
+<h2>2. On-Demand Workflow</h2>
+<ul>
+  <li><strong>Task Creation & Funding:</strong> Minimum ₦6,000 funded securely</li>
+  <li><strong>LGA Job Feed:</strong> Broadcasts to certified agents in that LGA</li>
+  <li><strong>First-Accept-Win:</strong> Agent locks the job</li>
+  <li><strong>Execution & Approval:</strong> Agent inspects, uploads report, requester approves</li>
+</ul>
+
+<h2>3. Payout Splits</h2>
+<ul>
+  <li><strong>40% Platform Share</strong></li>
+  <li><strong>60% Agent Share</strong></li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'how-the-dealsgate-referral-program-works', cat:'Growth', cover:'🎁', date:'25 Sep 2026', read:6,
+    title:'Grow and Earn: How the DealsGate Referral Program Powers Sustainable Commerce',
+    excerpt:"Earn ₦1,000 per referee first deal. Lifetime 50% discount at 10 refs.",
+    body:`
+<h1>How the DealsGate Referral Program Works</h1>
+
+<h2>1. How It Works</h2>
+
+<h3>For the Referrer (You)</h3>
+<ul>
+  <li><strong>Cash Reward:</strong> ₦1,000 per referee first completed deal</li>
+  <li><strong>Lifetime Discount:</strong> 50% permanent lifetime discount after 10 referrals each completing 5+ deals</li>
+</ul>
+
+<h3>For the Referee</h3>
+<ul>
+  <li><strong>New Sellers:</strong> First ₦5,000 guarantee fee waived</li>
+  <li><strong>New Buyers:</strong> 50% off first buyer service fee</li>
+</ul>
+
+<h2>2. Built for Creators</h2>
+<p>Confidently point your audience to your referral link.</p>
+
+<h2>3. Fair Play Safeguards</h2>
+<ul>
+  <li>Anti-self-referral blocking</li>
+  <li>Admin auditing</li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'public-seller-reputation-directory', cat:'Trust & Safety', cover:'🔎', date:'25 Sep 2026', read:5,
+    title:'Trust at a Glance: How the Public Seller Reputation Directory Works',
+    excerpt:"Search any vendor by name — no login needed.",
+    body:`
+<h1>The DealsGate Public Seller Reputation Directory</h1>
+
+<h2>1. What Is It?</h2>
+<p>Positioned at the top of our homepage, the Public Seller Reputation Search Bar allows any visitor to search for a vendor without logging in.</p>
+
+<h2>2. What Appears in a Dossier</h2>
+<ul>
+  <li><strong>Verified Identity & Badges</strong></li>
+  <li><strong>Sector & Industry Classification</strong></li>
+  <li><strong>Deals Scorecard:</strong> Total deals, successes, failures, disputes</li>
+  <li><strong>Star Ratings & Reviews:</strong> From verified buyers only</li>
+</ul>
+
+<p>Sensitive data — phone numbers, emails, physical addresses, private media — is strictly omitted.</p>
+
+<h2>3. Leveling the Playing Field</h2>
+<ul>
+  <li><strong>Zero-History Support:</strong> New sellers still appear in search</li>
+  <li><strong>Bio Links:</strong> Drop your dossier link into social bios</li>
+  <li><strong>Admin Oversight:</strong> Suppression of violating profiles</li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'understanding-wallets-and-partial-withdrawals', cat:'Payments', cover:'💰', date:'25 Sep 2026', read:6,
+    title:'Understanding DealsGate Wallets, Partial Withdrawals, and Financial Security',
+    excerpt:"Three wallet buckets, partial withdrawals, expanded Nigerian bank support, step-up 2FA.",
+    body:`
+<h1>Understanding DealsGate Wallets</h1>
+
+<h2>1. Multi-Bucket Wallet Architecture</h2>
+<ul>
+  <li><strong>Main Wallet:</strong> Primary balance</li>
+  <li><strong>Seller Guarantee Wallet:</strong> Pre-funding ₦5,000 guarantees</li>
+  <li><strong>Agent Earnings Wallet:</strong> Vet Agent inspection fees</li>
+</ul>
+
+<h2>2. Flexible Buyer Rollovers</h2>
+<p>Refunds stay in wallet for instant use or withdraw anytime.</p>
+
+<h2>3. Partial Withdrawals</h2>
+<ul>
+  <li>Any custom amount up to available balance</li>
+  <li>Never forced to withdraw the full balance</li>
+  <li>CBN-licensed bank list: Access, Zenith, GTBank, UBA, Kuda, Opay, PalmPay, Moniepoint, and more</li>
+</ul>
+
+<h2>4. Bank-Grade Security</h2>
+<ul>
+  <li>Step-up authentication: Google Authenticator (TOTP) and Email/SMS OTP</li>
+  <li>Idempotency checks on all webhooks and ledgers</li>
+  <li>Funds held exclusively through regulated third-party partners</li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'safe-gadget-shopping-guide', cat:'For Buyers', cover:'📱', date:'25 Sep 2026', read:5,
+    title:'Safe Gadget Shopping: How DealsGate Protects Buyers from Online Scams',
+    excerpt:"Buy phones, laptops, electronics without the gamble.",
+    body:`
+<h1>Safe Gadget Shopping</h1>
+
+<p>Buying valuable items online from social media vendors can feel like a game of chance. DealsGate ends that.</p>
+
+<h2>1. Stop Buying Blind: Vet Agent Inspections</h2>
+<p>A certified local Vet Agent physically visits the seller to inspect the item.</p>
+
+<h2>2. Absolute Control: The Evidence Gate</h2>
+<p>Logistics pickup is locked until you explicitly review and approve.</p>
+
+<h2>3. Verify Before You Pay: Public Search</h2>
+<p>Check any vendor's transaction history, star ratings, and reviews instantly.</p>
+
+<h2>4. Flexible Protection and Fair Refunds</h2>
+<p>Failed inspection triggers 100% refund. Cancelled deals → wallet or bank withdrawal.</p>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'scaling-your-social-commerce-business', cat:'For Sellers', cover:'📈', date:'25 Sep 2026', read:6,
+    title:'Scaling Your Social Commerce Empire: Advanced Strategies for DealsGate Merchants',
+    excerpt:"Bio dossier links, pre-funded guarantee wallets, one-click deal cloning, viral referral engine.",
+    body:`
+<h1>Scaling Your Social Commerce Empire</h1>
+
+<h2>1. Public Seller Directory as a Marketing Asset</h2>
+<p>Drop your verified DealsGate dossier link directly into Instagram and WhatsApp bios.</p>
+
+<h2>2. Pre-Funded Guarantee Wallets</h2>
+<p>Skip gateway delays. Pre-fund your guarantee wallet.</p>
+
+<h2>3. High-Speed Inventory via Deal Cloning</h2>
+<p>One-click re-listing pulls past descriptions and media.</p>
+
+<h2>4. Viral Growth via Referral Engine</h2>
+<p>Earn cash and unlock permanent lifetime fee discounts.</p>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'success-stories-real-nigerians', cat:'Stories', cover:'🌟', date:'25 Sep 2026', read:6,
+    title:'Success Stories: How Real Nigerians Completed Safe Transactions on DealsGate',
+    excerpt:"Chioma bought a MacBook from Instagram. Tunde scaled his fashion store. Emeka turned expertise into income.",
+    body:`
+<h1>Success Stories: How Real Nigerians Completed Safe Transactions</h1>
+
+<h2>1. Chioma's Story: Buying a High-End Laptop Without Fear</h2>
+
+<p><strong>The Challenge:</strong> Chioma, a university student in Lagos, found a MacBook Pro from an Instagram vendor. Having lost ₦150,000 to a fake vendor a year prior, she was terrified.</p>
+
+<p><strong>The Solution:</strong> The vendor generated a secure DealsGate link. Chioma funded escrow. A certified Vet Agent visited, ran diagnostics, checked serials against the listing video, and uploaded a clean report. Once approved at the Evidence Gate, the MacBook was dispatched safely.</p>
+
+<blockquote>"For the first time buying a gadget online, I didn't feel like I was gambling with my school savings. Knowing a professional checked the laptop before my money was released changed everything." — Chioma E., Lagos</blockquote>
+
+<h2>2. Tunde's Story: Scaling an Instagram Fashion Store</h2>
+
+<p><strong>The Challenge:</strong> Tunde runs a clothing store on Instagram and TikTok. Conversion rates stalled because customers hesitated to send direct bank transfers.</p>
+
+<p><strong>The Solution:</strong> Tunde added his verified DealsGate Public Seller Dossier link to his bios. Skeptical buyers now see his verified badge, successful deal metrics, and 5-star reviews.</p>
+
+<blockquote>"My conversion rate jumped almost overnight. Instead of arguing with customers about trust, I drop my DealsGate profile link." — Tunde A., Abuja</blockquote>
+
+<h2>3. Emeka's Story: Turning Expertise into Income</h2>
+
+<p><strong>The Challenge:</strong> Emeka, an electronics technician in Port Harcourt, wanted flexible income without a physical storefront.</p>
+
+<p><strong>The Solution:</strong> Emeka registered as a certified DealsGate Vet Agent for his local axis. He locked tasks, visited local sellers, and withdrew earnings directly.</p>
+
+<blockquote>"DealsGate gave me a micro-business right from my smartphone." — Emeka O., Port Harcourt</blockquote>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'cybersecurity-and-fraud-prevention-best-practices', cat:'Trust & Safety', cover:'🔐', date:'25 Sep 2026', read:6,
+    title:'Protecting Your Digital Business: Cybersecurity and Fraud Prevention Best Practices',
+    excerpt:"Strong passwords, step-up 2FA, no off-platform transactions, escrow confirmation only.",
+    body:`
+<h1>Cybersecurity and Fraud Prevention Best Practices</h1>
+
+<h2>1. Securing Your Account</h2>
+<ul>
+  <li><strong>Strong Passwords:</strong> Unique, complex, never reused</li>
+  <li><strong>Enable Step-Up Authentication:</strong> Google Authenticator and OTP</li>
+  <li><strong>Never Share Credentials:</strong> Staff will never ask for passwords, PINs, or OTPs</li>
+</ul>
+
+<h2>2. Avoiding Social Engineering</h2>
+<ul>
+  <li><strong>Never Transact Off-Platform:</strong> Off-platform transactions strip away all protections</li>
+  <li><strong>Verify Official Links:</strong> Always check HTTPS padlock</li>
+  <li><strong>Confirm Support Channels:</strong> support@dealsgate.ng, +234 807 921 9165</li>
+</ul>
+
+<h2>3. Vendor Fraud Prevention</h2>
+<ul>
+  <li><strong>Wait for Escrow Confirmation:</strong> Never dispatch based on screenshots</li>
+  <li><strong>Maintain Accurate Listing Media</strong></li>
+</ul>
+
+<h2>4. Buyer Protection: Inspect Before You Approve</h2>
+<ul>
+  <li><strong>Review Reports Thoroughly</strong></li>
+  <li><strong>Keep Logistics Locked</strong></li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'behind-the-scenes-administrative-workspace', cat:'How It Works', cover:'⚙️', date:'25 Sep 2026', read:6,
+    title:'Behind the Scenes: The DealsGate Administrative Workspace and Accountability Engine',
+    excerpt:"Real-time KPIs, force reassignment, dispute mediation, and an immutable audit log.",
+    body:`
+<h1>The DealsGate Administrative Workspace</h1>
+
+<h2>1. Real-Time Oversight and KPIs</h2>
+<ul>
+  <li><strong>Open Deals & Escrow Exposure</strong></li>
+  <li><strong>Active Jobs & Agent Distribution</strong></li>
+  <li><strong>Dispute and Exception Queues</strong></li>
+</ul>
+
+<h2>2. Exception Handling and Mediation</h2>
+<ul>
+  <li><strong>Force Reassignment & Pause</strong></li>
+  <li><strong>Dispute Mediation Workspace</strong></li>
+  <li><strong>Taxonomy & CMS Management</strong></li>
+</ul>
+
+<h2>3. Comprehensive Audit Logging</h2>
+<ul>
+  <li><strong>Full Audit Trail:</strong> Every action logged immutably</li>
+  <li><strong>Profile Moderation</strong></li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'logistics-and-escrow-payment-partnerships', cat:'How It Works', cover:'🚚', date:'25 Sep 2026', read:6,
+    title:"Building a Bulletproof Infrastructure: DealsGate's Logistics and Escrow Payment Partnerships",
+    excerpt:"Segregated escrow accounts, API-driven dispatches, real-time tracking, clear carrier SLAs.",
+    body:`
+<h1>DealsGate's Logistics and Escrow Payment Partnerships</h1>
+
+<h2>1. Regulated Escrow and Payment Partners</h2>
+<ul>
+  <li><strong>Segregated Escrow Accounts:</strong> Paystack, Flutterwave, or equivalent</li>
+  <li><strong>No Direct Principal Holding</strong></li>
+  <li><strong>Automated Webhooks & Idempotency</strong></li>
+</ul>
+
+<h2>2. Integrated Logistics Partners and Transit SLAs</h2>
+<ul>
+  <li><strong>API-Driven Dispatches</strong></li>
+  <li><strong>Real-Time Tracking</strong></li>
+  <li><strong>Clear Carrier SLAs:</strong> Minor damage → carrier compensates buyer; total rejection → carrier bears both ways</li>
+</ul>
+
+<h2>3. Legal and Operational Frameworks</h2>
+<ul>
+  <li><strong>Chain of Custody</strong></li>
+  <li><strong>Data Privacy:</strong> Full NDPA compliance</li>
+  <li><strong>Automated Auditing</strong></li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'legal-foundation-terms-privacy-dispute-policies', cat:'Trust & Safety', cover:'📜', date:'25 Sep 2026', read:6,
+    title:'Terms of Service, Privacy, and Dispute Policies: The Legal Foundation of DealsGate',
+    excerpt:"Mandatory consent, ID verification gate, clear refund rules, public-vs-private data separation.",
+    body:`
+<h1>The Legal Foundation of DealsGate</h1>
+
+<h2>1. Mandatory Policy Consent</h2>
+<ul>
+  <li><strong>Consent Requirement:</strong> Signup requires acceptance of Terms, Privacy, and Refund & Dispute Policy</li>
+  <li><strong>Digital Audit Trails:</strong> Policy key, version, timestamp, IP, user agent persisted</li>
+  <li><strong>ID Verification Gate</strong></li>
+</ul>
+
+<h2>2. Transparent Refund & Dispute Rules</h2>
+<ul>
+  <li><strong>Failed Inspections:</strong> 100% refund + seller guarantee forfeit</li>
+  <li><strong>Buyer Pre-Inspection Cancellation:</strong> Service fees forfeited</li>
+  <li><strong>Seller Fraud & Swapping:</strong> Guarantee forfeit + 100% return logistics clawback</li>
+  <li><strong>Transit Frameworks</strong></li>
+</ul>
+
+<h2>3. Data Privacy</h2>
+<ul>
+  <li><strong>Public vs. Private:</strong> Dossier shows non-PII only</li>
+  <li><strong>Zero Credential Storage</strong></li>
+</ul>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'the-dealsgate-vision', cat:'Announcements', cover:'🌍', date:'25 Sep 2026', read:5,
+    title:'The DealsGate Vision: Transforming African Social Commerce Through Trust and Technology',
+    excerpt:"We're not a traditional marketplace catalog. We're a secure transaction gateway.",
+    body:`
+<h1>The DealsGate Vision</h1>
+
+<p>Social commerce across Nigeria has experienced explosive growth. But this growth has been bottlenecked by a single challenge: <strong>the trust deficit</strong>.</p>
+
+<h2>1. Bridging the Gap</h2>
+<p>Merchants prefer building brands on Instagram or WhatsApp but lack infrastructure for secure payments and physical verification. DealsGate bridges this gap.</p>
+
+<h2>2. Four Pillars</h2>
+<ul>
+  <li><strong>Regulated Escrow Custody</strong></li>
+  <li><strong>Mandatory Vet Agent Physical Inspections</strong></li>
+  <li><strong>The Evidence Gate</strong></li>
+  <li><strong>Public Reputation Dossiers</strong></li>
+</ul>
+
+<h2>3. Empowering Everyone</h2>
+<ul>
+  <li><strong>Vendors & Micro-Influencers</strong></li>
+  <li><strong>Vet Agents</strong></li>
+  <li><strong>Buyers</strong></li>
+</ul>
+
+<h2>Join the Future of Secure Commerce</h2>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'future-of-digital-trust', cat:'Announcements', cover:'🚀', date:'25 Sep 2026', read:5,
+    title:"The Future of Digital Trust: What's Next for DealsGate and African Social Commerce",
+    excerpt:"AI-powered fraud detection, deeper logistics integrations, expanded agent coverage, financial inclusion.",
+    body:`
+<h1>The Future of Digital Trust</h1>
+
+<h2>1. Expanding the Trust Architecture</h2>
+<ul>
+  <li><strong>Enhanced AI-Powered Fraud Detection</strong></li>
+  <li><strong>Deeper Logistics Integrations:</strong> All 36 states + FCT</li>
+  <li><strong>Expanded Regional Coverage</strong></li>
+</ul>
+
+<h2>2. Empowering African Entrepreneurs</h2>
+<ul>
+  <li><strong>Frictionless Multi-Channel Checkout</strong></li>
+  <li><strong>Micro-Entrepreneur Financial Inclusion</strong></li>
+  <li><strong>Community-Driven Growth</strong></li>
+</ul>
+
+<h2>Join Us on the Journey</h2>
+
+${SUPPORT}
+`},
+
+  {
+    slug:'ultimate-faq-everything-about-dealsgate', cat:'Guides', cover:'❓', date:'25 Sep 2026', read:8,
+    title:'The Ultimate FAQ: Everything You Need to Know About DealsGate',
+    excerpt:"Who we are, how buyers are protected, why vendors need us, what Vet Agents do.",
+    body:`
+<h1>The Ultimate FAQ</h1>
+
+<h2>General Platform Questions</h2>
+
+<h3>Q: What is DealsGate?</h3>
+<p>A: DealsGate (dealsgate.ng / dealsgate.com.ng) is <strong>Africa's Secure Transaction Gateway</strong>.</p>
+
+<h3>Q: Who owns and operates DealsGate?</h3>
+<p>A: DealsGate is proudly operated under <strong>THE TAP OF GRACE MEDIA HOUSE</strong>, led by CEO <strong>Akinwunmi Taofik</strong>.</p>
+
+<h2>For Buyers & Shoppers</h2>
+
+<h3>Q: How do I know I won't be scammed?</h3>
+<p>A: Three layers of protection:</p>
+<ol>
+  <li><strong>Regulated Escrow</strong></li>
+  <li><strong>Mandatory Vet Agent Inspection</strong></li>
+  <li><strong>The Evidence Gate</strong></li>
+</ol>
+
+<h3>Q: What happens if an item fails inspection?</h3>
+<p>A: 100% full refund covering item cost, service fees, Vet Agent fee, and logistics fee.</p>
+
+<h2>For Instagram and WhatsApp Vendors</h2>
+
+<h3>Q: Why do I need DealsGate if I have an Instagram store?</h3>
+<p>A: DealsGate solves buyer skepticism with a secure checkout link and public dossier.</p>
+
+<h3>Q: What is the ₦5,000 guarantee fee?</h3>
+<p>A: A refundable fee. Fully refunded upon successful completion.</p>
+
+<h2>For Vet Agents</h2>
+
+<h3>Q: What does a Vet Agent do?</h3>
+<p>A: An independent professional who travels to seller's pinned location to physically inspect items.</p>
+
+<h3>Q: How do I get paid?</h3>
+<p>A: Earnings credited to Agent Earnings Wallet. Withdraw anytime with 2FA security.</p>
+
+${SUPPORT}
+`},
+];
+
+/* ============================================================
+   POLICY BODIES
+   ============================================================ */
+const POLICY_BODIES = {
+  terms:`<h1>Terms of Service</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0 · Operated by THE TAP OF GRACE MEDIA HOUSE (RC: 3090954)</div>
+<h2>1. Acceptance of Terms</h2>
+<p>By creating an account you agree to be bound by these Terms, the Privacy Policy, and the Refund & Cancellation Policy.</p>
+<h2>2. Definitions</h2>
+<p><strong>Protected Deal</strong> means a transaction created on the Platform in which payment is processed through regulated payment/escrow arrangements and the item undergoes required Vet Agent inspection.</p>
+<p><strong>Evidence Gate</strong> means the requirement that the Buyer Approve or Dispute inspection Evidence before logistics may pick up the item.</p>
+<h2>3. Eligibility & Registration</h2>
+<ul><li>You must be at least 18 years old.</li><li>Identity verification (NIN/BVN or CAC) required before creating deals, funding deals, or withdrawals.</li><li>Signup requires explicit acceptance of Terms, Privacy Policy, and Refund & Cancellation Policy.</li></ul>
+<h2>6. Terms for Buyers</h2>
+<h3>6.2 Evidence Gate</h3>
+<p>After Vet Agent submission, you must review Evidence and Approve or Dispute within the in-app window. Logistics must not pick up the item until you Approve Evidence.</p>
+<h2>7. Terms for Sellers</h2>
+<p>You must accurately describe the item, including sector, condition, quantity, quality notes, price, 2–4 images, one continuous video (max 60s), and exact inspection/pickup location via map pin.</p>
+<h2>9. Terms for Vet Agents</h2>
+<p>Vet Agents are independent contractors, not employees. Only one active inspection at a time. First agent to Accept is assigned. Zero affiliation rule applies.</p>
+<h2>18. Limitation of Liability</h2>
+<p>To the fullest extent permitted by Nigerian law, DealsGate's aggregate liability arising from a Deal is limited to the value of that Deal's relevant amounts under these Terms.</p>
+<h2>22. Governing Law & Jurisdiction</h2>
+<p>These Terms are governed by the laws of the Federal Republic of Nigeria. Disputes may be subject to the courts of Oyo State, Nigeria.</p>`,
+  privacy:`<h1>Privacy Policy</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0 · Nigeria Data Protection Act 2023</div>
+<h2>1. Data We Collect</h2>
+<ul><li>Identity and contact details; Individual or Business details; KYC (NIN/BVN/CAC); profile photo.</li><li>Deal, payment references, inspection media, logistics, disputes, ratings, device/security logs.</li><li><strong>We do not store full card PAN/CVV on our systems.</strong></li></ul>
+<h2>2. Purposes</h2>
+<ul><li>Operate Protected Deals, escrow coordination, Vet Agent inspections, logistics, payouts, refunds, disputes.</li><li>Fraud prevention, trust scores, public seller reputation (limited non-sensitive fields only).</li></ul>
+<h2>4. Public Reputation</h2>
+<div class="callout b">Public dossier may show name, business/individual badge, sector, verified status, deal counts, stars, reviews — <strong>not</strong> phone, email, address, or private media.</div>
+<h2>6. Your Rights</h2>
+<p>Access, correction, deletion/restriction where applicable; NDPC complaints. Some financial/dispute records must be kept for legal periods.</p>`,
+  'refund-policy':`<h1>Refund & Cancellation Policy</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0</div>
+<h2>3. Buyer Cancellation Before Inspection</h2>
+<p>Buyer may request cancel before inspection has started. Item funds returned; Vet Agent fee refunded if inspection not commenced. <strong>Buyer service fee is forfeited.</strong></p>
+<h2>5. Failed Vet Agent Inspection</h2>
+<div class="callout r">Buyer refund: <strong>Item Price + Buyer Fee + Vet Agent Fee + Logistics Fee paid.</strong> Seller Verification Guarantee (₦5,000) is forfeited.</div>
+<h2>7. Transit Damage — Minor</h2>
+<p>Buyer may raise a damage claim but collect the item and complete the deal. Logistics partner compensates buyer under carrier SLA.</p>
+<h2>8. Transit Damage — Total Rejection</h2>
+<p>Buyer receives full refund. Seller Verification Guarantee is refunded. Item returned to seller. Logistics bears to-and-from transport cost.</p>
+<h2>9. Seller Fraud / Post-Inspection Swap</h2>
+<p>Seller forfeits ₦5,000 guarantee. Seller liable for <strong>100% of return logistics</strong> via wallet clawback.</p>`,
+  'dispute-resolution':`<h1>Dispute Resolution Policy</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0 · Evidence-based mediation</div>
+<h2>2. Grounds</h2>
+<ul><li>Material item mismatch vs listing/video/quantity/condition/quality notes</li><li>Failed inspection improperly overridden</li><li>Non-delivery / empty or wrong parcel</li><li>Counterfeit or serious undisclosed defect</li></ul>
+<p><em>Change of mind alone, or failure to review evidence in time, is not a valid dispute ground.</em></p>
+<h2>4. Evidence Weight</h2>
+<table>
+  <thead><tr><th>Tier</th><th>Evidence</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Tier 1</strong></td><td>Vet Agent report + media; seller continuous deal video; serial/IMEI captures</td></tr>
+    <tr><td><strong>Tier 2</strong></td><td>Buyer unboxing video; courier logs</td></tr>
+    <tr><td><strong>Tier 3</strong></td><td>Off-platform chats, blurry/edited media — <strong>low weight</strong></td></tr>
+  </tbody>
+</table>
+<h2>5. Outcomes</h2>
+<ul><li>Full refund to buyer + guarantee forfeit where seller-side material fault.</li><li>Release to seller + guarantee return where buyer claim not substantiated.</li><li>Partial refund where appropriate.</li></ul>`,
+  complaints:`<h1>Complaints & Escalation Policy</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0 · FCCPC aligned</div>
+<h2>2. Pathway</h2>
+<h3>Level 1 — Support</h3>
+<p>support@dealsgate.ng — resolve or escalate within 24–72 hours.</p>
+<h3>Level 2 — Formal dispute</h3>
+<p>info@dealsgate.ng / mediation — target determination within 72 hours.</p>
+<h3>Level 3 — External</h3>
+<p>FCCPC or courts.</p>
+<h2>3. User Duties</h2>
+<ul><li>Provide truthful evidence.</li><li>Use in-app channels for deal disputes where possible.</li></ul>`,
+  'cookie-policy':`<h1>Cookie Policy</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0 · NDPA-aligned consent</div>
+<h2>1. What We Use</h2>
+<ul><li><strong>Strictly necessary:</strong> login, session security, checkout</li><li><strong>Functional:</strong> preferences (LGA, UI)</li><li><strong>Analytics:</strong> aggregated performance</li><li><strong>Security/anti-fraud:</strong> device and session signals</li></ul>
+<h2>2. Control</h2>
+<p>Use the cookie banner and browser settings.</p>`,
+  'data-retention':`<h1>Data Retention & Security Policy</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0 · NDPA 2023</div>
+<h2>1. Security Controls</h2>
+<ul><li><strong>TLS 1.3 in transit</strong>; <strong>AES-256 at rest</strong></li><li><strong>RBAC</strong>; <strong>dual-control</strong> for high-risk admin money actions</li><li><strong>Evidence media integrity</strong> via content hashes</li></ul>
+<h2>2. Retention</h2>
+<table>
+  <thead><tr><th>Category</th><th>Period</th></tr></thead>
+  <tbody>
+    <tr><td>Identity / KYC</td><td>Account life + 5y</td></tr>
+    <tr><td>Financial / ledger</td><td>Up to 7y</td></tr>
+    <tr><td>Inspection / deal media</td><td>Deal + 3y</td></tr>
+    <tr><td>Dispute records</td><td>Up to 5y</td></tr>
+    <tr><td>Security logs</td><td>~12 months</td></tr>
+  </tbody>
+</table>`,
+  'prohibited-items':`<h1>Prohibited Items List & Compliance</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0 · Zero tolerance</div>
+<div class="callout r">Violations may forfeit guarantee, ban accounts, and be reported to authorities.</div>
+<h2>2. Absolutely Prohibited</h2>
+<ul><li>Weapons, firearms, ammunition, explosives</li><li>Illegal drugs, unauthorized controlled pharmaceuticals</li><li>Counterfeit/replica trademarked goods</li><li>Hazardous chemicals, radioactive materials</li><li>Protected wildlife, ivory</li><li>Stolen property; forged IDs/documents</li><li>Pornography; human organs; unregistered securities</li></ul>
+<h2>3. Restricted</h2>
+<ul><li><strong>Phones/laptops:</strong> proof of ownership; unblocked IMEI/serial</li><li><strong>Vehicles/machinery:</strong> papers and identity match</li><li><strong>Precious metals:</strong> authenticity verification</li></ul>
+<h2>4. Enforcement</h2>
+<p>Agent must <strong>FAIL</strong> and evidence prohibited finds. <strong>₦5,000 guarantee forfeited</strong>; permanent ban possible.</p>`,
+  'community-guidelines':`<h1>Community Guidelines</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0</div>
+<h2>1. Honesty</h2>
+<ul><li>Accurate listings, real media, no bait-and-switch.</li><li><strong>No off-platform payment requests to bypass protection.</strong></li></ul>
+<h2>2. Respect & Safety</h2>
+<ul><li>No harassment, hate, or threats.</li><li><strong>Do not pressure Vet Agents to change verdicts.</strong></li></ul>
+<h2>3. Anti-Fraud</h2>
+<p>No collusion, fake inspections, multi-accounting, or false KYC.</p>
+<h2>4. Communication</h2>
+<p>Prefer in-app messaging for deal evidence integrity.</p>
+<h2>5. Enforcement</h2>
+<p>Warnings, trust-score impact, suspension, permanent ban, guarantee forfeiture, legal referral where warranted.</p>`,
+  'fee-schedule':`<h1>Fee Schedule & Financial Architecture</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0</div>
+<h2>1. Overview</h2>
+<div class="callout b"><strong>Platform logistics margin is never shown as a separate buyer line.</strong></div>
+<h2>2. Core Fee Matrix</h2>
+<table>
+  <thead><tr><th>Fee</th><th>Payer</th><th>When</th></tr></thead>
+  <tbody>
+    <tr><td>Item Price</td><td>Buyer</td><td>Checkout</td></tr>
+    <tr><td>Buyer Fee (2%)</td><td>Buyer</td><td>Checkout</td></tr>
+    <tr><td>Seller Success Fee (2%)</td><td>Seller</td><td>On release</td></tr>
+    <tr><td>Vet Agent Fee (₦6,000)</td><td>Buyer</td><td>Checkout</td></tr>
+    <tr><td>Logistics</td><td>Buyer</td><td>Checkout</td></tr>
+    <tr><td>Verification Guarantee</td><td>Seller</td><td>Deal create</td></tr>
+    <tr><td>On-demand inspection</td><td>Requester</td><td>Job pay</td></tr>
+  </tbody>
+</table>
+<h2>3. Example (₦450,000 item)</h2>
+<p>Buyer pays: ₦450,000 + 2% (₦9,000) + inspection (₦6,000) + courier (₦3,500) = <strong>₦468,500</strong>.</p>`,
+  faq:`<h1>Frequently Asked Questions</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0</div>
+<h2>General</h2>
+<h3>What is DealsGate?</h3>
+<p>A protected-deal platform for safer social commerce in Nigeria.</p>
+<h3>How do payments work?</h3>
+<p>Licensed Nigerian payment partners process funds.</p>
+<h2>Sellers</h2>
+<h3>How do I create a deal?</h3>
+<p>Add item details, sector, condition, quantity, quality notes, 2–4 photos, ≤60s video, Google Maps pickup pin, pay ₦5,000 guarantee, share the buyer link.</p>
+<h2>Buyers</h2>
+<h3>What do I pay?</h3>
+<p>Item + Buyer Fee + Vet Agent fee + logistics.</p>
+<h2>Vet Agents</h2>
+<h3>How do I get jobs?</h3>
+<p>After ID verify + training (Certified badge), jobs in your LGA appear when buyers pay.</p>`,
+};
+
+const AGENT_DOC_BODIES = {
+  code:`<h1>Vet Agent Code of Conduct & Operating Standards</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Version 2.0</div>
+<h2>1. Role</h2>
+<p>Vet Agents provide objective, verifiable physical evidence. <strong>Evidence over opinion.</strong></p>
+<h2>2. Ethics</h2>
+<ul><li>No inspection if personal/financial conflict.</li><li>No bribes, side deals, or verdict manipulation.</li><li>Confidentiality of locations, contacts, item details.</li></ul>
+<h2>3. Eligibility</h2>
+<ul><li>ID Verified badge required.</li><li>Complete training + quiz ≥85% → <strong>Certified Eligible</strong>.</li><li>3 successful inspections → <strong>Certified</strong>.</li><li>10 successful at ≥4.5★ → <strong>Super Vet</strong>.</li></ul>
+<h2>4. Job Acceptance</h2>
+<ul><li>First Accept wins.</li><li>Only one active inspection at a time.</li><li>Accept within SLA (typically 2 hours).</li></ul>
+<h2>5. Inspection Protocol</h2>
+<ul><li>Confirm identity/location and item presence.</li><li>Capture serials/IMEI/features; continuous unedited video.</li><li>Verdict: PASS | NEEDS_REVIEW | FAIL with written notes.</li></ul>
+<h2>6. Safety</h2>
+<p>Prefer safe public/commercial locations; leave if threatened; report to Admin.</p>`,
+  training:`<h1>Vet Agent Training Guide</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Certified Inspector Program · Version 2.0</div>
+<div class="callout b">Upon completion: <strong>Certified Vet Agent Badge</strong></div>
+<h2>1. The Role of a Vet Agent</h2>
+<p>You are the <strong>physical eyes of DealsGate</strong>.</p>
+<h2>Core Duties</h2>
+<ul><li><strong>VERIFY</strong> — item matches seller listing media.</li><li><strong>DOCUMENT</strong> — continuous video, multi-angle photos, serial/IMEI.</li><li><strong>SUBMIT</strong> — PASS, FAIL, or NEEDS_REVIEW with evidence.</li></ul>
+<h2>2. How Jobs Reach You</h2>
+<p>When the buyer pays, the job opens to Certified Eligible agents covering the seller's LGA.</p>
+<h2>3. Universal Inspection Protocol</h2>
+<ul><li>Confirm seller identity (visual ID check).</li><li>Confirm you are near the pinned location (within ~500m).</li><li>Capture serial/IMEI/VIN/model tags.</li><li>Record one continuous unedited video (20–60 seconds).</li><li>Take multi-angle photos including flaws.</li></ul>
+<h2>8. Certification</h2>
+<ol><li>Complete all 10 modules.</li><li>Pass quiz at ≥85%.</li><li>Complete 3 successful inspections → Certified.</li></ol>`,
+  'quiz-bank':`<h1>Vet Agent Quiz Bank</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">100 Questions · 10 Modules · Pass mark 85% · Rev. 2.0</div>
+<table>
+  <thead><tr><th>Module</th><th>Questions</th></tr></thead>
+  <tbody>
+    <tr><td>1. Role & Conduct</td><td>15</td></tr>
+    <tr><td>2. Inspection Protocol</td><td>15</td></tr>
+    <tr><td>3. Evidence Upload</td><td>10</td></tr>
+    <tr><td>4. Smartphones</td><td>10</td></tr>
+    <tr><td>5. Laptops</td><td>8</td></tr>
+    <tr><td>6. Cameras & Drones</td><td>8</td></tr>
+    <tr><td>7. Vehicles</td><td>8</td></tr>
+    <tr><td>8. Bags & Watches</td><td>10</td></tr>
+    <tr><td>9. Other Sectors</td><td>10</td></tr>
+    <tr><td>10. Scam Detection</td><td>6</td></tr>
+  </tbody>
+</table>
+<h2>Sample Questions</h2>
+<h3>Q1. Core responsibility?</h3>
+<p>Capture objective, unbiased physical evidence.</p>
+<h3>Q4. Active inspections at once?</h3>
+<p><strong>One.</strong></p>
+<h3>Q11. Badges before Accept?</h3>
+<p><strong>Verified (ID) and Certified Eligible.</strong></p>`,
+  'scam-playbook':`<h1>Scam Detection Playbook</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">Vet Agent field guide</div>
+<h2>Top 10 Scams</h2>
+<table>
+  <thead><tr><th>#</th><th>Scam</th><th>Catch it</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Item swap</td><td>Serial on continuous video</td></tr>
+    <tr><td>2</td><td>Counterfeit</td><td>Serials, markers, hallmarks</td></tr>
+    <tr><td>3</td><td>Stolen goods</td><td>ID + proof of purchase</td></tr>
+    <tr><td>4</td><td>Refurb as New</td><td>Wear, screws vs packaging</td></tr>
+    <tr><td>5</td><td>Paper swap</td><td>VIN vs papers</td></tr>
+    <tr><td>6</td><td>Fake serials</td><td>Deep-engraved cross-check</td></tr>
+    <tr><td>7</td><td>Empty box</td><td>Item in hand, not just box</td></tr>
+    <tr><td>8</td><td>Account lock</td><td>Fresh setup test</td></tr>
+    <tr><td>9</td><td>Stolen photos</td><td>Match physical to media</td></tr>
+    <tr><td>10</td><td>Collusion</td><td>Refuse; report</td></tr>
+  </tbody>
+</table>
+<h2>If You Suspect Fraud</h2>
+<ol>
+  <li>Finish the protocol.</li>
+  <li>Mark FAIL when evidence is clear.</li>
+  <li>Photograph everything.</li>
+  <li>Write detailed notes.</li>
+  <li>Report Concern in-app or call +234 807 921 9165.</li>
+</ol>
+<div class="callout r"><strong>Never</strong> accept tips, alter a verdict, or inspect when conflicted.</div>`,
+  module10:`<h1>Module 10 Expanded — Scam Detection</h1>
+<div style="font-size:11px;color:#9CA3AF;margin-bottom:16px">30 questions · Rev. 2.0 · Pass guidance ≥85%</div>
+<h2>A. Recognition</h2>
+<h3>Q1. Perfect phone at inspection, suspect different unit shipped?</h3>
+<p><strong>Item swap.</strong> Serial photos + continuous video lock the exact unit.</p>
+<h3>Q3. Uneven stitching, plastic smell, light feel?</h3>
+<p><strong>Counterfeit brand.</strong></p>
+<h2>B. Verdict judgment</h2>
+<h3>Q11. Clear counterfeit sold as genuine?</h3>
+<p><strong>FAIL.</strong></p>
+<h3>Q17. After PASS, when may logistics pick up?</h3>
+<p>Only after buyer Approves evidence.</p>
+<h2>C. Behaviour</h2>
+<h3>Q19. Seller offers cash to mark PASS?</h3>
+<p>Refuse, submit honest verdict, report to Admin.</p>
+<div class="callout g"><strong>Pass guidance:</strong> ≥85% (26/30).</div>`,
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = { screen:'home', sub:null, seller:null, post:null, policy:null, doc:null, blogCat:null, blogQuery:'' };
+
+const NAV = [
+  {k:'home', l:'Home'},{k:'discover', l:'Discover'},{k:'deal', l:'Deal'},{k:'blog', l:'Blog'},
+  {k:'legal', l:'Legal'},{k:'agent', l:'Vet Agents'},{k:'about', l:'About'},
+];
+
+function renderNav(){
+  document.getElementById('hdrNav').innerHTML = NAV.map(n =>
+    `<button class="${state.screen===n.k?'on':''}" onclick="go('${n.k}')">${n.l}</button>`
+  ).join('');
+}
+function go(screen, sub, btn){
+  state.screen = screen; state.sub = sub;
+  if(screen !== 'discover') state.seller = null;
+  if(screen !== 'blog'){ state.post = null; state.blogCat = null; state.blogQuery = ''; }
+  if(screen !== 'legal') state.policy = null;
+  if(screen !== 'agent') state.doc = null;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.t === screen));
+  renderNav(); render(); window.scrollTo({top:0, behavior:'smooth'});
+}
+function openSeller(slug){ state.screen='discover'; state.seller=slug; syncTab(); render(); window.scrollTo({top:0}); }
+function openPost(slug){ state.screen='blog'; state.post=slug; syncTab(); render(); window.scrollTo({top:0}); }
+function openPolicy(id){ state.screen='legal'; state.policy=id; syncTab(); render(); window.scrollTo({top:0}); }
+function openDoc(id){ state.screen='agent'; state.doc=id; syncTab(); render(); window.scrollTo({top:0}); }
+function filterBlogCat(cat){ state.blogCat = cat === 'null' ? null : cat; render(); }
+function searchBlog(q){ state.blogQuery = q; render(); }
+function syncTab(){ document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.t === state.screen)); renderNav(); }
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function render(){
+  document.getElementById('app').innerHTML = {
+    home: renderHome, discover: renderDiscover, deal: renderDeal, blog: renderBlog,
+    legal: renderLegal, agent: renderAgent, about: renderAbout,
+  }[state.screen]();
+}
+
+/* HOME */
+function renderHome(){
+  return `
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">🛡️ Africa's Secure Transaction Gateway</div>
+      <h1>We verify the item.<br><span class="g">We protect the payment.</span></h1>
+      <p>DealsGate is Nigeria's protected-deal platform — item verification by Vet Agents, regulated payment protection, tracked logistics, and evidence-based disputes.</p>
+      <div class="hero-trust"><div>✓ Verified Sellers</div><div>✓ Regulated Escrow</div><div>✓ Tracked Logistics</div></div>
+      <div class="hero-cta">
+        <a class="p" onclick="toast('Opens create-deal wizard')">Protect a Deal →</a>
+        <a class="s" onclick="toast('Opens signup')">Create Account</a>
+      </div>
+      <div class="hero-founder">
+        <div class="avatar">AT</div>
+        <div><div class="n">Akinwunmi Taofik</div><div class="r">CEO / Founder · THE TAP OF GRACE MEDIA HOUSE</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="search">
+    <span class="ic">🔍</span>
+    <input placeholder="Search any vendor by name..." oninput="homeSearch(this.value)">
+  </div>
+  <div class="search-hint">Verify any vendor before you pay. No login required.</div>
+  <div id="homeSearchResults"></div>
+
+  <div class="sec-title">How It Works</div>
+  <div class="card">
+    ${[
+      ['Seller creates a Protected Deal','Item details, 2–4 photos, ≤60s video, Google Maps pin, ₦5,000 refundable guarantee.'],
+      ['Buyer pays into regulated escrow','Funds held by a licensed Nigerian payment partner.'],
+      ['Certified Vet Agent inspects','Nearest certified agent accepts, verifies IMEI/serial, condition, quality.'],
+      ['Buyer reviews evidence','Approve → logistics proceeds. Dispute → mediation.'],
+      ['Logistics & shared tracking','Both parties see the same journey.'],
+      ['Payout, guarantee refund, ratings','Seller paid. ₦5,000 returned. Buyer rates both parties.'],
+    ].map(([t,d],i)=>`
+      <div class="step-row"><div class="step-num">${i+1}</div><div class="step-body"><div class="step-title">${t}</div><div class="step-desc">${d}</div></div></div>
+    `).join('')}
+  </div>
+
+  <div class="sec-title"><span>Top Successful Protected Deals</span><span class="bd bd-gold">Public</span></div>
+  <div class="card">
+    ${TOP_DEALS.map(d=>`
+      <div class="seller-card">
+        <div class="seller-av" style="background:var(--navy)">${d.seller.split(' ').map(x=>x[0]).join('')}<span class="verified">✓</span></div>
+        <div class="seller-info">
+          <div class="seller-name">${d.seller}</div>
+          <div class="seller-type">Last deal: ${d.item}</div>
+          <div class="seller-stats"><span>★ <span class="seller-rating">${d.stars.toFixed(1)}</span></span><span><strong>${d.count}</strong> successful</span></div>
+        </div>
+      </div>
+    `).join('')}
+  </div>
+
+  <div class="sec-title">Featured Articles</div>
+  <div class="card">
+    ${POSTS.slice(0,4).map(p=>`
+      <div class="blog-card" onclick="openPost('${p.slug}')">
+        <div class="blog-tag">${p.cat}</div>
+        <div class="blog-title">${p.title}</div>
+        <div class="blog-ex">${p.excerpt}</div>
+        <div class="blog-meta"><span>${p.date}</span><span>·</span><span>${p.read} min read</span></div>
+      </div>
+    `).join('')}
+  </div>
+
+  ${footerHTML()}`;
+}
+function homeSearch(q){
+  const el = document.getElementById('homeSearchResults');
+  if(!q || q.length < 2){ el.innerHTML=''; return; }
+  const hits = SELLERS.filter(s => s.name.toLowerCase().includes(q.toLowerCase()) || s.owner.toLowerCase().includes(q.toLowerCase()));
+  el.innerHTML = hits.length === 0
+    ? `<div class="card"><div class="empty">No vendors match "${q}".</div></div>`
+    : `<div class="card">${hits.map(sellerCardHTML).join('')}</div>`;
+}
+
+/* DISCOVER */
+function renderDiscover(){
+  if(state.seller) return renderDossier(SELLERS.find(s => s.slug === state.seller));
+  return `
+  <div class="sec-title">Public Seller Reputation Search</div>
+  <div class="search"><span class="ic">🔍</span><input placeholder="Search any vendor by business or individual name..." oninput="discoverSearch(this.value)"></div>
+  <div class="search-hint">No login required.</div>
+  <div id="discoverResults">
+    <div class="sec-title">All verified sellers</div>
+    <div class="card">${SELLERS.map(sellerCardHTML).join('')}</div>
+  </div>
+  <div class="card">
+    <div class="ch">What you see — and what you don't</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">✓ Verified badge</span><span class="v g">Shown</span></div>
+      <div class="row"><span class="k">✓ Sector & business type</span><span class="v g">Shown</span></div>
+      <div class="row"><span class="k">✓ Deal counts · stars · reviews</span><span class="v g">Shown</span></div>
+      <div class="row"><span class="k">✗ Phone · email · address</span><span class="v r">Never</span></div>
+      <div class="row"><span class="k">✗ Private inspection media</span><span class="v r">Never</span></div>
+    </div>
+  </div>
+  ${footerHTML()}`;
+}
+function discoverSearch(q){
+  const el = document.getElementById('discoverResults');
+  if(!q || q.length < 2){
+    el.innerHTML = `<div class="sec-title">All verified sellers</div><div class="card">${SELLERS.map(sellerCardHTML).join('')}</div>`;
+    return;
+  }
+  const hits = SELLERS.filter(s =>
+    s.name.toLowerCase().includes(q.toLowerCase()) ||
+    s.owner.toLowerCase().includes(q.toLowerCase()) ||
+    s.sector.toLowerCase().includes(q.toLowerCase()));
+  el.innerHTML = hits.length === 0
+    ? `<div class="card"><div class="empty">No vendors match "${q}".</div></div>`
+    : `<div class="card">${hits.map(sellerCardHTML).join('')}</div>`;
+}
+function sellerCardHTML(s){
+  return `
+    <div class="seller-card" onclick="openSeller('${s.slug}')">
+      <div class="seller-av" style="background:${s.color}">${s.initials}${s.verified?'<span class="verified">✓</span>':''}</div>
+      <div class="seller-info">
+        <div class="seller-name">${s.name}</div>
+        <div class="seller-type">${s.type} · ${s.sector}</div>
+        <div class="seller-stats">
+          <span>★ <span class="seller-rating">${s.stars.toFixed(1)}</span> (${s.reviews})</span>
+          <span><strong>${s.success}</strong> successful</span>
+          ${s.unsuccessful?`<span style="color:var(--red)">${s.unsuccessful} failed</span>`:''}
+        </div>
+      </div>
+      <span style="font-size:14px;color:#9CA3AF">›</span>
+    </div>`;
+}
+function renderDossier(s){
+  if(!s) return `<div class="empty">Seller not found.</div>`;
+  const stars = [1,2,3,4,5].map(i => i <= Math.round(s.stars) ? '★' : '☆').join('');
+  return `
+  <button class="back" onclick="state.seller=null;render()">← Back to search</button>
+  <div class="hero" style="padding:18px 16px">
+    <div class="hero-inner">
+      <div class="seller-av" style="width:64px;height:64px;font-size:24px;background:${s.color};margin-bottom:12px">
+        ${s.initials}${s.verified?'<span class="verified" style="width:22px;height:22px;font-size:13px">✓</span>':''}
+      </div>
+      <h1 style="font-size:20px">${s.name}</h1>
+      <div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:4px">${s.type} · ${s.sector}</div>
+      <div style="margin-top:8px;font-size:14px;color:var(--gold)">${stars}
+        <span style="color:#fff;font-weight:800;margin-left:4px">${s.stars.toFixed(1)}</span>
+        <span style="color:rgba(255,255,255,.6);font-size:11px">(${s.reviews} reviews)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-title">Scorecard</div>
+  <div class="card">
+    <div class="row"><span class="k">Total deals</span><span class="v">${s.success + s.unsuccessful}</span></div>
+    <div class="row"><span class="k">Successful</span><span class="v g">${s.success}</span></div>
+    <div class="row"><span class="k">Failed / disputed</span><span class="v r">${s.unsuccessful}</span></div>
+    <div class="row tot"><span class="k">Success rate</span><span class="v g">${Math.round(s.success/(s.success+s.unsuccessful)*100)}%</span></div>
+  </div>
+
+  <div class="sec-title">Buyer reviews</div>
+  <div class="card">
+    <div class="cb" style="border-bottom:1px solid var(--line)">
+      <div style="font-size:12px;font-weight:800;color:var(--navy)">Musa I. · ★★★★★</div>
+      <div style="font-size:11px;color:#4B5563;margin-top:4px">Item exactly as described. Would buy again.</div>
+      <div style="font-size:10px;color:#9CA3AF;margin-top:6px">2 weeks ago</div>
+    </div>
+    <div class="cb" style="border-bottom:1px solid var(--line)">
+      <div style="font-size:12px;font-weight:800;color:var(--navy)">Chioma O. · ★★★★★</div>
+      <div style="font-size:11px;color:#4B5563;margin-top:4px">Vet Agent was thorough. Recommended.</div>
+      <div style="font-size:10px;color:#9CA3AF;margin-top:6px">1 month ago</div>
+    </div>
+    <div class="cb">
+      <div style="font-size:12px;font-weight:800;color:var(--navy)">Kelechi N. · ★★★★☆</div>
+      <div style="font-size:11px;color:#4B5563;margin-top:4px">Good item. Communication a bit slow.</div>
+      <div style="font-size:10px;color:#9CA3AF;margin-top:6px">1 month ago</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch">What this page never shows</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">✗ Phone number</span><span class="v r">Hidden</span></div>
+      <div class="row"><span class="k">✗ Email address</span><span class="v r">Hidden</span></div>
+      <div class="row"><span class="k">✗ Physical address</span><span class="v r">Hidden</span></div>
+      <div class="row"><span class="k">✗ Private inspection media</span><span class="v r">Hidden</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cb" style="padding:0">
+      <button class="btn nv" style="border-radius:0" onclick="toast('Opens seller listings')">View ${s.owner.split(' ')[0]}'s live listings →</button>
+    </div>
+  </div>
+
+  ${footerHTML()}`;
+}
+
+/* DEAL */
+function renderDeal(){
+  const sub = state.sub || 'view';
+  if(sub === 'checkout') return renderCheckout();
+  if(sub === 'success') return renderPaymentSuccess();
+  return renderDealView();
+}
+function renderDealView(){
+  return `
+  <div class="deal-hero">
+    <div class="code">DG-240501 · Protected Deal</div>
+    <span class="bd bd-gold" style="position:absolute;right:14px;top:14px;z-index:1">Open</span>
+    <div class="item">iPhone 14 Pro 256GB — Deep Purple</div>
+  </div>
+  <div class="deal-media">
+    <div class="img" data-l="1/4">📱</div><div class="img" data-l="2/4">📱</div><div class="img" data-l="3/4">📱</div><div class="img v" data-l="video">▶</div>
+  </div>
+  <div style="text-align:center;padding:0 12px 8px;font-size:11px;color:#6B7280">Continuous video · 45s · no edits</div>
+
+  <div class="sec-title">Seller</div>
+  <div class="card">
+    <div class="seller-card" onclick="openSeller('adaeze-electronics')">
+      <div class="seller-av" style="background:#F4B420">AO<span class="verified">✓</span></div>
+      <div class="seller-info">
+        <div class="seller-name">Adaeze Okafor</div>
+        <div class="seller-type">Business · Phones & Tablets</div>
+        <div class="seller-stats"><span>★ <span class="seller-rating">4.9</span> (34)</span><span><strong>34</strong> successful</span></div>
+      </div>
+      <span style="font-size:14px;color:#9CA3AF">›</span>
+    </div>
+  </div>
+
+  <div class="sec-title">Item details</div>
+  <div class="card">
+    <div class="row"><span class="k">Condition</span><span class="v">Used</span></div>
+    <div class="row"><span class="k">Quantity</span><span class="v">1</span></div>
+    <div class="row"><span class="k">Sector</span><span class="v">Phones & Tablets</span></div>
+    <div class="row"><span class="k">Inspection LGA</span><span class="v">Ikeja, Lagos</span></div>
+    <div class="cb" style="border-top:1px solid var(--line)">
+      <div style="font-size:11px;font-weight:800;color:var(--navy);margin-bottom:6px;text-transform:uppercase">Quality notes</div>
+      <div style="font-size:12px;color:#4B5563;line-height:1.6">Battery health 89%. Minor scratch bottom-right corner. No repairs, no water damage.</div>
+    </div>
+  </div>
+
+  <div class="sec-title">Your total</div>
+  <div class="card">
+    <div class="row"><span class="k">Item price</span><span class="v">₦450,000</span></div>
+    <div class="row"><span class="k">Buyer service fee (2%)</span><span class="v">₦9,000</span></div>
+    <div class="row"><span class="k">Vet Agent inspection fee</span><span class="v">₦6,000</span></div>
+    <div class="row"><span class="k">Logistics</span><span class="v">₦3,500</span></div>
+    <div class="row tot"><span class="k">Total</span><span class="v">₦468,500</span></div>
+  </div>
+
+  <div class="card">
+    <div class="cb" style="font-size:11px;color:#6B7280;line-height:1.6">
+      <b style="color:var(--navy)">Buyer protection.</b> Your money is held in regulated escrow until a certified Vet Agent inspects the item, you approve the evidence, and the item is delivered.
+    </div>
+  </div>
+
+  <div class="brow"><button class="btn pr" onclick="state.sub='checkout';render();window.scrollTo({top:0})">Proceed to checkout →</button></div>
+
+  ${footerHTML()}`;
+}
+function renderCheckout(){
+  return `
+  <button class="back" onclick="state.sub=null;render()">← Back to deal</button>
+  <div class="sec-title">Checkout</div>
+
+  <div class="card">
+    <div class="ch">Delivery details</div>
+    <div class="cb">
+      <label style="display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px">Full name</label>
+      <input value="Musa Ibrahim" style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;font-size:13px;margin-bottom:12px;font-family:inherit">
+      <label style="display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px">Phone</label>
+      <input value="+234 801 234 5678" style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;font-size:13px;margin-bottom:12px;font-family:inherit">
+      <label style="display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px">Delivery address</label>
+      <textarea rows="2" style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;font-size:13px;margin-bottom:12px;font-family:inherit">1 Receiver Street, Ikeja</textarea>
+      <label style="display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px">LGA</label>
+      <input value="Ikeja" style="width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;font-size:13px;font-family:inherit">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch">Choose a courier</div>
+    <div class="cb" style="padding:0">
+      <label class="row" style="cursor:pointer"><span class="k"><b style="color:var(--navy)">GIG Logistics</b><div style="font-size:10px;color:#6B7280;margin-top:2px">1–2 business days</div></span><span style="text-align:right"><div class="v">₦3,500</div><input type="radio" name="c" checked style="margin-top:4px"></span></label>
+      <label class="row" style="cursor:pointer"><span class="k"><b style="color:var(--navy)">Kwik Express</b><div style="font-size:10px;color:#6B7280;margin-top:2px">Same-day Lagos</div></span><span style="text-align:right"><div class="v">₦5,500</div><input type="radio" name="c" style="margin-top:4px"></span></label>
+      <label class="row" style="cursor:pointer"><span class="k"><b style="color:var(--navy)">Buyer pickup at hub</b><div style="font-size:10px;color:#6B7280;margin-top:2px">As scheduled</div></span><span style="text-align:right"><div class="v g">Free</div><input type="radio" name="c" style="margin-top:4px"></span></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch">Order summary</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Item price</span><span class="v">₦450,000</span></div>
+      <div class="row"><span class="k">Buyer service fee (2%)</span><span class="v">₦9,000</span></div>
+      <div class="row"><span class="k">Vet Agent fee</span><span class="v">₦6,000</span></div>
+      <div class="row"><span class="k">Logistics (GIG)</span><span class="v">₦3,500</span></div>
+      <div class="row tot"><span class="k">Grand total</span><span class="v">₦468,500</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.6">
+      <b style="color:var(--navy)">No margin line.</b> The logistics rate is what you pay the courier.
+    </div>
+  </div>
+
+  <div class="brow"><button class="btn pr" onclick="state.sub='success';render();window.scrollTo({top:0})">Pay ₦468,500 securely</button></div>
+  <div style="text-align:center;font-size:10px;color:#9CA3AF;padding:0 0 14px">Powered by Paystack · Licensed Nigerian payment provider</div>
+  ${footerHTML()}`;
+}
+function renderPaymentSuccess(){
+  return `
+  <div class="about-hero" style="background:linear-gradient(135deg,#065F46,#16A34A);padding-top:40px;padding-bottom:34px">
+    <div class="shield" style="background:#fff;color:var(--green)">✓</div>
+    <h1>Payment secured</h1>
+    <p>₦468,500 is held in regulated escrow. A Certified Vet Agent is being assigned.</p>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <div class="ch">Escrow confirmation</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Deal code</span><span class="v">DG-240501</span></div>
+      <div class="row"><span class="k">Amount held</span><span class="v g">₦468,500</span></div>
+      <div class="row"><span class="k">Status</span><span class="v g">OPEN_FOR_AGENT</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">What happens next</div>
+    <div class="cb" style="padding:0">
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><div class="step-title">Agent accepts</div><div class="step-desc">First Certified agent in Ikeja locks the job.</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><div class="step-title">Item inspected</div><div class="step-desc">IMEI, condition, quality verified.</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><div class="step-title">You approve</div><div class="step-desc">Approve → logistics. Or dispute → mediation.</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-body"><div class="step-title">Item delivered</div><div class="step-desc">Confirm and rate both seller and agent.</div></div></div>
+    </div>
+  </div>
+  <div class="brow">
+    <button class="btn gh" onclick="state.sub=null;render();window.scrollTo({top:0})">Back to deal</button>
+    <button class="btn pr" onclick="toast('Opens dashboard')">Dashboard →</button>
+  </div>
+  ${footerHTML()}`;
+}
+
+/* BLOG */
+function renderBlog(){
+  if(state.post) return renderPost(POSTS.find(p => p.slug === state.post));
+  const cats = Array.from(new Set(POSTS.map(p => p.cat))).sort();
+  let list = POSTS;
+  if(state.blogCat) list = list.filter(p => p.cat === state.blogCat);
+  if(state.blogQuery && state.blogQuery.length >= 2){
+    const q = state.blogQuery.toLowerCase();
+    list = list.filter(p => (p.title + p.excerpt + p.cat).toLowerCase().includes(q));
+  }
+  return `
+  <div class="about-hero" style="padding-top:32px;padding-bottom:28px">
+    <div class="shield">📝</div>
+    <h1>DealsGate Blog</h1>
+    <p>Guides, policy explainers, and safe-commerce insights for Nigerian buyers, sellers, and Vet Agents.</p>
+  </div>
+
+  <div class="search"><span class="ic">🔍</span><input placeholder="Search articles..." oninput="searchBlog(this.value)"></div>
+
+  <div class="filters">
+    <button class="chip ${!state.blogCat?'on':''}" onclick="filterBlogCat('null')">All · ${POSTS.length}</button>
+    ${cats.map(c=>{
+      const n = POSTS.filter(p=>p.cat===c).length;
+      return `<button class="chip ${state.blogCat===c?'on':''}" onclick="filterBlogCat('${c}')">${c} · ${n}</button>`;
+    }).join('')}
+  </div>
+
+  ${list.length === 0
+    ? `<div class="empty">No articles match your search.</div>`
+    : `<div class="card" style="margin-top:12px">${list.map(p=>`
+      <div class="blog-card" onclick="openPost('${p.slug}')">
+        <div class="blog-img">${p.cover}</div>
+        <div class="blog-tag">${p.cat}</div>
+        <div class="blog-title">${p.title}</div>
+        <div class="blog-ex">${p.excerpt}</div>
+        <div class="blog-meta"><span>${p.date}</span><span>·</span><span>${p.read} min read</span></div>
+      </div>
+    `).join('')}</div>`
+  }
+  ${footerHTML()}`;
+}
+function renderPost(p){
+  if(!p) return `<div class="empty">Post not found.</div>`;
+  const related = POSTS.filter(x => x.cat === p.cat && x.slug !== p.slug).slice(0,3);
+  return `
+  <button class="back" onclick="state.post=null;render()">← All posts</button>
+  <div style="padding:0 16px">
+    <div class="blog-tag" style="margin-top:6px">${p.cat}</div>
+    <div style="font-size:10px;color:#9CA3AF;margin-top:8px;display:flex;gap:8px">
+      <span>DealsGate Team</span><span>·</span><span>${p.date}</span><span>·</span><span>${p.read} min read</span>
+    </div>
+  </div>
+  <div class="prose">${p.body}</div>
+
+  <div class="card">
+    <div class="ch">Contact</div>
+    <div class="cb" style="font-size:12px;line-height:1.7;color:#4B5563">
+      <b style="color:var(--navy)">THE TAP OF GRACE MEDIA HOUSE</b> · Trading as DealsGate<br>
+      CEO / Founder: Akinwunmi Taofik<br>
+      support@dealsgate.ng · info@dealsgate.ng<br>
+      +234 807 921 9165 · +234 903 565 5184<br>
+      www.dealsgate.ng · www.dealsgate.com.ng · @dealsgate.ng
+    </div>
+  </div>
+
+  ${related.length > 0 ? `
+    <div class="sec-title">More in ${p.cat}</div>
+    <div class="card">
+      ${related.map(r=>`
+        <div class="legal-item" onclick="openPost('${r.slug}')">
+          <div><div class="t">${r.title}</div><div class="s">${r.read} min read</div></div>
+          <span class="arrow">›</span>
+        </div>
+      `).join('')}
+    </div>
+  ` : ''}
+  ${footerHTML()}`;
+}
+
+/* LEGAL */
+function renderLegal(){
+  if(state.policy) return renderPolicy(state.policy);
+  return `
+  <div class="about-hero" style="background:linear-gradient(135deg,#0D1B4C,#1F2937);padding-top:32px;padding-bottom:28px">
+    <div class="shield">⚖️</div>
+    <h1>Policies & Legal</h1>
+    <p>Every policy that governs the DealsGate platform.</p>
+  </div>
+  <div class="sec-title">All policies</div>
+  <div class="card">
+    <div class="legal-list">
+      ${POLICIES.map(p=>`
+        <div class="legal-item" onclick="openPolicy('${p.id}')">
+          <div><div class="t">${p.t}</div><div class="s">${p.s}</div></div>
+          <span class="arrow">›</span>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Incorporated by reference</div>
+    <div class="cb" style="font-size:12px;color:#4B5563;line-height:1.65">
+      By using DealsGate, you agree to all of the above policies, as updated from time to time.
+    </div>
+  </div>
+  ${footerHTML()}`;
+}
+function renderPolicy(id){
+  const p = POLICIES.find(x => x.id === id);
+  if(!p) return `<div class="empty">Policy not found.</div>`;
+  const body = POLICY_BODIES[id] || '<p>Content loading...</p>';
+  return `
+  <button class="back" onclick="state.policy=null;render()">← All policies</button>
+  <div class="card" style="margin-top:6px">
+    <div class="cb" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div>
+        <div style="font-size:10px;font-weight:800;color:var(--green2);letter-spacing:.08em;text-transform:uppercase">Legal document</div>
+        <div style="font-size:15px;font-weight:800;color:var(--navy);margin-top:4px">${p.t}</div>
+        <div style="font-size:11px;color:#9CA3AF;margin-top:3px">${p.s}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn gh" style="width:auto;padding:7px 11px;font-size:11px" onclick="toast('Downloading PDF…')">⬇ PDF</button>
+        <button class="btn gh" style="width:auto;padding:7px 11px;font-size:11px" onclick="window.print()">🖨 Print</button>
+      </div>
+    </div>
+  </div>
+  <div class="prose">${body}</div>
+  <div class="card">
+    <div class="ch">Contact</div>
+    <div class="cb" style="font-size:12px;line-height:1.7;color:#4B5563">
+      <b style="color:var(--navy)">THE TAP OF GRACE MEDIA HOUSE</b> · Trading as DealsGate<br>
+      CEO / Founder: Akinwunmi Taofik<br>
+      support@dealsgate.ng · info@dealsgate.ng<br>
+      +234 807 921 9165 · +234 903 565 5184<br>
+      www.dealsgate.ng · www.dealsgate.com.ng · @dealsgate.ng
+    </div>
+  </div>
+  ${footerHTML()}`;
+}
+
+/* AGENT */
+function renderAgent(){
+  if(state.doc) return renderAgentDoc(state.doc);
+  return `
+  <div class="about-hero" style="padding-top:32px;padding-bottom:28px">
+    <div class="shield">🎓</div>
+    <h1>Vet Agent Hub</h1>
+    <p>Everything you need to become a Certified DealsGate Vet Agent.</p>
+  </div>
+  <div class="sec-title">Get started</div>
+  <div class="card">
+    <div class="cb" style="display:grid;gap:8px">
+      <button class="btn pr" onclick="toast('Opens Vet Agent signup')">🚀 Become a Vet Agent</button>
+      <button class="btn gh" onclick="toast('Opens training dashboard')">🎓 Continue training</button>
+      <button class="btn gh" onclick="toast('Opens open jobs')">🔍 See jobs near you</button>
+    </div>
+  </div>
+  <div class="sec-title">Certification path</div>
+  <div class="card">
+    ${[
+      ['✓','ID Verified','KYC pass. Required for all users.','var(--green)','#fff'],
+      ['2','Certified Eligible','All 10 modules + quiz ≥85%. Unlocks accepting jobs.','var(--gold)','var(--navy)'],
+      ['3','Certified','Complete 3 successful inspections.','var(--navy)','var(--gold)'],
+      ['4','Super Vet','10 successful inspections at 4.5★+. Priority visibility.','var(--purple)','#fff'],
+    ].map(([n,t,d,bgc,fg])=>`
+      <div class="step-row"><div class="step-num" style="background:${bgc};color:${fg}">${n}</div><div class="step-body"><div class="step-title">${t}</div><div class="step-desc">${d}</div></div></div>
+    `).join('')}
+  </div>
+  <div class="sec-title">Reference documents</div>
+  <div class="card">
+    <div class="legal-list">
+      ${AGENT_DOCS.map(d=>`
+        <div class="legal-item" onclick="openDoc('${d.id}')">
+          <div style="display:flex;gap:12px;align-items:center">
+            <span style="font-size:20px">${d.em}</span>
+            <div><div class="t">${d.t}</div><div class="s">${d.s}</div></div>
+          </div>
+          <span class="arrow">›</span>
+        </div>
+      `).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Need help on a job?</div>
+    <div class="cb" style="font-size:12px;line-height:1.65;color:#4B5563">
+      <p style="margin-bottom:10px">Safety threat, bribe attempt, prohibited goods — contact Admin immediately.</p>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">Support</span><span class="v" style="font-family:inherit">support@dealsgate.ng</span></div>
+      <div class="row" style="padding-left:0;padding-right:0;border-bottom:none"><span class="k">Phone</span><span class="v" style="font-family:inherit">+234 807 921 9165</span></div>
+    </div>
+  </div>
+  ${footerHTML()}`;
+}
+function renderAgentDoc(id){
+  const d = AGENT_DOCS.find(x => x.id === id);
+  if(!d) return `<div class="empty">Document not found.</div>`;
+  const body = AGENT_DOC_BODIES[id] || '<p>Content loading...</p>';
+  return `
+  <button class="back" onclick="state.doc=null;render()">← Agent Hub</button>
+  <div class="card" style="margin-top:6px">
+    <div class="cb" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div style="display:flex;gap:12px;align-items:center">
+        <span style="font-size:26px">${d.em}</span>
+        <div>
+          <div style="font-size:10px;font-weight:800;color:var(--green2);letter-spacing:.08em;text-transform:uppercase">Vet Agent</div>
+          <div style="font-size:14px;font-weight:800;color:var(--navy);margin-top:3px">${d.t}</div>
+          <div style="font-size:11px;color:#9CA3AF;margin-top:3px">${d.s}</div>
+        </div>
+      </div>
+      <button class="btn gh" style="width:auto;padding:7px 11px;font-size:11px" onclick="toast('Downloading PDF…')">⬇ PDF</button>
+    </div>
+  </div>
+  <div class="prose">${body}</div>
+  ${footerHTML()}`;
+}
+
+/* ABOUT */
+function renderAbout(){
+  if(state.sub === 'contact') return renderContact();
+  return `
+  <div class="about-hero">
+    <div class="shield">🛡️</div>
+    <h1>About DealsGate</h1>
+    <p>Africa's Secure Transaction Gateway — built by THE TAP OF GRACE MEDIA HOUSE to make social commerce safe in Nigeria.</p>
+  </div>
+  <div class="sec-title">Our mission</div>
+  <div class="card">
+    <div class="cb" style="font-size:13px;line-height:1.7;color:#4B5563">
+      <p style="margin-bottom:12px">Every day, thousands of Nigerians buy and sell across Instagram, WhatsApp, and X. But the trust deficit is real.</p>
+      <p style="margin-bottom:12px">DealsGate combines regulated escrow, mandatory physical inspection by certified Vet Agents, tracked logistics, and evidence-based dispute resolution into a single protected-deal platform.</p>
+      <p><strong style="color:var(--navy)">Verify the item. Protect the payment. Track the delivery.</strong></p>
+    </div>
+  </div>
+  <div class="sec-title">Leadership</div>
+  <div class="card">
+    <div class="cb" style="display:flex;gap:14px;align-items:center">
+      <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:grid;place-items:center;font-size:22px;font-weight:900;color:var(--navy);flex-shrink:0">AT</div>
+      <div>
+        <div style="font-size:15px;font-weight:800;color:var(--navy)">Akinwunmi Taofik</div>
+        <div style="font-size:11px;color:#6B7280;margin-top:3px">CEO / Founder</div>
+        <div style="font-size:11px;color:#6B7280;margin-top:2px">THE TAP OF GRACE MEDIA HOUSE · RC 3090954</div>
+      </div>
+    </div>
+  </div>
+  <div class="sec-title">What we do</div>
+  <div class="card">
+    ${[
+      ['🛡️','Regulated escrow custody','Buyer funds held by licensed Nigerian payment partner.'],
+      ['🎓','Vet Agent physical inspection','Certified field agents verify exact item.'],
+      ['🚚','Integrated logistics','Partner couriers with shared tracking.'],
+      ['⚖️','Evidence-based disputes','Tier-weighted mediation.'],
+    ].map(([em,t,d])=>`
+      <div class="step-row"><div class="step-num" style="background:transparent;font-size:18px">${em}</div><div class="step-body"><div class="step-title">${t}</div><div class="step-desc">${d}</div></div></div>
+    `).join('')}
+  </div>
+  <div class="sec-title">Company</div>
+  <div class="card">
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Legal entity</span><span class="v" style="font-family:inherit">THE TAP OF GRACE MEDIA HOUSE</span></div>
+      <div class="row"><span class="k">RC number</span><span class="v">RC 3090954</span></div>
+      <div class="row"><span class="k">Brand</span><span class="v">DealsGate</span></div>
+      <div class="row"><span class="k">Tagline</span><span class="v" style="font-family:inherit">Africa's Secure Transaction Gateway</span></div>
+      <div class="row"><span class="k">CEO / Founder</span><span class="v" style="font-family:inherit">Akinwunmi Taofik</span></div>
+    </div>
+  </div>
+  <div class="brow">
+    <button class="btn gh" onclick="state.sub='contact';render()">Contact us</button>
+    <button class="btn pr" onclick="go('blog')">Read our blog →</button>
+  </div>
+  ${footerHTML()}`;
+}
+function renderContact(){
+  return `
+  <button class="back" onclick="state.sub=null;render()">← About</button>
+  <div class="about-hero" style="padding-top:26px;padding-bottom:24px">
+    <div class="shield">📞</div>
+    <h1>Contact DealsGate</h1>
+    <p>Support, complaints, partnerships, or press — we respond fast.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card"><div class="ic">✉️</div><div class="t">Support</div><div class="l"><a href="mailto:support@dealsgate.ng">support@dealsgate.ng</a><br><a href="mailto:info@dealsgate.ng">info@dealsgate.ng</a></div></div>
+    <div class="contact-card"><div class="ic">📱</div><div class="t">Phone / WhatsApp</div><div class="l"><a href="tel:+2348079219165">+234 807 921 9165</a><br><a href="tel:+2349035655184">+234 903 565 5184</a></div></div>
+    <div class="contact-card"><div class="ic">📍</div><div class="t">Registered office</div><div class="l">THE TAP OF GRACE MEDIA HOUSE<br>Sango, Ibadan, Oyo State, Nigeria</div></div>
+    <div class="contact-card"><div class="ic">🌐</div><div class="t">Websites</div><div class="l">www.dealsgate.ng<br>www.dealsgate.com.ng</div></div>
+    <div class="contact-card"><div class="ic">📣</div><div class="t">Social</div><div class="l">@dealsgate.ng — all platforms</div></div>
+    <div class="contact-card"><div class="ic">👤</div><div class="t">Leadership</div><div class="l">CEO / Founder: Akinwunmi Taofik</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Response times</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Routine support</span><span class="v" style="font-family:inherit">24–72 hours</span></div>
+      <div class="row"><span class="k">Formal dispute</span><span class="v" style="font-family:inherit">72 hours</span></div>
+      <div class="row"><span class="k">Safety escalation</span><span class="v" style="font-family:inherit">Immediate</span></div>
+    </div>
+  </div>
+  ${footerHTML()}`;
+}
+
+function footerHTML(){
+  return `
+  <footer class="footer">
+    <div class="footer-brand">
+      <div class="mark">✓</div>
+      <div><div class="n">Deals<span class="g">Gate</span></div><div class="s">Africa's Secure Transaction Gateway</div></div>
+    </div>
+    <p>DealsGate is a protected-deal platform for safer social commerce in Nigeria.</p>
+    <h4>Company</h4>
+    <a onclick="go('about')">About Us</a>
+    <a onclick="go('blog')">Blog</a>
+    <a onclick="state.sub='contact';go('about')">Contact</a>
+    <a onclick="go('agent')">Vet Agent Hub</a>
+    <h4>Legal & Policies</h4>
+    ${POLICIES.map(p=>`<a onclick="openPolicy('${p.id}')">${p.t}</a>`).join('')}
+    <h4>Contact</h4>
+    <div class="contact-list">
+      <div>✉️ support@dealsgate.ng</div>
+      <div>✉️ info@dealsgate.ng</div>
+      <div>📱 +234 807 921 9165</div>
+      <div>📱 +234 903 565 5184</div>
+      <div>🌐 www.dealsgate.ng · www.dealsgate.com.ng</div>
+      <div>📣 @dealsgate.ng</div>
+      <div>📍 Sango, Ibadan, Oyo State, Nigeria</div>
+    </div>
+    <div class="copy">
+      © ${new Date().getFullYear()} THE TAP OF GRACE MEDIA HOUSE (RC 3090954) — Trading as DealsGate<br>
+      CEO / Founder: Akinwunmi Taofik · All rights reserved.
+    </div>
+  </footer>`;
+}
+
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.querySelector('#toastMsg').textContent = msg;
+  el.classList.add('on','ok');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('on','ok'), 2200);
+}
+
+renderNav();
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,1798 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>Become a DealsGate Vet Agent — Earn by Verifying Items</title>
+<meta name="description" content="Join DealsGate as a Certified Vet Agent. Inspect items in your city, earn ₦4,200–₦4,800 per job, withdraw instantly. Now recruiting in Lagos, Abuja, Ibadan and Port Harcourt.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;
+  --gold:#F4B420;--gold2:#D99A0F;--mist:#F1F3F5;--charcoal:#1F2937;
+  --red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+  --line:rgba(13,27,76,.10);--line2:rgba(13,27,76,.06);
+  --r:14px;
+  --shadow:0 1px 3px rgba(13,27,76,.06),0 1px 2px rgba(13,27,76,.04);
+  --shadow-lg:0 12px 32px rgba(13,27,76,.12);
+}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  background:var(--mist);color:var(--charcoal);font-size:15px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.hdr{
+  position:sticky;top:0;z-index:100;background:rgba(13,27,76,.97);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  color:#fff;padding:10px 20px;box-shadow:0 2px 14px rgba(0,0,0,.16);
+}
+.hdr-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0;flex:1}
+.brand-txt{min-width:0}
+.brand-txt .n{font-size:15px;font-weight:800;letter-spacing:-.3px;line-height:1.05;white-space:nowrap}
+.brand-txt .n .d{color:#fff}
+.brand-txt .n .g{color:var(--green)}
+.brand-txt .s{font-size:8px;color:var(--gold);letter-spacing:1.4px;text-transform:uppercase;font-weight:800;margin-top:2px;white-space:nowrap}
+.hdr-nav{display:flex;gap:4px;align-items:center}
+.hdr-nav a{
+  font-size:12px;font-weight:700;color:rgba(255,255,255,.72);
+  padding:7px 12px;border-radius:8px;transition:all .15s;white-space:nowrap;
+}
+.hdr-nav a:hover{background:rgba(255,255,255,.10);color:#fff}
+.hdr-nav a.apply{background:var(--gold);color:var(--navy);font-weight:800}
+.hdr-nav a.apply:hover{background:#FFC63D;color:var(--navy)}
+@media (max-width:760px){.hdr-nav a:not(.apply){display:none}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  background:
+    radial-gradient(circle at 85% 15%, rgba(244,180,32,.28), transparent 45%),
+    radial-gradient(circle at 15% 90%, rgba(22,163,74,.22), transparent 50%),
+    linear-gradient(135deg, var(--navy) 0%, #14205C 60%, var(--navy2) 100%);
+  color:#fff;padding:56px 24px 64px;position:relative;overflow:hidden;
+}
+.hero-inner{max-width:1120px;margin:0 auto;position:relative;z-index:1;display:grid;grid-template-columns:1fr;gap:36px;align-items:center}
+@media (min-width:900px){.hero-inner{grid-template-columns:1.15fr 1fr;gap:52px}}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(22,163,74,.18);border:1px solid rgba(22,163,74,.4);
+  color:#4ADE80;padding:7px 14px;border-radius:999px;
+  font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:22px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;box-shadow:0 0 8px #4ADE80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+.hero h1{
+  font-size:clamp(30px,4.6vw,50px);font-weight:800;
+  letter-spacing:-1.2px;line-height:1.06;
+}
+.hero h1 .g{color:var(--gold)}
+.hero h1 .gr{color:#4ADE80}
+.hero-sub{
+  font-size:clamp(15px,1.7vw,18px);color:rgba(255,255,255,.82);
+  margin-top:22px;line-height:1.6;max-width:520px;
+}
+.hero-actions{
+  display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;
+}
+.btn-hero{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:14px 24px;border-radius:12px;
+  font-size:14.5px;font-weight:800;letter-spacing:.01em;
+  transition:transform .12s, box-shadow .2s;
+  cursor:pointer;border:none;font-family:inherit;
+}
+.btn-hero:active{transform:translateY(1px)}
+.btn-hero.pri{background:var(--gold);color:var(--navy);box-shadow:0 8px 24px rgba(244,180,32,.36)}
+.btn-hero.pri:hover{box-shadow:0 10px 32px rgba(244,180,32,.48)}
+.btn-hero.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.btn-hero.ghost:hover{background:rgba(255,255,255,.14)}
+.hero-trust{
+  display:flex;gap:22px;flex-wrap:wrap;margin-top:32px;
+  padding-top:26px;border-top:1px solid rgba(255,255,255,.12);
+}
+.hero-trust-item{display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(255,255,255,.82);font-weight:600}
+.hero-trust-item .ic{
+  width:22px;height:22px;border-radius:50%;
+  background:rgba(22,163,74,.2);color:#4ADE80;
+  display:grid;place-items:center;font-size:11px;flex-shrink:0;
+}
+
+/* Hero card */
+.hero-card{
+  background:rgba(255,255,255,.06);backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.14);border-radius:20px;
+  padding:26px;position:relative;overflow:hidden;
+}
+.hero-card::before{
+  content:"";position:absolute;top:-40px;right:-40px;width:140px;height:140px;
+  border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.3),transparent 70%);
+}
+.hero-card-lbl{
+  font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:14px;position:relative;z-index:1;
+}
+.hero-card-amt{
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:44px;font-weight:800;letter-spacing:-1.4px;
+  color:#fff;line-height:1;position:relative;z-index:1;
+}
+.hero-card-sub{
+  font-size:12.5px;color:rgba(255,255,255,.7);
+  margin-top:8px;position:relative;z-index:1;line-height:1.55;
+}
+.hero-card-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  margin-top:22px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);
+  position:relative;z-index:1;
+}
+.hero-card-grid .v{
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:20px;font-weight:800;color:var(--gold);line-height:1;
+}
+.hero-card-grid .l{
+  font-size:9.5px;color:rgba(255,255,255,.6);font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;margin-top:6px;
+}
+
+/* ============================================================
+   TICKER
+   ============================================================ */
+.ticker{
+  background:#fff;border-bottom:1px solid var(--line);
+  padding:16px 24px;
+}
+.ticker-inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
+}
+.ticker-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#4B5563}
+.ticker-item .em{font-size:16px}
+.ticker-item b{color:var(--navy);font-weight:800}
+
+/* ============================================================
+   WRAP / SECTION
+   ============================================================ */
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+@media (max-width:640px){.wrap{padding:0 18px}}
+.section{padding:64px 0 0}
+.section.tight{padding:44px 0 0}
+.section-head{max-width:720px;margin-bottom:32px}
+.section-kicker{
+  font-size:10.5px;font-weight:800;color:var(--green2);
+  letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;display:block;
+}
+.section-head h2{
+  font-size:clamp(24px,3.4vw,34px);font-weight:800;color:var(--navy);
+  letter-spacing:-.8px;line-height:1.12;
+}
+.section-head p{font-size:15.5px;color:#5A6478;margin-top:14px;line-height:1.65}
+
+/* ============================================================
+   STEP-LIKE EXPLAINER
+   ============================================================ */
+.explain{
+  display:grid;gap:14px;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+}
+.explain-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  transition:transform .18s, box-shadow .22s;
+}
+.explain-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.explain-card .num{
+  font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;
+  color:var(--gold2);letter-spacing:.08em;
+}
+.explain-card h3{
+  font-size:15.5px;font-weight:800;color:var(--navy);letter-spacing:-.2px;
+  margin-top:12px;margin-bottom:8px;
+}
+.explain-card p{font-size:13.5px;color:#5A6478;line-height:1.65}
+
+/* ============================================================
+   EARNINGS CALCULATOR
+   ============================================================ */
+.calc{
+  background:#fff;border:1px solid var(--line);border-radius:20px;
+  overflow:hidden;box-shadow:var(--shadow-lg);
+}
+@media (min-width:860px){.calc{display:grid;grid-template-columns:1.1fr 1fr}}
+.calc-left{padding:32px}
+@media (max-width:640px){.calc-left{padding:22px}}
+.calc-right{
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;padding:32px;position:relative;overflow:hidden;
+}
+.calc-right::after{
+  content:"";position:absolute;right:-40px;bottom:-40px;width:180px;height:180px;
+  border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.28),transparent 70%);
+}
+@media (max-width:640px){.calc-right{padding:22px}}
+.calc-lbl{
+  font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green2);margin-bottom:18px;
+}
+.calc-right .calc-lbl{color:var(--gold)}
+.calc-field{margin-bottom:24px}
+.calc-field-lbl{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;
+}
+.calc-field-lbl b{
+  font-family:ui-monospace,Menlo,monospace;font-size:15px;
+  color:var(--green2);font-weight:800;
+}
+.slider{
+  width:100%;-webkit-appearance:none;appearance:none;
+  height:6px;background:var(--mist);border-radius:20px;outline:none;
+}
+.slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:24px;height:24px;border-radius:50%;
+  background:var(--gold);cursor:pointer;border:3px solid #fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.18);
+}
+.slider::-moz-range-thumb{
+  width:24px;height:24px;border-radius:50%;
+  background:var(--gold);cursor:pointer;border:3px solid #fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.18);
+}
+.slider-ticks{
+  display:flex;justify-content:space-between;
+  font-size:10px;color:#8A93A6;font-weight:700;margin-top:8px;
+}
+.calc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.calc-chip{
+  padding:8px 14px;border-radius:9px;border:1px solid var(--line);
+  background:#fff;font-family:inherit;font-size:12.5px;font-weight:700;
+  color:#6B7280;cursor:pointer;transition:all .15s;
+}
+.calc-chip:hover{border-color:var(--navy);color:var(--navy)}
+.calc-chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.calc-result-lbl{
+  font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);position:relative;z-index:1;
+}
+.calc-result-amt{
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:clamp(32px,6vw,46px);font-weight:800;
+  color:var(--gold);letter-spacing:-1.4px;line-height:1;margin-top:8px;
+  position:relative;z-index:1;
+}
+.calc-result-sub{
+  font-size:12.5px;color:rgba(255,255,255,.72);margin-top:12px;
+  line-height:1.6;position:relative;z-index:1;
+}
+.calc-breakdown{
+  margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);
+  position:relative;z-index:1;
+}
+.calc-breakdown-row{
+  display:flex;justify-content:space-between;padding:8px 0;
+  font-size:12.5px;
+}
+.calc-breakdown-row span:first-child{color:rgba(255,255,255,.7)}
+.calc-breakdown-row span:last-child{
+  color:#fff;font-weight:800;font-family:ui-monospace,Menlo,monospace;
+}
+.calc-disclaimer{
+  font-size:10.5px;color:rgba(255,255,255,.5);margin-top:16px;
+  line-height:1.5;position:relative;z-index:1;
+}
+
+/* ============================================================
+   BADGE LADDER
+   ============================================================ */
+.ladder{position:relative;padding-left:36px}
+.ladder::before{
+  content:"";position:absolute;left:15px;top:20px;bottom:20px;width:2px;
+  background:linear-gradient(180deg,var(--gold),var(--green),var(--navy),var(--purple));
+  border-radius:2px;opacity:.4;
+}
+.ladder-step{position:relative;padding:14px 0 26px}
+.ladder-step:last-child{padding-bottom:0}
+.ladder-step .dot{
+  position:absolute;left:-30px;top:20px;
+  width:16px;height:16px;border-radius:50%;
+  background:#fff;border:3px solid var(--mist);
+}
+.ladder-step.done .dot{background:var(--green);border-color:var(--green)}
+.ladder-step.gold .dot{background:var(--gold);border-color:var(--gold)}
+.ladder-step.navy .dot{background:var(--navy);border-color:var(--navy)}
+.ladder-step.purple .dot{background:var(--purple);border-color:var(--purple)}
+.ladder-badge{
+  display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;padding:3px 9px;border-radius:5px;margin-bottom:8px;
+}
+.ladder-badge.verified{background:#DCFCE7;color:var(--green2)}
+.ladder-badge.eligible{background:#FEF3C7;color:var(--gold2)}
+.ladder-badge.certified{background:#E0E7FF;color:#3730A3}
+.ladder-badge.supervet{background:#EDE9FE;color:var(--purple)}
+.ladder-step h4{
+  font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.2px;
+  margin-bottom:6px;
+}
+.ladder-step p{font-size:13.5px;color:#5A6478;line-height:1.65;max-width:600px}
+.ladder-step .perk{
+  display:inline-block;background:var(--mist);color:var(--navy);
+  font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:6px;
+  margin-top:10px;margin-right:6px;border:1px solid var(--line2);
+}
+
+/* ============================================================
+   REQUIREMENTS
+   ============================================================ */
+.req-grid{
+  display:grid;grid-template-columns:1fr;gap:14px;
+}
+@media (min-width:720px){.req-grid{grid-template-columns:1fr 1fr}}
+.req-col{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:24px;box-shadow:var(--shadow);
+}
+.req-col.yes{border-top:4px solid var(--green)}
+.req-col.no{border-top:4px solid var(--red)}
+.req-col h3{
+  font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  margin-bottom:16px;color:var(--green2);
+}
+.req-col.no h3{color:var(--red)}
+.req-list{list-style:none}
+.req-list li{
+  display:flex;gap:10px;padding:10px 0;
+  border-bottom:1px solid var(--line2);font-size:13.5px;line-height:1.55;
+  color:#3A4459;
+}
+.req-list li:last-child{border-bottom:none}
+.req-list .ic{
+  width:20px;height:20px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;font-size:11px;font-weight:800;
+  margin-top:1px;
+}
+.req-col.yes .ic{background:#DCFCE7;color:var(--green2)}
+.req-col.no .ic{background:#FEE2E2;color:var(--red)}
+
+/* ============================================================
+   SECTORS
+   ============================================================ */
+.sectors{
+  display:grid;gap:12px;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+}
+.sector{
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  padding:16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;
+}
+.sector-ic{
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  background:var(--mist);display:grid;place-items:center;font-size:19px;
+}
+.sector-n{font-size:13.5px;font-weight:800;color:var(--navy);letter-spacing:-.1px}
+.sector-d{font-size:11px;color:#8A93A6;margin-top:2px;font-weight:600}
+
+/* ============================================================
+   LGAs
+   ============================================================ */
+.lga-group{margin-bottom:20px}
+.lga-group-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:12px;
+}
+.lga-group-name{
+  font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.2px;
+  display:flex;align-items:center;gap:8px;
+}
+.lga-group-count{
+  font-size:10.5px;font-weight:800;color:var(--green2);
+  background:#DCFCE7;padding:3px 9px;border-radius:20px;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.lga-list{display:flex;flex-wrap:wrap;gap:8px}
+.lga{
+  font-size:12.5px;font-weight:700;padding:8px 13px;border-radius:9px;
+  border:1px solid var(--line);background:#fff;color:#4B5563;
+}
+.lga.hot{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:var(--navy);border-color:var(--gold);font-weight:800;
+  box-shadow:0 2px 8px rgba(244,180,32,.28);
+}
+.lga.hot::after{content:" · hot";opacity:.7;font-size:10px}
+.lga-group.soon .lga{opacity:.6}
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.stories{
+  display:grid;gap:16px;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+}
+.story{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:24px;box-shadow:var(--shadow);position:relative;
+}
+.story::before{
+  content:"";position:absolute;top:20px;right:24px;
+  font-size:60px;font-weight:900;color:var(--mist);line-height:1;
+  font-family:Georgia,serif;content:"\201C";
+}
+.story-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.story-av{
+  width:48px;height:48px;border-radius:50%;
+  display:grid;place-items:center;color:#fff;
+  font-size:16px;font-weight:800;flex-shrink:0;
+  position:relative;
+}
+.story-av .badge{
+  position:absolute;right:-4px;bottom:-4px;
+  width:18px;height:18px;border-radius:50%;
+  background:#fff;display:grid;place-items:center;
+  font-size:10px;border:1px solid var(--line);
+}
+.story-name{font-size:14.5px;font-weight:800;color:var(--navy)}
+.story-meta{font-size:11.5px;color:#8A93A6;margin-top:2px;font-weight:600}
+.story-quote{
+  font-size:14px;color:#3A4459;line-height:1.7;
+  position:relative;z-index:1;
+}
+.story-stats{
+  display:flex;gap:18px;margin-top:18px;padding-top:16px;
+  border-top:1px solid var(--line2);
+}
+.story-stat .v{
+  font-family:ui-monospace,Menlo,monospace;font-size:16px;font-weight:800;
+  color:var(--navy);
+}
+.story-stat .l{font-size:10px;color:#8A93A6;font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;margin-top:3px}
+
+/* ============================================================
+   TRAINING PREVIEW
+   ============================================================ */
+.modules{
+  display:grid;gap:10px;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+}
+.module{
+  background:#fff;border:1px solid var(--line);border-radius:11px;
+  padding:14px 16px;box-shadow:var(--shadow);
+}
+.module-id{
+  font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:800;
+  color:var(--gold2);letter-spacing:.06em;
+}
+.module-t{font-size:13.5px;font-weight:800;color:var(--navy);margin-top:4px}
+.module-d{font-size:11.5px;color:#8A93A6;margin-top:4px;line-height:1.5}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.faq{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.faq-item{border-bottom:1px solid var(--line2)}
+.faq-item:last-child{border-bottom:none}
+.faq-q{
+  width:100%;text-align:left;padding:18px 22px;background:none;border:none;
+  font-family:inherit;font-size:14.5px;font-weight:800;color:var(--navy);
+  cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  gap:16px;letter-spacing:-.15px;transition:background .15s;
+}
+.faq-q:hover{background:#FCFDFF}
+.faq-q .ic{
+  width:24px;height:24px;border-radius:50%;
+  background:var(--mist);color:var(--navy);flex-shrink:0;
+  display:grid;place-items:center;font-size:14px;font-weight:800;
+  transition:transform .2s, background .2s;
+}
+.faq-item.open .faq-q .ic{background:var(--navy);color:var(--gold);transform:rotate(45deg)}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,.2,.2,1);
+}
+.faq-item.open .faq-a{max-height:600px}
+.faq-a-inner{
+  padding:0 22px 20px;font-size:13.5px;color:#5A6478;line-height:1.7;
+}
+.faq-a-inner b{color:var(--navy);font-weight:800}
+
+/* ============================================================
+   APPLICATION
+   ============================================================ */
+.apply{
+  background:linear-gradient(135deg,var(--navy),var(--navy2));
+  color:#fff;border-radius:20px;padding:40px 32px;
+  position:relative;overflow:hidden;box-shadow:var(--shadow-lg);
+}
+@media (max-width:640px){.apply{padding:26px 22px}}
+.apply::after{
+  content:"";position:absolute;top:-60px;right:-60px;width:220px;height:220px;
+  border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.24),transparent 70%);
+}
+.apply::before{
+  content:"";position:absolute;bottom:-80px;left:-40px;width:200px;height:200px;
+  border-radius:50%;background:radial-gradient(circle,rgba(22,163,74,.2),transparent 70%);
+}
+.apply-inner{max-width:680px;margin:0 auto;position:relative;z-index:1;text-align:center}
+.apply-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(244,180,32,.14);border:1px solid rgba(244,180,32,.32);
+  color:var(--gold);padding:6px 14px;border-radius:999px;
+  font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:20px;
+}
+.apply h2{
+  font-size:clamp(24px,3.6vw,32px);font-weight:800;letter-spacing:-.6px;
+  line-height:1.15;
+}
+.apply h2 .g{color:var(--gold)}
+.apply p{
+  font-size:15px;color:rgba(255,255,255,.78);
+  margin-top:14px;line-height:1.6;max-width:520px;margin-left:auto;margin-right:auto;
+}
+.apply-cta{margin-top:28px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.apply-note{
+  font-size:11.5px;color:rgba(255,255,255,.55);
+  margin-top:20px;line-height:1.6;
+}
+
+/* Application form */
+.form-step{display:none}
+.form-step.on{display:block;animation:formIn .3s ease-out}
+@keyframes formIn{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+.form-progress{
+  display:flex;justify-content:center;gap:6px;margin-bottom:24px;
+}
+.form-progress-dot{
+  width:32px;height:6px;border-radius:20px;background:var(--mist);
+  transition:background .25s;
+}
+.form-progress-dot.on{background:var(--gold)}
+.form-field{margin-bottom:14px;text-align:left}
+.form-field label{
+  display:block;font-size:11px;font-weight:800;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:6px;
+}
+.form-field input,.form-field select{
+  width:100%;padding:13px 14px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);
+  color:#fff;font-family:inherit;font-size:14px;outline:none;
+  transition:border-color .15s,background .15s;
+}
+.form-field input::placeholder{color:rgba(255,255,255,.4)}
+.form-field input:focus,.form-field select:focus{
+  border-color:var(--gold);background:rgba(255,255,255,.12);
+}
+.form-field select{color:#fff}
+.form-field select option{color:var(--charcoal);background:#fff}
+.form-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+}
+@media (max-width:520px){.form-row{grid-template-columns:1fr}}
+.form-actions{
+  display:flex;justify-content:space-between;gap:12px;margin-top:20px;
+}
+.form-btn{
+  padding:12px 22px;border-radius:10px;border:none;
+  font-family:inherit;font-size:13.5px;font-weight:800;
+  cursor:pointer;transition:transform .12s;
+}
+.form-btn:active{transform:translateY(1px)}
+.form-btn.pri{background:var(--gold);color:var(--navy);flex:1}
+.form-btn.gh{background:rgba(255,255,255,.08);color:#fff;
+  border:1px solid rgba(255,255,255,.18)}
+.form-btn.gh:hover{background:rgba(255,255,255,.14)}
+.form-success{
+  text-align:center;padding:20px 0;
+}
+.form-success .ic{font-size:56px;line-height:1}
+.form-success h3{
+  font-size:22px;font-weight:800;color:#fff;margin-top:16px;
+  letter-spacing:-.4px;
+}
+.form-success p{
+  font-size:14px;color:rgba(255,255,255,.78);margin-top:12px;line-height:1.7;
+}
+.form-success .ref{
+  display:inline-block;font-family:ui-monospace,Menlo,monospace;
+  font-size:14px;font-weight:800;color:var(--gold);
+  background:rgba(244,180,32,.14);border:1px solid rgba(244,180,32,.32);
+  padding:10px 18px;border-radius:10px;margin-top:20px;
+  letter-spacing:.08em;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  background:var(--navy);color:#fff;padding:56px 24px 32px;
+  margin-top:64px;position:relative;overflow:hidden;
+}
+.footer::before{
+  content:"";position:absolute;top:-80px;right:-80px;width:280px;height:280px;
+  border-radius:50%;background:radial-gradient(circle,rgba(244,180,32,.14),transparent 70%);
+}
+.footer-inner{max-width:1120px;margin:0 auto;position:relative;z-index:1}
+.footer-brand{display:flex;align-items:center;gap:13px;margin-bottom:22px}
+.footer-brand .n{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.footer-brand .n .g{color:var(--green)}
+.footer-brand .s{font-size:9.5px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;margin-top:3px}
+.footer-mission{
+  font-size:13.5px;color:rgba(255,255,255,.72);line-height:1.7;
+  max-width:600px;margin-bottom:32px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:28px;margin-bottom:32px;
+}
+.footer-col h4{
+  font-size:10.5px;font-weight:800;color:var(--gold);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;
+}
+.footer-col a,.footer-col p,.footer-col div{
+  display:block;font-size:12.5px;color:rgba(255,255,255,.72);
+  line-height:1.9;transition:color .15s;
+}
+.footer-col a:hover{color:var(--gold)}
+.footer-legal{
+  border-top:1px solid rgba(255,255,255,.1);padding-top:22px;
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  font-size:11.5px;color:rgba(255,255,255,.55);line-height:1.75;
+}
+.footer-legal .right{text-align:right}
+@media (max-width:640px){.footer-legal .right{text-align:left}}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.ts{
+  position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);
+  background:var(--navy);color:#fff;border-radius:12px;
+  padding:12px 18px;font-size:12.5px;font-weight:700;
+  box-shadow:0 12px 32px rgba(13,27,76,.35);
+  display:flex;gap:10px;align-items:center;
+  z-index:200;pointer-events:none;
+  transition:transform .35s cubic-bezier(.4,.2,.2,1);
+  max-width:calc(100vw - 32px);
+}
+.ts.on{transform:translate(-50%,0)}
+.ts.ok{background:var(--green)}.ts.er{background:var(--red)}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="h-navy" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0D1B4C"/><stop offset="1" stop-color="#1A2F7A"/>
+          </linearGradient>
+          <linearGradient id="h-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F4B420"/><stop offset="1" stop-color="#D99A0F"/>
+          </linearGradient>
+          <linearGradient id="h-green" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#22C55E"/><stop offset="1" stop-color="#15803D"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 5 L88 20 V50 C88 74 71 88 50 96 C29 88 12 74 12 50 V20 Z" fill="url(#h-navy)" stroke="url(#h-gold)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M50 5 L88 20 V50 C88 60 84 68 78 75 L78 22 Z" fill="url(#h-gold)" opacity="0.28"/>
+        <circle cx="50" cy="32" r="11" fill="url(#h-green)" stroke="#fff" stroke-width="2"/>
+        <path d="M44.5 32.2 L48.3 36 L55.8 28.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M34 44 L40 44 L44 56 L62 56 L66 46 L42 46" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="47" cy="61" r="2.6" fill="#fff"/><circle cx="60" cy="61" r="2.6" fill="#fff"/>
+        <path d="M30 76 C36 70 44 70 50 74 C56 70 64 70 70 76" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M42 75 L48 80 L54 75" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="brand-txt">
+        <div class="n"><span class="d">Deals</span><span class="g">Gate</span> · Vet Agents</div>
+        <div class="s">Africa's Secure Transaction Gateway</div>
+      </div>
+    </div>
+    <nav class="hdr-nav">
+      <a href="#how">How it works</a>
+      <a href="#earnings">Earnings</a>
+      <a href="#path">Certification</a>
+      <a href="#hiring">Where we hire</a>
+      <a href="#apply" class="apply">Apply now →</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow"><span class="dot"></span>Now recruiting in Lagos, Abuja, Ibadan &amp; Port Harcourt</div>
+      <h1>
+        Turn your gadget expertise<br>
+        into <span class="g">steady income</span>.<br>
+        <span class="gr">Get paid every job.</span>
+      </h1>
+      <p class="hero-sub">
+        DealsGate needs Certified Vet Agents to physically inspect items before Nigerian
+        buyers pay. If you know phones, laptops, cameras, or vehicles — you can earn
+        ₦4,200 to ₦4,800 per inspection, with same-day withdrawal to your bank.
+      </p>
+      <div class="hero-actions">
+        <a href="#apply" class="btn-hero pri">Apply to become an agent →</a>
+        <a href="#earnings" class="btn-hero ghost">See how much you can earn</a>
+      </div>
+      <div class="hero-trust">
+        <div class="hero-trust-item"><span class="ic">✓</span> No upfront cost</div>
+        <div class="hero-trust-item"><span class="ic">✓</span> Free training + certification</div>
+        <div class="hero-trust-item"><span class="ic">✓</span> Withdraw anytime</div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-card-lbl">Per protected-deal inspection</div>
+      <div class="hero-card-amt">₦4,200</div>
+      <div class="hero-card-sub">
+        Your share of the ₦6,000 inspection fee. Paid to your DealsGate wallet the
+        moment the buyer approves your report.
+      </div>
+      <div class="hero-card-grid">
+        <div>
+          <div class="v">₦3,600+</div>
+          <div class="l">On-demand minimum</div>
+        </div>
+        <div>
+          <div class="v">₦0</div>
+          <div class="l">Cost to join</div>
+        </div>
+        <div>
+          <div class="v">60%</div>
+          <div class="l">On-demand share</div>
+        </div>
+        <div>
+          <div class="v">Same day</div>
+          <div class="l">Withdrawal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TICKER
+     ============================================================ -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="em">🎓</span> <b>Free</b> 10-module training + certification</div>
+    <div class="ticker-item"><span class="em">📍</span> Jobs routed by <b>your LGA</b> — no long commutes</div>
+    <div class="ticker-item"><span class="em">💸</span> <b>Partial withdrawals</b> to any Nigerian bank</div>
+    <div class="ticker-item"><span class="em">🛡️</span> Insured, verified, <b>fully protected</b> workflow</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     HOW IT WORKS
+     ============================================================ -->
+<section class="section wrap" id="how">
+  <div class="section-head">
+    <div class="section-kicker">The role</div>
+    <h2>You are the physical eyes of the platform.</h2>
+    <p>
+      When a buyer pays into escrow, the item they are buying has to be verified
+      before money moves. That is your job. You inspect the item in person, capture
+      evidence, and submit a verdict. That is all.
+    </p>
+  </div>
+
+  <div class="explain">
+    <div class="explain-card">
+      <div class="num">01</div>
+      <h3>A job appears in your LGA</h3>
+      <p>
+        When a paid deal matches your coverage area and your chosen sectors, it
+        appears in your feed. No travel beyond your set radius — you control that.
+      </p>
+    </div>
+    <div class="explain-card">
+      <div class="num">02</div>
+      <h3>First Accept wins</h3>
+      <p>
+        Tap Accept. If you are the first certified agent in that LGA, the job locks
+        to you. Only one active job at a time — no double booking.
+      </p>
+    </div>
+    <div class="explain-card">
+      <div class="num">03</div>
+      <h3>Travel to the pin, inspect</h3>
+      <p>
+        The app verifies your GPS position is within 500m of the seller's pinned
+        location. Then you run the checklist: IMEI, serial, condition, functionality.
+      </p>
+    </div>
+    <div class="explain-card">
+      <div class="num">04</div>
+      <h3>Capture evidence, submit verdict</h3>
+      <p>
+        Photos, one continuous video, and a written verdict: PASS, FAIL, or
+        NEEDS_REVIEW. Your evidence protects the buyer, the seller, and you.
+      </p>
+    </div>
+    <div class="explain-card">
+      <div class="num">05</div>
+      <h3>Buyer approves, you get paid</h3>
+      <p>
+        When the buyer approves your report, your share lands in your wallet
+        immediately. Withdraw to your bank — partially or in full — anytime.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EARNINGS CALCULATOR
+     ============================================================ -->
+<section class="section wrap" id="earnings">
+  <div class="section-head">
+    <div class="section-kicker">Earnings calculator</div>
+    <h2>How much could you actually earn?</h2>
+    <p>
+      Slide to match your availability. The numbers below are honest — based on
+      real average job lengths, including travel time and inspection.
+    </p>
+  </div>
+
+  <div class="calc">
+    <div class="calc-left">
+      <div class="calc-lbl">Your activity level</div>
+
+      <div class="calc-field">
+        <div class="calc-field-lbl">
+          <span>Jobs per day</span>
+          <b id="cJobs">3</b>
+        </div>
+        <input type="range" min="1" max="8" value="3" class="slider" id="cJobsSlider">
+        <div class="slider-ticks"><span>1</span><span>4</span><span>8</span></div>
+      </div>
+
+      <div class="calc-field">
+        <div class="calc-field-lbl">
+          <span>Days per week</span>
+          <b id="cDays">5</b>
+        </div>
+        <input type="range" min="1" max="7" value="5" class="slider" id="cDaysSlider">
+        <div class="slider-ticks"><span>1</span><span>4</span><span>7</span></div>
+      </div>
+
+      <div class="calc-field" style="margin-bottom:0">
+        <div class="calc-field-lbl">
+          <span>Mix of job types</span>
+          <b id="cMix">70% protected</b>
+        </div>
+        <div class="calc-chips">
+          <button class="calc-chip" onclick="setMix(30,this)">Mostly on-demand</button>
+          <button class="calc-chip" onclick="setMix(50,this)">Balanced</button>
+          <button class="calc-chip on" onclick="setMix(70,this)">Mostly protected</button>
+          <button class="calc-chip" onclick="setMix(90,this)">All protected</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc-right">
+      <div class="calc-result-lbl">Estimated monthly income</div>
+      <div class="calc-result-amt" id="cMonth">₦273,000</div>
+      <div class="calc-result-sub" id="cSub">
+        Working 3 jobs a day, 5 days a week at a 70% protected-deal mix.
+      </div>
+
+      <div class="calc-breakdown">
+        <div class="calc-breakdown-row">
+          <span>Weekly gross</span>
+          <span id="cWeek">₦63,000</span>
+        </div>
+        <div class="calc-breakdown-row">
+          <span>Protected-deal jobs</span>
+          <span id="cProtected">~63 / month</span>
+        </div>
+        <div class="calc-breakdown-row">
+          <span>On-demand jobs</span>
+          <span id="cOD">~27 / month</span>
+        </div>
+        <div class="calc-breakdown-row">
+          <span>Avg earnings per job</span>
+          <span id="cAvg">₦4,020</span>
+        </div>
+      </div>
+
+      <div class="calc-disclaimer">
+        Estimates only. Actual earnings depend on job availability in your LGA,
+        your acceptance rate, and your Trust Score. New agents typically see
+        lower volumes in their first two weeks while their coverage area fills.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PATH TO CERTIFICATION
+     ============================================================ -->
+<section class="section wrap" id="path">
+  <div class="section-head">
+    <div class="section-kicker">The badge ladder</div>
+    <h2>Four stages. From applicant to Super Vet.</h2>
+    <p>
+      Every stage unlocks more. You start as a Verified applicant, become
+      Certified Eligible after training, get Certified after three successful
+      jobs, and reach Super Vet after ten.
+    </p>
+  </div>
+
+  <div class="ladder">
+    <div class="ladder-step done">
+      <div class="dot"></div>
+      <span class="ladder-badge verified">Stage 1</span>
+      <h4>ID Verified</h4>
+      <p>
+        You submit your NIN or BVN and pass identity verification. This is the
+        same KYC gate every DealsGate user passes — buyer, seller, or agent.
+        It takes minutes and is required before anything else.
+      </p>
+      <span class="perk">✓ Access to free training</span>
+      <span class="perk">✓ Profile created</span>
+    </div>
+
+    <div class="ladder-step gold">
+      <div class="dot"></div>
+      <span class="ladder-badge eligible">Stage 2 · Certified Eligible</span>
+      <h4>Training complete + quiz passed</h4>
+      <p>
+        You read all 10 training modules and score 85% or higher on the
+        certification quiz. Every module is written specifically for the sectors
+        you chose — phones, laptops, cameras, appliances, vehicles, bags, watches.
+      </p>
+      <span class="perk">✓ Can accept protected-deal jobs</span>
+      <span class="perk">✓ Can accept on-demand jobs</span>
+      <span class="perk">✓ Choose up to 3 sectors</span>
+    </div>
+
+    <div class="ladder-step navy">
+      <div class="dot"></div>
+      <span class="ladder-badge certified">Stage 3 · Certified</span>
+      <h4>Three successful inspections</h4>
+      <p>
+        Complete your first three inspections with positive buyer outcomes and
+        you are upgraded to Certified. Certified agents get priority in the
+        job feed and higher-value on-demand requests routed first.
+      </p>
+      <span class="perk">✓ Priority job visibility</span>
+      <span class="perk">✓ Higher on-demand routing</span>
+      <span class="perk">✓ Certified badge on reports</span>
+    </div>
+
+    <div class="ladder-step purple">
+      <div class="dot"></div>
+      <span class="ladder-badge supervet">Stage 4 · Super Vet</span>
+      <h4>Ten successful inspections at 4.5★ or higher</h4>
+      <p>
+        The top tier. Super Vets see new jobs first, receive the highest-value
+        on-demand requests, and their reports carry the highest evidential weight
+        in disputes. Super Vets are featured in the public Vet Agent directory.
+      </p>
+      <span class="perk">✓ First in every job feed</span>
+      <span class="perk">✓ Top-tier on-demand access</span>
+      <span class="perk">✓ Featured publicly</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     REQUIREMENTS
+     ============================================================ -->
+<section class="section wrap">
+  <div class="section-head">
+    <div class="section-kicker">Honest filter</div>
+    <h2>Who we hire. And who we don't.</h2>
+    <p>
+      Being a Vet Agent is skilled work, but it is not for everyone. Read both
+      columns before you apply.
+    </p>
+  </div>
+
+  <div class="req-grid">
+    <div class="req-col yes">
+      <h3>✓ This is for you if…</h3>
+      <ul class="req-list">
+        <li><span class="ic">✓</span> You are 21 or older and have a valid NIN or BVN.</li>
+        <li><span class="ic">✓</span> You live in one of our active LGAs (or will soon — see below).</li>
+        <li><span class="ic">✓</span> You have real hands-on experience with at least one item category — phones, laptops, cameras, appliances, vehicles, bags, or watches.</li>
+        <li><span class="ic">✓</span> You have a smartphone with a working camera and can shoot continuous video.</li>
+        <li><span class="ic">✓</span> You can travel within your chosen radius (up to 20km) reliably.</li>
+        <li><span class="ic">✓</span> You can follow a written checklist precisely, every time.</li>
+        <li><span class="ic">✓</span> You are honest — and you can refuse a bribe without hesitation.</li>
+        <li><span class="ic">✓</span> You have a Nigerian bank account in your own name.</li>
+      </ul>
+    </div>
+
+    <div class="req-col no">
+      <h3>✗ This is not for you if…</h3>
+      <ul class="req-list">
+        <li><span class="ic">✗</span> You cannot verify your identity — the KYC gate is hard and non-negotiable.</li>
+        <li><span class="ic">✗</span> You only want quick cash with no responsibility. Verdicts have consequences.</li>
+        <li><span class="ic">✗</span> You would accept a payment to change a verdict. Instant permanent ban.</li>
+        <li><span class="ic">✗</span> You cannot commit to at least two inspections a week for the first month.</li>
+        <li><span class="ic">✗</span> You have no hands-on familiarity with any of our sectors.</li>
+        <li><span class="ic">✗</span> You are not comfortable working independently at a stranger's location.</li>
+        <li><span class="ic">✗</span> You cannot tolerate buyers sometimes disagreeing with your verdict.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTORS
+     ============================================================ -->
+<section class="section wrap">
+  <div class="section-head">
+    <div class="section-kicker">What you inspect</div>
+    <h2>Pick up to three sectors. Master them.</h2>
+    <p>
+      You choose which item categories you want to inspect. Jobs in your chosen
+      sectors route to you first. You can change your sectors later, but the
+      certification is per-sector.
+    </p>
+  </div>
+
+  <div class="sectors">
+    <div class="sector"><div class="sector-ic">📱</div><div><div class="sector-n">Phones &amp; Tablets</div><div class="sector-d">Highest volume category</div></div></div>
+    <div class="sector"><div class="sector-ic">💻</div><div><div class="sector-n">Computers &amp; Laptops</div><div class="sector-d">High-value, higher trust score</div></div></div>
+    <div class="sector"><div class="sector-ic">📷</div><div><div class="sector-n">Cameras &amp; Drones</div><div class="sector-d">Specialist premium rate</div></div></div>
+    <div class="sector"><div class="sector-ic">🏠</div><div><div class="sector-n">Home Appliances</div><div class="sector-d">Steady on-demand flow</div></div></div>
+    <div class="sector"><div class="sector-ic">🚗</div><div><div class="sector-n">Vehicles</div><div class="sector-d">Highest-value jobs, strict checks</div></div></div>
+    <div class="sector"><div class="sector-ic">👜</div><div><div class="sector-n">Bags &amp; Watches</div><div class="sector-d">Authenticity-verification skills</div></div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHERE WE HIRE
+     ============================================================ -->
+<section class="section wrap" id="hiring">
+  <div class="section-head">
+    <div class="section-kicker">Coverage</div>
+    <h2>Where we are hiring right now.</h2>
+    <p>
+      Agent coverage comes first. We open a city to sellers only after we have
+      certified agents in enough LGAs to cover realistic deal flow. LGAs marked
+      "hot" are actively onboarding today.
+    </p>
+  </div>
+
+  <div class="lga-group">
+    <div class="lga-group-head">
+      <div class="lga-group-name">🌆 Lagos State</div>
+      <div class="lga-group-count">6 LGAs active</div>
+    </div>
+    <div class="lga-list">
+      <div class="lga hot">Ikeja</div>
+      <div class="lga hot">Eti-Osa</div>
+      <div class="lga hot">Surulere</div>
+      <div class="lga hot">Kosofe</div>
+      <div class="lga">Alimosho</div>
+      <div class="lga">Lagos Island</div>
+      <div class="lga">Ojo</div>
+      <div class="lga">Amuwo-Odofin</div>
+    </div>
+  </div>
+
+  <div class="lga-group">
+    <div class="lga-group-head">
+      <div class="lga-group-name">🏛️ Federal Capital Territory</div>
+      <div class="lga-group-count">5 LGAs active</div>
+    </div>
+    <div class="lga-list">
+      <div class="lga hot">Wuse 2</div>
+      <div class="lga hot">Garki</div>
+      <div class="lga hot">Maitama</div>
+      <div class="lga">Asokoro</div>
+      <div class="lga">Gwarinpa</div>
+      <div class="lga">Kubwa</div>
+    </div>
+  </div>
+
+  <div class="lga-group">
+    <div class="lga-group-head">
+      <div class="lga-group-name">🌳 Oyo State</div>
+      <div class="lga-group-count">3 LGAs active</div>
+    </div>
+    <div class="lga-list">
+      <div class="lga hot">Ibadan North</div>
+      <div class="lga">Ibadan South-West</div>
+      <div class="lga">Egbeda</div>
+      <div class="lga">Oluyole</div>
+    </div>
+  </div>
+
+  <div class="lga-group">
+    <div class="lga-group-head">
+      <div class="lga-group-name">🌊 Rivers State</div>
+      <div class="lga-group-count">2 LGAs active</div>
+    </div>
+    <div class="lga-list">
+      <div class="lga hot">Port Harcourt City</div>
+      <div class="lga">Obio-Akpor</div>
+    </div>
+  </div>
+
+  <div class="lga-group soon">
+    <div class="lga-group-head">
+      <div class="lga-group-name">📅 Coming soon</div>
+      <div class="lga-group-count" style="background:var(--mist);color:#6B7280">Apply to waitlist</div>
+    </div>
+    <div class="lga-list">
+      <div class="lga">Kano Municipal</div>
+      <div class="lga">Nassarawa (Kano)</div>
+      <div class="lga">Benin City (Edo)</div>
+      <div class="lga">Enugu North</div>
+      <div class="lga">Kaduna North</div>
+      <div class="lga">Aba (Abia)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     STORIES
+     ============================================================ -->
+<section class="section wrap">
+  <div class="section-head">
+    <div class="section-kicker">Real agents</div>
+    <h2>Agents who started where you are.</h2>
+  </div>
+
+  <div class="stories">
+    <div class="story">
+      <div class="story-head">
+        <div class="story-av" style="background:#0D1B4C;border:2px solid var(--gold)">
+          EO<span class="badge">🏆</span>
+        </div>
+        <div>
+          <div class="story-name">Emeka O.</div>
+          <div class="story-meta">Super Vet · Port Harcourt · 8 months</div>
+        </div>
+      </div>
+      <div class="story-quote">
+        "I was doing phone repairs from a small shop. Now I make more doing
+        inspections four days a week. The jobs come to me. I don't chase
+        customers. The training made me sharper than I already thought I was."
+      </div>
+      <div class="story-stats">
+        <div><div class="v">187</div><div class="l">Inspections</div></div>
+        <div><div class="v">4.9★</div><div class="l">Trust score</div></div>
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-head">
+        <div class="story-av" style="background:#7C3AED">
+          BA<span class="badge">✅</span>
+        </div>
+        <div>
+          <div class="story-name">Blessing A.</div>
+          <div class="story-meta">Certified · Ikeja · 5 months</div>
+        </div>
+      </div>
+      <div class="story-quote">
+        "I have a phone repair business. DealsGate inspections are a second
+        income stream I can do between customers. The 500m GPS check means I
+        only take jobs close to me. Most weeks I do 12 to 15 inspections."
+      </div>
+      <div class="story-stats">
+        <div><div class="v">68</div><div class="l">Inspections</div></div>
+        <div><div class="v">4.8★</div><div class="l">Trust score</div></div>
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-head">
+        <div class="story-av" style="background:#16A34A">
+          SM<span class="badge">✅</span>
+        </div>
+        <div>
+          <div class="story-name">Segun M.</div>
+          <div class="story-meta">Certified · Ibadan North · 4 months</div>
+        </div>
+      </div>
+      <div class="story-quote">
+        "I picked Laptops and Cameras because that is what I know. The
+        certification quiz was serious — I failed it the first time at 78% and
+        had to retake it. When I passed, jobs started coming the same week."
+      </div>
+      <div class="story-stats">
+        <div><div class="v">42</div><div class="l">Inspections</div></div>
+        <div><div class="v">4.7★</div><div class="l">Trust score</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRAINING PREVIEW
+     ============================================================ -->
+<section class="section wrap">
+  <div class="section-head">
+    <div class="section-kicker">What you learn</div>
+    <h2>Ten modules. About three hours total.</h2>
+    <p>
+      The training is written by people who actually inspect items. It is
+      not a corporate compliance course. Every module teaches you something
+      you will use on your next job.
+    </p>
+  </div>
+
+  <div class="modules">
+    <div class="module"><div class="module-id">MODULE 01</div><div class="module-t">Role &amp; Conduct</div><div class="module-d">Core duties · ethics · zero-affiliation rule</div></div>
+    <div class="module"><div class="module-id">MODULE 02</div><div class="module-t">Inspection Protocol</div><div class="module-d">Pre-arrival · on-site · verdicts</div></div>
+    <div class="module"><div class="module-id">MODULE 03</div><div class="module-t">Evidence Upload</div><div class="module-d">Photos · continuous video · hashing</div></div>
+    <div class="module"><div class="module-id">MODULE 04</div><div class="module-t">Smartphones</div><div class="module-d">IMEI · battery · account lock checks</div></div>
+    <div class="module"><div class="module-id">MODULE 05</div><div class="module-t">Laptops</div><div class="module-d">Serial · power-on · ports · battery health</div></div>
+    <div class="module"><div class="module-id">MODULE 06</div><div class="module-t">Cameras &amp; Drones</div><div class="module-d">Serial · lens · gimbal · propellers</div></div>
+    <div class="module"><div class="module-id">MODULE 07</div><div class="module-t">Vehicles</div><div class="module-d">VIN vs papers · odometer · engine</div></div>
+    <div class="module"><div class="module-id">MODULE 08</div><div class="module-t">Bags &amp; Watches</div><div class="module-d">Stitching · serials · hallmarks</div></div>
+    <div class="module"><div class="module-id">MODULE 09</div><div class="module-t">Other Sectors</div><div class="module-d">Appliances · solar · bulk counts</div></div>
+    <div class="module"><div class="module-id">MODULE 10</div><div class="module-t">Scam Detection</div><div class="module-d">Top 10 Nigerian scam patterns</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+     ============================================================ -->
+<section class="section wrap">
+  <div class="section-head">
+    <div class="section-kicker">Frequently asked</div>
+    <h2>Straight answers.</h2>
+  </div>
+
+  <div class="faq">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Does it cost anything to join?<span class="ic">+</span></button>
+      <div class="faq-a"><div class="faq-a-inner">
+        <b>No.</b> Training, certification, the app, and every tool you need are free.
+        You never pay DealsGate anything to be an agent. We do not take a cut of
+        your earnings — the 70/30 and 60/40 splits are already the net you receive.
+      </div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How do I get paid?<span class="ic">+</span></button>
+      <div class="faq-a"><div class="faq-a-inner">
+        When a buyer approves your inspection report, your share (₦4,200 for a
+        protected-deal job, or 60% of an on-demand job) lands in your DealsGate
+        agent wallet. You withdraw to your Nigerian bank account at any time —
+        partially or in full. Every withdrawal requires 2FA via Google
+        Authenticator, Email OTP, or SMS OTP. Transfer fees are ₦10 for amounts
+        up to ₦5,000, ₦25 up to ₦50,000, and ₦50 above that.
+      </div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What if a buyer disputes my report?<span class="ic">+</span></button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Disputes go to mediation. An admin reviews the evidence tiers — your
+        report, your photos, your continuous video, the seller's listing media,
+        and any courier logs. <b>If your work was honest and complete, you get
+        paid regardless of outcome.</b> Even when you submit FAIL, you are paid
+        for the inspection. That is the entire point of the platform's design.
+      </div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How much travel is involved?<span class="ic">+</span></button>
+      <div class="faq-a"><div class="faq-a-inner">
+        You set your own maximum travel distance — typically up to 20km from
+        your base. Jobs outside your radius do not appear in your feed. The
+        app verifies via GPS that you are within 500m of the seller's pinned
+        location before it accepts your inspection submission.
+      </div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I do this alongside a full-time job?<span class="ic">+</span></button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Yes. Many agents do. You choose when to accept jobs — there is no
+        schedule, no shift, no minimum commitment. The only rule is <b>one
+        active inspection at a time</b> — you cannot accept a second job until
+        you have submitted your report on the first.
+      </div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What if I can't make it to a job I accepted?<span class="ic">+</span></button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Release the job from the app. It returns to the feed immediately so
+        another agent in your LGA can take it, and the buyer is not blocked.
+        The first release is free. Repeated releases affect your Trust Score.
+      </div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What happens if I feel unsafe at a location?<span class="ic">+</span></button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Leave immediately. Report it in the app. Admin handles the seller, and
+        your Trust Score is not affected. Safety is the only non-negotiable —
+        no job, no money, and no verdict is worth a risk.
+      </div></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Can I change sectors later?<span class="ic">+</span></button>
+      <div class="faq-a"><div class="faq-a-inner">
+        Yes, but you must complete certification for the new sector first. Your
+        original sector certifications remain. You can hold certifications in
+        up to three sectors at once.
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     APPLICATION
+     ============================================================ -->
+<section class="section wrap" id="apply">
+  <div class="apply">
+    <div class="apply-inner">
+
+      <!-- NETLIFY FORM: submissions appear in Netlify > Forms > "vet-agent-application" -->
+      <form name="vet-agent-application" id="applyForm" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="vet-agent-application">
+      <input type="hidden" name="reference" id="fRef" value="">
+      <p style="display:none" aria-hidden="true"><label>Do not fill this out: <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+      <!-- Step 1 -->
+      <div class="form-step on" id="step1">
+        <div class="apply-eyebrow">Application · Step 1 of 3</div>
+        <h2>Let's start with <span class="g">the basics</span>.</h2>
+        <p>Takes about 30 seconds. We will verify your identity in step 2.</p>
+        <div class="form-progress" style="margin-top:26px">
+          <div class="form-progress-dot on"></div>
+          <div class="form-progress-dot"></div>
+          <div class="form-progress-dot"></div>
+        </div>
+        <div style="margin-top:20px">
+          <div class="form-field">
+            <label>Full name</label>
+            <input type="text" id="fName" name="full_name" placeholder="As it appears on your NIN">
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Phone / WhatsApp</label>
+              <input type="tel" id="fPhone" name="phone_whatsapp" placeholder="+234 801 234 5678">
+            </div>
+            <div class="form-field">
+              <label>Email</label>
+              <input type="email" id="fEmail" name="email" placeholder="you@example.com">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>City / LGA</label>
+              <select id="fLga" name="city_lga">
+                <option value="">Choose your area</option>
+                <optgroup label="Lagos">
+                  <option>Ikeja</option><option>Eti-Osa</option><option>Surulere</option>
+                  <option>Kosofe</option><option>Alimosho</option><option>Lagos Island</option>
+                </optgroup>
+                <optgroup label="Abuja">
+                  <option>Wuse 2</option><option>Garki</option><option>Maitama</option>
+                  <option>Asokoro</option><option>Gwarinpa</option>
+                </optgroup>
+                <optgroup label="Ibadan">
+                  <option>Ibadan North</option><option>Ibadan South-West</option>
+                  <option>Egbeda</option><option>Oluyole</option>
+                </optgroup>
+                <optgroup label="Port Harcourt">
+                  <option>Port Harcourt City</option><option>Obio-Akpor</option>
+                </optgroup>
+                <optgroup label="Other (waitlist)">
+                  <option>Kano</option><option>Benin City</option>
+                  <option>Enugu</option><option>Kaduna</option><option>Aba</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Years of hands-on experience</label>
+              <select id="fExp" name="experience">
+                <option value="">Choose range</option>
+                <option>Less than 1 year</option>
+                <option>1–3 years</option>
+                <option>3–5 years</option>
+                <option>More than 5 years</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions" style="justify-content:flex-end">
+          <button type="button" class="form-btn pri" onclick="formNext(1)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="form-step" id="step2">
+        <div class="apply-eyebrow">Application · Step 2 of 3</div>
+        <h2>Your <span class="g">expertise</span>.</h2>
+        <p>Choose the sectors you know best. Pick up to three.</p>
+        <div class="form-progress" style="margin-top:26px">
+          <div class="form-progress-dot on"></div>
+          <div class="form-progress-dot on"></div>
+          <div class="form-progress-dot"></div>
+        </div>
+        <div style="margin-top:20px">
+          <div class="form-field">
+            <label>Primary sector</label>
+            <select id="fSector1" name="sector_primary">
+              <option value="">Choose one</option>
+              <option>Phones &amp; Tablets</option>
+              <option>Computers &amp; Laptops</option>
+              <option>Cameras &amp; Drones</option>
+              <option>Home Appliances</option>
+              <option>Vehicles</option>
+              <option>Bags &amp; Watches</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Second sector (optional)</label>
+              <select id="fSector2" name="sector_second">
+                <option value="">None</option>
+                <option>Phones &amp; Tablets</option>
+                <option>Computers &amp; Laptops</option>
+                <option>Cameras &amp; Drones</option>
+                <option>Home Appliances</option>
+                <option>Vehicles</option>
+                <option>Bags &amp; Watches</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Third sector (optional)</label>
+              <select id="fSector3" name="sector_third">
+                <option value="">None</option>
+                <option>Phones &amp; Tablets</option>
+                <option>Computers &amp; Laptops</option>
+                <option>Cameras &amp; Drones</option>
+                <option>Home Appliances</option>
+                <option>Vehicles</option>
+                <option>Bags &amp; Watches</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Maximum travel distance from your base</label>
+            <select id="fTravel" name="max_travel_distance">
+              <option>Up to 5km</option>
+              <option>Up to 10km</option>
+              <option selected>Up to 20km</option>
+              <option>Up to 30km</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>ID type you will verify with</label>
+            <select id="fIdType" name="id_type">
+              <option value="">Choose one</option>
+              <option>NIN (National Identity Number)</option>
+              <option>BVN (Bank Verification Number)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="form-btn gh" onclick="formBack(2)">← Back</button>
+          <button type="button" class="form-btn pri" onclick="formNext(2)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="form-step" id="step3">
+        <div class="apply-eyebrow">Application · Step 3 of 3</div>
+        <h2>Almost <span class="g">done</span>.</h2>
+        <p>Two quick things, then we will be in touch within 48 hours.</p>
+        <div class="form-progress" style="margin-top:26px">
+          <div class="form-progress-dot on"></div>
+          <div class="form-progress-dot on"></div>
+          <div class="form-progress-dot on"></div>
+        </div>
+        <div style="margin-top:20px">
+          <div class="form-field">
+            <label>Bank account (for withdrawals)</label>
+            <input type="text" id="fBank" name="bank_account" placeholder="e.g. Zenith Bank · 1234567890">
+          </div>
+          <div class="form-field">
+            <label>Why do you want to become a Vet Agent? (optional)</label>
+            <input type="text" id="fWhy" name="why_vet_agent" placeholder="One sentence is fine">
+          </div>
+        </div>
+        <div class="apply-note" style="text-align:left;margin-top:20px">
+          By submitting, you confirm the information above is accurate and you
+          consent to DealsGate verifying your identity via your chosen ID method.
+          You accept the Vet Agent Code of Conduct and the DealsGate Terms of
+          Service, Privacy Policy, and Refund &amp; Dispute Policy.
+        </div>
+        <div class="form-actions">
+          <button type="button" class="form-btn gh" onclick="formBack(3)">← Back</button>
+          <button type="button" class="form-btn pri" id="submitBtn" onclick="submitApplication()">Submit application →</button>
+        </div>
+      </div>
+
+      <!-- Success -->
+      <div class="form-step" id="success">
+        <div class="form-success">
+          <div class="ic">🎉</div>
+          <h3>Application received</h3>
+          <p>
+            We will verify your ID and be in touch within 48 hours. If you are
+            a fit for the role, we will send you the training link next.
+          </p>
+          <div class="ref" id="appRef">DG-AGENT-XXXXX</div>
+          <p style="margin-top:24px;font-size:12.5px;color:rgba(255,255,255,.55)">
+            Keep this reference. You can check your status by contacting
+            support@dealsgate.ng or messaging +234 807 921 9165 on WhatsApp.
+          </p>
+        </div>
+      </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg width="40" height="40" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="f-navy" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0D1B4C"/><stop offset="1" stop-color="#1A2F7A"/>
+          </linearGradient>
+          <linearGradient id="f-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F4B420"/><stop offset="1" stop-color="#D99A0F"/>
+          </linearGradient>
+          <linearGradient id="f-green" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#22C55E"/><stop offset="1" stop-color="#15803D"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 5 L88 20 V50 C88 74 71 88 50 96 C29 88 12 74 12 50 V20 Z" fill="url(#f-navy)" stroke="url(#f-gold)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M50 5 L88 20 V50 C88 60 84 68 78 75 L78 22 Z" fill="url(#f-gold)" opacity="0.28"/>
+        <circle cx="50" cy="32" r="11" fill="url(#f-green)" stroke="#fff" stroke-width="2"/>
+        <path d="M44.5 32.2 L48.3 36 L55.8 28.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M34 44 L40 44 L44 56 L62 56 L66 46 L42 46" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="47" cy="61" r="2.6" fill="#fff"/><circle cx="60" cy="61" r="2.6" fill="#fff"/>
+        <path d="M30 76 C36 70 44 70 50 74 C56 70 64 70 70 76" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M42 75 L48 80 L54 75" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="n">Deals<span class="g">Gate</span></div>
+        <div class="s">Africa's Secure Transaction Gateway</div>
+      </div>
+    </div>
+    <p class="footer-mission">
+      We verify the item. We protect the payment. We handle logistics. DealsGate makes
+      every protected deal safe for Nigerian buyers, sellers, and certified Vet Agents.
+    </p>
+
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Vet Agents</h4>
+        <a href="#how">How it works</a>
+        <a href="#earnings">Earnings calculator</a>
+        <a href="#path">Certification path</a>
+        <a href="#hiring">Where we hire</a>
+        <a href="#apply">Apply now</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <div>THE TAP OF GRACE MEDIA HOUSE</div>
+        <div>CEO / Founder: Akinwunmi Taofik</div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:support@dealsgate.ng">support@dealsgate.ng</a>
+        <a href="mailto:info@dealsgate.ng">info@dealsgate.ng</a>
+        <a href="tel:+2348079219165">+234 807 921 9165</a>
+        <a href="tel:+2349035655184">+234 903 565 5184</a>
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        <div>@dealsgate.ng — all platforms</div>
+        <div>www.dealsgate.ng</div>
+        <div>www.dealsgate.com.ng</div>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <div>
+        © <span id="yr"></span> THE TAP OF GRACE MEDIA HOUSE — Trading as DealsGate<br>
+        Agent recruitment page · Rev 1.0
+      </div>
+      <div class="right">
+        Vet Agent work is independent contractor work.<br>
+        No employment relationship is created by certification.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ============================================================
+   EARNINGS CALCULATOR
+   ============================================================ */
+const C = { jobsPerDay:3, daysPerWeek:5, protectedMix:70 };
+const PROTECTED_SHARE = 4200;   // agent's 70% of ₦6,000
+const ONDEMAND_SHARE  = 3600;   // agent's 60% of ₦6,000
+
+function updateCalc(){
+  const jobs = C.jobsPerDay;
+  const days = C.daysPerWeek;
+  const mix  = C.protectedMix / 100;
+
+  const weeklyJobs = jobs * days;
+  const monthlyJobs = Math.round(weeklyJobs * 4.33);
+  const protectedJobs = Math.round(monthlyJobs * mix);
+  const odJobs = monthlyJobs - protectedJobs;
+
+  const avgPerJob = mix * PROTECTED_SHARE + (1-mix) * ONDEMAND_SHARE;
+  const weeklyGross = Math.round(weeklyJobs * avgPerJob);
+  const monthlyGross = Math.round(monthlyJobs * avgPerJob);
+
+  // Update labels
+  document.getElementById('cJobs').textContent = jobs;
+  document.getElementById('cDays').textContent = days;
+  document.getElementById('cMix').textContent = C.protectedMix + '% protected';
+
+  // Update result
+  document.getElementById('cMonth').textContent = '₦' + monthlyGross.toLocaleString('en-NG');
+  document.getElementById('cWeek').textContent = '₦' + weeklyGross.toLocaleString('en-NG');
+  document.getElementById('cProtected').textContent = '~' + protectedJobs + ' / month';
+  document.getElementById('cOD').textContent = '~' + odJobs + ' / month';
+  document.getElementById('cAvg').textContent = '₦' + Math.round(avgPerJob).toLocaleString('en-NG');
+
+  // Update subtitle
+  const mixLabel = C.protectedMix >= 80 ? 'mostly protected-deal' :
+                   C.protectedMix >= 60 ? 'a ' + C.protectedMix + '% protected-deal mix' :
+                   C.protectedMix >= 40 ? 'a balanced' : 'a mostly on-demand';
+  document.getElementById('cSub').textContent =
+    `Working ${jobs} job${jobs===1?'':'s'} a day, ${days} day${days===1?'':'s'} a week with ${mixLabel} workload.`;
+}
+
+document.getElementById('cJobsSlider').addEventListener('input', e => {
+  C.jobsPerDay = Number(e.target.value);
+  updateCalc();
+});
+document.getElementById('cDaysSlider').addEventListener('input', e => {
+  C.daysPerWeek = Number(e.target.value);
+  updateCalc();
+});
+function setMix(val, btn){
+  C.protectedMix = val;
+  document.querySelectorAll('.calc-chip').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  updateCalc();
+}
+updateCalc();
+
+/* ============================================================
+   APPLICATION FORM
+   ============================================================ */
+let formStep = 1;
+
+function showStep(n){
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('on'));
+  document.getElementById(n === 'success' ? 'success' : 'step' + n).classList.add('on');
+  formStep = n;
+}
+
+function formNext(cur){
+  // Basic validation per step
+  if(cur === 1){
+    const name = document.getElementById('fName').value.trim();
+    const phone = document.getElementById('fPhone').value.trim();
+    const email = document.getElementById('fEmail').value.trim();
+    const lga = document.getElementById('fLga').value;
+    const exp = document.getElementById('fExp').value;
+    if(!name){ toast('Please enter your full name','er'); return; }
+    if(!phone){ toast('Please enter your phone number','er'); return; }
+    if(!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)){ toast('Please enter a valid email','er'); return; }
+    if(!lga){ toast('Please choose your city / LGA','er'); return; }
+    if(!exp){ toast('Please select your experience range','er'); return; }
+  }
+  if(cur === 2){
+    const s1 = document.getElementById('fSector1').value;
+    const idType = document.getElementById('fIdType').value;
+    if(!s1){ toast('Please choose your primary sector','er'); return; }
+    if(!idType){ toast('Please choose your ID type','er'); return; }
+  }
+  showStep(cur + 1);
+  // scroll the apply section into view
+  document.getElementById('apply').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function formBack(cur){
+  if(cur > 1) showStep(cur - 1);
+}
+
+/* Enter key inside a field: go to next step instead of a native submit */
+document.getElementById('applyForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  if(formStep === 3) submitApplication();
+  else if(formStep === 1 || formStep === 2) formNext(formStep);
+});
+
+let submitting = false;
+function submitApplication(){
+  if(submitting) return;
+  const bank = document.getElementById('fBank').value.trim();
+  if(!bank){ toast('Please enter your bank account','er'); return; }
+
+  // Generate reference and store it in the form so it arrives in Netlify too
+  const ref = 'DG-AGENT-' + Math.random().toString(36).slice(2,7).toUpperCase();
+  document.getElementById('fRef').value = ref;
+
+  const form = document.getElementById('applyForm');
+  const btn = document.getElementById('submitBtn');
+  const btnLabel = btn.textContent;
+  submitting = true;
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  // Send to Netlify Forms (works once the site is deployed on Netlify)
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(new FormData(form)).toString()
+  })
+  .then(function(res){
+    if(!res.ok) throw new Error('Form submission failed: ' + res.status);
+    document.getElementById('appRef').textContent = ref;
+    showStep('success');
+    document.getElementById('apply').scrollIntoView({behavior:'smooth',block:'start'});
+    toast('Application submitted · ' + ref, 'ok');
+  })
+  .catch(function(err){
+    console.error(err);
+    toast('Could not submit. Check your connection and try again.','er');
+  })
+  .finally(function(){
+    submitting = false;
+    btn.disabled = false;
+    btn.textContent = btnLabel;
+  });
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+function toggleFaq(btn){
+  const item = btn.parentElement;
+  item.classList.toggle('open');
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function toast(msg, tone){
+  const el = document.getElementById('toast');
+  el.className = 'ts on ' + (tone || '');
+  document.getElementById('toastIc').textContent = tone === 'er' ? '⚠' : '✓';
+  document.getElementById('toastMsg').textContent = msg;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.className = 'ts ' + (tone || ''), 2600);
+}
+</script>
+</body>
+</html>

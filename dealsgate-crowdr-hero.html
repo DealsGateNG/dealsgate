@@ -1,0 +1,694 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Crowdr Campaign Hero</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1A4A;
+    --navy-deep: #061133;
+    --green: #16A34A;
+    --green-bright: #4ADE80;
+    --gold: #F4B420;
+    --gold-deep: #C98A00;
+    --white: #FFFFFF;
+    --ink: #0F172A;
+  }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #D5DAE4;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 20px 80px;
+    min-height: 100vh;
+  }
+
+  /* ============================================================
+     SCREEN NOTE
+     ============================================================ */
+  .screen-note {
+    max-width: 1240px;
+    margin: 0 auto 32px;
+    background: var(--navy);
+    color: #fff;
+    padding: 18px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.65;
+    box-shadow: 0 8px 24px rgba(11,26,74,.24);
+  }
+  .screen-note b { color: var(--gold); }
+  .screen-note kbd {
+    background: rgba(244,180,32,.16);
+    color: var(--gold);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'Menlo', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid rgba(244,180,32,.32);
+  }
+
+  /* ============================================================
+     DISPLAY AREA
+     ============================================================ */
+  .stage {
+    max-width: 1240px;
+    margin: 0 auto 48px;
+  }
+
+  .stage-label {
+    font-family: 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 800;
+    color: #6B7280;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  /* ============================================================
+     HERO — 1200 x 675 (16:9)
+     ============================================================ */
+  .hero {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 24px 60px rgba(11,26,74,.28);
+    container-type: inline-size;
+
+    background:
+      radial-gradient(circle at 88% 12%, rgba(244,180,32,.24), transparent 42%),
+      radial-gradient(circle at 8% 92%, rgba(22,163,74,.18), transparent 48%),
+      linear-gradient(155deg, #061133 0%, #0B1A4A 52%, #15276a 100%);
+
+    color: #fff;
+    padding: 5cqw 6cqw 4cqw;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* decorative dots / grid pattern */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0);
+    background-size: 32px 32px;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  /* ============================================================
+     HERO HEADER — logo row
+     ============================================================ */
+  .hero-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-logo {
+    display: flex;
+    align-items: center;
+    gap: 1.8cqw;
+  }
+
+  .hero-logo .mark {
+    width: 6cqw;
+    height: 6cqw;
+    border-radius: 1.7cqw;
+    background: var(--gold);
+    color: var(--navy);
+    display: grid;
+    place-items: center;
+    font-size: 3.4cqw;
+    font-weight: 900;
+    border: 0.4cqw solid #fff;
+  }
+
+  .hero-logo .txt .n {
+    font-size: 3.6cqw;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .hero-logo .txt .n .g { color: var(--green-bright); }
+
+  .hero-logo .txt .s {
+    font-size: 1.6cqw;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-top: 0.7cqw;
+  }
+
+  .hero-tag {
+    background: rgba(22,163,74,.2);
+    border: 1px solid rgba(22,163,74,.5);
+    color: var(--green-bright);
+    padding: 1cqw 2.4cqw;
+    border-radius: 999px;
+    font-size: 1.5cqw;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 1cqw;
+  }
+
+  .hero-tag .dot {
+    width: 1.2cqw;
+    height: 1.2cqw;
+    border-radius: 50%;
+    background: var(--green-bright);
+    box-shadow: 0 0 1.5cqw var(--green-bright);
+  }
+
+  /* ============================================================
+     HERO BODY — main content grid
+     ============================================================ */
+  .hero-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 4cqw;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    padding: 3cqw 0 2cqw;
+  }
+
+  /* ---------- LEFT — text ---------- */
+  .hero-left .eyebrow {
+    font-size: 1.9cqw;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2cqw;
+  }
+
+  .hero-left h1 {
+    font-size: 6.2cqw;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.03;
+    color: #fff;
+  }
+
+  .hero-left h1 .hl {
+    color: var(--gold);
+    position: relative;
+  }
+
+  .hero-left h1 .hl-green {
+    color: var(--green-bright);
+  }
+
+  .hero-left .sub {
+    font-size: 2.1cqw;
+    color: rgba(255,255,255,.82);
+    line-height: 1.55;
+    margin-top: 2.6cqw;
+    max-width: 52cqw;
+    font-weight: 500;
+  }
+
+  .hero-left .sub b {
+    color: #fff;
+    font-weight: 800;
+  }
+
+  /* ---------- RIGHT — stat card ---------- */
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8cqw;
+  }
+
+  .hero-stat {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 1.8cqw;
+    padding: 2.4cqw 2.6cqw;
+    backdrop-filter: blur(8px);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0.5cqw;
+    background: var(--gold);
+  }
+
+  .hero-stat.green::before { background: var(--green-bright); }
+
+  .hero-stat .lbl {
+    font-size: 1.3cqw;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    font-weight: 800;
+    margin-bottom: 0.8cqw;
+  }
+
+  .hero-stat .val {
+    font-family: 'Menlo', monospace;
+    font-size: 4.6cqw;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .hero-stat.green .val { color: var(--green-bright); }
+
+  .hero-stat .sub {
+    font-size: 1.5cqw;
+    color: rgba(255,255,255,.72);
+    margin-top: 0.9cqw;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     HERO FOOTER — ask bar
+     ============================================================ */
+  .hero-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2.6cqw;
+    border-top: 1px solid rgba(255,255,255,.14);
+    position: relative;
+    z-index: 2;
+    gap: 3cqw;
+  }
+
+  .hero-ask {
+    display: flex;
+    align-items: center;
+    gap: 2cqw;
+  }
+
+  .hero-ask .icon {
+    width: 5.5cqw;
+    height: 5.5cqw;
+    border-radius: 50%;
+    background: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 3cqw;
+    color: var(--navy);
+    flex-shrink: 0;
+    box-shadow: 0 0 3cqw rgba(244,180,32,.4);
+  }
+
+  .hero-ask .txt .t {
+    font-size: 2.2cqw;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-ask .txt .d {
+    font-size: 1.5cqw;
+    color: rgba(255,255,255,.7);
+    margin-top: 0.5cqw;
+    font-weight: 500;
+  }
+
+  .hero-url {
+    font-family: 'Menlo', monospace;
+    font-size: 1.9cqw;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    padding: 1.2cqw 2.4cqw;
+    border: 0.25cqw solid rgba(244,180,32,.5);
+    border-radius: 999px;
+    background: rgba(244,180,32,.08);
+    white-space: nowrap;
+  }
+
+  /* ============================================================
+     SQUARE VARIANT — 1:1 (for Instagram / Crowdr thumbs)
+     ============================================================ */
+  .square {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 24px 60px rgba(11,26,74,.28);
+    container-type: inline-size;
+
+    background:
+      radial-gradient(circle at 85% 15%, rgba(244,180,32,.24), transparent 45%),
+      radial-gradient(circle at 15% 90%, rgba(22,163,74,.18), transparent 50%),
+      linear-gradient(155deg, #061133 0%, #0B1A4A 52%, #15276a 100%);
+
+    color: #fff;
+    padding: 7cqw 7cqw 6cqw;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .square::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,.06) 1px, transparent 0);
+    background-size: 32px 32px;
+    pointer-events: none;
+  }
+
+  .square-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .square-logo {
+    display: flex;
+    align-items: center;
+    gap: 2.4cqw;
+  }
+
+  .square-logo .mark {
+    width: 9cqw;
+    height: 9cqw;
+    border-radius: 2.5cqw;
+    background: var(--gold);
+    color: var(--navy);
+    display: grid;
+    place-items: center;
+    font-size: 5cqw;
+    font-weight: 900;
+    border: 0.6cqw solid #fff;
+  }
+
+  .square-logo .txt .n {
+    font-size: 5.4cqw;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .square-logo .txt .n .g { color: var(--green-bright); }
+
+  .square-logo .txt .s {
+    font-size: 2.2cqw;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-top: 1cqw;
+  }
+
+  .square-flag {
+    background: rgba(22,163,74,.2);
+    border: 1px solid rgba(22,163,74,.5);
+    color: var(--green-bright);
+    padding: 1.4cqw 3cqw;
+    border-radius: 999px;
+    font-size: 2.1cqw;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .square-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding: 6cqw 0 4cqw;
+  }
+
+  .square-eyebrow {
+    font-size: 2.8cqw;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 3cqw;
+  }
+
+  .square h1 {
+    font-size: 9cqw;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.03;
+    color: #fff;
+  }
+
+  .square h1 .hl { color: var(--gold); }
+  .square h1 .hlg { color: var(--green-bright); }
+
+  .square-sub {
+    font-size: 3.2cqw;
+    color: rgba(255,255,255,.82);
+    line-height: 1.5;
+    margin-top: 4cqw;
+    font-weight: 500;
+  }
+
+  .square-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.4cqw;
+    margin-top: 5cqw;
+  }
+
+  .square-stat {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 2.4cqw;
+    padding: 3cqw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .square-stat::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0.8cqw;
+    background: var(--gold);
+  }
+  .square-stat.green::before { background: var(--green-bright); }
+
+  .square-stat .lbl {
+    font-size: 2cqw;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.55);
+    font-weight: 800;
+    margin-bottom: 1.4cqw;
+  }
+
+  .square-stat .val {
+    font-family: 'Menlo', monospace;
+    font-size: 6cqw;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .square-stat.green .val { color: var(--green-bright); }
+
+  .square-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 4cqw;
+    border-top: 1px solid rgba(255,255,255,.14);
+    position: relative;
+    z-index: 2;
+  }
+
+  .square-footer .cta {
+    font-size: 3cqw;
+    font-weight: 800;
+    color: var(--navy);
+    background: var(--gold);
+    padding: 2.4cqw 4.4cqw;
+    border-radius: 999px;
+    letter-spacing: 0.01em;
+  }
+
+  .square-footer .url {
+    font-family: 'Menlo', monospace;
+    font-size: 2.6cqw;
+    font-weight: 800;
+    color: rgba(255,255,255,.75);
+  }
+
+  /* ============================================================
+     PRINT
+     ============================================================ */
+  @media print {
+    html, body { background: #fff; padding: 0; }
+    .screen-note, .stage-label { display: none !important; }
+    .stage { page-break-after: always; margin-bottom: 0; }
+    .stage:last-child { page-break-after: auto; }
+    .hero, .square { box-shadow: none; border-radius: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="screen-note">
+  <b>How to export this graphic:</b> To save the graphic as an image, use your browser's
+  screenshot tool (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> in Firefox, or the
+  Screenshot tool in Chrome DevTools). Or press <kbd>Ctrl</kbd>+<kbd>P</kbd> /
+  <kbd>⌘</kbd>+<kbd>P</kbd> and <b>Save as PDF</b> — tick <b>Background graphics</b>.
+  <br><br>
+  <b>Recommended:</b> Use the <b>16:9 hero</b> for the Crowdr campaign page and the
+  <b>1:1 square</b> for Instagram and social posts. Both are in this file.
+</div>
+
+<!-- ============================================================
+     HERO · 16:9 (Campaign Page)
+     ============================================================ -->
+<div class="stage">
+  <div class="stage-label">Hero · 1200 × 675 · For the Crowdr campaign page</div>
+  <div class="hero">
+    <div class="hero-header">
+      <div class="hero-logo">
+        <div class="mark">✓</div>
+        <div class="txt">
+          <div class="n">Deals<span class="g">Gate</span></div>
+          <div class="s">Africa's Secure Transaction Gateway</div>
+        </div>
+      </div>
+      <div class="hero-tag">
+        <span class="dot"></span>
+        Fundraising Campaign · 2026
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div class="hero-left">
+        <div class="eyebrow">Help us build Nigeria's trust layer</div>
+        <h1>
+          Millions of Nigerians<br>
+          buy online every day.<br>
+          <span class="hl">Nobody</span> should<br>
+          get <span class="hl-green">scammed.</span>
+        </h1>
+        <p class="sub">
+          DealsGate is building the protected-deal platform for Nigerian social commerce —
+          <b>escrow payment</b>, <b>physical item inspection</b>, and <b>tracked delivery</b>
+          in one flow. We need your help to move from working demo to live pilot.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-stat">
+          <div class="lbl">Fundraising goal</div>
+          <div class="val">₦6,000,000</div>
+          <div class="sub">To ship the production platform and reach our first 500 deals</div>
+        </div>
+        <div class="hero-stat green">
+          <div class="lbl">Already built (self-funded)</div>
+          <div class="val">13</div>
+          <div class="sub">Working product artifacts, legal library, and agent pipeline</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-footer">
+      <div class="hero-ask">
+        <div class="icon">♡</div>
+        <div class="txt">
+          <div class="t">Support the mission</div>
+          <div class="d">Every naira moves Nigeria closer to safe online trade</div>
+        </div>
+      </div>
+      <div class="hero-url">dealsgate.ng</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SQUARE · 1:1 (Social Media)
+     ============================================================ -->
+<div class="stage">
+  <div class="stage-label">Square · 1080 × 1080 · For Instagram, WhatsApp, X</div>
+  <div class="square">
+    <div class="square-header">
+      <div class="square-logo">
+        <div class="mark">✓</div>
+        <div class="txt">
+          <div class="n">Deals<span class="g">Gate</span></div>
+          <div class="s">Africa's Secure Gateway</div>
+        </div>
+      </div>
+      <div class="square-flag">Fundraiser</div>
+    </div>
+
+    <div class="square-body">
+      <div class="square-eyebrow">Help us build Nigeria's trust layer</div>
+      <h1>
+        Nobody should<br>
+        get <span class="hl">scammed</span><br>
+        buying <span class="hlg">online</span><br>
+        in Nigeria.
+      </h1>
+      <p class="square-sub">
+        We are building the platform that ends pay-before-delivery scams — with escrow,
+        physical item inspection, and tracked delivery. Support the mission.
+      </p>
+
+      <div class="square-stats">
+        <div class="square-stat">
+          <div class="lbl">Goal</div>
+          <div class="val">₦6M</div>
+        </div>
+        <div class="square-stat green">
+          <div class="lbl">Built</div>
+          <div class="val">13</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="square-footer">
+      <div class="cta">Donate →</div>
+      <div class="url">dealsgate.ng</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

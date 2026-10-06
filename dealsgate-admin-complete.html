@@ -1,0 +1,1817 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Admin Operations Demo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;--gold:#F4B420;--gold2:#D99A0F;
+--mist:#F1F3F5;--charcoal:#1F2937;--red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+--line:rgba(13,27,76,.10)}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--mist);
+color:var(--charcoal);font-size:14px;line-height:1.5;padding-bottom:78px}
+.hdr{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;padding:12px 16px 10px;
+box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.hdr-r{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hdr .who{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.hdr .av{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);
+display:grid;place-items:center;font-size:13px;font-weight:800;flex-shrink:0;border:2px solid var(--gold)}
+.hdr .info{min-width:0;flex:1}
+.hdr .n{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .s{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+margin-top:2px}
+.hdr .actions{display:flex;gap:6px}
+.hdr button{background:rgba(255,255,255,.15);color:#fff;border:none;font-size:10px;font-weight:700;
+padding:7px 11px;border-radius:20px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.hdr button.go{background:var(--gold);color:var(--navy)}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:10px}
+.kbox{background:rgba(255,255,255,.10);border-radius:8px;padding:7px 8px;position:relative}
+.kbox .l{font-size:7px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kbox .v{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:800;color:#fff;margin-top:2px}
+.kbox.gold .v{color:var(--gold)}
+.kbox.green .v{color:#7EE787}
+.kbox.red .v{color:#FCA5A5}
+.kbox.alert::after{content:"";position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;
+background:var(--red);animation:pl 1.4s infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);
+display:flex;overflow-x:auto;padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+box-shadow:0 -4px 20px rgba(13,27,76,.06);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;min-width:54px;display:flex;flex-direction:column;align-items:center;gap:3px;
+padding:7px 6px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;
+font-weight:800;color:#9CA3AF;letter-spacing:.04em;text-transform:uppercase}
+.tab.on{color:var(--navy)}
+.tab .ic{width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--mist);
+font-size:12px;line-height:1}
+.tab.on .ic{background:var(--gold);color:var(--navy)}
+.panel{display:none;padding:12px 10px 18px}
+.panel.on{display:block;animation:fu .25s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden;
+box-shadow:0 1px 3px rgba(13,27,76,.05)}
+.ch{padding:11px 14px;background:var(--mist);border-bottom:1px solid var(--line);font-size:10px;
+font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);display:flex;
+justify-content:space-between;align-items:center;gap:8px}
+.cb{padding:13px 14px}
+.bd{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;
+text-transform:uppercase;letter-spacing:.06em;line-height:1.4}
+.bd-navy{background:var(--navy);color:#fff}
+.bd-green{background:#DCFCE7;color:var(--green2)}
+.bd-gold{background:#FEF3C7;color:var(--gold2)}
+.bd-red{background:#FEE2E2;color:var(--red)}
+.bd-purple{background:#EDE9FE;color:var(--purple)}
+.bd-blue{background:#DBEAFE;color:var(--blue)}
+.bd-pink{background:#FCE7F3;color:var(--pink)}
+.bd-mist{background:var(--mist);color:#6B7280}
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:11px;font-size:13px;font-weight:700;
+cursor:pointer;font-family:inherit;transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.pr{background:linear-gradient(135deg,var(--navy),var(--green));color:#fff}
+.btn.nv{background:var(--navy);color:#fff}
+.btn.gr{background:var(--green);color:#fff}
+.btn.go{background:var(--gold);color:var(--navy)}
+.btn.gh{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.rd{background:var(--red);color:#fff}
+.btn.sm{padding:9px 11px;font-size:11px;border-radius:8px}
+.brow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;
+border-bottom:1px solid var(--line);font-size:12px}
+.row:last-child{border-bottom:none}
+.row .k{color:#4B5563;flex:1;min-width:0}
+.row .v{font-weight:700;color:var(--navy);text-align:right;flex-shrink:0;
+font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.row .v.g{color:var(--green)}
+.row .v.r{color:var(--red)}
+.row .v.pu{color:var(--purple)}
+.row.tot{background:#F8FAFC}
+.row.tot .v{font-size:16px;font-weight:800}
+.scn{display:flex;gap:11px;padding:12px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);
+text-align:left;cursor:pointer;font-family:inherit;width:100%}
+.scn:last-child{border-bottom:none}
+.scn.on{background:linear-gradient(90deg,rgba(13,27,76,.10),transparent)}
+.scn .em{font-size:22px;line-height:1;flex-shrink:0}
+.scn .txt{flex:1;min-width:0}
+.scn .t1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.scn .t2{font-size:10px;color:#6B7280;margin-top:3px;line-height:1.4}
+.steps{max-height:52vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.stp{display:flex;gap:11px;padding:11px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);
+text-align:left;cursor:pointer;font-family:inherit;width:100%;align-items:center}
+.stp:last-child{border-bottom:none}
+.stp.done{background:rgba(220,252,231,.5)}
+.stp.now{background:rgba(254,243,199,.6)}
+.stp:disabled{cursor:not-allowed;opacity:.7}
+.stp .dot{width:9px;height:9px;border-radius:50%;background:var(--mist);flex-shrink:0}
+.stp.done .dot{background:var(--green)}
+.stp.now .dot{background:var(--gold);animation:pl 1.2s ease-in-out infinite}
+.stp .info{flex:1;min-width:0}
+.stp .l1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.stp.done .l1{color:#6B7280}
+.stp .l2{font-size:10px;color:#9CA3AF;margin-top:2px;line-height:1.3}
+.stp .amt{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;color:var(--green);
+flex-shrink:0}
+.stp .amt.r{color:var(--red)}.stp .amt.n{color:var(--charcoal)}
+.narr{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:14px;border-radius:14px;
+margin-bottom:11px;position:relative;overflow:hidden}
+.narr::after{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;border-radius:50%;
+background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2}
+.narr .who{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);
+margin-bottom:6px;position:relative;z-index:1}
+.narr .msg{font-size:13px;font-weight:600;line-height:1.5;color:#fff;position:relative;z-index:1}
+.narr .det{font-size:11px;color:rgba(255,255,255,.7);margin-top:6px;line-height:1.5;position:relative;z-index:1}
+.tl{position:relative;padding:10px 14px 10px 34px}
+.tl::before{content:"";position:absolute;left:19px;top:16px;bottom:16px;width:2px;
+background:linear-gradient(180deg,var(--gold),var(--green),var(--navy));border-radius:2px;opacity:.35}
+.tli{position:relative;padding:5px 0}
+.tld{position:absolute;left:-19px;top:10px;width:10px;height:10px;border-radius:50%;background:var(--navy);
+border:2px solid #fff;box-shadow:0 0 0 1px rgba(13,27,76,.15)}
+.tli.red .tld{background:var(--red)}.tli.gold .tld{background:var(--gold)}.tli.green .tld{background:var(--green)}
+.tlt{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
+.tli.red .tlt{color:var(--red)}.tli.gold .tlt{color:var(--gold2)}
+.tltm{font-size:9px;color:#9CA3AF;margin-top:2px}
+.prg{height:6px;background:rgba(13,27,76,.10);border-radius:20px;overflow:hidden;margin-top:10px}
+.prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));
+border-radius:20px;transition:width .4s}
+.em{text-align:center;padding:32px 16px;color:#9CA3AF;font-size:12px;line-height:1.6}
+.mk{position:fixed;inset:0;background:rgba(13,27,76,.6);backdrop-filter:blur(4px);z-index:100;
+display:none;align-items:flex-end;justify-content:center}
+.mk.on{display:flex}
+.md{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;
+animation:su .3s cubic-bezier(.4,.2,.2,1)}
+@keyframes su{from{transform:translateY(100%)}to{transform:none}}
+.mh{padding:16px 18px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;
+align-items:center;position:sticky;top:0;background:#fff;z-index:2}
+.mh h3{font-size:15px;font-weight:800;color:var(--navy)}
+.mcl{background:none;border:none;font-size:24px;color:#9CA3AF;cursor:pointer;font-family:inherit;line-height:1}
+.mb{padding:16px 18px 20px}
+.mf{padding:12px 18px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--line);
+position:sticky;bottom:0;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 13px;border:1px solid rgba(13,27,76,.18);
+border-radius:10px;font-size:13px;font-family:inherit;color:var(--charcoal);background:#fff;outline:none}
+.nt{background:#FEF3C7;border-left:3px solid var(--gold);padding:11px 13px;border-radius:8px;font-size:11px;
+color:#78350F;line-height:1.55;margin:10px 0}
+.nt.gr{background:#DCFCE7;border-left-color:var(--green);color:#065F46}
+.nt.rd{background:#FEE2E2;border-left-color:var(--red);color:#7F1D1D}
+.nt.bl{background:#DBEAFE;border-left-color:var(--blue);color:#1E3A8A}
+.nt.pu{background:#EDE9FE;border-left-color:var(--purple);color:#5B21B6}
+.ts{position:fixed;left:12px;right:12px;bottom:90px;z-index:200;background:var(--navy);color:#fff;
+border-radius:12px;padding:12px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(13,27,76,.3);
+transform:translateY(140%);transition:transform .35s cubic-bezier(.4,.2,.2,1);display:flex;gap:10px;
+align-items:center;pointer-events:none}
+.ts.on{transform:translateY(0)}
+.ts.ok{background:var(--green)}.ts.er{background:var(--red)}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.st{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px}
+.st .l{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF}
+.st .v{font-family:ui-monospace,Menlo,monospace;font-size:18px;font-weight:800;color:var(--navy);margin-top:3px}
+.st .v.g{color:var(--green)}.st .v.r{color:var(--red)}.st .v.gold{color:var(--gold2)}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpi-card{background:#fff;border:1px solid var(--line);border-radius:11px;padding:11px;position:relative}
+.kpi-card.alert{border-color:#FCA5A5;background:#FEF2F2}
+.kpi-card.alert::after{content:"!";position:absolute;top:8px;right:8px;width:18px;height:18px;
+border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900}
+.kpi-card .l{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#6B7280}
+.kpi-card .v{font-family:ui-monospace,Menlo,monospace;font-size:20px;font-weight:800;color:var(--navy);margin-top:3px;line-height:1.1}
+.kpi-card .s{font-size:9px;color:#9CA3AF;margin-top:3px}
+.dispute{background:#FEF2F2;border-left:3px solid var(--red);padding:10px 12px;border-radius:8px;margin:8px 14px;font-size:11px}
+.dispute .t{font-weight:800;color:#991B1B;font-size:12px}
+.dispute .d{color:#7F1D1D;margin-top:3px;font-size:10px;line-height:1.5}
+.dual{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:1px solid #FCD34D;padding:12px;
+border-radius:10px;margin:10px 0;font-size:11px;color:#78350F}
+.dual .t{font-weight:800;font-size:12px;margin-bottom:4px}
+.dual .d{line-height:1.5}
+.audit-row{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);align-items:flex-start}
+.audit-row:last-child{border-bottom:none}
+.audit-av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;
+font-size:11px;font-weight:800;flex-shrink:0}
+.audit-body{flex:1;min-width:0}
+.audit-action{font-family:ui-monospace,Menlo,monospace;font-size:10px;font-weight:800;color:var(--navy);letter-spacing:.02em}
+.audit-meta{font-size:9px;color:#9CA3AF;margin-top:2px}
+.audit-before{font-family:ui-monospace,Menlo,monospace;font-size:9px;background:#FEF2F2;color:#991B1B;
+padding:3px 6px;border-radius:4px;margin-top:4px;display:inline-block}
+.audit-after{font-family:ui-monospace,Menlo,monospace;font-size:9px;background:#DCFCE7;color:#166534;
+padding:3px 6px;border-radius:4px;margin-top:4px;display:inline-block;margin-left:4px}
+.role-pick{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:14px}
+.role-card{padding:12px;border:2px solid var(--line);border-radius:12px;background:#fff;
+cursor:pointer;text-align:left;font-family:inherit;transition:all .15s}
+.role-card.on{border-color:var(--gold);background:#FEF3C7}
+.role-card .t{font-size:12px;font-weight:800;color:var(--navy)}
+.role-card .d{font-size:10px;color:#6B7280;margin-top:3px;line-height:1.4}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-r">
+    <div class="who">
+      <div class="av">SA</div>
+      <div class="info">
+        <div class="n">Super Admin</div>
+        <div class="s" id="hSub">Full access · Oyo State</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button onclick="resetAll()">Reset</button>
+      <button class="go" id="playBtn" onclick="togglePlay()">▶ Play</button>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kbox green"><div class="l">Revenue 30d</div><div class="v" id="kRev">₦0</div></div>
+    <div class="kbox gold"><div class="l">Escrow</div><div class="v" id="kEscrow">₦0</div></div>
+    <div class="kbox red alert" id="kDisputesBox"><div class="l">Disputes</div><div class="v" id="kDisputes">0</div></div>
+    <div class="kbox"><div class="l">Jobs open</div><div class="v" id="kJobs">0</div></div>
+  </div>
+</header>
+
+<!-- FLOW -->
+<section class="panel on" id="p-flow">
+  <div class="card">
+    <div class="ch"><span>Admin role</span><span class="bd bd-purple" id="roleBadge">Super Admin</span></div>
+    <div class="role-pick">
+      <button class="role-card" data-role="viewer" onclick="pickRole('viewer')">
+        <div class="t">Viewer</div>
+        <div class="d">Read-only KPIs, deals, users</div>
+      </button>
+      <button class="role-card" data-role="finance" onclick="pickRole('finance')">
+        <div class="t">Finance</div>
+        <div class="d">+ Refunds, payouts, config read</div>
+      </button>
+      <button class="role-card" data-role="mediator" onclick="pickRole('mediator')">
+        <div class="t">Mediator</div>
+        <div class="d">+ Dispute resolution</div>
+      </button>
+      <button class="role-card" data-role="ops" onclick="pickRole('ops')">
+        <div class="t">Ops</div>
+        <div class="d">+ Force reassign, suspend, CMS</div>
+      </button>
+      <button class="role-card on" data-role="super_admin" onclick="pickRole('super_admin')" style="grid-column:1/-1">
+        <div class="t">Super Admin</div>
+        <div class="d">Full access · Fee config, referral clawback, promote admins, dual-control approvals</div>
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><span>Admin scenarios</span><span class="bd bd-navy" id="scnCount">18</span></div>
+    <div id="scnList"></div>
+  </div>
+
+  <div class="card">
+    <div class="ch">
+      <span>Run this scenario</span>
+      <button style="background:none;border:none;color:#9CA3AF;font-size:10px;font-weight:700;cursor:pointer"
+        onclick="resetWork()">Reset</button>
+    </div>
+    <div class="cb">
+      <button class="btn go" id="innerPlay" onclick="playScenario()">▶ Play scenario</button>
+      <div class="prg" id="prgWrap" style="display:none"><div class="fill" id="prgFill"></div></div>
+    </div>
+  </div>
+
+  <div class="card" id="narrCard" style="display:none">
+    <div class="cb" style="padding:0">
+      <div class="narr">
+        <div class="who" id="nWho">—</div>
+        <div class="msg" id="nMsg">—</div>
+        <div class="det" id="nDet"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch">Workflow · tap any step</div>
+    <div class="steps" id="stepList"></div>
+  </div>
+
+  <div class="card" id="actionCard" style="display:none">
+    <div class="ch"><span id="actionTitle">Action</span><span class="bd bd-blue" id="actionRole">Super Admin</span></div>
+    <div id="actionBody"></div>
+  </div>
+
+  <div class="card" id="beforeCard" style="display:none">
+    <div class="ch"><span>Before</span><span class="bd bd-red">Previous state</span></div>
+    <div id="beforeBody"></div>
+  </div>
+
+  <div class="card" id="afterCard" style="display:none">
+    <div class="ch"><span>After</span><span class="bd bd-green">New state</span></div>
+    <div id="afterBody"></div>
+  </div>
+
+  <div class="card" id="tlCard" style="display:none">
+    <div class="ch">Admin event log</div>
+    <ol class="tl" id="tlList"></ol>
+  </div>
+</section>
+
+<!-- KPIS -->
+<section class="panel" id="p-kpis">
+  <div class="card">
+    <div class="ch"><span>Platform KPIs</span><span class="bd bd-green">Live</span></div>
+    <div class="cb">
+      <div class="kpi-grid" id="kpiGrid"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><span>Needs attention</span><span class="bd bd-red" id="attentionCount">0</span></div>
+    <div id="attentionList"><div class="em">All clear.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Revenue breakdown (last 30d)</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Buyer service fees</span><span class="v">₦462,000</span></div>
+      <div class="row"><span class="k">Seller success fees</span><span class="v">₦378,000</span></div>
+      <div class="row"><span class="k">Vet Agent platform share (30%)</span><span class="v">₦184,500</span></div>
+      <div class="row"><span class="k">Logistics margins</span><span class="v">₦92,400</span></div>
+      <div class="row"><span class="k">Guarantee forfeitures</span><span class="v">₦15,000</span></div>
+      <div class="row"><span class="k">Withdrawal fees (net)</span><span class="v">₦8,200</span></div>
+      <div class="row tot"><span class="k">Total revenue (30d)</span><span class="v g">₦1,140,100</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Escrow exposure</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Buyer funds held</span><span class="v">₦2,847,300</span></div>
+      <div class="row"><span class="k">In active deals</span><span class="v">14</span></div>
+      <div class="row"><span class="k">Guarantees held</span><span class="v">₦85,000</span></div>
+      <div class="row"><span class="k">Agent fees pending</span><span class="v">₦42,000</span></div>
+      <div class="row tot"><span class="k">Reconciled balance</span><span class="v g">₦2,974,300</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Reconciled daily against Paystack settlement. Alerts fire if the gap exceeds ₦100.
+    </div>
+  </div>
+</section>
+
+<!-- DEALS -->
+<section class="panel" id="p-deals">
+  <div class="card">
+    <div class="ch"><span>All deals</span><span class="bd bd-navy" id="dealCount">0</span></div>
+    <div class="cb" style="padding:0">
+      <div class="filters" style="display:flex;gap:6px;padding:10px;overflow-x:auto">
+        <button class="chip on" onclick="filterDeals('all',this)">All</button>
+        <button class="chip" onclick="filterDeals('active',this)">Active</button>
+        <button class="chip" onclick="filterDeals('disputed',this)">Disputed</button>
+        <button class="chip" onclick="filterDeals('paused',this)">Paused</button>
+      </div>
+    </div>
+    <div id="dealList"><div class="em">No deals loaded. Run a scenario to populate.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Admin actions on deals</div>
+    <div class="cb">
+      <button class="btn gh sm" onclick="showToast('Pause selected deal')">⏸️ Pause deal</button>
+      <button class="btn gh sm" style="margin-top:8px" onclick="showToast('Force state transition')">⚙️ Force state transition</button>
+      <button class="btn gh sm" style="margin-top:8px" onclick="showToast('Apply admin refund')">💸 Force refund</button>
+      <button class="btn gh sm" style="margin-top:8px" onclick="showToast('Add internal note')">📝 Add admin note</button>
+    </div>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section class="panel" id="p-jobs">
+  <div class="card">
+    <div class="ch"><span>Inspection jobs</span><span class="bd bd-gold" id="jobCount">0</span></div>
+    <div class="cb" style="padding:0">
+      <div class="filters" style="display:flex;gap:6px;padding:10px;overflow-x:auto">
+        <button class="chip on" onclick="filterJobs('all',this)">All</button>
+        <button class="chip" onclick="filterJobs('open',this)">Open</button>
+        <button class="chip" onclick="filterJobs('overdue',this)">Overdue</button>
+        <button class="chip" onclick="filterJobs('active',this)">Active</button>
+      </div>
+    </div>
+    <div id="jobList"><div class="em">No jobs loaded. Run a scenario to populate.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Admin actions on jobs</div>
+    <div class="cb">
+      <button class="btn gh sm" onclick="showToast('Force reassign to another agent')">🔀 Force reassign</button>
+      <button class="btn gh sm" style="margin-top:8px" onclick="showToast('Expand radius to neighbouring LGAs')">🔍 Expand radius</button>
+      <button class="btn gh sm" style="margin-top:8px" onclick="showToast('Cancel the job')">❌ Cancel job</button>
+    </div>
+  </div>
+</section>
+
+<!-- DISPUTES -->
+<section class="panel" id="p-disputes">
+  <div class="card">
+    <div class="ch"><span>Open disputes</span><span class="bd bd-red" id="disputeCount">0</span></div>
+    <div id="disputeList"><div class="em">No open disputes.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Mediation workflow</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">1. Review Tier-1 evidence</span><span class="v">Agent video + serial</span></div>
+      <div class="row"><span class="k">2. Review Tier-2 evidence</span><span class="v">Buyer unboxing + courier</span></div>
+      <div class="row"><span class="k">3. Post mediation message</span><span class="v">Public or internal-only</span></div>
+      <div class="row"><span class="k">4. Record resolution</span><span class="v">Full / partial / release</span></div>
+      <div class="row"><span class="k">5. Apply refund</span><span class="v">Via RefundService</span></div>
+      <div class="row"><span class="k">6. Audit trail</span><span class="v">Before + after captured</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- USERS -->
+<section class="panel" id="p-users">
+  <div class="card">
+    <div class="ch"><span>Users</span><span class="bd bd-blue" id="userCount">0</span></div>
+    <div class="cb" style="padding:0">
+      <div class="filters" style="display:flex;gap:6px;padding:10px;overflow-x:auto">
+        <button class="chip on" onclick="filterUsers('all',this)">All</button>
+        <button class="chip" onclick="filterUsers('suspended',this)">Suspended</button>
+        <button class="chip" onclick="filterUsers('banned',this)">Referral banned</button>
+        <button class="chip" onclick="filterUsers('suppressed',this)">Dossier suppressed</button>
+      </div>
+    </div>
+    <div id="userList"><div class="em">No users loaded.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">User actions</div>
+    <div class="cb">
+      <button class="btn gh sm" onclick="showToast('Suspend user')">🚫 Suspend account</button>
+      <button class="btn gh sm" style="margin-top:8px" onclick="showToast('Unsuspend user')">✓ Unsuspend</button>
+      <button class="btn gh sm" style="margin-top:8px" onclick="showToast('Suppress dossier')">👁️ Suppress dossier</button>
+      <button class="btn gh sm" style="margin-top:8px" onclick="showToast('Promote to admin')">⬆️ Promote to admin</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIG -->
+<section class="panel" id="p-config">
+  <div class="card">
+    <div class="ch"><span>Fee configuration</span><span class="bd bd-gold">Dual-control required</span></div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">fees.vetAgentFeeKobo</span><span class="v">₦6,000</span></div>
+      <div class="row"><span class="k">fees.buyerServiceFeePct</span><span class="v">2%</span></div>
+      <div class="row"><span class="k">fees.sellerSuccessFeePct</span><span class="v">2%</span></div>
+      <div class="row"><span class="k">fees.sellerGuaranteeKobo</span><span class="v">₦5,000</span></div>
+      <div class="row"><span class="k">fees.onDemandMinJobKobo</span><span class="v">₦6,000</span></div>
+      <div class="row"><span class="k">splits.vetAgentPlatformSharePct</span><span class="v">30%</span></div>
+      <div class="row"><span class="k">splits.onDemandPlatformSharePct</span><span class="v">40%</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Every fee and split has min/max bounds. Changes write to the audit log with before/after state. Money keys require dual-control approval from a second admin.
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Policy configuration</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">policy.autoCompleteWindowHours</span><span class="v">72h</span></div>
+      <div class="row"><span class="k">policy.evidenceWindowHours</span><span class="v">48h</span></div>
+      <div class="row"><span class="k">policy.jobTimeoutHours</span><span class="v">24h</span></div>
+      <div class="row"><span class="k">referral.lifetimeReferralsRequired</span><span class="v">10</span></div>
+      <div class="row"><span class="k">referral.lifetimeDiscountPct</span><span class="v">50%</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Bank list</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">CBN-licensed banks synced</span><span class="v">48</span></div>
+      <div class="row"><span class="k">Last refresh</span><span class="v">2h ago</span></div>
+      <div class="row"><span class="k">Source</span><span class="v" style="font-family:inherit">Paystack API</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line)">
+      <button class="btn gh sm" onclick="showToast('Refreshing bank list from Paystack…')">🔄 Refresh bank list</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">CMS — Taxonomy</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Sectors</span><span class="v">12</span></div>
+      <div class="row"><span class="k">Industries</span><span class="v">30</span></div>
+      <div class="row"><span class="k">Product lines</span><span class="v">26</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line)">
+      <button class="btn gh sm" onclick="showToast('Opening taxonomy editor…')">✏️ Edit taxonomy</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">CMS — Training modules</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Modules</span><span class="v">10</span></div>
+      <div class="row"><span class="k">Total questions</span><span class="v">124</span></div>
+      <div class="row"><span class="k">Pass mark</span><span class="v">85%</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line)">
+      <button class="btn gh sm" onclick="showToast('Opening training CMS…')">✏️ Edit modules</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Dual-control queue</div>
+    <div id="dualQueue"><div class="em">No pending dual-control requests.</div></div>
+  </div>
+</section>
+
+<!-- AUDIT -->
+<section class="panel" id="p-audit">
+  <div class="card">
+    <div class="ch"><span>Admin audit log</span><span class="bd bd-navy">Immutable</span></div>
+    <div class="cb" style="padding:0">
+      <div class="filters" style="display:flex;gap:6px;padding:10px;overflow-x:auto">
+        <button class="chip on" onclick="filterAudit('all',this)">All</button>
+        <button class="chip" onclick="filterAudit('deal',this)">Deals</button>
+        <button class="chip" onclick="filterAudit('job',this)">Jobs</button>
+        <button class="chip" onclick="filterAudit('user',this)">Users</button>
+        <button class="chip" onclick="filterAudit('config',this)">Config</button>
+        <button class="chip" onclick="filterAudit('dispute',this)">Disputes</button>
+      </div>
+    </div>
+    <div id="auditList"><div class="em">No admin actions logged yet.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">System events (not admin)</div>
+    <div id="systemLog"><div class="em">No system events yet.</div></div>
+  </div>
+</section>
+
+<!-- REFERRALS -->
+<section class="panel" id="p-referrals">
+  <div class="card">
+    <div class="ch"><span>Referral audit</span><span class="bd bd-purple">Clawback available</span></div>
+    <div class="cb" style="padding:0;font-size:12px;color:#4B5563;line-height:1.65">
+      <div class="row"><span class="k">Total referral rewards issued (30d)</span><span class="v">₦47,000</span></div>
+      <div class="row"><span class="k">Active referrers</span><span class="v">34</span></div>
+      <div class="row"><span class="k">Accounts flagged for abuse</span><span class="v r">2</span></div>
+      <div class="row"><span class="k">Rewards clawed back (30d)</span><span class="v r">₦8,000</span></div>
+      <div class="row"><span class="k">Lifetime discounts granted</span><span class="v">3</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Flagged referrers</div>
+    <div class="cb" style="padding:0">
+      <div class="row">
+        <div class="k">
+          <div style="font-weight:700;color:var(--navy);font-size:12px">Tunde Adebayo</div>
+          <div style="font-size:10px;color:#9CA3AF;margin-top:2px">11 referrals · 8 quick conversions · 3 self-referrals suspected</div>
+        </div>
+        <span class="bd bd-red">Flagged</span>
+      </div>
+      <div class="row">
+        <div class="k">
+          <div style="font-weight:700;color:var(--navy);font-size:12px">Fatima Yusuf</div>
+          <div style="font-size:10px;color:#9CA3AF;margin-top:2px">Multiple referee accounts on same device fingerprint</div>
+        </div>
+        <span class="bd bd-red">Flagged</span>
+      </div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line)">
+      <button class="btn rd sm" onclick="showToast('Opening clawback confirmation…')">⚖️ Revoke all rewards for a referrer</button>
+    </div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab on" onclick="tab('flow',this)"><span class="ic">▶</span>Flow</button>
+  <button class="tab" onclick="tab('kpis',this)"><span class="ic">📊</span>KPIs</button>
+  <button class="tab" onclick="tab('deals',this)"><span class="ic">📦</span>Deals</button>
+  <button class="tab" onclick="tab('jobs',this)"><span class="ic">📋</span>Jobs</button>
+  <button class="tab" onclick="tab('disputes',this)"><span class="ic">⚖️</span>Disputes</button>
+  <button class="tab" onclick="tab('users',this)"><span class="ic">👥</span>Users</button>
+  <button class="tab" onclick="tab('config',this)"><span class="ic">⚙️</span>Config</button>
+  <button class="tab" onclick="tab('audit',this)"><span class="ic">📜</span>Audit</button>
+  <button class="tab" onclick="tab('referrals',this)"><span class="ic">🎁</span>Referrals</button>
+</nav>
+
+<div class="mk" id="modal" onclick="if(event.target===this)closeModal()"><div class="md" id="modalBox"></div></div>
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
+const KEY='dg_admin_complete_v1';
+const ROLE_RANK={viewer:0,finance:1,mediator:2,ops:3,super_admin:4};
+
+const fmt=n=>'₦'+Math.round(n).toLocaleString('en-NG');
+const ago=ts=>{const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';
+  if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+function fresh(){
+  return {
+    admin:{name:'Super Admin', role:'super_admin'},
+    // Live platform state
+    deals:{}, jobs:{}, users:{}, disputes:{},
+    audit:[], system:[], dualQueue:[],
+    // KPIs
+    escrow:0, revenue30d:1140100,
+    // Workflow
+    scenario:'coldstart', completedSteps:[], currentStep:null,
+    before:null, after:null,
+    filter:'all',
+  };
+}
+let S=load();
+function load(){try{const r=localStorage.getItem(KEY);return r?Object.assign(fresh(),JSON.parse(r)):fresh();}catch(e){return fresh();}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function uid(){return 'a'+Date.now()+Math.random().toString(36).slice(2,6);}
+
+function audit(action, target, before, after, meta){
+  S.audit.unshift({id:uid(), action, target, before, after, meta:meta||{}, ts:Date.now(),
+    actor:S.admin.name, role:S.admin.role, ip:'102.89.42.'+Math.floor(Math.random()*250+1)});
+  if(S.audit.length>200) S.audit.pop();
+}
+function sys(action, meta){
+  S.system.unshift({id:uid(), action, meta:meta||{}, ts:Date.now()});
+  if(S.system.length>100) S.system.pop();
+}
+
+/* ============================================================
+   SEED PLATFORM DATA
+   ============================================================ */
+function seedPlatform(){
+  // Realistic in-flight platform state
+  S.deals={
+    'DG-240501':{code:'DG-240501', item:'iPhone 14 Pro 256GB', price:450000, status:'EVIDENCE_REVIEW',
+      sellerId:'tunde', buyerId:'musa', lga:'Ikeja', escrow:468500, createdAt:Date.now()-3600*1000*3},
+    'DG-240502':{code:'DG-240502', item:'MacBook Pro 14" M3', price:850000, status:'IN_TRANSIT',
+      sellerId:'adaeze', buyerId:'chioma', lga:'Eti-Osa', escrow:884500, createdAt:Date.now()-3600*1000*18},
+    'DG-240503':{code:'DG-240503', item:'LG 2HP Inverter AC', price:320000, status:'DISPUTED',
+      sellerId:'fatima', buyerId:'musa', lga:'Nassarawa', escrow:336900, createdAt:Date.now()-3600*1000*26, disputed:true},
+    'DG-240504':{code:'DG-240504', item:'PlayStation 5', price:380000, status:'DISPUTED',
+      sellerId:'adaeze', buyerId:'kelechi', lga:'Ikeja', escrow:395500, createdAt:Date.now()-3600*1000*40, disputed:true},
+    'DG-240505':{code:'DG-240505', item:'AirPods Pro 2nd gen', price:115000, status:'PAUSED',
+      sellerId:'tunde', buyerId:'chioma', lga:'Ikeja', escrow:119500, createdAt:Date.now()-3600*1000*52, paused:true},
+    'DG-240506':{code:'DG-240506', item:'Canon EOS R6', price:620000, status:'COMPLETED',
+      sellerId:'fatima', buyerId:'musa', lga:'Nassarawa', escrow:0, createdAt:Date.now()-3600*1000*80},
+  };
+  S.jobs={
+    'DG-240501':{code:'DG-240501', type:'protected', lga:'Ikeja', status:'OPEN', fee:6000,
+      agentShare:4200, createdAt:Date.now()-3600*1000*2, timeoutWarningAt:Date.now()-3600*1000*1, overdue:true},
+    'DG-240502':{code:'DG-240502', type:'protected', lga:'Eti-Osa', status:'SUBMITTED', fee:6000,
+      agentShare:4200, agentId:'blessing', createdAt:Date.now()-3600*1000*17},
+    'DG-240504':{code:'DG-240504', type:'protected', lga:'Ikeja', status:'OPEN', fee:6000,
+      agentShare:4200, createdAt:Date.now()-3600*1000*5, overdue:true},
+  };
+  S.users={
+    tunde:{id:'tunde', name:'Tunde Adebayo', email:'tunde@demo.ng', kyc:'Verified', verified:true,
+      suspended:false, referralBanned:false, dossierSuppressed:false, stars:4.7, deals:15},
+    adaeze:{id:'adaeze', name:'Adaeze Okafor', email:'adaeze@demo.ng', kyc:'Verified', verified:true,
+      suspended:false, referralBanned:false, dossierSuppressed:false, stars:4.9, deals:34,
+      flagged:'bribe_attempt'},
+    fatima:{id:'fatima', name:'Fatima Yusuf', email:'fatima@demo.ng', kyc:'Verified', verified:true,
+      suspended:false, referralBanned:true, dossierSuppressed:false, stars:3.2, deals:8},
+    musa:{id:'musa', name:'Musa Ibrahim', email:'musa@demo.ng', kyc:'Verified', verified:true,
+      suspended:false, referralBanned:false, dossierSuppressed:false, stars:4.6, deals:12},
+    chioma:{id:'chioma', name:'Chioma Obi', email:'chioma@demo.ng', kyc:'Verified', verified:true,
+      suspended:false, referralBanned:false, dossierSuppressed:false, stars:4.9, deals:22},
+    kelechi:{id:'kelechi', name:'Kelechi Nwosu', email:'kelechi@demo.ng', kyc:'Verified', verified:true,
+      suspended:false, referralBanned:false, dossierSuppressed:false, stars:4.4, deals:6},
+    blessing:{id:'blessing', name:'Blessing Eze', email:'blessing@demo.ng', kyc:'Verified', verified:true,
+      suspended:false, referralBanned:false, dossierSuppressed:false, stars:4.9, deals:187, isAgent:true},
+  };
+  S.disputes={
+    'DSP-501':{code:'DSP-501', dealCode:'DG-240503', category:'Material mismatch',
+      raisedBy:'musa', against:'fatima', status:'OPEN', age:26,
+      reason:'Item did not match the listing. Photo evidence provided.'},
+    'DSP-502':{code:'DSP-502', dealCode:'DG-240504', category:'Fraud / swap',
+      raisedBy:'kelechi', against:'adaeze', status:'OPEN', age:40,
+      reason:'IMEI does not match the continuous video the agent filmed. Suspected swap.'},
+  };
+  S.escrow=2984300;
+}
+seedPlatform();
+
+/* ============================================================
+   SCENARIOS (18 admin scenarios)
+   ============================================================ */
+const SCENARIOS = {
+  coldstart:{
+    key:'coldstart', em:'📊', title:'Cold start — KPI review',
+    desc:'Open the console · scan KPIs · check escrow reconciliation · spot alerts',
+    steps:[
+      {k:'loadKPIs',  l1:'Load KPIs',                l2:'Open deals · escrow · disputes · jobs',  amt:null},
+      {k:'checkEscrow',l1:'Reconcile escrow',        l2:'Match platform ledger',                  amt:null},
+      {k:'spotAlerts',l1:'Spot alerts',              l2:'2 overdue jobs · 2 open disputes',       amt:null},
+      {k:'triage',    l1:'Prioritise the day',       l2:'Disputes + overdue jobs first',          amt:null},
+    ],
+    verdict:'Admin starts every day here. The dashboard surfaces exactly what needs attention — no manual searching. Overdue jobs and open disputes rise to the top automatically.'
+  },
+  reassign:{
+    key:'reassign', em:'🔀', title:'Force reassign a stuck job',
+    desc:'Job is overdue in Ikeja LGA · no agent accepted within SLA · reassign manually',
+    steps:[
+      {k:'openJob',   l1:'Open overdue job',         l2:'DG-240501 · Ikeja · 2h past SLA',        amt:null},
+      {k:'review',    l1:'Review eligibility',       l2:'Blessing covers Ikeja · no active job',  amt:null},
+      {k:'reassign',  l1:'Force reassign',           l2:'Old agent released · new agent locked', amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Before + after + IP captured',           amt:null},
+    ],
+    verdict:'Force reassign is an exception path. Admin only intervenes when the happy path fails. Every reassign is logged with before/after state and the reason — full audit trail for disputes.'
+  },
+  expand:{
+    key:'expand', em:'🔍', title:'Expand job radius',
+    desc:'No agent in the original LGA · expand search to neighbouring LGAs',
+    steps:[
+      {k:'openJob2',  l1:'Open unmatched job',       l2:'DG-240504 · Ikeja · no accept',          amt:null},
+      {k:'expandRadius',l1:'Expand radius',          l2:'Add Surulere + Eti-Osa to coverage',     amt:null},
+      {k:'notifyAgents',l1:'Notify eligible agents', l2:'Push notification to wider radius',      amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Before + after LGAs captured',           amt:null},
+    ],
+    verdict:'Radius expansion is the fallback when the LGA has insufficient agent coverage. Instead of auto-cancelling a paid deal, admin widens the search. The buyer never notices friction.'
+  },
+  pause:{
+    key:'pause', em:'⏸️', title:'Pause a deal',
+    desc:'Legal review pending · pause the deal · block any state transition',
+    steps:[
+      {k:'openDeal',  l1:'Open target deal',         l2:'DG-240505 · AirPods Pro',                amt:null},
+      {k:'reviewHold',l1:'Decide to pause',          l2:'Reason: legal review pending',           amt:null},
+      {k:'pauseDeal', l1:'Pause the deal',           l2:'Blocks all transitions until release',   amt:null},
+      {k:'notifyParties',l1:'Notify buyer + seller', l2:'System message · no action required',    amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Reason + before/after captured',         amt:null},
+    ],
+    verdict:'Pausing stops everything downstream — logistics, evidence gate, payouts — without touching escrow. Used for legal holds, fraud investigations, or court orders.'
+  },
+  resume:{
+    key:'resume', em:'▶️', title:'Resume a paused deal',
+    desc:'Legal review cleared · release the hold · deal continues normally',
+    steps:[
+      {k:'openPaused',l1:'Open paused deal',         l2:'DG-240505',                              amt:null},
+      {k:'reviewClear',l1:'Legal review cleared',    l2:'Release hold',                           amt:null},
+      {k:'resumeDeal',l1:'Resume the deal',          l2:'Transitions re-enabled',                 amt:null},
+      {k:'notify',    l1:'Notify parties',           l2:'Deal progressing normally',              amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'',                                       amt:null},
+    ],
+    verdict:'Resume is the counterpart to pause. Nothing in the escrow balance changes on pause/resume — the money is untouched. Only state transitions are blocked.'
+  },
+  dispute_mismatch:{
+    key:'dispute_mismatch', em:'⚖️', title:'Mediate — material mismatch',
+    desc:'Buyer claims item does not match listing · agent PASS but buyer disputes',
+    steps:[
+      {k:'openDispute',l1:'Open dispute DSP-501',    l2:'Material mismatch · 26h old',            amt:null},
+      {k:'reviewTier1',l1:'Review Tier-1 evidence',  l2:'Agent video + serial + listing',         amt:null},
+      {k:'reviewTier2',l1:'Review Tier-2 evidence',  l2:'Buyer unboxing + courier log',           amt:null},
+      {k:'ruleBuyer', l1:'Rule for buyer',           l2:'Evidence supports buyer claim',          amt:null},
+      {k:'applyRefund',l1:'Apply full refund',       l2:'Item + fees + vet + logistics',          amt:null},
+      {k:'guarFee',   l1:'Guarantee forfeited',      l2:'Seller-side material fault',             amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Resolution + rationale captured',        amt:null},
+    ],
+    verdict:'Mediation follows evidence tiers. Tier-1 (agent video + serial) outranks Tier-2 (buyer unboxing). Tier-3 (off-platform chats) is lowest weight. Full refund + guarantee forfeit for material seller fault.'
+  },
+  dispute_fraud:{
+    key:'dispute_fraud', em:'🚨', title:'Mediate — fraud / swap',
+    desc:'Buyer received a different unit than the inspected one · agent video is decisive',
+    steps:[
+      {k:'openDispute2',l1:'Open dispute DSP-502',   l2:'Fraud / swap · 40h old',                 amt:null},
+      {k:'reviewVideo',l1:'Compare IMEIs',           l2:'Agent video vs buyer unboxing',          amt:null},
+      {k:'reviewTimeline',l1:'Review deal timeline', l2:'Inspection → dispatch → delivery',       amt:null},
+      {k:'ruleFraud', l1:'Rule fraud',               l2:'IMEI mismatch proves swap',              amt:null},
+      {k:'applyRefund2',l1:'Apply full refund',      l2:'Buyer made whole',                       amt:null},
+      {k:'clawback',  l1:'Clawback return logistics',l2:'₦3,500 from seller wallet',              amt:null},
+      {k:'suspend',   l1:'Suspend seller account',   l2:'Flag + case file opened',                amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Multi-action trail captured',            amt:null},
+    ],
+    verdict:'Fraud cases take multiple admin actions in one workflow: refund the buyer, clawback return logistics, suspend the seller, and open a case file. Each action is separately audited.'
+  },
+  suspend:{
+    key:'suspend', em:'🚫', title:'Suspend a user account',
+    desc:'Seller attempted bribe on a live deal · suspend pending investigation',
+    steps:[
+      {k:'openUser',  l1:'Open user profile',        l2:'Adaeze Okafor · seller · flagged',       amt:null},
+      {k:'reviewFlag',l1:'Review flag',              l2:'Bribe attempt on DG-240504',             amt:null},
+      {k:'confirmSusp',l1:'Confirm suspension',      l2:'Category: fraud · permanent review',     amt:null},
+      {k:'suspendUser',l1:'Suspend account',         l2:'Login blocked · payouts frozen',         amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Category + reason + IP captured',        amt:null},
+    ],
+    verdict:'Suspension blocks login and freezes future payouts, but does not touch funds already in escrow. It is reversible. Every suspension is logged with a category (fraud, collusion, abuse, etc.) for compliance reporting.'
+  },
+  unsuspend:{
+    key:'unsuspend', em:'✅', title:'Unsuspend after appeal',
+    desc:'Investigation cleared the seller · restore access · unfreeze payouts',
+    steps:[
+      {k:'openSuspended',l1:'Open suspended user',   l2:'Adaeze Okafor · suspended 3 days',       amt:null},
+      {k:'reviewAppeal',l1:'Review appeal evidence', l2:'Independent verification cleared her',   amt:null},
+      {k:'unsuspend', l1:'Restore account',          l2:'Login restored · payouts resumed',       amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Reason: appeal upheld',                  amt:null},
+    ],
+    verdict:'Unsuspension is always possible. The suspension record is preserved — just marked lifted with the reason. This protects both the user and the platform if the case is reexamined later.'
+  },
+  suppress:{
+    key:'suppress', em:'👁️', title:'Suppress a public dossier',
+    desc:'Seller abuse of reputation features · hide from public search',
+    steps:[
+      {k:'openSeller',l1:'Open seller dossier',      l2:'Fatima Yusuf · 3.2★ · abuse report',     amt:null},
+      {k:'reviewAbuse',l1:'Review abuse evidence',   l2:'Fake reviews · multiple accounts',       amt:null},
+      {k:'suppressDossier',l1:'Suppress from search',l2:'Removed from public search index',       amt:null},
+      {k:'notify',    l1:'Notify user',              l2:'Policy violation · appeal window open',  amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Reason + evidence reference',            amt:null},
+    ],
+    verdict:'Dossier suppression is a lighter action than suspension. The seller keeps using the platform normally, but their public reputation page is hidden from search until resolved. Reversible.'
+  },
+  clawback:{
+    key:'clawback', em:'⚖️', title:'Referral clawback for abuse',
+    desc:'Referrer used multiple accounts to farm rewards · clawback all rewards',
+    steps:[
+      {k:'openReferrer',l1:'Open referrer audit',    l2:'Tunde · 11 refs · 3 self-referrals',     amt:null},
+      {k:'reviewEvidence',l1:'Review abuse evidence',l2:'Same device fingerprint · same IP',      amt:null},
+      {k:'decision',  l1:'Decision: full clawback',  l2:'All rewards + lifetime discount revoked',amt:null},
+      {k:'executeClaw',l1:'Execute clawback',        l2:'Debit wallet · reverse rewards',         amt:null},
+      {k:'banRef',    l1:'Ban from future rewards',  l2:'Referral_banned = true',                 amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Reason + full evidence trail',           amt:null},
+    ],
+    verdict:'Referral abuse is a specific attack pattern. Clawback is the only option that makes the platform whole. The user keeps their other activity — only referral rewards and the lifetime discount are reversed.'
+  },
+  fee_config:{
+    key:'fee_config', em:'⚙️', title:'Update fee config with dual control',
+    desc:'Change the Vet Agent fee from ₦5,000 to ₦6,000 · requires second admin approval',
+    steps:[
+      {k:'openConfig',l1:'Open fee config',          l2:'fees.vetAgentFeeKobo · 500_000',         amt:null},
+      {k:'draftChange',l1:'Draft change',            l2:'New value: 600_000 · within bounds',     amt:null},
+      {k:'submitDual',l1:'Submit for dual control',  l2:'Pending second admin approval',          amt:null},
+      {k:'secondAdmin',l1:'Second admin approves',   l2:'Super admin 2 · separate session',       amt:null},
+      {k:'applyConfig',l1:'Config applied',          l2:'Fee changed · live for new deals',       amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Before + after + both admins captured',  amt:null},
+    ],
+    verdict:'Money-touching config changes require dual control. One admin proposes, a different admin approves. The change is written to the audit log with both identities, the before value, and the after value.'
+  },
+  bank_sync:{
+    key:'bank_sync', em:'🏦', title:'Refresh bank list from Paystack',
+    desc:'New CBN-licensed banks added · sync the list for user bank selectors',
+    steps:[
+      {k:'openBanks', l1:'Open bank list',           l2:'48 banks · last sync 2h ago',            amt:null},
+      {k:'syncBanks', l1:'Sync from Paystack',       l2:'Pull latest list + codes',               amt:null},
+      {k:'verify',    l1:'Verify sync',              l2:'48 banks · 2 new added',                 amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Delta captured',                         amt:null},
+    ],
+    verdict:'The bank list changes when CBN licenses new institutions or rebrands existing ones. Admin syncs from the provider rather than editing manually — this prevents typos that would misroute customer payouts.'
+  },
+  cms_taxonomy:{
+    key:'cms_taxonomy', em:'📚', title:'Update taxonomy',
+    desc:'Add a new product line · "iPhone 16 Pro" now shipping',
+    steps:[
+      {k:'openTax',   l1:'Open taxonomy CMS',        l2:'12 sectors · 30 industries · 26 lines',  amt:null},
+      {k:'addLine',   l1:'Add product line',         l2:'iPhone 16 Pro under Smartphones',        amt:null},
+      {k:'verify',    l1:'Verify addition',          l2:'26 → 27 product lines',                  amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'New slug + parent captured',             amt:null},
+    ],
+    verdict:'Taxonomy is content, not money. But every change is still audited. Sellers pick from this list when creating deals, so adding a line unlocks new listings.'
+  },
+  cms_training:{
+    key:'cms_training', em:'🎓', title:'Update training modules',
+    desc:'Add a new scam pattern to Module 10 · all agents see it on next login',
+    steps:[
+      {k:'openTraining',l1:'Open training CMS',      l2:'10 modules · 124 questions',             amt:null},
+      {k:'editModule',l1:'Edit Module 10',           l2:'Add QR-code hijack scam pattern',        amt:null},
+      {k:'addQuestions',l1:'Add 2 quiz questions',   l2:'124 → 126 total',                        amt:null},
+      {k:'publish',   l1:'Publish change',           l2:'Live for new certifications',            amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Change summary captured',                amt:null},
+    ],
+    verdict:'Training content changes affect certification. Versioned — agents who already passed keep their badge; the next cohort gets the new questions. No re-examination is forced mid-stream.'
+  },
+  dual_approve:{
+    key:'dual_approve', em:'🔐', title:'Approve a dual-control request',
+    desc:'A finance admin proposed a fee change · you are the second approver',
+    steps:[
+      {k:'seeQueue',  l1:'See pending request',      l2:'From another admin · 3h old',            amt:null},
+      {k:'reviewReq', l1:'Review the change',        l2:'Within min/max bounds · signed',         amt:null},
+      {k:'approve',   l1:'Approve',                  l2:'Your identity recorded as approver',     amt:null},
+      {k:'applies',   l1:'Config applies',           l2:'Live immediately',                       amt:null},
+      {k:'auditLog',  l1:'Both admins logged',       l2:'Requestor + approver trail',             amt:null},
+    ],
+    verdict:'Dual control prevents a single admin (or a compromised account) from moving money-critical config. Requestor and approver must be different identities. Both are permanently logged.'
+  },
+  audit_review:{
+    key:'audit_review', em:'📜', title:'Audit log review',
+    desc:'Investigate an incident · filter the audit log by action, target, and date',
+    steps:[
+      {k:'openAudit', l1:'Open audit log',           l2:'Filter by action + target type',        amt:null},
+      {k:'filterByTarget',l1:'Filter to a deal',     l2:'DG-240504 · all admin actions',          amt:null},
+      {k:'timeline',  l1:'Review timeline',          l2:'Before + after per action',              amt:null},
+      {k:'export',    l1:'Export for compliance',    l2:'JSON · timestamped · signed',            amt:null},
+    ],
+    verdict:'The audit log is immutable. Every admin action is captured with actor, IP, before/after state, and timestamp. Filters let you reconstruct any incident end-to-end for compliance.'
+  },
+  rollback:{
+    key:'rollback', em:'↩️', title:'Roll back a config change',
+    desc:'A fee change caused unintended consequences · revert to previous value',
+    steps:[
+      {k:'spotIssue', l1:'Spot the issue',           l2:'Refunds higher than expected',           amt:null},
+      {k:'findChange',l1:'Find the config change',   l2:'vetAgentFeeKobo · 2 days ago',           amt:null},
+      {k:'proposeRevert',l1:'Propose revert',        l2:'Back to ₦5,000 · dual control',          amt:null},
+      {k:'approveRevert',l1:'Second admin approves', l2:'Revert applied',                         amt:null},
+      {k:'auditLog',  l1:'Both changes logged',      l2:'Forward + backward trail preserved',     amt:null},
+    ],
+    verdict:'Config changes are reversible but never deleted. A rollback adds a new audit entry pointing back to the original change. The complete history stays — useful for forensic review.'
+  },
+  emergency:{
+    key:'emergency', em:'🚨', title:'Emergency platform pause',
+    desc:'Critical payment gateway outage · freeze all new deal creation',
+    steps:[
+      {k:'detect',    l1:'Detect outage',            l2:'Paystack webhook failures spiking',      amt:null},
+      {k:'assess',    l1:'Assess impact',            l2:'In-flight deals unaffected',             amt:null},
+      {k:'pauseCreation',l1:'Pause new deal creation',l2:'Feature flag off',                      amt:null},
+      {k:'notifyOps', l1:'Notify ops team',          l2:'Incident response runbook fires',        amt:null},
+      {k:'confirmSafe',l1:'Confirm platform safe',   l2:'Escrow untouched · users informed',      amt:null},
+      {k:'auditLog',  l1:'Logged to audit',          l2:'Emergency action with rationale',        amt:null},
+    ],
+    verdict:'Emergency pause uses a feature flag, not a code deploy. New deals stop; existing deals complete normally. Reversible the moment the provider recovers. This is the operational safety net.'
+  },
+};
+
+/* ============================================================
+   HANDLERS
+   ============================================================ */
+const H = {
+  // Cold start
+  loadKPIs(){
+    sys('kpi.load','Day start');
+    return 'KPIs loaded';
+  },
+  checkEscrow(){
+    sys('escrow.reconcile','Ledger matches Paystack within ₦0');
+    return 'Escrow reconciled';
+  },
+  spotAlerts(){
+    sys('alerts.surface','2 overdue jobs · 2 open disputes');
+    return '2 alerts';
+  },
+  triage(){
+    sys('triage.prioritise','Disputes + overdue jobs first');
+    return 'Triaged';
+  },
+
+  // Reassign
+  openJob(){
+    S.currentJob=S.jobs['DG-240501'];
+    S.before={job:'DG-240501', status:'OPEN', agent:'none', overdue:'2h past SLA'};
+    return 'DG-240501 opened';
+  },
+  review(){
+    sys('agent.check','Blessing Eze · Ikeja · no active job');
+    return 'Eligible';
+  },
+  reassign(){
+    S.before={job:S.currentJob.code, agent:'none', status:'OPEN'};
+    S.after={job:S.currentJob.code, agent:'blessing', status:'ACCEPTED'};
+    S.currentJob.status='ACCEPTED';
+    S.currentJob.agentId='blessing';
+    audit('admin.job.force_reassign','job', S.before, S.after,
+      {reason:'No agent accepted within 2h SLA',new_agent:'blessing'});
+    return 'Reassigned to Blessing';
+  },
+
+  // Expand
+  openJob2(){
+    S.currentJob=S.jobs['DG-240504'];
+    S.before={job:'DG-240504', lgas:['Ikeja']};
+    return 'DG-240504 opened';
+  },
+  expandRadius(){
+    S.after={job:'DG-240504', lgas:['Ikeja','Surulere','Eti-Osa']};
+    audit('admin.job.expand_radius','job', S.before, S.after,
+      {reason:'No accept in original LGA after 5h'});
+    return 'Radius expanded';
+  },
+  notifyAgents(){
+    sys('notify.push','3 agents in wider radius notified');
+    return 'Notified';
+  },
+
+  // Pause
+  openDeal(){
+    S.currentDeal=S.deals['DG-240505'];
+    S.before={deal:'DG-240505', status:'AWAITING_BUYER_PAYMENT', paused:false};
+    return 'DG-240505 opened';
+  },
+  reviewHold(){
+    sys('review.decision','Legal review pending');
+    return 'Decided to pause';
+  },
+  pauseDeal(){
+    S.after={deal:'DG-240505', status:'AWAITING_BUYER_PAYMENT', paused:true};
+    S.currentDeal.paused=true;
+    S.currentDeal.status='PAUSED';
+    audit('admin.deal.pause','deal', S.before, S.after,
+      {reason:'Legal review pending'});
+    return 'Paused';
+  },
+  notifyParties(){
+    sys('notify.parties','Buyer + seller informed · no action needed');
+    return 'Notified';
+  },
+
+  // Resume
+  openPaused(){
+    S.currentDeal=S.deals['DG-240505'];
+    S.before={deal:'DG-240505', paused:true};
+    return 'Opened';
+  },
+  reviewClear(){
+    sys('legal.clear','Legal review complete · no action needed');
+    return 'Cleared';
+  },
+  resumeDeal(){
+    S.after={deal:'DG-240505', paused:false, status:'AWAITING_BUYER_PAYMENT'};
+    S.currentDeal.paused=false;
+    S.currentDeal.status='AWAITING_BUYER_PAYMENT';
+    audit('admin.deal.resume','deal', S.before, S.after, {reason:'Legal review cleared'});
+    return 'Resumed';
+  },
+  notify(){
+    sys('notify.parties','Parties informed · deal progressing');
+    return 'Notified';
+  },
+
+  // Dispute mismatch
+  openDispute(){
+    S.currentDispute=S.disputes['DSP-501'];
+    S.before={dispute:'DSP-501', status:'OPEN', age:'26h'};
+    return 'DSP-501 opened';
+  },
+  reviewTier1(){
+    sys('evidence.tier1','Agent video · serial match · listing media');
+    return 'Tier-1 reviewed';
+  },
+  reviewTier2(){
+    sys('evidence.tier2','Buyer unboxing · courier log');
+    return 'Tier-2 reviewed';
+  },
+  ruleBuyer(){
+    sys('mediation.ruling','Evidence supports buyer claim');
+    return 'Ruled for buyer';
+  },
+  applyRefund(){
+    S.after={deal:S.currentDispute.dealCode, refund:336900, guarantee:'forfeit'};
+    S.deals[S.currentDispute.dealCode].status='REFUNDED';
+    S.currentDispute.status='RESOLVED_REFUND';
+    audit('admin.dispute.resolve','dispute', S.before, S.after,
+      {outcome:'full_refund_buyer', rationale:'Material mismatch confirmed by Tier-1 evidence'});
+    return 'Refunded ₦336,900';
+  },
+  guarFee(){
+    sys('guarantee.forfeit','Seller ₦5,000 forfeited');
+    return 'Guarantee forfeited';
+  },
+
+  // Dispute fraud
+  openDispute2(){
+    S.currentDispute=S.disputes['DSP-502'];
+    S.before={dispute:'DSP-502', status:'OPEN', age:'40h'};
+    return 'DSP-502 opened';
+  },
+  reviewVideo(){
+    sys('evidence.compare','IMEI mismatch confirmed');
+    return 'Video compared';
+  },
+  reviewTimeline(){
+    sys('timeline.review','Inspection → dispatch → delivery timeline intact');
+    return 'Timeline intact';
+  },
+  ruleFraud(){
+    sys('mediation.ruling','IMEI mismatch proves swap');
+    return 'Ruled fraud';
+  },
+  applyRefund2(){
+    S.deals[S.currentDispute.dealCode].status='REFUNDED';
+    audit('admin.dispute.resolve','dispute', S.before, {outcome:'fraud_seller'},
+      {rationale:'IMEI mismatch between agent video and delivered unit'});
+    return 'Refunded ₦395,500';
+  },
+  clawback(){
+    S.after={user:'adaeze', clawback:3500, reason:'Return logistics'};
+    audit('admin.clawback.return_logistics','user', {wallet:'₦833,000'}, {wallet:'₦829,500'},
+      {reason:'Fraud ruling',amount:3500});
+    return 'Clawed back ₦3,500';
+  },
+  suspend(){
+    S.users.adaeze.suspended=true;
+    audit('admin.user.suspend','user', {suspended:false}, {suspended:true},
+      {category:'fraud',reason:'Fraud ruling on DG-240504'});
+    return 'Seller suspended';
+  },
+
+  // Suspend user
+  openUser(){
+    S.currentUser=S.users.adaeze;
+    S.before={user:'adaeze', suspended:false};
+    return 'Adaeze opened';
+  },
+  reviewFlag(){
+    sys('flag.review','Bribe attempt on live deal');
+    return 'Flag confirmed';
+  },
+  confirmSusp(){
+    sys('decision.suspend','Category: fraud');
+    return 'Suspension confirmed';
+  },
+  suspendUser(){
+    S.after={user:'adaeze', suspended:true, category:'fraud'};
+    S.currentUser.suspended=true;
+    audit('admin.user.suspend','user', S.before, S.after,
+      {category:'fraud',reason:'Bribe attempt · investigation pending'});
+    return 'Suspended';
+  },
+
+  // Unsuspend
+  openSuspended(){
+    S.currentUser=S.users.adaeze;
+    S.before={user:'adaeze', suspended:true};
+    return 'Opened';
+  },
+  reviewAppeal(){
+    sys('appeal.review','Independent evidence cleared the user');
+    return 'Appeal upheld';
+  },
+  unsuspend(){
+    S.after={user:'adaeze', suspended:false};
+    S.currentUser.suspended=false;
+    audit('admin.user.unsuspend','user', S.before, S.after, {reason:'Appeal upheld'});
+    return 'Unsuspended';
+  },
+
+  // Suppress
+  openSeller(){
+    S.currentUser=S.users.fatima;
+    S.before={user:'fatima', dossierSuppressed:false};
+    return 'Fatima opened';
+  },
+  reviewAbuse(){
+    sys('abuse.review','Fake reviews · multiple accounts');
+    return 'Abuse confirmed';
+  },
+  suppressDossier(){
+    S.after={user:'fatima', dossierSuppressed:true};
+    S.currentUser.dossierSuppressed=true;
+    audit('admin.user.suppress_dossier','user', S.before, S.after,
+      {reason:'Reputation abuse · fake reviews'});
+    return 'Dossier suppressed';
+  },
+
+  // Clawback
+  openReferrer(){
+    S.currentUser=S.users.tunde;
+    S.before={user:'tunde', rewards:'₦8,000', lifetime:'pending'};
+    return 'Opened';
+  },
+  reviewEvidence(){
+    sys('abuse.evidence','Same device · same IP · 3 self-referrals');
+    return 'Confirmed';
+  },
+  decision(){
+    sys('decision.clawback','Full clawback · ban future rewards');
+    return 'Decision made';
+  },
+  executeClaw(){
+    S.after={user:'tunde', rewards:'₦0', lifetime:'revoked', banned:true};
+    audit('admin.referral.clawback','user', S.before, S.after,
+      {reversed_count:8, reason:'Self-referral abuse · full evidence trail'});
+    return 'Clawed back ₦8,000';
+  },
+  banRef(){
+    S.currentUser.referralBanned=true;
+    return 'Banned from future rewards';
+  },
+
+  // Fee config
+  openConfig(){
+    S.before={key:'fees.vetAgentFeeKobo', value:'500000'};
+    return 'Config opened';
+  },
+  draftChange(){
+    S.after={key:'fees.vetAgentFeeKobo', value:'600000'};
+    sys('config.draft','500_000 → 600_000 · within bounds');
+    return 'Change drafted';
+  },
+  submitDual(){
+    const id=uid();
+    S.dualQueue.unshift({
+      id, key:'fees.vetAgentFeeKobo', from:'500000', to:'600000',
+      requestedBy:'Finance Admin', requestedRole:'finance', ts:Date.now(),
+    });
+    sys('dual_control.requested','Pending approval');
+    return 'Submitted';
+  },
+  secondAdmin(){
+    sys('dual_control.approved','Second admin approved');
+    return 'Approved';
+  },
+  applyConfig(){
+    S.dualQueue=S.dualQueue.filter(x=>x.key!=='fees.vetAgentFeeKobo');
+    audit('admin.config.set','config', {value:'500000'}, {value:'600000'},
+      {requires_dual_control:true, requestor:'Finance Admin', approver:'Super Admin 2'});
+    return 'Fee changed to ₦6,000';
+  },
+
+  // Bank sync
+  openBanks(){
+    sys('banks.open','48 banks · 2h ago');
+    return 'Opened';
+  },
+  syncBanks(){
+    sys('banks.sync','Paystack API call · 48 banks returned');
+    return 'Synced';
+  },
+  verify(){
+    audit('admin.banks.sync','config', {banks:48}, {banks:48, added:2},
+      {source:'paystack', delta:['Providus Bank','Titan Trust']});
+    return 'Verified · 2 new banks';
+  },
+
+  // Taxonomy
+  openTax(){
+    sys('taxonomy.open','12 sectors · 30 industries · 26 lines');
+    return 'Opened';
+  },
+  addLine(){
+    audit('admin.cms.product_line.upsert','config', {count:26}, {count:27},
+      {name:'iPhone 16 Pro', parent:'Smartphones'});
+    return 'Added';
+  },
+
+  // Training CMS
+  openTraining(){
+    sys('training.open','10 modules · 124 questions');
+    return 'Opened';
+  },
+  editModule(){
+    sys('training.edit','Module 10 · add QR-code hijack');
+    return 'Edited';
+  },
+  addQuestions(){
+    sys('training.quiz','124 → 126 questions');
+    return 'Added 2 questions';
+  },
+  publish(){
+    audit('admin.cms.training_module.upsert','config', {questions:124}, {questions:126},
+      {module:'M10', change:'New QR-code hijack scam pattern'});
+    return 'Published';
+  },
+
+  // Dual approve
+  seeQueue(){
+    S.dualQueue.unshift({
+      id:uid(), key:'fees.buyerServiceFeePct', from:'2', to:'2.5',
+      requestedBy:'Finance Admin 2', requestedRole:'finance', ts:Date.now()-3600*1000*3,
+    });
+    S.before={queue:'1 pending'};
+    return 'Queue loaded';
+  },
+  reviewReq(){
+    sys('dual_control.review','Within min/max bounds · signed');
+    return 'Reviewed';
+  },
+  approve(){
+    S.after={queue:'0 pending', approved:'fees.buyerServiceFeePct'};
+    S.dualQueue=S.dualQueue.filter(x=>x.key!=='fees.buyerServiceFeePct');
+    audit('admin.dual_control.approved','config', {value:'2'}, {value:'2.5'},
+      {requestor:'Finance Admin 2', approver:'Super Admin', request_age:'3h'});
+    return 'Approved';
+  },
+  applies(){
+    sys('config.apply','Buyer service fee now 2.5%');
+    return 'Applied';
+  },
+
+  // Audit review
+  openAudit(){
+    sys('audit.open','Filter by action + target');
+    return 'Opened';
+  },
+  filterByTarget(){
+    sys('audit.filter','deal:DG-240504');
+    return 'Filtered';
+  },
+  timeline(){
+    sys('audit.timeline','12 actions found');
+    return 'Timeline built';
+  },
+  export(){
+    sys('audit.export','JSON · signed · compliant');
+    return 'Exported';
+  },
+
+  // Rollback
+  spotIssue(){
+    sys('issue.spot','Refunds higher than expected');
+    return 'Issue found';
+  },
+  findChange(){
+    S.before={key:'fees.vetAgentFeeKobo', value:'600000', changed:'2 days ago'};
+    return 'Change identified';
+  },
+  proposeRevert(){
+    S.dualQueue.unshift({id:uid(), key:'fees.vetAgentFeeKobo', from:'600000', to:'500000',
+      requestedBy:'Super Admin', ts:Date.now()});
+    sys('dual_control.requested','Revert proposed');
+    return 'Proposed';
+  },
+  approveRevert(){
+    S.after={key:'fees.vetAgentFeeKobo', value:'500000'};
+    S.dualQueue=S.dualQueue.filter(x=>x.to!=='500000');
+    audit('admin.config.set','config', {value:'600000'}, {value:'500000'},
+      {reason:'Rollback · dual control'});
+    return 'Reverted to ₦5,000';
+  },
+
+  // Emergency
+  detect(){
+    sys('alert','Paystack webhook failures spiking');
+    return 'Alert detected';
+  },
+  assess(){
+    sys('assess','In-flight deals unaffected · only new deals impacted');
+    return 'Assessed';
+  },
+  pauseCreation(){
+    audit('admin.feature_flag.set','config', {flag:'deal_creation'}, {flag:'paused'},
+      {reason:'Payment gateway outage', emergency:true});
+    return 'Creation paused';
+  },
+  notifyOps(){
+    sys('incident.team','Runbook fires · on-call paged');
+    return 'Team notified';
+  },
+  confirmSafe(){
+    sys('safety.confirm','Escrow untouched · users informed');
+    return 'Confirmed';
+  },
+};
+
+/* ============================================================
+   PLAY
+   ============================================================ */
+let playing=false, aborted=false, autoIdx=-1;
+
+function pickScenario(key){
+  if(playing) return;
+  if(!confirm('Switch scenario? Current workflow will be cleared.')) return;
+  const keep={admin:S.admin, deals:S.deals, jobs:S.jobs, users:S.users, disputes:S.disputes,
+    audit:S.audit, system:S.system, dualQueue:S.dualQueue, escrow:S.escrow, revenue30d:S.revenue30d};
+  S=fresh();
+  Object.assign(S, keep);
+  S.scenario=key;
+  S.completedSteps=[];
+  S.currentStep=null;
+  S.before=null; S.after=null;
+  save(); renderAll();
+  const scn=SCENARIOS[key];
+  narrate('Ready', scn.title + ' — ' + scn.desc);
+  document.getElementById('narrCard').style.display='';
+}
+
+async function playScenario(){
+  if(playing){ aborted=true; return; }
+  playing=true; aborted=false;
+  const scn=SCENARIOS[S.scenario];
+  const btn=document.getElementById('innerPlay');
+  btn.textContent='■ Stop'; btn.className='btn rd';
+  document.getElementById('prgWrap').style.display='';
+  for(let i=0;i<scn.steps.length;i++){
+    if(aborted) break;
+    autoIdx=i;
+    updatePrg(i);
+    renderSteps();
+    const stp=scn.steps[i];
+    try{
+      const h=H[stp.k];
+      if(!h) throw Error('No handler: '+stp.k);
+      const msg=h();
+      if(!S.completedSteps.includes(stp.k)) S.completedSteps.push(stp.k);
+      narrate('Admin', stp.l1, msg + ' · ' + stp.l2);
+      document.getElementById('narrCard').style.display='';
+      renderAll();
+    }catch(e){
+      narrate('Error', e.message, '');
+      showToast(e.message,'er');
+      break;
+    }
+    await sleep(850);
+  }
+  playing=false; autoIdx=-1;
+  btn.textContent='▶ Replay scenario'; btn.className='btn go';
+  updatePrg(-1);
+  renderAll();
+  if(!aborted) showToast('Scenario complete','ok');
+}
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function togglePlay(){ if(playing){ aborted=true; return; } playScenario(); }
+function runStep(k){
+  const scn=SCENARIOS[S.scenario];
+  const stp=scn.steps.find(s=>s.k===k);
+  if(!stp) return;
+  try{
+    const msg=H[k]();
+    if(!S.completedSteps.includes(k)) S.completedSteps.push(k);
+    narrate('Admin', stp.l1, msg + ' · ' + stp.l2);
+    document.getElementById('narrCard').style.display='';
+    renderAll();
+  }catch(e){ narrate('Error', e.message, ''); showToast(e.message,'er'); }
+}
+function updatePrg(i){
+  const total=SCENARIOS[S.scenario].steps.length;
+  if(i<0){ document.getElementById('prgWrap').style.display='none'; return; }
+  const pct=Math.round(((i+1)/total)*100);
+  document.getElementById('prgFill').style.width=pct+'%';
+}
+
+/* ============================================================
+   ROLE
+   ============================================================ */
+function pickRole(role){
+  S.admin.role=role;
+  const labels={viewer:'Viewer',finance:'Finance',mediator:'Mediator',ops:'Ops',super_admin:'Super Admin'};
+  document.getElementById('roleBadge').textContent=labels[role];
+  document.getElementById('actionRole').textContent=labels[role];
+  document.querySelectorAll('.role-card').forEach(c=>c.classList.toggle('on', c.dataset.role===role));
+  save();
+  showToast('Viewing as '+labels[role],'ok');
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderAll(){
+  renderHeader();
+  renderScenarios();
+  renderSteps();
+  renderAction();
+  renderBeforeAfter();
+  renderTimeline();
+  renderKPIs();
+  renderDeals();
+  renderJobs();
+  renderDisputes();
+  renderUsers();
+  renderDualQueue();
+  renderAudit();
+  save();
+}
+function renderHeader(){
+  document.getElementById('kRev').textContent=fmt(S.revenue30d);
+  document.getElementById('kEscrow').textContent=fmt(S.escrow);
+  const openDisputes=Object.values(S.disputes).filter(d=>d.status==='OPEN').length;
+  document.getElementById('kDisputes').textContent=openDisputes;
+  document.getElementById('kDisputesBox').className=openDisputes>0?'kbox red alert':'kbox';
+  const openJobs=Object.values(S.jobs).filter(j=>j.status==='OPEN').length;
+  document.getElementById('kJobs').textContent=openJobs;
+  const labels={viewer:'Viewer',finance:'Finance',mediator:'Mediator',ops:'Ops',super_admin:'Super Admin'};
+  document.getElementById('hSub').textContent=(labels[S.admin.role]||'Admin')+' · Oyo State';
+}
+function renderScenarios(){
+  document.getElementById('scnList').innerHTML=Object.values(SCENARIOS).map(s=>`
+    <button class="scn ${S.scenario===s.key?'on':''}" onclick="pickScenario('${s.key}')">
+      <span class="em">${s.em}</span>
+      <span class="txt">
+        <span class="t1">${s.title}</span>
+        <span class="t2">${s.desc}</span>
+      </span>
+    </button>
+  `).join('');
+}
+function renderSteps(){
+  const scn=SCENARIOS[S.scenario];
+  document.getElementById('stepList').innerHTML=scn.steps.map((s,i)=>{
+    const done=S.completedSteps.includes(s.k);
+    const now=playing && autoIdx===i;
+    return `<button class="stp ${done?'done':''} ${now?'now':''}"
+      onclick="runStep('${s.k}')" ${playing?'disabled':''}>
+      <span class="dot"></span>
+      <span class="info">
+        <span class="l1">${s.l1}</span>
+        <span class="l2">${s.l2}</span>
+      </span>
+    </button>`;
+  }).join('');
+}
+function renderAction(){
+  const el=document.getElementById('actionCard');
+  if(!S.currentDeal && !S.currentJob && !S.currentUser && !S.currentDispute){ el.style.display='none'; return; }
+  el.style.display='';
+  let title='Current focus';
+  if(S.currentDispute) title='Dispute '+S.currentDispute.code;
+  else if(S.currentJob) title='Job '+S.currentJob.code;
+  else if(S.currentDeal) title='Deal '+S.currentDeal.code;
+  else if(S.currentUser) title='User '+S.currentUser.name;
+  document.getElementById('actionTitle').textContent=title;
+  let body='';
+  if(S.currentDispute){
+    const d=S.currentDispute;
+    body=`
+      <div class="row"><span class="k">Category</span><span class="v" style="font-family:inherit">${d.category}</span></div>
+      <div class="row"><span class="k">Age</span><span class="v">${d.age}h</span></div>
+      <div class="row"><span class="k">Raised by</span><span class="v" style="font-family:inherit">${S.users[d.raisedBy]?.name||d.raisedBy}</span></div>
+      <div class="row"><span class="k">Against</span><span class="v" style="font-family:inherit">${S.users[d.against]?.name||d.against}</span></div>
+      <div class="row"><span class="k">Status</span><span class="bd bd-red">${d.status}</span></div>
+      <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#4B5563;line-height:1.55">
+        <b>Buyer's reason:</b> ${d.reason}
+      </div>`;
+  } else if(S.currentJob){
+    const j=S.currentJob;
+    body=`
+      <div class="row"><span class="k">Type</span><span class="v" style="font-family:inherit">${j.type}</span></div>
+      <div class="row"><span class="k">LGA</span><span class="v" style="font-family:inherit">${j.lga}</span></div>
+      <div class="row"><span class="k">Fee</span><span class="v">${fmt(j.fee)}</span></div>
+      <div class="row"><span class="k">Status</span><span class="bd bd-gold">${j.status}</span></div>
+      ${j.agentId?`<div class="row"><span class="k">Agent</span><span class="v" style="font-family:inherit">${S.users[j.agentId]?.name||j.agentId}</span></div>`:''}
+      ${j.overdue?`<div class="nt rd" style="margin:10px 14px">Overdue past warning threshold</div>`:''}`;
+  } else if(S.currentDeal){
+    const d=S.currentDeal;
+    body=`
+      <div class="row"><span class="k">Item</span><span class="v" style="font-family:inherit">${d.item}</span></div>
+      <div class="row"><span class="k">Price</span><span class="v">${fmt(d.price)}</span></div>
+      <div class="row"><span class="k">Escrow</span><span class="v">${fmt(d.escrow)}</span></div>
+      <div class="row"><span class="k">Status</span><span class="bd bd-blue">${d.status}</span></div>
+      <div class="row"><span class="k">Seller</span><span class="v" style="font-family:inherit">${S.users[d.sellerId]?.name||d.sellerId}</span></div>
+      <div class="row"><span class="k">Buyer</span><span class="v" style="font-family:inherit">${S.users[d.buyerId]?.name||d.buyerId}</span></div>`;
+  } else if(S.currentUser){
+    const u=S.currentUser;
+    body=`
+      <div class="row"><span class="k">Name</span><span class="v" style="font-family:inherit">${u.name}</span></div>
+      <div class="row"><span class="k">Email</span><span class="v" style="font-family:inherit;font-size:10px">${u.email}</span></div>
+      <div class="row"><span class="k">Verified</span><span class="v g">${u.verified?'Yes':'No'}</span></div>
+      <div class="row"><span class="k">Stars</span><span class="v">${u.stars}★</span></div>
+      <div class="row"><span class="k">Deals</span><span class="v">${u.deals}</span></div>
+      <div class="row"><span class="k">Suspended</span><span class="v ${u.suspended?'r':''}">${u.suspended?'Yes':'No'}</span></div>
+      <div class="row"><span class="k">Referral banned</span><span class="v ${u.referralBanned?'r':''}">${u.referralBanned?'Yes':'No'}</span></div>
+      <div class="row"><span class="k">Dossier suppressed</span><span class="v ${u.dossierSuppressed?'r':''}">${u.dossierSuppressed?'Yes':'No'}</span></div>`;
+  }
+  document.getElementById('actionBody').innerHTML=body;
+}
+function renderBeforeAfter(){
+  const bEl=document.getElementById('beforeCard');
+  const aEl=document.getElementById('afterCard');
+  if(S.before){
+    bEl.style.display='';
+    document.getElementById('beforeBody').innerHTML=Object.entries(S.before).map(([k,v])=>
+      `<div class="row"><span class="k">${k}</span><span class="v">${typeof v==='object'?JSON.stringify(v):v}</span></div>`
+    ).join('');
+  } else bEl.style.display='none';
+  if(S.after){
+    aEl.style.display='';
+    document.getElementById('afterBody').innerHTML=Object.entries(S.after).map(([k,v])=>
+      `<div class="row"><span class="k">${k}</span><span class="v g">${typeof v==='object'?JSON.stringify(v):v}</span></div>`
+    ).join('');
+  } else aEl.style.display='none';
+}
+function renderTimeline(){
+  const el=document.getElementById('tlCard');
+  const events=[...S.audit.slice(0,8).map(a=>({type:a.action,text:a.target,ts:a.ts,kind:'audit'})),
+                ...S.system.slice(0,8).map(s=>({type:s.action,text:JSON.stringify(s.meta).slice(0,40),ts:s.ts,kind:'sys'}))]
+    .sort((a,b)=>b.ts-a.ts).slice(0,12);
+  if(events.length===0){ el.style.display='none'; return; }
+  el.style.display='';
+  document.getElementById('tlList').innerHTML=events.map(e=>{
+    const isAdmin=e.kind==='audit';
+    return `<li class="tli ${isAdmin?'gold':''}">
+      <span class="tld"></span>
+      <div class="tlt">${e.type.replace(/\./g,' ')}</div>
+      <div style="font-size:11px;color:#4B5563;margin-top:3px;line-height:1.5">${e.text}</div>
+      <div class="tltm">${ago(e.ts)}</div>
+    </li>`;
+  }).join('');
+}
+function renderKPIs(){
+  const openDisputes=Object.values(S.disputes).filter(d=>d.status==='OPEN').length;
+  const openJobs=Object.values(S.jobs).filter(j=>j.status==='OPEN').length;
+  const overdueJobs=Object.values(S.jobs).filter(j=>j.overdue).length;
+  const paused=Object.values(S.deals).filter(d=>d.paused).length;
+  const active=Object.values(S.deals).filter(d=>!['COMPLETED','REFUNDED'].includes(d.status)).length;
+  const kpis=[
+    {l:'Open deals',v:active,s:'In-flight across 3 LGAs'},
+    {l:'Escrow exposure',v:fmt(S.escrow),s:'Reconciled daily'},
+    {l:'Open jobs',v:openJobs,s:overdueJobs>0?overdueJobs+' overdue':''},
+    {l:'Open disputes',v:openDisputes,alert:openDisputes>0,s:'Needs mediation'},
+    {l:'Deals last 24h',v:8,s:''},
+    {l:'Completed last 24h',v:5,s:''},
+    {l:'Revenue 30d',v:fmt(S.revenue30d),s:''},
+    {l:'Paused deals',v:paused,s:paused>0?'Under review':''},
+  ];
+  document.getElementById('kpiGrid').innerHTML=kpis.map(k=>`
+    <div class="kpi-card ${k.alert?'alert':''}">
+      <div class="l">${k.l}</div>
+      <div class="v">${k.v}</div>
+      ${k.s?`<div class="s">${k.s}</div>`:''}
+    </div>
+  `).join('');
+  const attn=[];
+  if(overdueJobs>0) attn.push({t:'Jobs overdue',d:overdueJobs+' job(s) past SLA',who:'Ops'});
+  if(openDisputes>0) attn.push({t:'Open disputes',d:openDisputes+' case(s) awaiting mediation',who:'Mediator'});
+  if(paused>0) attn.push({t:'Paused deals',d:paused+' deal(s) under review',who:'Ops'});
+  document.getElementById('attentionCount').textContent=attn.length;
+  document.getElementById('attentionList').innerHTML=attn.length===0
+    ?'<div class="em">All clear.</div>'
+    :attn.map(a=>`
+      <div class="row">
+        <div class="k">
+          <div style="font-weight:700;color:var(--red);font-size:12px">${a.t}</div>
+          <div style="font-size:10px;color:#6B7280;margin-top:2px">${a.d}</div>
+        </div>
+        <span class="bd bd-red">${a.who}</span>
+      </div>`).join('');
+}
+function filterDeals(f,btn){
+  document.querySelectorAll('#p-deals .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  S._dealFilter=f; renderDeals();
+}
+function renderDeals(){
+  const all=Object.values(S.deals);
+  document.getElementById('dealCount').textContent=all.length;
+  const f=S._dealFilter||'all';
+  const filtered=all.filter(d=>{
+    if(f==='all') return true;
+    if(f==='active') return !['COMPLETED','REFUNDED'].includes(d.status);
+    if(f==='disputed') return d.disputed || d.status==='DISPUTED';
+    if(f==='paused') return d.paused;
+    return true;
+  });
+  const el=document.getElementById('dealList');
+  if(filtered.length===0){ el.innerHTML='<div class="em">No deals match.</div>'; return; }
+  el.innerHTML=filtered.map(d=>{
+    const cls=d.status==='COMPLETED'?'bd-green':d.status==='DISPUTED'?'bd-red':d.status==='PAUSED'?'bd-gold':'bd-blue';
+    return `<div class="row" style="align-items:flex-start">
+      <div class="k">
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#9CA3AF">${d.code}</div>
+        <div style="font-weight:700;color:var(--navy);font-size:12px;margin-top:2px">${d.item}</div>
+        <div style="font-size:10px;color:#6B7280;margin-top:4px">${d.lga} · ${fmt(d.price)}</div>
+      </div>
+      <span class="bd ${cls}">${d.status}</span>
+    </div>`;
+  }).join('');
+}
+function filterJobs(f,btn){
+  document.querySelectorAll('#p-jobs .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  S._jobFilter=f; renderJobs();
+}
+function renderJobs(){
+  const all=Object.values(S.jobs);
+  document.getElementById('jobCount').textContent=all.length;
+  const f=S._jobFilter||'all';
+  const filtered=all.filter(j=>{
+    if(f==='all') return true;
+    if(f==='open') return j.status==='OPEN';
+    if(f==='overdue') return j.overdue;
+    if(f==='active') return ['ACCEPTED','SUBMITTED'].includes(j.status);
+    return true;
+  });
+  const el=document.getElementById('jobList');
+  if(filtered.length===0){ el.innerHTML='<div class="em">No jobs match.</div>'; return; }
+  el.innerHTML=filtered.map(j=>{
+    const cls=j.overdue?'bd-red':j.status==='OPEN'?'bd-gold':j.status==='SUBMITTED'?'bd-purple':'bd-blue';
+    return `<div class="row" style="align-items:flex-start">
+      <div class="k">
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#9CA3AF">${j.code}</div>
+        <div style="font-weight:700;color:var(--navy);font-size:12px;margin-top:2px">${j.type}</div>
+        <div style="font-size:10px;color:#6B7280;margin-top:4px">${j.lga} · ${fmt(j.fee)}</div>
+        ${j.overdue?`<div style="font-size:10px;color:var(--red);font-weight:700;margin-top:3px">⚠ Overdue</div>`:''}
+      </div>
+      <span class="bd ${cls}">${j.status}</span>
+    </div>`;
+  }).join('');
+}
+function renderDisputes(){
+  const all=Object.values(S.disputes).filter(d=>d.status==='OPEN');
+  document.getElementById('disputeCount').textContent=all.length;
+  const el=document.getElementById('disputeList');
+  if(all.length===0){ el.innerHTML='<div class="em">No open disputes.</div>'; return; }
+  el.innerHTML=all.map(d=>`
+    <div class="dispute">
+      <div class="t">${d.code} · ${d.category}</div>
+      <div class="d">${d.reason}</div>
+      <div style="font-size:10px;color:#7F1D1D;margin-top:6px">
+        <b>Deal:</b> ${d.dealCode} · <b>Age:</b> ${d.age}h · <b>Buyer:</b> ${S.users[d.raisedBy]?.name||d.raisedBy}
+      </div>
+    </div>
+  `).join('');
+}
+function filterUsers(f,btn){
+  document.querySelectorAll('#p-users .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  S._userFilter=f; renderUsers();
+}
+function renderUsers(){
+  const all=Object.values(S.users);
+  document.getElementById('userCount').textContent=all.length;
+  const f=S._userFilter||'all';
+  const filtered=all.filter(u=>{
+    if(f==='all') return true;
+    if(f==='suspended') return u.suspended;
+    if(f==='banned') return u.referralBanned;
+    if(f==='suppressed') return u.dossierSuppressed;
+    return true;
+  });
+  const el=document.getElementById('userList');
+  if(filtered.length===0){ el.innerHTML='<div class="em">No users match.</div>'; return; }
+  el.innerHTML=filtered.map(u=>{
+    const flags=[];
+    if(u.suspended) flags.push('<span class="bd bd-red">Suspended</span>');
+    if(u.referralBanned) flags.push('<span class="bd bd-red">Ref banned</span>');
+    if(u.dossierSuppressed) flags.push('<span class="bd bd-gold">Suppressed</span>');
+    if(u.isAgent) flags.push('<span class="bd bd-navy">Agent</span>');
+    return `<div class="row" style="align-items:flex-start">
+      <div class="k">
+        <div style="font-weight:700;color:var(--navy);font-size:12px">${u.name}</div>
+        <div style="font-size:10px;color:#6B7280;margin-top:2px">${u.email} · ${u.stars}★ · ${u.deals} deals</div>
+        ${flags.length?`<div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap">${flags.join('')}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderDualQueue(){
+  const el=document.getElementById('dualQueue');
+  if(S.dualQueue.length===0){ el.innerHTML='<div class="em">No pending dual-control requests.</div>'; return; }
+  el.innerHTML=S.dualQueue.map(r=>`
+    <div class="dual" style="margin:10px 14px">
+      <div class="t">${r.key}</div>
+      <div class="d">${r.from} → ${r.to} · requested by ${r.requestedBy} · ${ago(r.ts)}</div>
+    </div>
+  `).join('');
+}
+function filterAudit(f,btn){
+  document.querySelectorAll('#p-audit .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  S._auditFilter=f; renderAudit();
+}
+function renderAudit(){
+  const el=document.getElementById('auditList');
+  const f=S._auditFilter||'all';
+  const filtered=S.audit.filter(a=>{
+    if(f==='all') return true;
+    return a.action.includes('.'+f) || a.target===f;
+  });
+  if(filtered.length===0){ el.innerHTML='<div class="em">No admin actions logged yet.</div>'; return; }
+  el.innerHTML=filtered.slice(0,50).map(a=>`
+    <div class="audit-row">
+      <div class="audit-av" style="background:var(--navy)">${(a.actor||'A')[0]}</div>
+      <div class="audit-body">
+        <div class="audit-action">${a.action}</div>
+        <div class="audit-meta">${a.target} · ${a.role} · IP ${a.ip} · ${ago(a.ts)}</div>
+        ${a.before?`<div class="audit-before">before: ${JSON.stringify(a.before).slice(0,60)}</div>`:''}
+        ${a.after?`<div class="audit-after">after: ${JSON.stringify(a.after).slice(0,60)}</div>`:''}
+      </div>
+    </div>
+  `).join('');
+  const sysEl=document.getElementById('systemLog');
+  if(S.system.length===0){ sysEl.innerHTML='<div class="em">No system events yet.</div>'; return; }
+  sysEl.innerHTML=S.system.slice(0,30).map(s=>`
+    <div class="row">
+      <div class="k">
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;font-weight:700;color:var(--navy)">${s.action}</div>
+        <div style="font-size:10px;color:#6B7280;margin-top:2px">${JSON.stringify(s.meta).slice(0,80)}</div>
+      </div>
+      <span class="bd bd-mist">${ago(s.ts)}</span>
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+function tab(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  if(btn) btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showToast(msg,tone){
+  const el=document.getElementById('toast');
+  el.className='ts on '+(tone||'');
+  document.getElementById('toastIc').textContent=tone==='er'?'⚠':'✓';
+  document.getElementById('toastMsg').textContent=msg;
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='ts '+(tone||''),2400);
+}
+function narrate(who,msg,det){
+  document.getElementById('nWho').textContent=who;
+  document.getElementById('nMsg').textContent=msg;
+  document.getElementById('nDet').textContent=det||'';
+}
+function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+function resetWork(){
+  if(!confirm('Clear current workflow? Audit log stays.')) return;
+  S.completedSteps=[]; S.events=[]; S.before=null; S.after=null;
+  S.currentDeal=null; S.currentJob=null; S.currentUser=null; S.currentDispute=null;
+  save(); renderAll();
+  document.getElementById('narrCard').style.display='none';
+}
+function resetAll(){
+  if(!confirm('Reset everything?')) return;
+  localStorage.removeItem(KEY);
+  S=fresh(); seedPlatform(); playing=false; aborted=true;
+  document.getElementById('narrCard').style.display='none';
+  document.getElementById('prgWrap').style.display='none';
+  document.querySelectorAll('.role-card').forEach(c=>c.classList.toggle('on', c.dataset.role==='super_admin'));
+  S.admin.role='super_admin';
+  document.getElementById('roleBadge').textContent='Super Admin';
+  document.getElementById('actionRole').textContent='Super Admin';
+  save(); renderAll();
+  showToast('Reset','ok');
+}
+
+/* BOOT */
+renderAll();
+document.getElementById('narrCard').style.display='';
+narrate('Admin','Pick a scenario above, then press ▶ Play scenario.','Every screen is what you see as a DealsGate admin.');
+</script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DealsGate - Interactive Mobile Prototype</title>
+  <style>
+    :root {
+      --navy-primary: #0a192f;
+      --navy-dark: #060e1a;
+      --gold-accent: #f5b012;
+      --green-pass: #10b981;
+      --red-alert: #ef4444;
+      --bg-light: #f4f6f9;
+      --card-bg: #ffffff;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+      color: var(--gold-accent);
+      font-size: 28px;
+    }
+
+    p.subtitle {
+      color: #94a3b8;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .prototype-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      max-width: 1300px;
+      width: 100%;
+    }
+
+    .device-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .export-btn {
+      background: var(--gold-accent);
+      color: var(--navy-dark);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: opacity 0.2s;
+    }
+
+    .export-btn:hover {
+      opacity: 0.9;
+    }
+
+    .phone-frame {
+      width: 320px;
+      height: 650px;
+      background: var(--bg-light);
+      border-radius: 40px;
+      border: 8px solid #334155;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Notch & Status Bar */
+    .status-bar {
+      height: 30px;
+      background: var(--navy-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Screen Header */
+    .app-header {
+      background: var(--navy-primary);
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-logo {
+      width: 28px;
+      height: 28px;
+      background: var(--gold-accent);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      color: var(--navy-dark);
+      font-size: 14px;
+    }
+
+    .header-text h2 {
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .header-text p {
+      font-size: 9px;
+      color: var(--gold-accent);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Main Screen Content */
+    .screen-content {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: var(--navy-primary);
+      color: white;
+      padding: 14px;
+      border-radius: 12px;
+    }
+
+    .hero-banner .tag {
+      color: var(--gold-accent);
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .hero-banner h3 {
+      font-size: 15px;
+      margin: 4px 0;
+      color: #fff;
+    }
+
+    .hero-banner p {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    /* Cards & Form Components */
+    .card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .vendor-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--gold-accent);
+      color: var(--navy-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .vendor-info h4 {
+      font-size: 12px;
+      color: var(--text-dark);
+    }
+
+    .vendor-info p {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .price-tag {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--green-pass);
+      margin-top: 4px;
+    }
+
+    /* Inspection Pass Badge */
+    .badge-pass {
+      background: var(--green-pass);
+      color: white;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .checklist-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 11px;
+      color: var(--text-dark);
+    }
+
+    .checklist-item span.pass {
+      color: var(--green-pass);
+      font-weight: 700;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--navy-primary);
+      color: white;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .btn-gold {
+      background: var(--gold-accent);
+      color: var(--navy-dark);
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    /* Navigation Bar */
+    .bottom-nav {
+      height: 50px;
+      background: white;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .nav-icon.active {
+      background: var(--gold-accent);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>DealsGate Interactive Prototype</h1>
+  <p class="subtitle">Click "Export PNG" on any screen frame to generate downloadable image files.</p>
+
+  <div class="prototype-grid">
+
+    <!-- SCREEN 1 -->
+    <div class="device-wrapper">
+      <button class="export-btn" onclick="exportToPNG('screen-1', 'dealsgate-vendor-search.png')">Export PNG</button>
+      <div class="phone-frame" id="screen-1">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-header">
+          <div class="app-logo">✓</div>
+          <div class="header-text">
+            <h2>DealsGate</h2>
+            <p>AFRICA'S SECURE GATEWAY</p>
+          </div>
+        </div>
+        <div class="screen-content">
+          <div class="hero-banner">
+            <span class="tag">● VERIFY ANY VENDOR</span>
+            <h3>We verify the item.<br/>We protect payment.</h3>
+            <p>Safe online trade for Nigerian buyers and sellers</p>
+          </div>
+          <input type="text" placeholder="Search any vendor by name..." style="padding: 10px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 11px;" value="Adaeze Okafor" />
+          
+          <div class="card">
+            <div class="vendor-item">
+              <div class="avatar">AO</div>
+              <div class="vendor-info">
+                <h4>Adaeze Okafor</h4>
+                <p>Business • Phones & Tablets</p>
+                <p style="color: var(--gold-accent); font-weight:700;">★ 4.9 (34 deals)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="vendor-item">
+              <div class="avatar" style="background:#3b82f6; color:white;">TA</div>
+              <div class="vendor-info">
+                <h4>Tunde Adebayo</h4>
+                <p>Individual • Electronics</p>
+                <p style="color: var(--gold-accent); font-weight:700;">★ 4.7 (15 deals)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-icon active"></div>
+          <div class="nav-icon"></div>
+          <div class="nav-icon"></div>
+          <div class="nav-icon"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 2 -->
+    <div class="device-wrapper">
+      <button class="export-btn" onclick="exportToPNG('screen-2', 'dealsgate-create-deal.png')">Export PNG</button>
+      <div class="phone-frame" id="screen-2">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-header">
+          <div class="app-logo">✓</div>
+          <div class="header-text">
+            <h2>Create Protected Deal</h2>
+            <p>STEP 3 OF 7</p>
+          </div>
+        </div>
+        <div class="screen-content">
+          <div class="card" style="background: var(--navy-primary); color: white;">
+            <p style="font-size: 9px; color: var(--gold-accent);">STEP 3 OF 7</p>
+            <h4 style="font-size: 14px;">Quality notes & price</h4>
+          </div>
+
+          <div class="card">
+            <label style="font-size: 9px; font-weight: 700; color: var(--text-muted);">QUALITY NOTES *</label>
+            <p style="font-size: 11px; margin-top: 4px; color: var(--text-dark);">Battery health 89%. Face ID works. Cameras work. Minor scratch on bottom-right corner.</p>
+          </div>
+
+          <div class="card">
+            <label style="font-size: 9px; font-weight: 700; color: var(--text-muted);">AGREED PRICE *</label>
+            <div class="price-tag">₦450,000</div>
+          </div>
+
+          <div style="background: #fef3c7; border: 1px solid #fde68a; padding: 10px; border-radius: 8px; font-size: 10px; color: #92400e;">
+            🔒 <b>₦5,000 guarantee</b> auto-debited when published.
+          </div>
+
+          <button class="btn-primary" style="margin-top: auto;">Continue to media →</button>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-icon"></div>
+          <div class="nav-icon"></div>
+          <div class="nav-icon active"></div>
+          <div class="nav-icon"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 3 -->
+    <div class="device-wrapper">
+      <button class="export-btn" onclick="exportToPNG('screen-3', 'dealsgate-checkout.png')">Export PNG</button>
+      <div class="phone-frame" id="screen-3">
+        <div class="status-bar"><span>9:41</span><span>●●●</span></div>
+        <div class="app-header">
+          <div class="app-logo">✓</div>
+          <div class="header-text">
+            <h2>Checkout</h2>
+            <p>ESCROW PROTECTED</p>
+          </div>
+        </div>
+        <div class="screen-content">
+          <div class="card">
+            <p style="font-size: 9px; color: var(--text-muted); font-weight:700;">ITEM</p>
+            <h4 style="font-size: 12px; margin-bottom: 10px;">iPhone 14 Pro 256GB — Deep Purple</h4>
+            
+            <div class="checklist-item"><span>Item price</span><span>₦450,000</span></div>
+            <div class="checklist-item"><span>Buyer fee (2%)</span><span>₦9,000</span></div>
+            <div class="checklist-item"><span>Vet Agent inspection</span><span>₦6,000</span></div>
+            <div class="checklist-item"><span>Logistics (GIG)</span><span>₦3,500</span></div>
+            <div class="checklist-item" style="border:none; font-weight:800; font-size:13px; margin-top:6px;">
+              <span>Total</span>
+              <span style="color:var(--green-pass);">₦468,500</span>
+            </div>
+          </div>
+
+          <div style="background: #ecfdf5; border: 1px solid #a7f3d0; padding: 10px; border-radius: 8px; font-size: 10px; color: #065f46;">
+            ✓ Funds held in regulated escrow — released only after inspection approval.
+          </div>
+
+          <button class="btn-gold" style="margin-top: auto;">Pay ₦468,500 securely</button>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-icon"></div>
+          <div class="nav-icon"></div>
+          <div class="nav-icon"></div>
+          <div class="nav-icon active"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HTML2Canvas CDN for PNG export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    function exportToPNG(elementId, filename) {
+      const element = document.getElementById(elementId);
+      html2canvas(element, { scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>
+

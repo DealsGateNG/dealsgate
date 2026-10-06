@@ -1,0 +1,1363 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Business Plan 2026</title>
+<style>
+  @page { size: A4 portrait; margin: 12mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{
+    --navy:#0D1B4C;--navy2:#142a70;--green:#16A34A;--green2:#15803D;
+    --gold:#F4B420;--gold2:#C98A00;--ink:#0F172A;--muted:#64748B;
+    --line:#E2E8F0;--mist:#F4F6FB;--blue:#2563EB;--purple:#7C3AED;--red:#DC2626;
+  }
+  html,body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:#D5DAE4;color:var(--ink);font-size:10.5pt;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    width:210mm;min-height:297mm;background:#fff;margin:24px auto;
+    padding:16mm 16mm 14mm;position:relative;
+    box-shadow:0 8px 32px rgba(13,27,76,.14);page-break-after:always;
+    display:flex;flex-direction:column;
+  }
+  .page:last-child{page-break-after:auto;margin-bottom:0}
+  @media print{
+    html,body{background:#fff;font-size:9.5pt}
+    .page{margin:0;box-shadow:none;padding:12mm 12mm 10mm;min-height:0;page-break-after:always}
+    .page:last-child{page-break-after:auto}
+    .screen-note{display:none !important}
+    .section{page-break-inside:avoid}
+    table{page-break-inside:avoid}
+  }
+  .screen-note{
+    max-width:210mm;margin:20px auto;background:var(--navy);color:#fff;
+    padding:14px 20px;border-radius:10px;font-size:12px;line-height:1.55;
+  }
+  .screen-note b{color:var(--gold)}
+  .screen-note kbd{
+    background:rgba(244,180,32,.16);color:var(--gold);
+    padding:2px 7px;border-radius:5px;font-family:'Menlo',monospace;
+    font-size:11px;font-weight:700;border:1px solid rgba(244,180,32,.32);
+  }
+  /* HEADER */
+  .hdr{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    padding-bottom:10px;border-bottom:3px solid var(--navy);margin-bottom:14px;
+  }
+  .hdr .brand{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .hdr .mark{
+    width:26px;height:26px;border-radius:7px;background:var(--navy);color:var(--gold);
+    display:grid;place-items:center;font-size:13px;font-weight:900;border:2px solid var(--gold);
+  }
+  .hdr .bn{font-size:14px;font-weight:800;color:var(--navy);letter-spacing:-.2px}
+  .hdr .bn .g{color:var(--green)}
+  .hdr .bs{font-size:8px;color:var(--gold2);letter-spacing:1.3px;text-transform:uppercase;font-weight:800;margin-top:1px}
+  .hdr .dt{font-size:18px;font-weight:800;color:var(--navy);letter-spacing:-.4px;margin-top:5px;line-height:1.1}
+  .hdr .ds{font-size:10pt;color:var(--muted);margin-top:2px}
+  .hdr-r{text-align:right;font-size:9pt;color:var(--muted);line-height:1.6;flex-shrink:0}
+  .hdr-r .ml{font-size:7.5pt;color:var(--gold2);letter-spacing:.14em;text-transform:uppercase;font-weight:800;margin-bottom:2px}
+  .hdr-r .mv{color:var(--navy);font-weight:700;font-family:'Menlo',monospace;font-size:9pt;margin-bottom:5px}
+  /* SECTION */
+  .section{margin-bottom:14px}
+  .s-title{
+    font-size:10.5pt;font-weight:800;color:var(--navy);letter-spacing:.14em;
+    text-transform:uppercase;padding-bottom:4px;border-bottom:1.5px solid var(--gold);margin-bottom:8px;
+  }
+  .s-title .n{font-family:'Menlo',monospace;color:var(--gold2);margin-right:6px;font-size:9pt}
+  p{font-size:10pt;color:#334155;line-height:1.6;margin-bottom:7px}
+  p b{color:var(--navy);font-weight:800}
+  /* TABLE */
+  table{width:100%;border-collapse:collapse;font-size:9pt;margin-bottom:8px}
+  thead th{
+    background:var(--navy);color:#fff;text-align:left;padding:7px 10px;
+    font-size:8.5pt;letter-spacing:.08em;text-transform:uppercase;font-weight:800;
+  }
+  thead th:last-child{text-align:right}
+  tbody td{padding:6px 10px;border-bottom:1px solid var(--line);color:#334155;vertical-align:top}
+  tbody td:first-child{font-weight:700;color:var(--navy)}
+  tbody td:last-child{text-align:right;font-family:'Menlo',monospace;font-weight:800;color:var(--navy);white-space:nowrap}
+  tbody tr.sub td{
+    background:#FBFCFE;color:#64748B;font-weight:500;font-size:8.5pt;
+    padding:5px 10px 5px 24px;
+  }
+  tbody tr.sub td:first-child{font-weight:500;color:#64748B}
+  tbody tr.sub td:last-child{color:#94A3B8;font-weight:500;font-family:inherit}
+  tbody tr.total td{background:var(--navy);color:#fff;font-weight:800;font-size:9.5pt;padding:9px 10px;border:none}
+  tbody tr.total td:first-child{color:#fff}
+  tbody tr.total td:last-child{color:var(--gold);font-size:10pt}
+  /* CALLOUT */
+  .callout{
+    background:#FEFBEB;border-left:3px solid var(--gold);padding:9px 12px;
+    border-radius:0 8px 8px 0;font-size:9.5pt;color:#5A4A1A;line-height:1.55;margin:8px 0;
+  }
+  .callout b{color:var(--navy)}
+  .callout.green{background:#F0FDF4;border-left-color:var(--green);color:#065F46}
+  .callout.green b{color:#065F46}
+  .callout.red{background:#FEF2F2;border-left-color:var(--red);color:#7F1D1D}
+  .callout.red b{color:#7F1D1D}
+  .callout.navy{background:var(--mist);border-left-color:var(--navy);color:#334155}
+  /* BULLETS */
+  .bullets{list-style:none;padding:0;margin:0}
+  .bullets li{
+    padding:4px 0 4px 18px;position:relative;font-size:9.5pt;color:#334155;
+    line-height:1.55;border-bottom:1px solid var(--line);
+  }
+  .bullets li:last-child{border-bottom:none}
+  .bullets li::before{
+    content:"▪";position:absolute;left:0;top:4px;color:var(--gold);
+    font-weight:900;font-size:11pt;
+  }
+  .bullets li b{color:var(--navy);font-weight:800}
+  .bullets li code{
+    font-family:'Menlo',monospace;font-size:8.5pt;background:var(--mist);
+    color:var(--navy);padding:1px 5px;border-radius:4px;border:1px solid var(--line);
+  }
+  /* GRID STATS */
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:8px 0}
+  .stat{background:var(--mist);border-radius:8px;padding:10px;text-align:center;border-top:3px solid var(--gold)}
+  .stat.green{border-top-color:var(--green)}
+  .stat.navy{border-top-color:var(--navy)}
+  .stat .v{font-family:'Menlo',monospace;font-size:16pt;font-weight:800;color:var(--navy);line-height:1;letter-spacing:-.4px}
+  .stat.green .v{color:var(--green2)}
+  .stat .l{font-size:8pt;color:var(--muted);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:5px;line-height:1.3}
+  /* TWO COL */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}
+  .card{background:var(--mist);border-radius:9px;padding:12px 14px;border-left:3px solid var(--gold)}
+  .card.green{border-left-color:var(--green)}
+  .card.navy{border-left-color:var(--navy)}
+  .card.red{border-left-color:var(--red)}
+  .card.purple{border-left-color:var(--purple)}
+  .card h4{font-size:11pt;font-weight:800;color:var(--navy);letter-spacing:-.15px;margin-bottom:5px;line-height:1.25}
+  .card p{font-size:9pt;line-height:1.55;margin-bottom:0;color:#334155}
+  /* COVER */
+  .cover{
+    background:
+      radial-gradient(circle at 88% 12%, rgba(244,180,32,.22), transparent 45%),
+      radial-gradient(circle at 12% 88%, rgba(22,163,74,.18), transparent 50%),
+      linear-gradient(155deg,#061133 0%,var(--navy) 55%,var(--navy2) 100%);
+    color:#fff;padding:24mm 20mm;justify-content:center;
+  }
+  .cover .hdr{border-bottom-color:rgba(255,255,255,.16)}
+  .cover .hdr .bn,.cover .hdr .dt{color:#fff}
+  .cover .hdr .bn .g{color:#4ADE80}
+  .cover .hdr .bs{color:var(--gold)}
+  .cover .hdr .ds{color:rgba(255,255,255,.65)}
+  .cover .hdr-r .ml{color:var(--gold)}
+  .cover .hdr-r .mv{color:#fff}
+  .cover h1{font-size:32pt;font-weight:800;letter-spacing:-1.1px;line-height:1.06;color:#fff;margin-top:24px}
+  .cover h1 .g{color:var(--gold)}
+  .cover h1 .gr{color:#4ADE80}
+  .cover .sub{font-size:11.5pt;color:rgba(255,255,255,.82);margin-top:16px;line-height:1.6;max-width:170mm}
+  .cover-meta{display:flex;gap:28px;margin-top:34px;padding-top:20px;border-top:1px solid rgba(255,255,255,.16);flex-wrap:wrap}
+  .cover-meta .item .l{font-size:8pt;color:rgba(255,255,255,.55);font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+  .cover-meta .item .v{font-size:10.5pt;color:#fff;font-weight:700}
+  .cover-meta .item .v.mono{font-family:'Menlo',monospace;font-size:9.5pt}
+  .cover-notice{
+    margin-top:34px;padding:14px 18px;background:rgba(244,180,32,.12);
+    border-left:3px solid var(--gold);border-radius:0 10px 10px 0;
+    font-size:10pt;line-height:1.6;color:rgba(255,255,255,.9);max-width:170mm;
+  }
+  .cover-notice b{color:var(--gold)}
+  /* FOOTER */
+  .pg-foot{
+    margin-top:auto;padding-top:10px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;font-size:8pt;color:var(--muted);
+    font-weight:600;letter-spacing:.04em;
+  }
+  .pg-foot b{color:var(--navy);font-weight:800}
+</style>
+</head>
+<body>
+
+<div class="screen-note">
+  <b>How to save as PDF:</b> open in <b>Chrome</b>, press
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> / <kbd>⌘</kbd>+<kbd>P</kbd>. Destination <b>Save as PDF</b>,
+  layout <b>Portrait</b>, paper <b>A4</b>, margins <b>Default</b>, tick
+  <b>Background graphics</b>. Save as <b>DealsGate_Business_Plan.pdf</b>.
+</div>
+
+<!-- ============================================================ -->
+<!-- COVER                                                         -->
+<!-- ============================================================ -->
+<div class="page cover">
+  <div class="hdr">
+    <div>
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="bn">Deals<span class="g">Gate</span></div>
+          <div class="bs">Africa's Secure Transaction Gateway</div>
+        </div>
+      </div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Version</div>
+      <div class="mv">1.0</div>
+      <div class="ml">Date</div>
+      <div class="mv">October 2026</div>
+    </div>
+  </div>
+
+  <h1>
+    Business Plan<br>
+    <span class="g">Escrow · Verification</span><br>
+    <span class="gr">· Payout</span>
+  </h1>
+
+  <p class="sub">
+    A protected-deal platform for Nigerian social commerce. Combines regulated escrow
+    custody, physical inspection by certified Vet Agents, and buyer-controlled evidence
+    gating into a single trust protocol — closing the asymmetry that stalls peer-to-peer
+    trade in Africa's informal economy.
+  </p>
+
+  <div class="cover-notice">
+    <b>Confidential.</b> Prepared for grant programmes, accelerators, and institutional
+    investors. All financial projections are pre-revenue estimates based on the FINAL 1.1
+    master specification and the Lagos pilot model.
+  </div>
+
+  <div class="cover-meta">
+    <div class="item">
+      <div class="l">Company</div>
+      <div class="v">THE TAP OF GRACE MEDIA HOUSE</div>
+    </div>
+    <div class="item">
+      <div class="l">Brand</div>
+      <div class="v">DealsGate</div>
+    </div>
+    <div class="item">
+      <div class="l">Founder &amp; CEO</div>
+      <div class="v">Taofik Akinwunmi</div>
+    </div>
+    <div class="item">
+      <div class="l">Stage</div>
+      <div class="v">Proof of Concept · Pre-launch</div>
+    </div>
+    <div class="item">
+      <div class="l">Contact</div>
+      <div class="v mono">dealsgate.ng</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 1 · EXECUTIVE SUMMARY
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div><div class="bn">Deals<span class="g">Gate</span></div>
+        <div class="bs">Business Plan · 2026</div></div>
+      </div>
+      <div class="dt">Executive Summary</div>
+      <div class="ds">The problem, the product, and the opportunity in one page</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">01</div>
+      <div class="ml">Page</div><div class="mv">01 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">1.1</span>The Opportunity</div>
+    <p>
+      Nigerian social commerce is projected to reach <b>$12.43 billion in 2026</b> and
+      <b>$20.8 billion by 2031</b>, growing at 13% annually. Roughly <b>39 million MSMEs</b>
+      operate in Nigeria, and 14 million of them use Meta's platforms as digital storefronts.
+      Yet digital payment fraud cost Nigerians <b>₦25.85 billion in 2025</b> across 67,515
+      reported cases — and the Securities and Exchange Commission found that <b>80% of
+      Nigerian undergraduates cannot identify basic online scam warning signs</b>.
+    </p>
+    <p>
+      Every transaction between two strangers on Instagram or WhatsApp runs on blind trust.
+      Buyers fear paying first. Sellers fear shipping first. When fraud happens, there is no
+      practical recourse — bank transfers cannot be reversed, and courts are impractical for
+      daily amounts.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">1.2</span>The Product</div>
+    <p>
+      DealsGate is a <b>protected-deal platform</b> — not a marketplace. It sits underneath
+      peer-to-peer trade and enforces three layers of protection through a single state
+      machine:
+    </p>
+    <div class="two-col">
+      <div class="card navy">
+        <h4>Regulated escrow</h4>
+        <p>Buyer's funds held by a licensed Nigerian payment partner. DealsGate never holds client principal.</p>
+      </div>
+      <div class="card green">
+        <h4>Physical inspection</h4>
+        <p>A certified Vet Agent physically inspects the item on camera, GPS-verified within 500m of the seller's pin.</p>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h4>The evidence gate</h4>
+        <p>No legal state transition exists from <code>EVIDENCE_REVIEW</code> to <code>LOGISTICS_DISPATCHED</code> except via buyer approval. Enforced server-side.</p>
+      </div>
+      <div class="card purple">
+        <h4>Shared tracking</h4>
+        <p>Buyer and seller see the same timeline, driven by HMAC-verified courier webhooks. No hidden states.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">1.3</span>Stage &amp; Traction</div>
+    <div class="stat-grid">
+      <div class="stat"><div class="v">13</div><div class="l">MVP artifacts</div></div>
+      <div class="stat navy"><div class="v">28</div><div class="l">Spec sections</div></div>
+      <div class="stat green"><div class="v">11</div><div class="l">Legal documents</div></div>
+      <div class="stat"><div class="v">10</div><div class="l">Training modules</div></div>
+    </div>
+    <p>
+      Built entirely without external funding. The specification (FINAL 1.1), thirteen
+      interactive MVP artifacts, eleven-document legal policy library, ten-module Vet
+      Agent training programme, brand system, and public website are complete.
+      <b>Pre-revenue, pre-launch, no users yet.</b>
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">1.4</span>The Ask</div>
+    <div class="callout green">
+      <b>Currently raising ₦5,000,000 (SVGC 2.0 track) and ₦2,000,000 (SHIFT Launchpad track)</b>
+      for the 12-month Lagos pilot. Next institutional round: <b>₦15,000,000 seed</b> to move
+      from production build to 500 protected deals across Lagos and Ibadan.
+    </div>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 1 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 2 · COMPANY OVERVIEW
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Company Overview</div>
+      <div class="ds">Legal entity, leadership, and corporate structure</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">02</div>
+      <div class="ml">Page</div><div class="mv">02 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">2.1</span>Legal Entity</div>
+    <table>
+      <tbody>
+        <tr><td>Legal name</td><td>THE TAP OF GRACE MEDIA HOUSE</td></tr>
+        <tr><td>Trading as</td><td>DealsGate</td></tr>
+        <tr><td>Registered in</td><td>Federal Republic of Nigeria</td></tr>
+        <tr><td>Registered address</td><td>Sango, Ibadan, Oyo State, Nigeria</td></tr>
+        <tr><td>Website</td><td>dealsgate.ng · dealsgate.com.ng</td></tr>
+        <tr><td>Support</td><td>support@dealsgate.ng · info@dealsgate.ng</td></tr>
+        <tr><td>Phone / WhatsApp</td><td>+234 807 921 9165 · +234 903 565 5184</td></tr>
+        <tr><td>Social</td><td>@dealsgate.ng</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">2.2</span>Leadership</div>
+    <table>
+      <thead>
+        <tr><th>Name</th><th style="text-align:left">Role</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Taofik Akinwunmi</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Founder &amp; CEO</td></tr>
+        <tr><td>Segun Niyi</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Advisor</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <b>Segun Niyi</b> advises DealsGate on [specific domain — update this field before circulating].
+      Full bio available on request.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">2.3</span>Founder Background</div>
+    <p>
+      Taofik Akinwunmi is a Nigerian entrepreneur and graduate of Economics from the
+      University of Ibadan. For over a decade he has operated inside Nigerian small
+      business — as a Supervisor at UpviewCare Supermarket &amp; Pharmacy, Sales Manager
+      at YB Pharmacy, Farm Manager / Logistics at Bisi Agrotech and Sunad Farms, founder
+      of THE TAP OF GRACE MEDIA HOUSE (2014–2023), Digital Marketer at Hamitech Real
+      Estate, and ICT Instructor at the Federal Ministry of Information.
+    </p>
+    <p>
+      He also holds a Business of Entertainment certificate from Pan-Atlantic University.
+      DealsGate began from a personal failed sale of high-value camera equipment, where
+      neither the buyer nor the seller would take the first risk. He built the platform's
+      entire specification, MVP, legal library, and training programme alone, without
+      external funding.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">2.4</span>Corporate Structure</div>
+    <ul class="bullets">
+      <li><b>Parent entity:</b> THE TAP OF GRACE MEDIA HOUSE — the legal vehicle for the DealsGate brand and all contractual obligations.</li>
+      <li><b>Banking:</b> Business account in the parent entity name.</li>
+      <li><b>Payment custody:</b> Escrow held by a licensed Nigerian payment partner. DealsGate never holds client principal.</li>
+      <li><b>Data protection:</b> NDPC-compliant under NDPA 2023.</li>
+      <li><b>Planned:</b> CAC incorporation of a separate DealsGate subsidiary within 30 days of first institutional funding.</li>
+    </ul>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 2 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 3 · PROBLEM
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">The Problem</div>
+      <div class="ds">Why peer-to-peer trade is failing Nigerian buyers and sellers</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">03</div>
+      <div class="ml">Page</div><div class="mv">03 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">3.1</span>The Trust Asymmetry</div>
+    <p>
+      Peer-to-peer trade requires the buyer to release funds before receiving goods and the
+      seller to ship before receiving funds. Neither party can move first without incurring
+      uncompensated risk. When the parties are strangers on Instagram or WhatsApp — with
+      no catalogue, no identity system, and no dispute mechanism — the transaction
+      rationally does not happen.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">3.2</span>Buyer Pain</div>
+    <ul class="bullets">
+      <li><b>Advance-payment fraud.</b> Seller disappears after payment, or ships a different item.</li>
+      <li><b>No recourse.</b> Bank transfers are irreversible. Court recovery is impractical for ₦50k–₦500k disputes.</li>
+      <li><b>Fake social proof.</b> Follower counts, screenshots, and testimonials are cheap to fabricate.</li>
+      <li><b>No item verification.</b> Buyers have no third party confirming the item matches its listing.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">3.3</span>Seller Pain</div>
+    <ul class="bullets">
+      <li><b>Ghost buyers.</b> Order placed, item dispatched, buyer unreachable at delivery.</li>
+      <li><b>Fake payment alerts.</b> Screenshots of transfers that never happened or were reversed.</li>
+      <li><b>Disputes with no defence.</b> Buyer claims item differed from listing. Seller has no video, no witness, no record.</li>
+      <li><b>Lost sales.</b> Serious buyers walk away because they cannot verify seller legitimacy.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">3.4</span>Why Existing Solutions Fail</div>
+    <div class="two-col">
+      <div class="card">
+        <h4>Escrow-only services</h4>
+        <p>Protect the money but not the item. Buyer still receives goods they never saw verified. Payluk, Bridge Escrow, EscrowPay.</p>
+      </div>
+      <div class="card">
+        <h4>Inspection-only services</h4>
+        <p>Verify the item but cannot hold funds. Seller cannot guarantee payment. Fiverr-style task platforms without escrow.</p>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h4>Marketplaces</h4>
+        <p>Require sellers to abandon their own channels and list on a central catalogue. Jumia, Konga, Jiji.</p>
+      </div>
+      <div class="card">
+        <h4>The gap</h4>
+        <p>No platform combines escrow custody with physical inspection and evidence-gated release into one protocol.</p>
+      </div>
+    </div>
+    <div class="callout red">
+      <b>The structural problem:</b> money protection and goods protection exist separately.
+      Neither alone closes the trust asymmetry. Combining them in application logic invites
+      bypass. The correct solution is a state machine that makes the bypass structurally impossible.
+    </div>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 3 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 4 · SOLUTION
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">The Solution</div>
+      <div class="ds">How DealsGate closes the trust asymmetry</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">04</div>
+      <div class="ml">Page</div><div class="mv">04 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">4.1</span>The Protected Deal — 12 Stages, 5 Phases</div>
+
+    <table>
+      <thead>
+        <tr><th>Phase</th><th style="text-align:left">Stages</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1 · Deal Setup</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Seller creates deal (media, maps pin) · ₦5,000 refundable guarantee held · Buyer funds escrow with licensed partner</td></tr>
+        <tr><td>2 · Physical Verification</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Job opens in LGA (first-accept-wins) · Agent inspects within 500m of pin · Agent submits evidence · Buyer reviews</td></tr>
+        <tr><td>3 · Logistics</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Shipment created via partner API · Shared tracking · Item delivered · 72h window opens</td></tr>
+        <tr><td>4 · Resolution &amp; Payout</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Buyer confirms receipt and rates · Seller paid net, guarantee refunded to wallet</td></tr>
+        <tr><td>5 · Failure Branches</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Failed inspection · Cancel · Change of mind · Fraud · Transit minor · Transit total — pre-published rules</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">4.2</span>The Evidence Gate — The Central Invariant</div>
+    <p>
+      DealsGate's state machine defines <b>21 legal states</b> (13 main-path + 8 branch) and
+      a closed transition function. Every state change is verified server-side against a
+      whitelist. Illegal transitions are rejected with <b>HTTP 422</b> before any database write.
+    </p>
+    <div class="callout green">
+      <b>The invariant:</b> no edge exists from <code>EVIDENCE_REVIEW</code> to
+      <code>LOGISTICS_DISPATCHED</code> except via <code>APPROVED</code>. This is a
+      structural property of the transition graph, not a UI check.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">4.3</span>Four Pillars</div>
+    <div class="stat-grid">
+      <div class="stat navy"><div class="v">01</div><div class="l">Regulated escrow custody</div></div>
+      <div class="stat green"><div class="v">02</div><div class="l">Certified physical inspection</div></div>
+      <div class="stat"><div class="v">03</div><div class="l">Shared logistics tracking</div></div>
+      <div class="stat"><div class="v">04</div><div class="l">Public seller reputation</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">4.4</span>Secondary Value — Job Creation</div>
+    <p>
+      Beyond commerce, DealsGate creates a new labour category: <b>certified Vet Agents</b> —
+      technicians, phone repairers, gadget enthusiasts earning <b>₦4,200 per protected-deal
+      inspection</b> and <b>60% of any on-demand job</b> (minimum ₦6,000). Every certified
+      agent is a Nigerian worker earning consistent income from skills they already have,
+      with same-day withdrawal to any Nigerian bank account.
+    </p>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 4 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 5 · TECHNOLOGY
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Product &amp; Technology</div>
+      <div class="ds">Architecture, data model, security, and integration stack</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">05</div>
+      <div class="ml">Page</div><div class="mv">05 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">5.1</span>Technical Architecture</div>
+    <table>
+      <thead><tr><th>Layer</th><th style="text-align:left">Stack</th></tr></thead>
+      <tbody>
+        <tr><td>Frontend</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Next.js · React · TypeScript · PWA (installable, mobile-first)</td></tr>
+        <tr><td>Backend</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Node.js · NestJS · modular API framework · 21-state transition verifier</td></tr>
+        <tr><td>Database</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">PostgreSQL (row-level locking, ACID transactions) · Redis (cache, idempotency keys)</td></tr>
+        <tr><td>Media storage</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">S3-compatible object storage · signed URLs for private inspection media</td></tr>
+        <tr><td>Payments</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Paystack · Flutterwave via PaymentService abstraction · escrow custody delegated</td></tr>
+        <tr><td>Logistics</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">GIG Logistics · Kwik Express · HMAC-verified webhooks with replay protection</td></tr>
+        <tr><td>KYC</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">NIN · BVN · CAC provider integration · only provider reference stored, never raw numbers</td></tr>
+        <tr><td>Maps</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Google Maps JavaScript + Places · 500m GPS verification on agent submission</td></tr>
+        <tr><td>Notifications</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">WhatsApp Business API · transactional email · SMS fallback</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">5.2</span>Security &amp; Integrity</div>
+    <ul class="bullets">
+      <li><b>Server-side validation</b> on every input — media count, video duration, quantity, lat/lng, amounts</li>
+      <li><b>Row-level locking</b> for atomic job assignment — <code>SELECT … FOR UPDATE</code> on the job record</li>
+      <li><b>Partial unique index</b> enforcing one active inspection per agent at the database level</li>
+      <li><b>Idempotency keys</b> on every payment, refund, payout, guarantee hold, and wallet transfer</li>
+      <li><b>HMAC-verified webhooks</b> with ±5min replay window for payment and logistics events</li>
+      <li><b>Signed URLs</b> for all private media · TLS in transit · AES-256 at rest</li>
+      <li><b>Step-up 2FA</b> on withdrawals — TOTP, Email OTP, or SMS OTP required</li>
+      <li><b>Role-based access control</b> for admin operations with dual-control on money-critical configuration</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">5.3</span>Known Technical Risk — Byzantine Agent</div>
+    <p>
+      The evidence gate assumes the agent's device captures the actual item at the actual
+      location. A rooted or jailbroken device could inject pre-recorded footage or spoof GPS.
+      <b>This is the largest single technical risk in the system.</b> The mitigation path
+      (hardware-backed device attestation via Android Keystore / iOS Secure Enclave, motion
+      co-capture, monotonic server timestamps, structured red-team testing) is scheduled for
+      the production build.
+    </p>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 5 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 6 · MARKET
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Market Analysis</div>
+      <div class="ds">Size, segments, and addressable opportunity</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">06</div>
+      <div class="ml">Page</div><div class="mv">06 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">6.1</span>Market Size</div>
+    <table>
+      <thead><tr><th>Metric</th><th style="text-align:right">Value</th></tr></thead>
+      <tbody>
+        <tr><td>Nigeria social commerce market (2026)</td><td>$12.43B</td></tr>
+        <tr><td>Projected market (2031)</td><td>$20.8B</td></tr>
+        <tr><td>Nigeria e-commerce market (2026)</td><td>$10.49B</td></tr>
+        <tr><td>Nigerian MSMEs</td><td>39M</td></tr>
+        <tr><td>MSMEs on Meta platforms</td><td>14M</td></tr>
+        <tr><td>Digital payment fraud losses (2025)</td><td>₦25.85B</td></tr>
+        <tr><td>Reported fraud cases (2025)</td><td>67,515</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:8.5pt;color:var(--muted);margin-top:4px">
+      Sources: PayNXT360 Nigeria Social Commerce Databook Q1 2026 · Mordor Intelligence Nigeria E-Commerce Report 2026–2031 · Meta/Public First Nigeria Digital Economy Report 2026 · NIBSS Annual Fraud Landscape Report 2025.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">6.2</span>Addressable Market</div>
+    <table>
+      <thead><tr><th>Segment</th><th style="text-align:right">Estimate</th></tr></thead>
+      <tbody>
+        <tr><td>Nigeria active social sellers (TAM)</td><td>~3,500,000</td></tr>
+        <tr><td>Lagos + Ibadan initial reachable (SAM)</td><td>~650,000</td></tr>
+        <tr><td>Lagos pilot target (SOM · Year 1)</td><td>1,000 sellers</td></tr>
+        <tr><td>Ibadan expansion target (Year 2)</td><td>5,000 sellers</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <b>Bottom-up:</b> If 1,000 sellers each complete 8 deals annually at ₦120,000 ATV, that is
+      8,000 deals · ₦960M GMV · ₦45M Year 1 revenue. Our model is conservative.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">6.3</span>Target Customer Segments</div>
+    <div class="two-col">
+      <div class="card navy">
+        <h4>Primary sellers</h4>
+        <p>Nigerian social commerce vendors on Instagram, WhatsApp, and TikTok. Phones, laptops, electronics, fashion, appliances. ₦500k–₦5M monthly volume. Based in high-density urban LGAs.</p>
+      </div>
+      <div class="card green">
+        <h4>Primary buyers</h4>
+        <p>Urban professionals aged 22–40. Already shop online. Have lost money to fraud, or know someone who has. Willing to pay 2% for verified protection.</p>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h4>Vet Agents</h4>
+        <p>Skilled technicians, phone repairers, gadget enthusiasts. Want flexible income using existing expertise. Distributed across Nigerian LGAs.</p>
+      </div>
+      <div class="card purple">
+        <h4>Institutional partners</h4>
+        <p>Payment processors, logistics operators, KYC providers, Nigerian retail banks, state-level SME programmes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 6 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 7 · BUSINESS MODEL
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Business Model</div>
+      <div class="ds">Revenue lines, pricing, and unit economics</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">07</div>
+      <div class="ml">Page</div><div class="mv">07 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">7.1</span>Revenue Model</div>
+    <table>
+      <thead><tr><th>Revenue line</th><th style="text-align:right">Amount</th></tr></thead>
+      <tbody>
+        <tr><td>Buyer service fee (2% of item price)</td><td>2.0%</td></tr>
+        <tr><td>Seller success fee (2% of item price)</td><td>2.0%</td></tr>
+        <tr><td>Vet Agent fee — platform share</td><td>₦1,800</td></tr>
+        <tr><td>Logistics margin (backend-only)</td><td>≈ ₦700</td></tr>
+        <tr><td>On-demand job — platform share</td><td>40%</td></tr>
+        <tr><td>Verified seller subscription (Year 2+)</td><td>₦5,000 / month</td></tr>
+        <tr><td>Featured listings (Year 2+)</td><td>₦2,000 / week</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">7.2</span>Unit Economics — ₦450,000 Deal</div>
+    <div class="two-col">
+      <div>
+        <table>
+          <thead><tr><th>Item</th><th style="text-align:right">₦</th></tr></thead>
+          <tbody>
+            <tr><td>Item price</td><td>450,000</td></tr>
+            <tr><td>Buyer service fee (2%)</td><td>9,000</td></tr>
+            <tr><td>Vet Agent fee</td><td>6,000</td></tr>
+            <tr><td>Logistics</td><td>3,500</td></tr>
+            <tr class="total"><td>Buyer total</td><td>468,500</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <table>
+          <thead><tr><th>Platform net</th><th style="text-align:right">₦</th></tr></thead>
+          <tbody>
+            <tr><td>Buyer service fee</td><td>9,000</td></tr>
+            <tr><td>Seller success fee</td><td>9,000</td></tr>
+            <tr><td>Vet platform share</td><td>1,800</td></tr>
+            <tr><td>Logistics margin</td><td>700</td></tr>
+            <tr class="total"><td>Net per deal</td><td>20,500</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="callout green">
+      <b>₦20,500 net platform revenue per completed ₦450,000 deal</b>, before scale efficiencies.
+      Same rail, every category. Repeats every time a deal completes.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">7.3</span>Cost Structure</div>
+    <ul class="bullets">
+      <li><b>Variable:</b> Vet Agent payout (₦4,200 / protected deal) · payment processing fees (≈ 1.5% of escrow) · logistics payable to courier (less margin)</li>
+      <li><b>Semi-variable:</b> cloud infrastructure (scales with deals) · KYC verification cost per user (₦150–₦300) · WhatsApp Business API per notification</li>
+      <li><b>Fixed:</b> engineering team · founder stipend · accounting and legal · office (remote-first until revenue)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">7.4</span>Break-Even Analysis</div>
+    <p>
+      At ₦20,500 net per deal and an estimated ₦2,600,000 monthly operating cost at end of Year 1
+      (2 engineers + founder stipend + infrastructure + compliance), DealsGate reaches
+      operating break-even at roughly <b>127 completed protected deals per month</b>.
+      The Year 1 target of 500 deals in the first 6 months of pilot exceeds this threshold
+      in months 4–6 of live operation.
+    </p>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 7 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 8 · COMPETITION
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Competitive Landscape</div>
+      <div class="ds">Who we compete with, and why we win</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">08</div>
+      <div class="ml">Page</div><div class="mv">08 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">8.1</span>Direct Competitors</div>
+    <table>
+      <thead><tr><th>Competitor</th><th style="text-align:left">What they do</th></tr></thead>
+      <tbody>
+        <tr><td>Payluk</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Escrow-only — money protection, no item verification</td></tr>
+        <tr><td>Bridge Escrow</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Escrow-only — bank-grade custody, no physical layer</td></tr>
+        <tr><td>EscrowPay</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Escrow-only — B2B focus, no consumer P2P</td></tr>
+        <tr><td>Jumia / Konga</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Marketplaces — require catalogue listing, no social channel support</td></tr>
+        <tr><td>Jiji</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Classified listings — no payment protection, no verification</td></tr>
+        <tr><td>GIG / Kwik</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Logistics partners — handle delivery, not verification or escrow</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">8.2</span>Our Position — Four Differentiators</div>
+    <div class="two-col">
+      <div class="card navy">
+        <h4>01 · The evidence gate</h4>
+        <p>No other Nigerian platform blocks logistics until the buyer approves a physical inspection report. Escrow protects money; we protect the item too.</p>
+      </div>
+      <div class="card green">
+        <h4>02 · Physical verification at scale</h4>
+        <p>Certified Vet Agents inspect every item in person with continuous video as court-grade evidence. A physical network, not a feature toggle.</p>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h4>03 · Public seller reputation</h4>
+        <p>Buyers verify any vendor's real deal history before paying. No login required. The directory compounds as a network asset.</p>
+      </div>
+      <div class="card purple">
+        <h4>04 · Failure paths designed first</h4>
+        <p>Failed inspections, transit damage, fraud, cancellation — all have pre-published rules, not case-by-case judgement.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">8.3</span>The Structural Moat</div>
+    <div class="callout green">
+      <b>Competitors can copy our screens in a week.</b> They cannot copy a certified Vet
+      Agent network across 50 LGAs in under twelve months. The moat is physical and
+      operational — the same class as Uber's driver network, not its app.
+    </div>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 8 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 9 · GO TO MARKET
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Go-to-Market Strategy</div>
+      <div class="ds">Agents first, then sellers. One LGA at a time.</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">09</div>
+      <div class="ml">Page</div><div class="mv">09 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">9.1</span>The Single Rule</div>
+    <div class="callout green">
+      <b>A city does not open for sellers until agent coverage hits the density threshold.</b>
+      One certified agent per 15 expected daily deals. Coverage is not a growth problem —
+      it is the product.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">9.2</span>Four Phases</div>
+    <table>
+      <thead><tr><th>Phase</th><th style="text-align:left">Objective</th></tr></thead>
+      <tbody>
+        <tr><td>Phase 1 · Lagos pilot</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Ikeja · Eti-Osa · Surulere · Kosofe. 50 agents certified. 500 protected deals. First revenue cohort.</td></tr>
+        <tr><td>Phase 2 · Multi-city</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Replicate the LGA playbook in Ibadan, Abuja, Port Harcourt. 200 agents. 5,000 monthly deals.</td></tr>
+        <tr><td>Phase 3 · Category expansion</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Add vehicles and appliances as dedicated inspection verticals. Specialist agents. Higher-value transactions.</td></tr>
+        <tr><td>Phase 4 · Cross-border</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">AfCFTA trade corridors. Same escrow + inspection model across intra-African transactions.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">9.3</span>Acquisition Channels</div>
+    <ul class="bullets">
+      <li><b>Vet Agent recruitment:</b> targeted outreach to technicians, phone repairers, gadget communities in each LGA. WhatsApp, church networks, university campuses, existing vendor referrals.</li>
+      <li><b>Seller onboarding:</b> agents recruit sellers. A certified agent who knows local vendors becomes the acquisition channel for that LGA.</li>
+      <li><b>Buyer acquisition:</b> sellers bring buyers through shareable deal links. Every link is a protected deal page and a public seller dossier.</li>
+      <li><b>Public seller directory:</b> searchable without login. Organic SEO on Nigerian vendor names. Viral potential — every vendor shares their dossier link.</li>
+      <li><b>Referral programme:</b> ₦1,000 per referee's first completed deal. 50% lifetime discount at 10 referrals. Compounding word-of-mouth.</li>
+      <li><b>Content and social:</b> founder-led narrative on LinkedIn, X, and Instagram. Educational content on safe online trade. Nigerian tech press outreach.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">9.4</span>Why Agents Come First</div>
+    <p>
+      Sellers join a platform that buyers trust. Buyers trust a platform where they know
+      the item will be verified. Verification requires an agent in the LGA. Therefore:
+      <b>agent density is the constraint.</b> Every city launch begins with recruitment,
+      not marketing.
+    </p>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 9 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 10 · OPERATIONS
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Operational Plan</div>
+      <div class="ds">How the platform runs day to day</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">10</div>
+      <div class="ml">Page</div><div class="mv">10 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">10.1</span>Core Operational Flows</div>
+    <table>
+      <thead><tr><th>Flow</th><th style="text-align:left">Owner</th></tr></thead>
+      <tbody>
+        <tr><td>Deal creation &amp; guarantee</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Platform automated · seller initiated</td></tr>
+        <tr><td>Escrow funding</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Licensed payment partner API</td></tr>
+        <tr><td>Agent job assignment</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Platform automated (first-accept-wins LGA feed)</td></tr>
+        <tr><td>Physical inspection</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Certified Vet Agent in the field</td></tr>
+        <tr><td>Evidence review &amp; approval</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Buyer controlled</td></tr>
+        <tr><td>Logistics dispatch &amp; tracking</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Logistics partner API + shared tracking timeline</td></tr>
+        <tr><td>Dispute mediation</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Admin mediation workspace (exception path only)</td></tr>
+        <tr><td>Settlement &amp; payout</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Escrow releases net to seller · guarantee returned</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">10.2</span>Vet Agent Operations</div>
+    <ul class="bullets">
+      <li><b>Recruitment:</b> targeted per LGA. Field coordinators handle local onboarding.</li>
+      <li><b>Training:</b> 10 modules, 100-question exam, 85% pass mark. Free.</li>
+      <li><b>Certification:</b> Certified Eligible → Certified (3 jobs) → Super Vet (10 jobs at 4.5★+)</li>
+      <li><b>Job acceptance:</b> First-Accept-Wins. One active job per agent. Atomic row-level locking.</li>
+      <li><b>Earnings:</b> ₦4,200 per protected deal · 60% of on-demand jobs (min ₦6,000)</li>
+      <li><b>Withdrawals:</b> partial or full · TOTP/Email OTP/SMS OTP step-up · any Nigerian bank</li>
+      <li><b>Safety:</b> leave any location that feels unsafe. First release is free.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">10.3</span>Admin Operations</div>
+    <ul class="bullets">
+      <li><b>Roles:</b> Viewer · Finance · Mediator · Ops · Super Admin</li>
+      <li><b>Standard flow:</b> no manual assignment on happy path. Jobs auto-route by LGA.</li>
+      <li><b>Exception handling:</b> force reassign · expand radius · pause · escalate · mediate</li>
+      <li><b>Dual-control:</b> fee and split changes require two separate admin approvals</li>
+      <li><b>Audit:</b> every action logged with actor, IP, before-state, after-state, timestamp</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">10.4</span>Support &amp; SLAs</div>
+    <table>
+      <thead><tr><th>Channel</th><th style="text-align:right">Response target</th></tr></thead>
+      <tbody>
+        <tr><td>Routine support ticket</td><td>24–72 hours</td></tr>
+        <tr><td>Formal dispute</td><td>72 hours</td></tr>
+        <tr><td>Safety escalation</td><td>Immediate</td></tr>
+        <tr><td>Payment issue</td><td>12 hours</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 10 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 11 · TEAM & ADVISORS
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Team &amp; Advisors</div>
+      <div class="ds">Who is building this, and who is guiding it</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">11</div>
+      <div class="ml">Page</div><div class="mv">11 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">11.1</span>Founder</div>
+    <div class="two-col">
+      <div class="card navy">
+        <h4>Taofik Akinwunmi</h4>
+        <p style="font-size:8.5pt;color:var(--gold2);font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">Founder &amp; CEO</p>
+        <p style="font-size:9pt;line-height:1.55">
+          B.Sc. Economics, University of Ibadan. Business of Entertainment, Pan-Atlantic University.
+          10+ years operating inside Nigerian small business — retail, pharmacy, farm logistics,
+          media, real estate. Built the full DealsGate specification, 13-artifact MVP, 11-document
+          legal library, and 10-module agent training programme alone, without funding.
+        </p>
+      </div>
+      <div class="card green">
+        <h4>Segun Niyi</h4>
+        <p style="font-size:8.5pt;color:var(--gold2);font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">Advisor</p>
+        <p style="font-size:9pt;line-height:1.55">
+          [Update this field with Segun Niyi's specific domain of expertise, current role
+          or company, and the specific area he advises DealsGate on. If he advises on
+          payments, mobile engineering, legal, or agent operations, name it here. If his
+          role is general mentorship, frame it that way — never invent credentials.]
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">11.2</span>Hiring Plan</div>
+    <table>
+      <thead><tr><th>Role</th><th style="text-align:right">Timing</th></tr></thead>
+      <tbody>
+        <tr><td>Senior backend engineer (full-time)</td><td>Q1 · grant-funded</td></tr>
+        <tr><td>Frontend developer (contract)</td><td>Q1 · grant-funded</td></tr>
+        <tr><td>Product designer (contract)</td><td>Q1 · grant-funded</td></tr>
+        <tr><td>Field coordinator — Lagos (part-time)</td><td>Q2 · grant-funded</td></tr>
+        <tr><td>Community manager — Vet Agents</td><td>Q3 · revenue-funded</td></tr>
+        <tr><td>Head of Growth</td><td>Q4 · revenue-funded</td></tr>
+        <tr><td>Head of Compliance</td><td>Year 2 · revenue-funded</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">11.3</span>Advisory Needs</div>
+    <ul class="bullets">
+      <li><b>Payments and escrow regulatory:</b> a former regulator or payments operator to guide escrow partner selection and compliance positioning.</li>
+      <li><b>Mobile engineering:</b> a senior Android/iOS engineer with device attestation experience to advise on the Byzantine-agent mitigation path.</li>
+      <li><b>Legal:</b> a Nigerian commercial lawyer to review the 11-document policy library and support CAC incorporation.</li>
+      <li><b>Logistics operations:</b> a former courier operator to optimise partner selection and SLA structure.</li>
+    </ul>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 11 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 12 · FINANCIALS
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Financial Projections</div>
+      <div class="ds">Conservative 3-year outlook based on the Lagos pilot model</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">12</div>
+      <div class="ml">Page</div><div class="mv">12 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">12.1</span>Year 1 Operating Assumptions</div>
+    <table>
+      <thead><tr><th>Metric</th><th style="text-align:right">Target</th></tr></thead>
+      <tbody>
+        <tr><td>Registered buyers</td><td>500</td></tr>
+        <tr><td>Active sellers</td><td>150</td></tr>
+        <tr><td>Certified Vet Agents</td><td>50</td></tr>
+        <tr><td>Completed protected deals</td><td>500</td></tr>
+        <tr><td>Average transaction value (ATV)</td><td>₦450,000</td></tr>
+        <tr><td>Total platform GMV</td><td>₦225,000,000</td></tr>
+        <tr><td>Net revenue per deal</td><td>₦20,500</td></tr>
+        <tr class="total"><td>Year 1 gross revenue</td><td>₦10,250,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">12.2</span>Three-Year Revenue Projection</div>
+    <table>
+      <thead><tr><th>Year</th><th style="text-align:left">Milestone</th><th style="text-align:right">Revenue (₦)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Year 1</td>
+          <td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Lagos pilot · 500 deals · 3 LGAs</td>
+          <td>10,250,000</td>
+        </tr>
+        <tr>
+          <td>Year 2</td>
+          <td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Lagos + Ibadan + Abuja · 3,000 deals/month by Q4</td>
+          <td>55,000,000</td>
+        </tr>
+        <tr>
+          <td>Year 3</td>
+          <td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Nationwide · 8,000 deals/month · vehicle + appliance verticals live</td>
+          <td>180,000,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <b>Projection basis:</b> net revenue per deal held constant at ₦20,500. Deal volume assumptions
+      are conservative relative to the Nigerian social commerce market and represent
+      less than 0.5% of the addressable seller base in each city.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">12.3</span>Cost Trajectory</div>
+    <table>
+      <thead><tr><th>Year</th><th style="text-align:left">Primary cost drivers</th><th style="text-align:right">Total cost (₦)</th></tr></thead>
+      <tbody>
+        <tr><td>Year 1</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Engineering · escrow integration · agent recruitment · pilot</td><td>15,000,000</td>
+        </tr>
+        <tr><td>Year 2</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Headcount · marketing · multi-city expansion</td><td>45,000,000</td>
+        </tr>
+        <tr><td>Year 3</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Headcount · nationwide rollout · category expansion</td><td>110,000,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout green">
+      <b>Break-even:</b> expected in month 9 of Year 1 at 127 deals/month. Year 3 gross margin
+      projected at 38–42%, driven by logistics margin retention and subscription revenue growth.
+    </div>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 12 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 13 · FUNDING
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Funding Strategy</div>
+      <div class="ds">Capital roadmap from grant to Series A</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">13</div>
+      <div class="ml">Page</div><div class="mv">13 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">13.1</span>Current Applications</div>
+    <table>
+      <thead><tr><th>Programme</th><th style="text-align:left">Type</th><th style="text-align:right">Ask</th></tr></thead>
+      <tbody>
+        <tr><td>SVGC 2.0</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Student Venture Capital Grant</td><td>₦5,000,000</td></tr>
+        <tr><td>SHIFT Launchpad</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">IIH / IHS Towers / CCHUB accelerator</td><td>₦2,000,000</td></tr>
+        <tr><td>Antler</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Global pre-seed VC</td><td>$100,000</td></tr>
+        <tr><td>Techstars ARM Labs</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Lagos accelerator</td><td>$120,000</td></tr>
+        <tr><td>GOSIMA</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Gosima Innovation Fund</td><td>Pool</td></tr>
+        <tr><td>Zenith Bank Pitch</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Beyond Limits Pitch Competition</td><td>Prize</td></tr>
+        <tr><td>Crowdr</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Donation crowdfunding</td><td>₦6,000,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">13.2</span>Capital Roadmap</div>
+    <table>
+      <thead><tr><th>Stage</th><th style="text-align:left">Purpose</th><th style="text-align:right">Amount</th></tr></thead>
+      <tbody>
+        <tr><td>Grants (current)</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">MVP to live pilot · 12-month runway</td><td>₦5,000,000</td></tr>
+        <tr><td>Seed round</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Production build · 500 deals · two-city pilot</td><td>₦15,000,000</td></tr>
+        <tr><td>Series Seed</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Multi-city expansion · 3,000 deals/month</td><td>₦75,000,000 – ₦100,000,000</td></tr>
+        <tr><td>Series A</td><td style="text-align:left;font-family:inherit;font-weight:500;color:#334155">Nationwide · category expansion · cross-border</td><td>₦300,000,000+</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">13.3</span>Use of Seed Funds — ₦15,000,000</div>
+    <table>
+      <thead><tr><th>Category</th><th style="text-align:right">₦</th></tr></thead>
+      <tbody>
+        <tr><td>Engineering &amp; product build</td><td>6,500,000</td></tr>
+        <tr><td>Escrow integration &amp; compliance</td><td>2,500,000</td></tr>
+        <tr><td>Vet Agent network (200 agents)</td><td>2,000,000</td></tr>
+        <tr><td>Two-city pilot launch</td><td>1,800,000</td></tr>
+        <tr><td>Infrastructure &amp; tooling</td><td>900,000</td></tr>
+        <tr><td>Operations &amp; founder support</td><td>800,000</td></tr>
+        <tr><td>Contingency reserve</td><td>500,000</td></tr>
+        <tr class="total"><td>Total</td><td>₦15,000,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026</span>
+    <span>Page 13 of 14</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 14 · RISKS
+     ============================================================ -->
+<div class="page">
+  <div class="hdr">
+    <div>
+      <div class="brand"><div class="mark">✓</div>
+      <div><div class="bn">Deals<span class="g">Gate</span></div>
+      <div class="bs">Business Plan · 2026</div></div></div>
+      <div class="dt">Risk Assessment</div>
+      <div class="ds">What could break this, and how we mitigate it</div>
+    </div>
+    <div class="hdr-r">
+      <div class="ml">Section</div><div class="mv">14</div>
+      <div class="ml">Page</div><div class="mv">14 / 14</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">14.1</span>Technical Risk</div>
+    <div class="callout red">
+      <b>Byzantine agent.</b> A rooted device can inject pre-recorded video or spoof GPS.
+      <b>Mitigation:</b> hardware-backed device attestation (Android Keystore / iOS Secure
+      Enclave), motion co-capture, monotonic server timestamps, structured red-team testing,
+      and fallback to dual-device signing plus buyer unboxing video as Tier-2 evidence.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">14.2</span>Operational Risk</div>
+    <ul class="bullets">
+      <li><b>Agent density failure.</b> Mitigation: LGA-by-LGA launch. City opens only when agent coverage hits threshold. ₦5,000 completion bonus to seed first 50 agents per city.</li>
+      <li><b>Fake inspection.</b> Mitigation: continuous video, IMEI-on-camera, GPS verification within 500m, buyer unboxing video as second-tier evidence, mediator arbitration.</li>
+      <li><b>Logistics partner failure.</b> Mitigation: multi-partner abstraction. GIG and Kwik both integrated. No single-courier dependency.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">14.3</span>Regulatory Risk</div>
+    <ul class="bullets">
+      <li><b>Escrow licensing.</b> Mitigation: DealsGate never holds client principal. All escrow custodied by a licensed payment partner.</li>
+      <li><b>Data protection.</b> Mitigation: full NDPA 2023-aligned policy library. NDPC registration upon live launch.</li>
+      <li><b>KYC compliance.</b> Mitigation: NIN, BVN, CAC verification through authorised providers. Raw identity numbers never stored.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">14.4</span>Market Risk</div>
+    <ul class="bullets">
+      <li><b>Adoption.</b> Mitigation: users already pay for safety through workarounds. The product formalises an existing behaviour.</li>
+      <li><b>Competition.</b> Mitigation: physical agent network is not copiable in under 12 months. First-mover advantage in Lagos and Ibadan.</li>
+      <li><b>Cash flow.</b> Mitigation: grant funding funds 12 months of operations. Seed follows on proven pilot data.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="s-title"><span class="n">14.5</span>Contingency</div>
+    <div class="callout">
+      <b>If the pilot fails to reach 100 deals in the first quarter,</b> the strategy pivots to
+      two options: (1) narrow to a single high-density LGA and double down on agent training
+      and seller outreach, or (2) shift to on-demand inspection as the primary product,
+      monetising agent verification before platform-scale escrow.
+    </div>
+  </div>
+
+  <div class="pg-foot">
+    <span><b>DealsGate</b> · Business Plan 2026 · Confidential</span>
+    <span>Page 14 of 14</span>
+  </div>
+</div>
+
+</body>
+</html>

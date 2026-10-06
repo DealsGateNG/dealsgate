@@ -1,0 +1,673 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Escrow Transaction Flow</title>
+<style>
+  @page { size: A4 portrait; margin: 12mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D1B4C;
+    --navy2: #142a70;
+    --green: #16A34A;
+    --green2: #15803D;
+    --gold: #F4B420;
+    --gold2: #C98A00;
+    --ink: #0F172A;
+    --muted: #64748B;
+    --line: #E2E8F0;
+    --mist: #F4F6FB;
+    --blue: #2563EB;
+    --red: #DC2626;
+  }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #D5DAE4;
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 210mm;
+    margin: 24px auto;
+    background: #fff;
+    box-shadow: 0 12px 40px rgba(13,27,76,.16);
+    overflow: hidden;
+  }
+
+  @media print {
+    html, body { background: #fff; }
+    .sheet {
+      margin: 0;
+      box-shadow: none;
+      max-width: none;
+    }
+    .screen-note { display: none !important; }
+    .stage { page-break-inside: avoid; }
+    .phase { page-break-inside: avoid; }
+  }
+
+  .screen-note {
+    max-width: 210mm;
+    margin: 20px auto 0;
+    padding: 14px 20px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+  .screen-note b { color: var(--gold); }
+  .screen-note kbd {
+    background: rgba(244,180,32,.16);
+    color: var(--gold);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-family: 'Menlo', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid rgba(244,180,32,.32);
+  }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero {
+    background:
+      radial-gradient(circle at 88% 12%, rgba(244,180,32,.24), transparent 45%),
+      radial-gradient(circle at 8% 92%, rgba(22,163,74,.18), transparent 50%),
+      linear-gradient(155deg, #061133 0%, var(--navy) 55%, var(--navy2) 100%);
+    color: #fff;
+    padding: 34px 30px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,.05) 1px, transparent 0);
+    background-size: 26px 26px;
+    opacity: .8;
+    pointer-events: none;
+  }
+
+  .hero-inner { position: relative; z-index: 1; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .hero-eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    line-height: 1.05;
+    color: #fff;
+  }
+  .hero h1 .g { color: var(--gold); }
+
+  .hero .sub {
+    font-size: 13.5px;
+    color: rgba(255,255,255,.82);
+    margin-top: 12px;
+    line-height: 1.55;
+    max-width: 170mm;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.14);
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-stats .stat .v {
+    font-family: 'Menlo', monospace;
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.6px;
+    line-height: 1;
+  }
+  .hero-stats .stat .v.g { color: var(--gold); }
+  .hero-stats .stat .v.gr { color: #4ADE80; }
+
+  .hero-stats .stat .l {
+    font-size: 10.5px;
+    color: rgba(255,255,255,.6);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* ============================================================
+     BODY
+     ============================================================ */
+  .body {
+    padding: 28px 30px 24px;
+    background: #fff;
+  }
+
+  /* ============================================================
+     PHASE
+     ============================================================ */
+  .phase { margin-bottom: 22px; }
+
+  .phase-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--line);
+  }
+
+  .phase-pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+
+  .phase-pill.p1 { background: var(--navy); color: var(--gold); }
+  .phase-pill.p2 { background: var(--gold); color: var(--navy); }
+  .phase-pill.p3 { background: var(--gold); color: var(--navy); }
+  .phase-pill.p4 { background: var(--navy); color: #fff; }
+  .phase-pill.p5 { background: var(--green); color: #fff; }
+
+  .phase-rail {
+    flex: 1;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--line) 0%, transparent 100%);
+  }
+
+  /* ============================================================
+     STAGE
+     ============================================================ */
+  .stage {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 16px;
+    padding: 10px 0;
+    position: relative;
+    align-items: flex-start;
+  }
+
+  .stage:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 19px;
+    top: 48px;
+    bottom: -10px;
+    width: 2px;
+    background: var(--line);
+    border-radius: 2px;
+  }
+
+  .stage-dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.3px;
+  }
+
+  .stage-dot.p1 { background: var(--navy); }
+  .stage-dot.p2 { background: var(--gold); color: var(--navy); }
+  .stage-dot.p3 { background: var(--gold); color: var(--navy); }
+  .stage-dot.p4 { background: var(--blue); }
+  .stage-dot.p5 { background: var(--green); }
+  .stage-dot.gate {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold2) 100%);
+    color: var(--navy);
+    box-shadow: 0 0 0 5px rgba(244,180,32,.18);
+  }
+
+  .stage-body { padding-top: 2px; }
+
+  .stage-title {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.15px;
+    line-height: 1.3;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .stage-title .badge {
+    font-size: 8.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 5px;
+  }
+  .badge.b-gate { background: #FEF3C7; color: var(--gold2); }
+  .badge.b-green { background: #DCFCE7; color: var(--green2); }
+  .badge.b-navy { background: #E0E7FF; color: #3730A3; }
+
+  .stage-desc {
+    font-size: 12.5px;
+    color: #4B5563;
+    line-height: 1.55;
+    margin-top: 4px;
+  }
+  .stage-desc b { color: var(--navy); font-weight: 800; }
+
+  /* ============================================================
+     CALLOUT
+     ============================================================ */
+  .callout {
+    background: #F0FDF4;
+    border-left: 4px solid var(--green);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin-top: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .callout .ic { font-size: 20px; flex-shrink: 0; line-height: 1; }
+
+  .callout .msg {
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #065F46;
+    font-weight: 600;
+  }
+  .callout .msg b { color: #065F46; font-weight: 800; }
+
+  /* ============================================================
+     FAILURE BRANCHES
+     ============================================================ */
+  .branches {
+    background: #FEFBEB;
+    border-left: 4px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin-top: 22px;
+  }
+
+  .branches .lbl {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold2);
+    margin-bottom: 10px;
+  }
+
+  .branches ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 22px;
+  }
+
+  .branches li {
+    font-size: 11.5px;
+    color: #5A4A1A;
+    line-height: 1.5;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .branches li::before {
+    content: "▪";
+    position: absolute;
+    left: 0;
+    color: var(--gold2);
+    font-weight: 900;
+  }
+  .branches li b { color: var(--navy); font-weight: 800; }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 30px 20px;
+    border-top: 1px solid var(--line);
+    background: #FCFDFF;
+  }
+
+  .foot-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .foot-brand .mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--navy);
+    color: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    font-weight: 900;
+    border: 2px solid var(--gold);
+  }
+
+  .foot-brand .name {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.2px;
+  }
+  .foot-brand .name .g { color: var(--green); }
+
+  .foot-meta {
+    font-family: 'Menlo', monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<div class="screen-note">
+  <b>How to save as PDF:</b> open in <b>Chrome</b>, press
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> / <kbd>⌘</kbd>+<kbd>P</kbd>. Destination <b>Save as PDF</b>,
+  layout <b>Portrait</b>, paper <b>A4</b>, margins <b>Default</b>, tick <b>Background graphics</b>.
+</div>
+
+<div class="sheet">
+
+  <!-- ============================================================ -->
+  <!-- HERO                                                          -->
+  <!-- ============================================================ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">
+        <span class="dot"></span>
+        Escrow &amp; Trust System · Protected Deal Lifecycle
+      </div>
+      <h1>
+        Escrow Transaction Flow<br>
+        with a <span class="g">physical-verification gate</span>.
+      </h1>
+      <p class="sub">
+        The 12-stage journey every Protected Deal moves through on DealsGate — from
+        seller listing to final payout, with a certified Vet Agent inspection and a
+        buyer-controlled evidence gate at the center.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="v">12</div>
+          <div class="l">Stages</div>
+        </div>
+        <div class="stat">
+          <div class="v g">5</div>
+          <div class="l">Phases</div>
+        </div>
+        <div class="stat">
+          <div class="v g">1</div>
+          <div class="l">Evidence gate</div>
+        </div>
+        <div class="stat">
+          <div class="v gr">₦5,000</div>
+          <div class="l">Refundable guarantee</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- BODY                                                          -->
+  <!-- ============================================================ -->
+  <div class="body">
+
+    <!-- ============ PHASE 1 · DEAL SETUP ============ -->
+    <div class="phase">
+      <div class="phase-head">
+        <div class="phase-pill p1">Phase 1 · Deal Setup</div>
+        <div class="phase-rail"></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p1">1</div>
+        <div class="stage-body">
+          <div class="stage-title">Seller Creates Protected Deal</div>
+          <div class="stage-desc">
+            Item details, taxonomy, condition, 2–4 photos, one continuous video (≤60s),
+            and a <b>Google Maps pickup pin</b>. All fields validated server-side before publish.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p1">2</div>
+        <div class="stage-body">
+          <div class="stage-title">₦5,000 Guarantee Held <span class="badge b-navy">Refundable</span></div>
+          <div class="stage-desc">
+            Auto-debited from the seller's Guarantee Wallet, or paid via gateway. The
+            guarantee is a <b>hold, not a fee</b> — refunded on success, forfeited on failed inspection.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p1">3</div>
+        <div class="stage-body">
+          <div class="stage-title">Buyer Funds Escrow</div>
+          <div class="stage-desc">
+            Buyer opens the unguessable buyer link, reviews the seller's public reputation dossier,
+            and pays into escrow with a <b>licensed Nigerian payment partner</b>. DealsGate never holds principal.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PHASE 2 · PHYSICAL VERIFICATION ============ -->
+    <div class="phase">
+      <div class="phase-head">
+        <div class="phase-pill p2">Phase 2 · Physical Verification</div>
+        <div class="phase-rail"></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p2">4</div>
+        <div class="stage-body">
+          <div class="stage-title">Agent Job Opens in Seller's LGA <span class="badge b-gate">First Accept Wins</span></div>
+          <div class="stage-desc">
+            Job broadcast to Certified Vet Agents covering the seller's LGA and sector.
+            <b>Atomic row-level locking</b> guarantees exactly one agent wins the accept — even under concurrent taps.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p2">5</div>
+        <div class="stage-body">
+          <div class="stage-title">Vet Agent Inspects Item</div>
+          <div class="stage-desc">
+            Agent travels to the pinned location. <b>GPS verified within 500 metres</b>.
+            Checklist covers IMEI, serial, condition, functionality, and any identifiers applicable to the sector.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p2">6</div>
+        <div class="stage-body">
+          <div class="stage-title">Vet Agent Submits Evidence</div>
+          <div class="stage-desc">
+            Continuous unedited video, multi-angle photos, and a written verdict —
+            <b>PASS · FAIL · NEEDS_REVIEW</b>. All media stored in S3-compatible storage, served only via signed URLs.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p2 gate">7</div>
+        <div class="stage-body">
+          <div class="stage-title">Buyer Reviews Evidence <span class="badge b-gate">The Evidence Gate</span></div>
+          <div class="stage-desc">
+            Buyer reviews the report and either <b>Approves</b> (logistics unlocked, agent paid) or
+            <b>Disputes</b> (mediation opens). <b>Nothing moves — not the item, not the money — until this step completes.</b>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PHASE 3 · LOGISTICS ============ -->
+    <div class="phase">
+      <div class="phase-head">
+        <div class="phase-pill p3">Phase 3 · Logistics</div>
+        <div class="phase-rail"></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p4">8</div>
+        <div class="stage-body">
+          <div class="stage-title">Shipment Dispatched</div>
+          <div class="stage-desc">
+            Logistics partner API creates the shipment. Courier picks up the item from the seller.
+            Tracking number issued and shared.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p4">9</div>
+        <div class="stage-body">
+          <div class="stage-title">Item In Transit <span class="badge b-navy">Shared Tracking</span></div>
+          <div class="stage-desc">
+            Buyer and seller see the <b>exact same timeline</b>, driven by HMAC-verified courier webhooks
+            with replay protection. No hidden states — one journey, two lenses.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p4">10</div>
+        <div class="stage-body">
+          <div class="stage-title">Item Delivered</div>
+          <div class="stage-desc">
+            Courier confirms delivery. A <b>72-hour auto-complete window</b> opens — the buyer may
+            confirm receipt, rate the seller and agent, or raise a dispute before it expires.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PHASE 4 · RESOLUTION & PAYOUT ============ -->
+    <div class="phase">
+      <div class="phase-head">
+        <div class="phase-pill p5">Phase 4 · Resolution &amp; Payout</div>
+        <div class="phase-rail"></div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p5">11</div>
+        <div class="stage-body">
+          <div class="stage-title">Buyer Confirms Receipt</div>
+          <div class="stage-desc">
+            Buyer confirms the item matches the inspected report, and rates both the
+            <b>seller</b> and the <b>Vet Agent</b>. Ratings feed the public dossier and agent trust score.
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage-dot p5">12</div>
+        <div class="stage-body">
+          <div class="stage-title">Payment Released &amp; Guarantee Refunded <span class="badge b-green">Complete</span></div>
+          <div class="stage-desc">
+            Escrow releases the seller's net payout (item minus 2% success fee). The
+            <b>₦5,000 guarantee returns</b> to the seller's Guarantee Wallet, ready for the next deal.
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="ic">🛡️</div>
+        <div class="msg">
+          <b>Money never moves on trust alone.</b> Every stage is logged with actor, IP, timestamp,
+          and state transition. Payment releases only after the buyer approves the certified agent's
+          physical verification and confirms receipt.
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ FAILURE BRANCHES ============ -->
+    <div class="branches">
+      <div class="lbl">Failure branches — pre-published rules, not case-by-case</div>
+      <ul>
+        <li><b>Failed inspection</b> — buyer refunded in full, seller guarantee forfeited</li>
+        <li><b>Buyer cancels pre-inspection</b> — item + vet + logistics refunded, service fee forfeited</li>
+        <li><b>Change of mind post-inspection</b> — item price refunded, vet + service fees forfeited</li>
+        <li><b>Fraud / item swap</b> — guarantee forfeited plus ₦3,500 return logistics clawback</li>
+        <li><b>Transit damage — minor</b> — buyer accepts, seller paid in full, carrier compensates buyer</li>
+        <li><b>Transit damage — total</b> — buyer full refund, seller guarantee returned, carrier pays both ways</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FOOTER                                                        -->
+  <!-- ============================================================ -->
+  <div class="foot">
+    <div class="foot-brand">
+      <div class="mark">✓</div>
+      <div class="name">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="foot-meta">
+      Escrow &amp; Trust System · v1.0<br>
+      dealsgate.ng
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

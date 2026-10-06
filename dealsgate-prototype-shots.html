@@ -1,0 +1,1085 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Prototype Shots</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1A4A;
+    --navy-deep: #061133;
+    --navy2: #142a70;
+    --green: #16A34A;
+    --green-bright: #22C55E;
+    --gold: #F4B420;
+    --gold2: #D99A0F;
+    --mist: #F1F3F5;
+    --ink: #0F172A;
+    --muted: #64748B;
+    --line: #E2E8F0;
+    --red: #DC2626;
+    --purple: #7C3AED;
+    --blue: #2563EB;
+  }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #D5DAE4;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 20px 80px;
+  }
+
+  /* ---------- SCREEN NOTE ---------- */
+  .screen-note {
+    max-width: 1140px;
+    margin: 0 auto 32px;
+    background: var(--navy);
+    color: #fff;
+    padding: 18px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.65;
+    box-shadow: 0 8px 24px rgba(11,26,74,.24);
+  }
+  .screen-note b { color: var(--gold); }
+  .screen-note kbd {
+    background: rgba(244,180,32,.16);
+    color: var(--gold);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'Menlo', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid rgba(244,180,32,.32);
+  }
+
+  /* ---------- GRID ---------- */
+  .grid {
+    max-width: 1140px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 44px;
+  }
+
+  .shot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  /* ---------- DEVICE FRAME ---------- */
+  .device {
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 9 / 19;
+    background: #0A0A0A;
+    border-radius: 40px;
+    padding: 9px;
+    box-shadow:
+      0 20px 48px rgba(11,26,74,.24),
+      0 4px 12px rgba(11,26,74,.10),
+      inset 0 0 0 1.5px #1F1F1F;
+    position: relative;
+  }
+
+  .device::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 82px;
+    height: 5px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 5;
+  }
+
+  .screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 32px;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* ---------- SHARED UI ---------- */
+  .status-bar {
+    height: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--navy);
+    background: #fff;
+    flex-shrink: 0;
+  }
+
+  .status-bar.light {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .app-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 14px 12px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .app-header .brand {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .app-header .mark {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--gold);
+    color: var(--navy);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 900;
+    border: 1.5px solid #fff;
+  }
+
+  .app-header .name {
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.2px;
+  }
+  .app-header .name .g { color: var(--green-bright); }
+
+  .app-header .sub {
+    font-size: 7px;
+    color: var(--gold);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-top: 2px;
+  }
+
+  .body {
+    flex: 1;
+    overflow: hidden;
+    background: var(--mist);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-mini {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 12px;
+    box-shadow: 0 1px 2px rgba(11,26,74,.05);
+  }
+
+  .label-mini {
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .value-mini {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  .value-mini.mono {
+    font-family: 'Menlo', monospace;
+    letter-spacing: -0.02em;
+  }
+
+  .value-mini.green { color: var(--green); }
+
+  .divider-mini {
+    height: 1px;
+    background: var(--line);
+    margin: 6px 0;
+  }
+
+  .row-mini {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9px;
+    padding: 4px 0;
+  }
+
+  .row-mini .k { color: var(--muted); font-weight: 600; }
+  .row-mini .v {
+    color: var(--navy);
+    font-weight: 800;
+    font-family: 'Menlo', monospace;
+  }
+  .row-mini .v.green { color: var(--green); }
+
+  .row-mini.total {
+    padding-top: 6px;
+    border-top: 1px solid var(--line);
+    margin-top: 2px;
+  }
+  .row-mini.total .k {
+    color: var(--navy);
+    font-weight: 800;
+  }
+  .row-mini.total .v {
+    font-size: 12px;
+    color: var(--green);
+  }
+
+  .btn-mini {
+    background: var(--navy);
+    color: #fff;
+    text-align: center;
+    padding: 9px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    margin-top: auto;
+  }
+
+  .btn-mini.gold {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  .tabs-mini {
+    display: flex;
+    justify-content: space-around;
+    padding: 6px 0 8px;
+    background: #fff;
+    border-top: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  .tabs-mini .tab-m {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: var(--mist);
+    display: grid;
+    place-items: center;
+    font-size: 9px;
+  }
+
+  .tabs-mini .tab-m.on {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .pill.green { background: #DCFCE7; color: var(--green); }
+  .pill.gold { background: #FEF3C7; color: var(--gold2); }
+  .pill.navy { background: var(--navy); color: #fff; }
+  .pill.red { background: #FEE2E2; color: var(--red); }
+  .pill.blue { background: #DBEAFE; color: var(--blue); }
+  .pill.purple { background: #EDE9FE; color: var(--purple); }
+
+  /* ---------- CAPTION ---------- */
+  .caption {
+    text-align: center;
+    max-width: 320px;
+  }
+
+  .caption-num {
+    font-family: 'Menlo', monospace;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--gold2);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .caption-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.25;
+    letter-spacing: -0.2px;
+    margin-bottom: 6px;
+  }
+
+  .caption-desc {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* ---------- SHOT 1: PUBLIC HERO ---------- */
+  .hero-mini {
+    background: linear-gradient(155deg, var(--navy-deep) 0%, var(--navy) 60%, var(--navy2) 100%);
+    padding: 16px 14px 18px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-mini::after {
+    content: "";
+    position: absolute;
+    right: -20px;
+    top: -20px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(244,180,32,.35), transparent 70%);
+  }
+  .hero-mini .eyebrow {
+    font-size: 6.5px;
+    color: var(--gold);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-mini h3 {
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.12;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.4px;
+  }
+  .hero-mini h3 .g { color: var(--gold); }
+  .hero-mini h3 .gr { color: #4ADE80; }
+  .hero-mini .sub {
+    font-size: 8.5px;
+    color: rgba(255,255,255,.82);
+    margin-top: 6px;
+    line-height: 1.5;
+    position: relative;
+    z-index: 1;
+  }
+
+  .search-mini {
+    background: #fff;
+    border-radius: 9px;
+    padding: 9px 11px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px;
+    box-shadow: 0 2px 6px rgba(11,26,74,.08);
+    border: 1px solid var(--line);
+  }
+  .search-mini .ic {
+    font-size: 11px;
+  }
+  .search-mini .ph {
+    font-size: 9.5px;
+    color: #94A3B8;
+    font-weight: 600;
+  }
+
+  .seller-mini {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 9px 11px;
+    background: #fff;
+    border-radius: 9px;
+    margin-bottom: 6px;
+  }
+  .seller-mini .av {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--navy);
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 10px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .seller-mini .av .v {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--green);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 6px;
+    border: 1px solid #fff;
+  }
+  .seller-mini .info {
+    flex: 1;
+    min-width: 0;
+  }
+  .seller-mini .name {
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .seller-mini .meta {
+    font-size: 7.5px;
+    color: var(--muted);
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .seller-mini .stars {
+    font-size: 8px;
+    color: var(--gold2);
+    font-weight: 800;
+    margin-top: 2px;
+  }
+
+  /* ---------- SHOT 3: CHECKOUT ---------- */
+  .cost-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 9.5px;
+    border-bottom: 1px solid var(--line);
+  }
+  .cost-row:last-child { border-bottom: none; }
+  .cost-row .k { color: var(--muted); font-weight: 600; }
+  .cost-row .v {
+    color: var(--navy);
+    font-weight: 800;
+    font-family: 'Menlo', monospace;
+  }
+  .cost-row.total {
+    padding-top: 8px;
+    margin-top: 2px;
+    border-top: 1.5px solid var(--navy);
+    border-bottom: none;
+  }
+  .cost-row.total .k {
+    color: var(--navy);
+    font-weight: 800;
+    font-size: 10px;
+  }
+  .cost-row.total .v {
+    color: var(--green);
+    font-size: 13px;
+  }
+
+  /* ---------- SHOT 4: INSPECTION ---------- */
+  .check-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 9px;
+    border-bottom: 1px solid var(--line);
+  }
+  .check-row:last-child { border-bottom: none; }
+  .check-row .k { color: #3A4459; font-weight: 600; }
+  .check-row .v {
+    font-size: 7.5px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+
+  .verdict-box {
+    background: linear-gradient(135deg, var(--green) 0%, #15803D 100%);
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 9px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .verdict-box .lbl {
+    font-size: 7px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.72);
+    font-weight: 800;
+  }
+  .verdict-box .v {
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+  }
+
+  /* ---------- SHOT 5: EVIDENCE GATE ---------- */
+  .evidence-frame {
+    background: #0A0A0A;
+    border-radius: 8px;
+    aspect-ratio: 16 / 10;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    position: relative;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .evidence-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(244,180,32,.14), transparent 60%),
+      radial-gradient(circle at 70% 30%, rgba(22,163,74,.18), transparent 60%);
+  }
+  .evidence-frame .play {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    border: 1.5px solid rgba(255,255,255,.4);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+  }
+  .evidence-frame .dur {
+    position: absolute;
+    bottom: 5px;
+    right: 7px;
+    font-size: 7px;
+    font-weight: 800;
+    font-family: 'Menlo', monospace;
+    background: rgba(0,0,0,.65);
+    padding: 2px 5px;
+    border-radius: 3px;
+    z-index: 1;
+  }
+  .evidence-frame .imei {
+    position: absolute;
+    top: 5px;
+    left: 7px;
+    font-size: 6.5px;
+    font-weight: 800;
+    font-family: 'Menlo', monospace;
+    background: rgba(0,0,0,.65);
+    padding: 2px 5px;
+    border-radius: 3px;
+    z-index: 1;
+    letter-spacing: 0.04em;
+  }
+
+  .evidence-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .evidence-actions .btn-approve {
+    background: var(--green);
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    border-radius: 7px;
+    font-size: 9.5px;
+    font-weight: 800;
+  }
+  .evidence-actions .btn-dispute {
+    background: #fff;
+    color: var(--red);
+    border: 1px solid var(--red);
+    text-align: center;
+    padding: 8px;
+    border-radius: 7px;
+    font-size: 9.5px;
+    font-weight: 800;
+  }
+
+  /* ---------- SHOT 6: TRACKING ---------- */
+  .track-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 4px 0;
+    position: relative;
+  }
+  .track-row .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--green);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px var(--green);
+    flex-shrink: 0;
+    margin-top: 3px;
+    z-index: 1;
+  }
+  .track-row.current .dot {
+    background: var(--gold);
+    box-shadow: 0 0 0 1px var(--gold), 0 0 0 4px rgba(244,180,32,.22);
+  }
+  .track-row.pending .dot {
+    background: #fff;
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  .track-row .info {
+    flex: 1;
+    min-width: 0;
+  }
+  .track-row .t {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .track-row.pending .t {
+    color: #94A3B8;
+    font-weight: 600;
+  }
+  .track-row .d {
+    font-size: 7px;
+    color: var(--muted);
+    margin-top: 1px;
+    line-height: 1.3;
+  }
+  .track-rail {
+    position: relative;
+    padding-left: 3px;
+  }
+  .track-rail::before {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, var(--green) 0%, var(--green) 55%, var(--line) 55%, var(--line) 100%);
+    border-radius: 2px;
+    z-index: 0;
+  }
+
+  /* ---------- PRINT ---------- */
+  @media print {
+    html, body { background: #fff; padding: 0; }
+    .screen-note { display: none !important; }
+    .grid { display: block; max-width: none; }
+    .shot { page-break-after: always; margin: 40px 0; }
+    .shot:last-child { page-break-after: auto; }
+    .device { box-shadow: none; border: 1px solid #ccc; }
+    .caption { page-break-before: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="screen-note">
+  <b>How to export these prototype shots:</b> Screenshot each card individually using your
+  browser's screenshot tool, or press <kbd>Ctrl</kbd>+<kbd>P</kbd> / <kbd>⌘</kbd>+<kbd>P</kbd>
+  and <b>Save as PDF</b> — one shot per page. Recommended export size: <b>1080 × 1920</b>
+  per shot for upload clarity.
+</div>
+
+<div class="grid">
+
+  <!-- ============================================================
+       SHOT 1 · PUBLIC HERO + SELLER SEARCH
+       ============================================================ -->
+  <div class="shot">
+    <div class="device">
+      <div class="screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>●●● ●●</span>
+        </div>
+
+        <div class="app-header">
+          <div class="brand">
+            <div class="mark">✓</div>
+            <div>
+              <div class="name">Deals<span class="g">Gate</span></div>
+              <div class="sub">Africa's Secure Gateway</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-mini">
+          <div class="eyebrow">🛡 Verify any vendor</div>
+          <h3>We verify the item.<br>We <span class="g">protect the payment</span>.</h3>
+          <div class="sub">Safe online trade for Nigerian buyers and sellers.</div>
+        </div>
+
+        <div class="search-mini">
+          <span class="ic">🔍</span>
+          <span class="ph">Search any vendor by name...</span>
+        </div>
+
+        <div class="body" style="padding-top:0">
+          <div class="seller-mini">
+            <div class="av">AO<span class="v">✓</span></div>
+            <div class="info">
+              <div class="name">Adaeze Okafor</div>
+              <div class="meta">Business · Phones &amp; Tablets</div>
+              <div class="stars">★★★★★ 4.9 · 34 deals</div>
+            </div>
+          </div>
+          <div class="seller-mini">
+            <div class="av" style="background:#2563EB;color:#fff">TA<span class="v">✓</span></div>
+            <div class="info">
+              <div class="name">Tunde Adebayo</div>
+              <div class="meta">Individual · Electronics</div>
+              <div class="stars">★★★★☆ 4.7 · 15 deals</div>
+            </div>
+          </div>
+          <div class="seller-mini">
+            <div class="av" style="background:#7C3AED;color:#fff">FY<span class="v">✓</span></div>
+            <div class="info">
+              <div class="name">Fatima Yusuf</div>
+              <div class="meta">Business · Cameras &amp; Drones</div>
+              <div class="stars">★★★★★ 4.8 · 42 deals</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs-mini">
+          <div class="tab-m on">🏠</div>
+          <div class="tab-m">🔍</div>
+          <div class="tab-m">📦</div>
+          <div class="tab-m">👤</div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <div class="caption-num">PROTOTYPE 01</div>
+      <div class="caption-title">Public seller reputation search</div>
+      <div class="caption-desc">Buyers verify any vendor's real deal history, verified status, and star rating before paying. No login required.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SHOT 2 · CREATE DEAL WIZARD
+       ============================================================ -->
+  <div class="shot">
+    <div class="device">
+      <div class="screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>●●● ●●</span>
+        </div>
+
+        <div class="app-header">
+          <div class="brand">
+            <div class="mark">✓</div>
+            <div>
+              <div class="name">Create Protected Deal</div>
+              <div class="sub">Step 3 of 7</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="body">
+          <div class="card-mini" style="padding:0;overflow:hidden">
+            <div style="background:var(--navy);color:#fff;padding:12px">
+              <div style="font-size:7px;color:var(--gold);letter-spacing:0.14em;font-weight:800;text-transform:uppercase">Step 3 of 7</div>
+              <div style="font-size:12px;font-weight:800;margin-top:3px">Quality notes &amp; price</div>
+            </div>
+            <div style="padding:10px">
+              <div class="label-mini">Quality notes *</div>
+              <div style="font-size:9px;color:#3A4459;line-height:1.5;padding:8px;background:var(--mist);border-radius:6px;border:1px solid var(--line)">
+                Battery health 89%. Face ID works. Cameras work. Minor scratch on bottom-right corner only.
+              </div>
+            </div>
+          </div>
+
+          <div class="card-mini">
+            <div class="label-mini">Agreed price *</div>
+            <div class="value-mini mono" style="font-size:16px;color:var(--green)">₦450,000</div>
+          </div>
+
+          <div class="card-mini" style="background:#FEFBEB;border-left:3px solid var(--gold)">
+            <div style="font-size:8.5px;color:#78350F;line-height:1.5;font-weight:600">
+              <b style="color:var(--navy)">₦5,000 refundable guarantee</b> will be auto-debited from your guarantee wallet when you publish.
+            </div>
+          </div>
+
+          <div class="btn-mini" style="margin-top:auto">Continue to media →</div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <div class="caption-num">PROTOTYPE 02</div>
+      <div class="caption-title">Seller creates a Protected Deal</div>
+      <div class="caption-desc">Seven-step wizard captures item details, taxonomy, media, Google Maps pin, and the refundable ₦5,000 guarantee.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SHOT 3 · BUYER CHECKOUT
+       ============================================================ -->
+  <div class="shot">
+    <div class="device">
+      <div class="screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>●●● ●●</span>
+        </div>
+
+        <div class="app-header">
+          <div class="brand">
+            <div class="mark">✓</div>
+            <div>
+              <div class="name">Checkout</div>
+              <div class="sub">Escrow protected</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="body">
+          <div class="card-mini">
+            <div class="label-mini">Item</div>
+            <div class="value-mini" style="font-size:10px">iPhone 14 Pro 256GB — Deep Purple</div>
+            <div class="divider-mini"></div>
+            <div class="cost-row"><span class="k">Item price</span><span class="v">₦450,000</span></div>
+            <div class="cost-row"><span class="k">Buyer service fee (2%)</span><span class="v">₦9,000</span></div>
+            <div class="cost-row"><span class="k">Vet Agent inspection</span><span class="v">₦6,000</span></div>
+            <div class="cost-row"><span class="k">Logistics (GIG)</span><span class="v">₦3,500</span></div>
+            <div class="cost-row total"><span class="k">Total</span><span class="v">₦468,500</span></div>
+          </div>
+
+          <div class="card-mini" style="background:#F0FDF4;border-left:3px solid var(--green)">
+            <div style="font-size:8px;color:#065F46;line-height:1.5;font-weight:600">
+              ✓ <b>Funds held in regulated escrow</b> — released only after you approve the inspection report.
+            </div>
+          </div>
+
+          <div class="btn-mini gold" style="margin-top:auto">Pay ₦468,500 securely</div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <div class="caption-num">PROTOTYPE 03</div>
+      <div class="caption-title">Buyer pays into escrow</div>
+      <div class="caption-desc">Four transparent cost lines. The platform's logistics margin is never shown. Buyer sees exactly what they pay.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SHOT 4 · VET AGENT INSPECTION
+       ============================================================ -->
+  <div class="shot">
+    <div class="device">
+      <div class="screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>●●● ●●</span>
+        </div>
+
+        <div class="app-header">
+          <div class="brand">
+            <div class="mark">✓</div>
+            <div>
+              <div class="name">Inspection report</div>
+              <div class="sub">Blessing E. · Certified · 47m from pin</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="body">
+          <div class="verdict-box">
+            <div class="lbl">Verdict</div>
+            <div class="v">PASS</div>
+          </div>
+
+          <div class="card-mini" style="padding:8px 12px">
+            <div class="check-row"><span class="k">IMEI matches label &amp; box</span><span class="v">Pass</span></div>
+            <div class="check-row"><span class="k">Battery health captured</span><span class="v">Pass</span></div>
+            <div class="check-row"><span class="k">Screen — no cracks</span><span class="v">Pass</span></div>
+            <div class="check-row"><span class="k">Face ID works</span><span class="v">Pass</span></div>
+            <div class="check-row"><span class="k">No iCloud lock</span><span class="v">Pass</span></div>
+          </div>
+
+          <div class="card-mini" style="display:flex;gap:8px;align-items:center;padding:8px 10px">
+            <div style="font-size:18px">🎥</div>
+            <div style="flex:1">
+              <div style="font-size:9px;font-weight:800;color:var(--navy)">Continuous video · 45s</div>
+              <div style="font-size:7.5px;color:var(--muted);margin-top:1px">IMEI captured on camera · no edits</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <div class="caption-num">PROTOTYPE 04</div>
+      <div class="caption-title">Certified Vet Agent inspection</div>
+      <div class="caption-desc">Physical inspection with IMEI, serial, condition. GPS-verified within 500m of the seller's pin. Continuous video evidence.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SHOT 5 · EVIDENCE GATE
+       ============================================================ -->
+  <div class="shot">
+    <div class="device">
+      <div class="screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>●●● ●●</span>
+        </div>
+
+        <div class="app-header">
+          <div class="brand">
+            <div class="mark">✓</div>
+            <div>
+              <div class="name">Evidence review</div>
+              <div class="sub">DG-240501 · Action required</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="body">
+          <div class="evidence-frame">
+            <div class="imei">IMEI 356938035643809</div>
+            <div class="play">▶</div>
+            <div class="dur">0:45</div>
+          </div>
+
+          <div class="card-mini">
+            <div class="label-mini">Inspection summary</div>
+            <div style="font-size:9px;color:#3A4459;line-height:1.5;margin-top:3px">
+              Item matches listing media. Battery 89% as declared. Minor scratch photographed and noted.
+            </div>
+          </div>
+
+          <div class="card-mini" style="background:#FEFBEB;border-left:3px solid var(--gold);padding:8px 10px">
+            <div style="font-size:7.5px;color:#78350F;font-weight:700;line-height:1.4">
+              ⚠ Nothing moves — not the item, not the money — until you approve.
+            </div>
+          </div>
+
+          <div class="evidence-actions">
+            <div class="btn-dispute">Dispute</div>
+            <div class="btn-approve">Approve ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <div class="caption-num">PROTOTYPE 05</div>
+      <div class="caption-title">The evidence gate</div>
+      <div class="caption-desc">The core protection. Logistics cannot pick up the item and funds cannot release until the buyer approves the inspection report.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SHOT 6 · SHARED TRACKING
+       ============================================================ -->
+  <div class="shot">
+    <div class="device">
+      <div class="screen">
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>●●● ●●</span>
+        </div>
+
+        <div class="app-header">
+          <div class="brand">
+            <div class="mark">✓</div>
+            <div>
+              <div class="name">Tracking · DG-240501</div>
+              <div class="sub">Both parties see the same journey</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="body" style="padding:12px 14px">
+          <div class="track-rail">
+            <div class="track-row">
+              <div class="dot"></div>
+              <div class="info">
+                <div class="t">Escrow funded</div>
+                <div class="d">₦468,500 held safely</div>
+              </div>
+            </div>
+            <div class="track-row">
+              <div class="dot"></div>
+              <div class="info">
+                <div class="t">Agent inspected</div>
+                <div class="d">PASS · Blessing E.</div>
+              </div>
+            </div>
+            <div class="track-row">
+              <div class="dot"></div>
+              <div class="info">
+                <div class="t">Evidence approved</div>
+                <div class="d">Logistics unlocked</div>
+              </div>
+            </div>
+            <div class="track-row current">
+              <div class="dot"></div>
+              <div class="info">
+                <div class="t">In transit</div>
+                <div class="d">GIG · Lagos → Lagos</div>
+              </div>
+            </div>
+            <div class="track-row pending">
+              <div class="dot"></div>
+              <div class="info">
+                <div class="t">Delivered</div>
+                <div class="d">Awaiting confirmation</div>
+              </div>
+            </div>
+            <div class="track-row pending">
+              <div class="dot"></div>
+              <div class="info">
+                <div class="t">Settlement</div>
+                <div class="d">Seller paid · guarantee refunded</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tabs-mini">
+          <div class="tab-m">🏠</div>
+          <div class="tab-m">🔍</div>
+          <div class="tab-m on">📦</div>
+          <div class="tab-m">👤</div>
+        </div>
+      </div>
+    </div>
+    <div class="caption">
+      <div class="caption-num">PROTOTYPE 06</div>
+      <div class="caption-title">Shared tracking</div>
+      <div class="caption-desc">Buyer and seller see the same journey with the same timestamps, driven by verified courier webhooks. No hidden states.</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

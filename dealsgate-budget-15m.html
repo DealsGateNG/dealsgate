@@ -1,0 +1,813 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Budget ₦15M</title>
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1A4A;
+    --navy2: #142a70;
+    --green: #16A34A;
+    --gold: #F4B420;
+    --gold2: #C98A00;
+    --ink: #0F172A;
+    --muted: #64748B;
+    --line: #E2E8F0;
+    --mist: #F4F6FB;
+    --red: #DC2626;
+  }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #D5DAE4;
+    color: var(--ink);
+    font-size: 11pt;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    margin: 24px auto;
+    padding: 22mm 20mm 20mm;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(11,26,74,.14);
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page:last-child { page-break-after: auto; margin-bottom: 0; }
+
+  @media print {
+    html, body { background: #fff; font-size: 10pt; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      padding: 18mm 16mm 16mm;
+      min-height: 0;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: auto; }
+    .screen-note { display: none !important; }
+  }
+
+  .screen-note {
+    max-width: 210mm;
+    margin: 24px auto;
+    background: var(--navy);
+    color: #fff;
+    padding: 16px 22px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    box-shadow: 0 8px 24px rgba(11,26,74,.24);
+  }
+  .screen-note b { color: var(--gold); }
+  .screen-note kbd {
+    background: rgba(244,180,32,.16);
+    color: var(--gold);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'Menlo', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid rgba(244,180,32,.32);
+  }
+
+  /* HEADER */
+  .doc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 14px;
+    border-bottom: 3px solid var(--navy);
+    margin-bottom: 18px;
+  }
+
+  .doc-header-left .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .doc-header-left .mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--navy);
+    color: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 17px;
+    font-weight: 900;
+    border: 2px solid var(--gold);
+  }
+
+  .doc-header-left .brandname {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+  }
+  .doc-header-left .brandname .g { color: var(--green); }
+
+  .doc-header-left .brandsub {
+    font-size: 9px;
+    color: var(--gold2);
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-top: 1px;
+  }
+
+  .doc-header-left .doctitle {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-top: 8px;
+  }
+
+  .doc-header-left .docsub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .doc-header-right {
+    text-align: right;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.7;
+    flex-shrink: 0;
+  }
+
+  .doc-header-right .meta-label {
+    font-size: 8px;
+    color: var(--gold2);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+
+  .doc-header-right .meta-value {
+    color: var(--navy);
+    font-weight: 700;
+    font-family: 'Menlo', monospace;
+    font-size: 10px;
+    margin-bottom: 8px;
+  }
+
+  /* HERO ASK */
+  .hero-ask {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    color: #fff;
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-ask::after {
+    content: "";
+    position: absolute;
+    right: -30px;
+    top: -30px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(244,180,32,.28), transparent 70%);
+  }
+
+  .hero-ask .lbl {
+    font-size: 9pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 800;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-ask .sub {
+    font-size: 10pt;
+    color: rgba(255,255,255,.82);
+    margin-top: 4px;
+    position: relative;
+    z-index: 1;
+    line-height: 1.5;
+    max-width: 90mm;
+  }
+
+  .hero-ask .amt {
+    font-family: 'Menlo', monospace;
+    font-size: 30pt;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: -1.5px;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+  }
+
+  /* SECTION */
+  .section { margin-bottom: 16px; }
+
+  .section-title {
+    font-size: 11pt;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    border-bottom: 1.5px solid var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .section p {
+    font-size: 10pt;
+    color: #334155;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  /* TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    margin-bottom: 10px;
+  }
+
+  thead th {
+    background: var(--navy);
+    color: #fff;
+    text-align: left;
+    padding: 8px 11px;
+    font-size: 9pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+
+  thead th:last-child { text-align: right; }
+
+  tbody td {
+    padding: 8px 11px;
+    border-bottom: 1px solid var(--line);
+    color: #334155;
+    font-size: 9.5pt;
+    vertical-align: top;
+  }
+
+  tbody td:first-child { font-weight: 700; color: var(--navy); }
+  tbody td:last-child {
+    text-align: right;
+    font-family: 'Menlo', monospace;
+    font-weight: 800;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  tbody tr.grouphead td {
+    background: #F8FAFC;
+    color: var(--navy);
+    font-weight: 800;
+    font-size: 10pt;
+    padding: 9px 11px;
+    border-top: 2px solid var(--navy);
+    border-bottom: 1px solid var(--line);
+  }
+  tbody tr.grouphead td:last-child {
+    font-size: 10.5pt;
+    color: var(--green);
+  }
+
+  tbody tr.sub td {
+    background: #FBFCFE;
+    font-weight: 500;
+    color: #64748B;
+    font-size: 9pt;
+    padding: 6px 11px 6px 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  tbody tr.sub td:last-child {
+    color: #94A3B8;
+    font-weight: 500;
+    font-family: inherit;
+    font-size: 9pt;
+  }
+
+  tbody tr.total td {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 800;
+    font-size: 11pt;
+    padding: 11px;
+    border-bottom: none;
+    border-top: 2px solid var(--navy);
+  }
+  tbody tr.total td:first-child { color: #fff; }
+  tbody tr.total td:last-child {
+    color: var(--gold);
+    font-size: 12pt;
+    font-family: 'Menlo', monospace;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: #FEFBEB;
+    border-left: 3px solid var(--gold);
+    padding: 10px 13px;
+    border-radius: 0 8px 8px 0;
+    font-size: 9.5pt;
+    color: #5A4A1A;
+    line-height: 1.55;
+    margin: 10px 0;
+  }
+  .callout b { color: var(--navy); }
+
+  .callout.green {
+    background: #F0FDF4;
+    border-left-color: var(--green);
+    color: #065F46;
+  }
+  .callout.green b { color: #065F46; }
+
+  /* MILESTONE GRID */
+  .mile-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 10px 0;
+  }
+
+  .mile {
+    background: var(--mist);
+    border-radius: 8px;
+    padding: 10px;
+    border-top: 3px solid var(--gold);
+    text-align: center;
+  }
+
+  .mile .q {
+    font-size: 8pt;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold2);
+    margin-bottom: 4px;
+  }
+
+  .mile .v {
+    font-family: 'Menlo', monospace;
+    font-size: 13pt;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1;
+  }
+
+  .mile .l {
+    font-size: 8.5pt;
+    color: var(--muted);
+    margin-top: 5px;
+    line-height: 1.35;
+    font-weight: 500;
+  }
+
+  /* CHECKLIST */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0;
+  }
+
+  .checklist li {
+    padding: 5px 0 5px 22px;
+    position: relative;
+    font-size: 9.5pt;
+    color: #334155;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--line);
+  }
+  .checklist li:last-child { border-bottom: none; }
+
+  .checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    color: var(--green);
+    font-weight: 900;
+    font-size: 10.5pt;
+  }
+
+  .checklist li b { color: var(--navy); font-weight: 800; }
+
+  /* FOOTER */
+  .page-footer {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 8.5pt;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .page-footer b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+
+<div class="screen-note">
+  <b>How to save as PDF:</b> open in <b>Chrome</b>, press
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> / <kbd>⌘</kbd>+<kbd>P</kbd>. Destination <b>Save as PDF</b>,
+  layout <b>Portrait</b>, paper <b>A4</b>, margins <b>None</b>, tick
+  <b>Background graphics</b>. Save as <b>DealsGate_Budget_15M.pdf</b>.
+</div>
+
+<!-- ============================================================
+     PAGE 1 · BUDGET
+     ============================================================ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Africa's Secure Transaction Gateway</div>
+        </div>
+      </div>
+      <div class="doctitle">Budget &amp; Use of Funds</div>
+      <div class="docsub">12-month launch plan · Seed-stage funding ask</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Document</div>
+      <div class="meta-value">DOC-01 · Budget</div>
+      <div class="meta-label">Version</div>
+      <div class="meta-value">2.0 · 2026</div>
+      <div class="meta-label">Prepared by</div>
+      <div class="meta-value">A. Taofik, Founder</div>
+    </div>
+  </div>
+
+  <div class="hero-ask">
+    <div>
+      <div class="lbl">Total funding requested</div>
+      <div class="sub">12-month runway to ship the production platform, certify 200 Vet Agents, and run a two-city pilot in Lagos and Ibadan.</div>
+    </div>
+    <div class="amt">₦15,000,000</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Overview</div>
+    <p>
+      DealsGate is a protected-deal platform for Nigerian social commerce. The MVP is
+      complete — full technical specification, 13 working product artifacts, an
+      11-document legal policy library, and a 10-module Vet Agent training programme,
+      all built without external funding. This budget funds the transition from
+      working demonstration to a live, revenue-generating pilot across two Nigerian
+      cities, with a production team in place to scale beyond it.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Detailed Budget — 12 Months</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th style="text-align:right">Amount (₦)</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- ENGINEERING -->
+        <tr class="grouphead">
+          <td>01 · Engineering &amp; Product</td>
+          <td>6,500,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Senior backend engineer · full-time · 12 months @ ₦350,000/mo</td>
+          <td>4,200,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Frontend engineer · contract · 6 months @ ₦250,000/mo</td>
+          <td>1,500,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Product design · contract · 4 months</td>
+          <td>300,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Independent security audit + code review (pre-launch)</td>
+          <td>500,000</td>
+        </tr>
+
+        <!-- ESCROW & COMPLIANCE -->
+        <tr class="grouphead">
+          <td>02 · Escrow Integration &amp; Compliance</td>
+          <td>2,500,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Payment partner integration · escrow custody, webhooks, ledger</td>
+          <td>800,000</td>
+        </tr>
+        <tr class="sub">
+          <td>KYC provider integration · NIN, BVN, CAC verification</td>
+          <td>500,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Legal review of 11 policy documents by Nigerian counsel</td>
+          <td>600,000</td>
+        </tr>
+        <tr class="sub">
+          <td>CAC incorporation of DealsGate entity + regulatory filing</td>
+          <td>300,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Penetration test + NDPC data controller registration</td>
+          <td>300,000</td>
+        </tr>
+
+        <!-- VET AGENT NETWORK -->
+        <tr class="grouphead">
+          <td>03 · Vet Agent Network</td>
+          <td>2,000,000</td>
+        </tr>
+        <tr class="sub">
+          <td>200 certified agents × ₦5,000 completion bonus</td>
+          <td>1,000,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Training content production · video, print, assessment tools</td>
+          <td>400,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Field recruitment coordinators · part-time · Lagos + Ibadan</td>
+          <td>400,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Agent support tools · WhatsApp Business API, helpline</td>
+          <td>200,000</td>
+        </tr>
+
+        <!-- PILOT -->
+        <tr class="grouphead">
+          <td>04 · Two-City Pilot Launch</td>
+          <td>1,800,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Launch marketing · Lagos + Ibadan (digital, creator partnerships)</td>
+          <td>800,000</td>
+        </tr>
+        <tr class="sub">
+          <td>First 500 protected-deal subsidies</td>
+          <td>500,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Press, media partnerships, launch event</td>
+          <td>300,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Seller onboarding events · universities + market clusters</td>
+          <td>200,000</td>
+        </tr>
+
+        <!-- INFRASTRUCTURE -->
+        <tr class="grouphead">
+          <td>05 · Infrastructure &amp; Tools</td>
+          <td>900,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Cloud hosting, storage, and CDN · 12 months</td>
+          <td>350,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Domain, Google Workspace, and business email · 12 months</td>
+          <td>150,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Monitoring, error tracking, analytics stack</td>
+          <td>200,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Design, development, and productivity tools</td>
+          <td>200,000</td>
+        </tr>
+
+        <!-- OPERATIONS -->
+        <tr class="grouphead">
+          <td>06 · Operations &amp; Founder Support</td>
+          <td>800,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Founder stipend · 12 months @ ₦50,000/mo (modest)</td>
+          <td>600,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Accounting, bookkeeping, and statutory filings</td>
+          <td>200,000</td>
+        </tr>
+
+        <!-- CONTINGENCY -->
+        <tr class="grouphead">
+          <td>07 · Contingency Reserve</td>
+          <td>500,000</td>
+        </tr>
+        <tr class="sub">
+          <td>Unallocated reserve for regulatory changes, FX, or scope adjustments</td>
+          <td>500,000</td>
+        </tr>
+
+        <tr class="total">
+          <td>Total requested</td>
+          <td>₦15,000,000</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <div class="callout green">
+      <b>Priority if funding is partial:</b> (1) Engineering, (2) Escrow integration,
+      (3) Vet Agent network. The two-city pilot can launch on a single city and scale
+      to the second after generating revenue. Infrastructure and operations scale
+      proportionally.
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span><b>DealsGate</b> · Budget ₦15M · 2026</span>
+    <span>Page 1 of 2 · DOC-01</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 2 · MILESTONES & SOURCES
+     ============================================================ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <div class="brand">
+        <div class="mark">✓</div>
+        <div>
+          <div class="brandname">Deals<span class="g">Gate</span></div>
+          <div class="brandsub">Africa's Secure Transaction Gateway</div>
+        </div>
+      </div>
+      <div class="doctitle">Milestones &amp; Funding Sources</div>
+      <div class="docsub">What ₦15M unlocks over 12 months</div>
+    </div>
+    <div class="doc-header-right">
+      <div class="meta-label">Document</div>
+      <div class="meta-value">DOC-01 · Part 2</div>
+      <div class="meta-label">Version</div>
+      <div class="meta-value">2.0 · 2026</div>
+      <div class="meta-label">Horizon</div>
+      <div class="meta-value">12 months</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">12-Month Headline Targets</div>
+
+    <div class="mile-grid">
+      <div class="mile">
+        <div class="q">End Q1</div>
+        <div class="v">3</div>
+        <div class="l">Team hires<br>engineers + designer</div>
+      </div>
+      <div class="mile">
+        <div class="q">End Q2</div>
+        <div class="v">1</div>
+        <div class="l">Real deal<br>completed live</div>
+      </div>
+      <div class="mile">
+        <div class="q">End Q3</div>
+        <div class="v">200</div>
+        <div class="l">Certified<br>Vet Agents</div>
+      </div>
+      <div class="mile">
+        <div class="q">End Q4</div>
+        <div class="v">500</div>
+        <div class="l">Protected deals<br>Lagos + Ibadan</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Milestone Detail</div>
+
+    <ul class="checklist">
+      <li><b>Q1 · Foundation.</b> Hire senior backend engineer, frontend contractor, and product designer. Begin production codebase. Complete KYC provider integration in sandbox.</li>
+      <li><b>Q2 · First real deal.</b> Escrow integration with licensed payment partner live in production. First real transaction completed end-to-end — buyer protected, seller paid, agent earning. This is the single most important milestone of the year.</li>
+      <li><b>Q3 · Agent network.</b> Certify 200 Vet Agents across Lagos (Ikeja, Eti-Osa, Surulere, Kosofe) and Ibadan (Ibadan North, Egbeda). Launch public seller reputation directory with real deal history.</li>
+      <li><b>Q4 · Two-city pilot.</b> 500 protected deals completed across both cities. Dispute rate below 5%. Average agent acceptance time under 4 hours. First monthly revenue cohort booked.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Success Metrics</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th style="text-align:right">Target</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Certified Vet Agents</td><td>200</td></tr>
+        <tr><td>Completed protected deals</td><td>500</td></tr>
+        <tr><td>Dispute rate</td><td>&lt; 5%</td></tr>
+        <tr><td>Average agent acceptance time</td><td>&lt; 4 hours</td></tr>
+        <tr><td>Monthly recurring revenue (end Q4)</td><td>₦2,500,000</td></tr>
+        <tr><td>Engineering team size</td><td>3</td></tr>
+        <tr><td>Pilot cities</td><td>2 (Lagos, Ibadan)</td></tr>
+        <tr><td>Active LGAs covered</td><td>6</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Funding Sources</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th style="text-align:right">Amount (₦)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>This grant / seed round</td>
+          <td>15,000,000</td>
+        </tr>
+        <tr>
+          <td>Founder contribution (in-kind, time and travel)</td>
+          <td>1,500,000</td>
+        </tr>
+        <tr class="total">
+          <td>Total 12-month budget</td>
+          <td>₦16,500,000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size:9.5pt;color:#64748B;line-height:1.55;margin-top:6px">
+      Founder's in-kind contribution covers continued development time, travel for
+      agent recruitment across Lagos and Ibadan, and administrative overhead during
+      the grant period.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">What ₦15M Unlocks vs. a Smaller Round</div>
+
+    <div class="callout">
+      A ₦15M round lets DealsGate hire its first full-time engineering team, complete
+      escrow and KYC integration in production, and run a real two-city pilot with
+      measurable deal volume. A smaller round (₦2M–₦5M) can hire contractors and
+      launch a single-city pilot, but cannot build a production team or reach the
+      500-deal threshold that proves product-market fit to institutional follow-on
+      investors.
+    </div>
+
+    <div class="callout green">
+      <b>The ₦15M ask is what turns a working MVP into a fundable company.</b>
+      At end of Q4, DealsGate will have live revenue, real deal data, an agent
+      network in two cities, and the unit economics to raise a Series Seed.
+    </div>
+  </div>
+
+  <div class="page-footer">
+    <span><b>DealsGate</b> · Milestones &amp; Sources · 2026</span>
+    <span>Page 2 of 2 · DOC-01</span>
+  </div>
+</div>
+
+</body>
+</html>

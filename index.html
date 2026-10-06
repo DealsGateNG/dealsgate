@@ -1,0 +1,1024 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — MVP Demo Hub · Africa's Secure Transaction Gateway</title>
+<meta name="description" content="DealsGate MVP — Africa's Secure Transaction Gateway. Interactive demo hub for buyers, sellers, Vet Agents, admin operations and the public seller reputation directory.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;
+  --gold:#F4B420;--gold2:#D99A0F;--mist:#F1F3F5;--charcoal:#1F2937;
+  --red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+  --line:rgba(13,27,76,.10);--line2:rgba(13,27,76,.06);
+  --radius:14px;
+  --shadow:0 1px 3px rgba(13,27,76,.06), 0 1px 2px rgba(13,27,76,.04);
+  --shadow-lg:0 8px 24px rgba(13,27,76,.10);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  background:var(--mist);color:var(--charcoal);font-size:15px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+a{color:inherit;text-decoration:none}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.hdr{
+  position:sticky;top:0;z-index:100;background:rgba(13,27,76,.97);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  color:#fff;padding:10px 16px;box-shadow:0 2px 14px rgba(0,0,0,.16);
+}
+.hdr-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0;flex:1}
+.brand-mark{flex-shrink:0;display:block}
+.brand-txt{min-width:0}
+.brand-txt .n{font-size:16px;font-weight:800;letter-spacing:-.35px;line-height:1.05;white-space:nowrap}
+.brand-txt .n .d{color:#fff}
+.brand-txt .n .g{color:var(--green)}
+.brand-txt .s{font-size:8.5px;color:var(--gold);letter-spacing:1.4px;text-transform:uppercase;font-weight:800;margin-top:2px;white-space:nowrap}
+.hdr-nav{display:flex;gap:4px;align-items:center}
+.hdr-nav a{
+  font-size:11.5px;font-weight:700;color:rgba(255,255,255,.72);
+  padding:7px 11px;border-radius:8px;transition:all .15s;white-space:nowrap;
+}
+.hdr-nav a:hover{background:rgba(255,255,255,.10);color:#fff}
+.hdr-nav a.hi{background:var(--gold);color:var(--navy)}
+.hdr-nav a.hi:hover{background:#FFC63D;color:var(--navy)}
+@media (max-width:720px){.hdr-nav a:not(.hi){display:none}}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  background:
+    radial-gradient(circle at 85% 15%, rgba(244,180,32,.22), transparent 45%),
+    radial-gradient(circle at 15% 90%, rgba(22,163,74,.18), transparent 50%),
+    linear-gradient(135deg, var(--navy) 0%, #14205C 60%, var(--navy2) 100%);
+  color:#fff;padding:52px 20px 60px;position:relative;overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);
+  width:120%;height:60px;background:var(--mist);border-radius:100% 100% 0 0;
+}
+.hero-inner{max-width:920px;margin:0 auto;position:relative;z-index:1;text-align:center}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;background:rgba(244,180,32,.14);
+  border:1px solid rgba(244,180,32,.32);color:var(--gold);
+  padding:6px 14px;border-radius:999px;font-size:10.5px;font-weight:800;
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.85)}}
+.hero h1{
+  font-size:clamp(28px,5.5vw,46px);font-weight:800;letter-spacing:-1px;line-height:1.08;
+  margin:0 auto;max-width:760px;
+}
+.hero h1 .g{color:var(--gold)}
+.hero h1 .gr{color:#4ADE80}
+.hero-sub{
+  font-size:clamp(14px,1.8vw,16.5px);color:rgba(255,255,255,.78);
+  margin:20px auto 0;max-width:620px;line-height:1.6;
+}
+.hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.btn-hero{
+  display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:11px;
+  font-size:14px;font-weight:800;letter-spacing:.01em;transition:transform .12s, box-shadow .2s;
+  cursor:pointer;border:none;font-family:inherit;
+}
+.btn-hero:active{transform:translateY(1px)}
+.btn-hero.pri{background:var(--gold);color:var(--navy);box-shadow:0 6px 22px rgba(244,180,32,.32)}
+.btn-hero.pri:hover{box-shadow:0 8px 28px rgba(244,180,32,.42)}
+.btn-hero.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.22)}
+.btn-hero.ghost:hover{background:rgba(255,255,255,.14)}
+.hero-stats{
+  display:flex;gap:28px;justify-content:center;flex-wrap:wrap;margin-top:40px;
+  position:relative;z-index:1;
+}
+.hero-stat .v{font-size:26px;font-weight:800;color:var(--gold);letter-spacing:-.5px;line-height:1;font-family:ui-monospace,Menlo,monospace}
+.hero-stat .l{font-size:10px;color:rgba(255,255,255,.6);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-top:6px}
+
+/* ============================================================
+   SECTION LAYOUT
+   ============================================================ */
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.section{padding:56px 0 8px}
+.section.tight{padding-top:40px}
+.section-head{max-width:720px;margin-bottom:28px}
+.section-kicker{
+  font-size:10.5px;font-weight:800;color:var(--green2);
+  letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px;display:block;
+}
+.section-head h2{
+  font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--navy);
+  letter-spacing:-.6px;line-height:1.15;
+}
+.section-head p{font-size:14.5px;color:#5A6478;margin-top:12px;line-height:1.65}
+
+/* ============================================================
+   DEMO GRID
+   ============================================================ */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.demo{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .18s ease, box-shadow .22s ease, border-color .18s ease;
+  position:relative;
+}
+.demo:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:rgba(13,27,76,.16)}
+.demo-stripe{height:4px;background:var(--navy)}
+.demo.public .demo-stripe{background:linear-gradient(90deg,var(--green),#4ADE80)}
+.demo.buyer .demo-stripe{background:linear-gradient(90deg,var(--green2),var(--green))}
+.demo.seller .demo-stripe{background:linear-gradient(90deg,var(--gold2),var(--gold))}
+.demo.agent .demo-stripe{background:linear-gradient(90deg,var(--navy),var(--navy2))}
+.demo.admin .demo-stripe{background:linear-gradient(90deg,var(--purple),#A78BFA)}
+.demo.platform .demo-stripe{background:linear-gradient(90deg,var(--blue),#60A5FA)}
+.demo.auth .demo-stripe{background:linear-gradient(90deg,var(--pink),#F472B6)}
+.demo-body{padding:20px 20px 8px;flex:1}
+.demo-top{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px}
+.demo-ico{
+  width:44px;height:44px;flex-shrink:0;border-radius:12px;display:grid;place-items:center;
+  font-size:20px;background:var(--mist);border:1px solid var(--line2);
+}
+.demo.public .demo-ico{background:#DCFCE7;border-color:#BBF7D0}
+.demo.buyer .demo-ico{background:#DCFCE7;border-color:#BBF7D0}
+.demo.seller .demo-ico{background:#FEF3C7;border-color:#FDE68A}
+.demo.agent .demo-ico{background:#E0E7FF;border-color:#C7D2FE}
+.demo.admin .demo-ico{background:#EDE9FE;border-color:#DDD6FE}
+.demo.platform .demo-ico{background:#DBEAFE;border-color:#BFDBFE}
+.demo.auth .demo-ico{background:#FCE7F3;border-color:#FBCFE8}
+.demo-title{font-size:15.5px;font-weight:800;color:var(--navy);line-height:1.2;letter-spacing:-.2px}
+.demo-file{
+  font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:#8A93A6;
+  margin-top:4px;word-break:break-all;
+}
+.demo-desc{font-size:13px;color:#5A6478;line-height:1.6;margin-bottom:16px}
+.demo-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.tag{
+  font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 8px;border-radius:6px;background:var(--mist);color:#6B7280;
+  border:1px solid var(--line2);white-space:nowrap;
+}
+.tag.spec{background:#E0E7FF;color:#3730A3;border-color:#C7D2FE}
+.tag.cnt{background:var(--navy);color:var(--gold);border-color:var(--navy)}
+.demo-foot{
+  padding:12px 20px;border-top:1px solid var(--line2);background:#FCFDFF;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+}
+.demo-launch{
+  display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;
+  color:var(--navy);padding:8px 12px;border-radius:9px;background:var(--mist);
+  transition:background .15s, color .15s;
+}
+.demo-launch:hover{background:var(--navy);color:var(--gold)}
+.demo-launch .ar{font-size:14px;transition:transform .18s}
+.demo-launch:hover .ar{transform:translateX(3px)}
+.demo-meta{font-size:10.5px;color:#8A93A6;font-weight:700;letter-spacing:.02em}
+
+/* ============================================================
+   START GUIDE
+   ============================================================ */
+.steps-list{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.step-item{
+  display:flex;gap:16px;padding:20px;border-bottom:1px solid var(--line2);
+  align-items:flex-start;
+}
+.step-item:last-child{border-bottom:none}
+.step-num{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:var(--navy);color:var(--gold);
+  display:grid;place-items:center;font-size:13px;font-weight:800;
+  border:2px solid var(--gold);
+}
+.step-body{flex:1;min-width:0}
+.step-body h3{font-size:14.5px;font-weight:800;color:var(--navy);margin-bottom:6px;letter-spacing:-.15px}
+.step-body p{font-size:13.5px;color:#5A6478;line-height:1.6}
+.step-body code{
+  font-family:ui-monospace,Menlo,monospace;font-size:12px;
+  background:var(--mist);color:var(--navy);padding:2px 7px;border-radius:6px;
+  border:1px solid var(--line2);
+}
+.step-body .file-list{margin-top:10px;display:grid;gap:4px}
+.step-body .file-list div{
+  font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--navy);
+  background:#F8FAFC;border:1px solid var(--line2);padding:7px 11px;border-radius:7px;
+}
+
+/* ============================================================
+   SPEC COVERAGE
+   ============================================================ */
+.coverage{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.cov-row{
+  display:grid;grid-template-columns:56px 1fr auto;gap:16px;padding:14px 20px;
+  border-bottom:1px solid var(--line2);align-items:center;
+}
+.cov-row:last-child{border-bottom:none}
+.cov-row.head{
+  background:var(--navy);color:#fff;padding:11px 20px;
+  font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  grid-template-columns:56px 1fr auto;
+}
+.cov-sec{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;font-weight:800;color:var(--navy)}
+.cov-row.head .cov-sec{color:var(--gold)}
+.cov-label{font-size:13.5px;color:#3A4459;line-height:1.5}
+.cov-row.head .cov-label{color:rgba(255,255,255,.72);font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+.cov-chip{
+  font-size:10.5px;font-weight:800;letter-spacing:.04em;
+  padding:4px 10px;border-radius:999px;white-space:nowrap;
+}
+.cov-chip.ok{background:#DCFCE7;color:var(--green2)}
+.cov-chip.partial{background:#FEF3C7;color:var(--gold2)}
+.cov-chip.runtime{background:var(--mist);color:#6B7280}
+@media (max-width:640px){
+  .cov-row{grid-template-columns:1fr;gap:8px;align-items:flex-start}
+  .cov-row .cov-sec{font-size:11px;color:#8A93A6}
+  .cov-row.head{display:none}
+}
+
+/* ============================================================
+   PALETTE
+   ============================================================ */
+.palette{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.sw{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.sw-chip{height:72px}
+.sw-info{padding:11px 13px}
+.sw-name{font-size:12px;font-weight:800;color:var(--navy);letter-spacing:-.1px}
+.sw-hex{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;color:#8A93A6;margin-top:3px}
+.sw-role{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--green2);margin-top:5px}
+
+/* ============================================================
+   CONTACT / FOOTER
+   ============================================================ */
+.footer{
+  background:var(--navy);color:#fff;margin-top:64px;padding:52px 20px 28px;
+  position:relative;overflow:hidden;
+}
+.footer::before{
+  content:"";position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(244,180,32,.14),transparent 70%);
+}
+.footer-inner{max-width:1120px;margin:0 auto;position:relative;z-index:1}
+.footer-brand{display:flex;align-items:center;gap:13px;margin-bottom:22px}
+.footer-brand .n{font-size:18px;font-weight:800;letter-spacing:-.3px}
+.footer-brand .n .g{color:var(--green)}
+.footer-brand .s{font-size:9.5px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-weight:800;margin-top:3px}
+.footer-mission{font-size:13.5px;color:rgba(255,255,255,.72);line-height:1.65;max-width:520px;margin-bottom:28px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;margin-bottom:32px}
+.footer-col h4{
+  font-size:10.5px;font-weight:800;color:var(--gold);
+  letter-spacing:.14em;text-transform:uppercase;margin-bottom:13px;
+}
+.footer-col a,.footer-col p,.footer-col div{
+  display:block;font-size:12.5px;color:rgba(255,255,255,.72);line-height:1.85;
+  transition:color .15s;
+}
+.footer-col a:hover{color:var(--gold)}
+.footer-legal{
+  border-top:1px solid rgba(255,255,255,.10);padding-top:22px;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:20px;flex-wrap:wrap;font-size:11.5px;color:rgba(255,255,255,.55);line-height:1.7;
+}
+.footer-legal .right{text-align:right}
+@media (max-width:640px){.footer-legal .right{text-align:left}}
+.footer-social{
+  display:inline-flex;align-items:center;gap:6px;background:rgba(244,180,32,.14);
+  border:1px solid rgba(244,180,32,.32);color:var(--gold);
+  padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;
+  letter-spacing:.04em;margin-top:12px;
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.ts{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,140%);
+  background:var(--navy);color:#fff;border-radius:12px;padding:12px 18px;
+  font-size:12.5px;font-weight:700;box-shadow:0 12px 32px rgba(13,27,76,.35);
+  display:flex;gap:10px;align-items:center;z-index:200;pointer-events:none;
+  transition:transform .35s cubic-bezier(.4,.2,.2,1);max-width:calc(100vw - 32px);
+}
+.ts.on{transform:translate(-50%,0)}
+.ts.ok{background:var(--green)}
+.ts.er{background:var(--red)}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="hdr">
+  <div class="hdr-inner">
+    <div class="brand">
+      <svg class="brand-mark" width="34" height="34" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="lg-navy" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0D1B4C"/><stop offset="1" stop-color="#1A2F7A"/>
+          </linearGradient>
+          <linearGradient id="lg-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F4B420"/><stop offset="1" stop-color="#D99A0F"/>
+          </linearGradient>
+          <linearGradient id="lg-green" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#22C55E"/><stop offset="1" stop-color="#15803D"/>
+          </linearGradient>
+        </defs>
+        <!-- shield body -->
+        <path d="M50 5 L88 20 V50 C88 74 71 88 50 96 C29 88 12 74 12 50 V20 Z"
+              fill="url(#lg-navy)" stroke="url(#lg-gold)" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- gold right accent -->
+        <path d="M50 5 L88 20 V50 C88 60 84 68 78 75 L78 22 Z"
+              fill="url(#lg-gold)" opacity="0.28"/>
+        <!-- green check circle -->
+        <circle cx="50" cy="32" r="11" fill="url(#lg-green)" stroke="#fff" stroke-width="2"/>
+        <path d="M44.5 32.2 L48.3 36 L55.8 28.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- cart -->
+        <path d="M34 44 L40 44 L44 56 L62 56 L66 46 L42 46"
+              fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="47" cy="61" r="2.6" fill="#fff"/>
+        <circle cx="60" cy="61" r="2.6" fill="#fff"/>
+        <!-- handshake -->
+        <path d="M30 76 C36 70 44 70 50 74 C56 70 64 70 70 76"
+              fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M42 75 L48 80 L54 75" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="brand-txt">
+        <div class="n"><span class="d">Deals</span><span class="g">Gate</span></div>
+        <div class="s">Africa's Secure Transaction Gateway</div>
+      </div>
+    </div>
+    <nav class="hdr-nav">
+      <a href="#demos">Demos</a>
+      <a href="#start">How to run</a>
+      <a href="#spec">Spec coverage</a>
+      <a href="#brand">Brand</a>
+      <a href="#contact" class="hi">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><span class="dot"></span>MVP Testing Site · Rev 1.0 FINAL</div>
+    <h1>
+      We verify the item.<br>
+      We <span class="g">protect the payment</span>.<br>
+      We <span class="gr">track the delivery</span>.
+    </h1>
+    <p class="hero-sub">
+      DealsGate is Nigeria's protected-deal platform — built for sellers on Instagram and WhatsApp,
+      buyers who refuse to gamble, and certified Vet Agents who verify every item.
+      This hub opens seven interactive demos covering the whole MVP.
+    </p>
+    <div class="hero-actions">
+      <a href="#demos" class="btn-hero pri">Explore the demos →</a>
+      <a href="#start" class="btn-hero ghost">How to run them</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v">7</div><div class="l">Interactive demos</div></div>
+      <div class="hero-stat"><div class="v">95+</div><div class="l">Guided scenarios</div></div>
+      <div class="hero-stat"><div class="v">§1–§19</div><div class="l">Spec coverage</div></div>
+      <div class="hero-stat"><div class="v">23/23</div><div class="l">Acceptance tests</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DEMOS
+     ============================================================ -->
+<section class="section wrap" id="demos">
+  <div class="section-head">
+    <span class="section-kicker">The Seven Artifacts</span>
+    <h2>Every side of the platform, in one place.</h2>
+    <p>
+      Each demo is a self-contained HTML file. Open them in a mobile browser or desktop,
+      press <strong>▶ Play</strong>, and watch scenarios run end-to-end with real money numbers,
+      real state transitions and a full audit trail. Nothing leaves your device — all state is
+      local to each tab.
+    </p>
+  </div>
+
+  <div class="grid">
+
+    <!-- Public -->
+    <article class="demo public">
+      <div class="demo-stripe"></div>
+      <div class="demo-body">
+        <div class="demo-top">
+          <div class="demo-ico">🌐</div>
+          <div>
+            <div class="demo-title">Public Site</div>
+            <div class="demo-file">dealsgate-public-complete.html</div>
+          </div>
+        </div>
+        <p class="demo-desc">
+          Homepage, hero, public seller reputation dossier, policy library
+          (11 documents), blog (24 posts), Vet Agent hub, About & Contact.
+        </p>
+        <div class="demo-tags">
+          <span class="tag spec">§5 §6 §18</span>
+          <span class="tag">24 posts</span>
+          <span class="tag">11 policies</span>
+        </div>
+      </div>
+      <div class="demo-foot">
+        <a class="demo-launch" href="dealsgate-public-complete.html">Open demo <span class="ar">→</span></a>
+        <span class="demo-meta">Public · no login</span>
+      </div>
+    </article>
+
+    <!-- Auth -->
+    <article class="demo auth">
+      <div class="demo-stripe"></div>
+      <div class="demo-body">
+        <div class="demo-top">
+          <div class="demo-ico">🔐</div>
+          <div>
+            <div class="demo-title">Auth & Onboarding</div>
+            <div class="demo-file">dealsgate-auth-complete.html</div>
+          </div>
+        </div>
+        <p class="demo-desc">
+          Signup (Individual / Business), mandatory policy consent with version &amp; IP audit,
+          ID verification gate, OTP, Google sign-in, withdrawal step-up.
+        </p>
+        <div class="demo-tags">
+          <span class="tag spec">§4 §23</span>
+          <span class="tag cnt">15 scenarios</span>
+        </div>
+      </div>
+      <div class="demo-foot">
+        <a class="demo-launch" href="dealsgate-auth-complete.html">Open demo <span class="ar">→</span></a>
+        <span class="demo-meta">KYC · consent</span>
+      </div>
+    </article>
+
+    <!-- Seller -->
+    <article class="demo seller">
+      <div class="demo-stripe"></div>
+      <div class="demo-body">
+        <div class="demo-top">
+          <div class="demo-ico">🏪</div>
+          <div>
+            <div class="demo-title">Seller Flow</div>
+            <div class="demo-file">dealsgate-seller-complete.html</div>
+          </div>
+        </div>
+        <p class="demo-desc">
+          Create Protected Deal, ₦5,000 guarantee, buyer link, escrow payout,
+          guarantee refund, clone, failed inspection, transit damage, partial withdrawals.
+        </p>
+        <div class="demo-tags">
+          <span class="tag spec">§7 §12 §13</span>
+          <span class="tag cnt">12 scenarios</span>
+        </div>
+      </div>
+      <div class="demo-foot">
+        <a class="demo-launch" href="dealsgate-seller-complete.html">Open demo <span class="ar">→</span></a>
+        <span class="demo-meta">List · payout</span>
+      </div>
+    </article>
+
+    <!-- Buyer -->
+    <article class="demo buyer">
+      <div class="demo-stripe"></div>
+      <div class="demo-body">
+        <div class="demo-top">
+          <div class="demo-ico">🛒</div>
+          <div>
+            <div class="demo-title">Buyer Flow</div>
+            <div class="demo-file">dealsgate-buyer-complete.html</div>
+          </div>
+        </div>
+        <p class="demo-desc">
+          Checkout with no margin line, split wallet + card, evidence gate,
+          approve / dispute, failed inspection refund, transit damage,
+          on-demand inspection request.
+        </p>
+        <div class="demo-tags">
+          <span class="tag spec">§8 §10 §13</span>
+          <span class="tag cnt">14 scenarios</span>
+        </div>
+      </div>
+      <div class="demo-foot">
+        <a class="demo-launch" href="dealsgate-buyer-complete.html">Open demo <span class="ar">→</span></a>
+        <span class="demo-meta">Escrow · approve</span>
+      </div>
+    </article>
+
+    <!-- Agent -->
+    <article class="demo agent">
+      <div class="demo-stripe"></div>
+      <div class="demo-body">
+        <div class="demo-top">
+          <div class="demo-ico">🔍</div>
+          <div>
+            <div class="demo-title">Vet Agent Flow</div>
+            <div class="demo-file">dealsgate-agent-complete.html</div>
+          </div>
+        </div>
+        <p class="demo-desc">
+          Onboarding, 10 training modules, quiz, first-accept-wins, GPS verification,
+          PASS / FAIL / NEEDS_REVIEW, bribe refusal, safety protocol, on-demand jobs.
+        </p>
+        <div class="demo-tags">
+          <span class="tag spec">§9 §10 §14</span>
+          <span class="tag cnt">18 scenarios</span>
+        </div>
+      </div>
+      <div class="demo-foot">
+        <a class="demo-launch" href="dealsgate-agent-complete.html">Open demo <span class="ar">→</span></a>
+        <span class="demo-meta">Inspect · earn</span>
+      </div>
+    </article>
+
+    <!-- Admin -->
+    <article class="demo admin">
+      <div class="demo-stripe"></div>
+      <div class="demo-body">
+        <div class="demo-top">
+          <div class="demo-ico">⚙️</div>
+          <div>
+            <div class="demo-title">Admin Console</div>
+            <div class="demo-file">dealsgate-admin-complete.html</div>
+          </div>
+        </div>
+        <p class="demo-desc">
+          Role picker, KPIs, force reassign, expand radius, pause / resume,
+          dispute mediation, suspensions, dossier suppression, referral clawback,
+          dual-control fee config, immutable audit log.
+        </p>
+        <div class="demo-tags">
+          <span class="tag spec">§19 §23</span>
+          <span class="tag cnt">18 scenarios</span>
+        </div>
+      </div>
+      <div class="demo-foot">
+        <a class="demo-launch" href="dealsgate-admin-complete.html">Open demo <span class="ar">→</span></a>
+        <span class="demo-meta">Ops · mediate</span>
+      </div>
+    </article>
+
+    <!-- Platform -->
+    <article class="demo platform">
+      <div class="demo-stripe"></div>
+      <div class="demo-body">
+        <div class="demo-top">
+          <div class="demo-ico">📡</div>
+          <div>
+            <div class="demo-title">Platform Pulse</div>
+            <div class="demo-file">dealsgate-platform.html</div>
+          </div>
+        </div>
+        <p class="demo-desc">
+          All 9 users live, all 12 scenes running in parallel — signups, agent
+          certification, deals, on-demand requests, withdrawals, referrals,
+          dispute exceptions — in one streaming feed.
+        </p>
+        <div class="demo-tags">
+          <span class="tag spec">§1–§19</span>
+          <span class="tag">12 scenes</span>
+          <span class="tag">live feed</span>
+        </div>
+      </div>
+      <div class="demo-foot">
+        <a class="demo-launch" href="dealsgate-platform.html">Open demo <span class="ar">→</span></a>
+        <span class="demo-meta">Everything · live</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     HOW TO RUN
+     ============================================================ -->
+<section class="section wrap tight" id="start">
+  <div class="section-head">
+    <span class="section-kicker">Getting Started</span>
+    <h2>Three steps and you're watching the platform run.</h2>
+  </div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Keep all seven files in one folder</h3>
+        <p>
+          The hub and the demos live side by side. Put every <code>.html</code> file in the same
+          directory — no server, no build step, no npm install. Everything is pure HTML + CSS + JS.
+        </p>
+        <div class="file-list">
+          <div>dealsgate-index.html ← you are here</div>
+          <div>dealsgate-public-complete.html</div>
+          <div>dealsgate-auth-complete.html</div>
+          <div>dealsgate-seller-complete.html</div>
+          <div>dealsgate-buyer-complete.html</div>
+          <div>dealsgate-agent-complete.html</div>
+          <div>dealsgate-admin-complete.html</div>
+          <div>dealsgate-platform.html</div>
+        </div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Open any demo — best on a phone, perfect on desktop</h3>
+        <p>
+          Every demo is mobile-first, but resizes cleanly on desktop. Open directly in a browser
+          or serve the folder locally with <code>python -m http.server</code> if you prefer a URL.
+        </p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Pick a scenario, press ▶ Play, watch the journey</h3>
+        <p>
+          Each demo opens with a <strong>scenario picker</strong> and a big gold <strong>▶ Play</strong>
+          button in the header. Tap Play to auto-run the full scenario. Tap any individual step to
+          jump straight to it. The narration card tells you exactly what just happened and why.
+        </p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Reset, replay, or explore tabs</h3>
+        <p>
+          <strong>Reset</strong> (top-left) clears workflow state and keeps the audit log.
+          <strong>Reset all</strong> (in the flow panel) wipes everything. Bottom tabs switch
+          between the flow, ledgers, wallets, training, consents, disputes, and audit — every
+          data store the spec calls for.
+        </p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Recommended tour order</h3>
+        <p>
+          Start with <strong>Platform Pulse</strong> for the 30-second overview, then
+          <strong>Auth</strong> → <strong>Seller</strong> → <strong>Buyer</strong> →
+          <strong>Agent</strong> → <strong>Admin</strong>, and finish on
+          <strong>Public</strong> to see what the world sees. That mirrors the real user journey
+          from signup through a completed protected deal.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SPEC COVERAGE
+     ============================================================ -->
+<section class="section wrap tight" id="spec">
+  <div class="section-head">
+    <span class="section-kicker">Traceability</span>
+    <h2>Every section of the master spec, mapped to a demo.</h2>
+    <p>
+      This is the audit trail between the FINAL 1.0 build specification and the seven artifacts.
+      If a section is marked <span class="cov-chip runtime">Runtime</span>, it belongs to
+      milestone 16 (automated tests, hardening, deploy) and is not a demo concern.
+    </p>
+  </div>
+  <div class="coverage">
+    <div class="cov-row head">
+      <div class="cov-sec">Spec</div>
+      <div class="cov-label">Requirement</div>
+      <div>Where it lives</div>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§2</div>
+      <div class="cov-label">Company &amp; brand, contact in UI</div>
+      <span class="cov-chip ok">Public · Index</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§3</div>
+      <div class="cov-label">Roles — Individual, Business, Vet Agent, Admin</div>
+      <span class="cov-chip ok">Auth · Platform</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§4</div>
+      <div class="cov-label">Auth, mandatory consent, ID gate, step-up 2FA</div>
+      <span class="cov-chip ok">Auth</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§5</div>
+      <div class="cov-label">Homepage hero, search above fold, top deals, footer</div>
+      <span class="cov-chip ok">Public</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§6</div>
+      <div class="cov-label">Public seller reputation dossier (no PII)</div>
+      <span class="cov-chip ok">Public</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§7</div>
+      <div class="cov-label">Create Protected Deal, ₦5,000 guarantee, clone</div>
+      <span class="cov-chip ok">Seller</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§8</div>
+      <div class="cov-label">Buyer deal page, checkout, no margin line, webhooks</div>
+      <span class="cov-chip ok">Buyer</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§9</div>
+      <div class="cov-label">Vet Agent onboarding, training, first-accept-wins</div>
+      <span class="cov-chip ok">Agent</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§10</div>
+      <div class="cov-label">Evidence gate — logistics blocked until Approve</div>
+      <span class="cov-chip ok">Buyer · Agent</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§11</div>
+      <div class="cov-label">Logistics dispatch &amp; shared tracking</div>
+      <span class="cov-chip ok">Buyer · Seller · Agent</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§12</div>
+      <div class="cov-label">Completion, ratings, payouts, guarantee refund</div>
+      <span class="cov-chip ok">Seller · Buyer</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§13</div>
+      <div class="cov-label">Failed inspection, cancel, change mind, fraud, transit</div>
+      <span class="cov-chip ok">All role demos</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§14</div>
+      <div class="cov-label">On-demand Vet Agent jobs (₦6,000 min, 40/60)</div>
+      <span class="cov-chip ok">Agent · Buyer · Seller</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§15</div>
+      <div class="cov-label">Wallets, banks, partial withdrawals, guarantee top-up</div>
+      <span class="cov-chip ok">All role demos</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§16</div>
+      <div class="cov-label">Referrals — ₦1,000 reward, lifetime 50% discount</div>
+      <span class="cov-chip ok">All role demos</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§17</div>
+      <div class="cov-label">User dashboard &amp; profile</div>
+      <span class="cov-chip ok">All role demos</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§18</div>
+      <div class="cov-label">Content pages — About, T&amp;Cs, Privacy, Blog, Contact</div>
+      <span class="cov-chip ok">Public</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§19</div>
+      <div class="cov-label">Admin console, dual control, audit log</div>
+      <span class="cov-chip ok">Admin</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§20</div>
+      <div class="cov-label">Data model (users, deals, wallets, inspections…)</div>
+      <span class="cov-chip ok">Platform (all stores)</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§21</div>
+      <div class="cov-label">State machine (happy path + 8 branches)</div>
+      <span class="cov-chip ok">All role demos</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§22</div>
+      <div class="cov-label">Fees — guarantee, 2%, ₦6,000 vet, logistics margin backend</div>
+      <span class="cov-chip ok">Seller · Buyer · Admin</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§23</div>
+      <div class="cov-label">Security — validation, idempotency, signed URLs, 2FA</div>
+      <span class="cov-chip ok">Auth · Admin</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§24</div>
+      <div class="cov-label">Tech stack (Next.js, Postgres, Paystack, S3…)</div>
+      <span class="cov-chip runtime">Runtime</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§26</div>
+      <div class="cov-label">23 acceptance tests</div>
+      <span class="cov-chip ok">Spread across all demos</span>
+    </div>
+    <div class="cov-row">
+      <div class="cov-sec">§27</div>
+      <div class="cov-label">Out of scope — no catalog browse, no in-house escrow</div>
+      <span class="cov-chip ok">By omission</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BRAND
+     ============================================================ -->
+<section class="section wrap tight" id="brand">
+  <div class="section-head">
+    <span class="section-kicker">Brand System</span>
+    <h2>The palette every demo uses.</h2>
+    <p>
+      Deep Blue anchors trust. Emerald Green carries verification and success.
+      Gold is the accent — used only for primary CTAs, the brand mark and highlight
+      moments. Neutral mist keeps the surface calm. Charcoal is body text.
+    </p>
+  </div>
+  <div class="palette">
+    <div class="sw">
+      <div class="sw-chip" style="background:#0D1B4C"></div>
+      <div class="sw-info"><div class="sw-name">Deep Blue</div><div class="sw-hex">#0D1B4C</div><div class="sw-role">Primary</div></div>
+    </div>
+    <div class="sw">
+      <div class="sw-chip" style="background:#16A34A"></div>
+      <div class="sw-info"><div class="sw-name">Emerald Green</div><div class="sw-hex">#16A34A</div><div class="sw-role">Success</div></div>
+    </div>
+    <div class="sw">
+      <div class="sw-chip" style="background:#F4B420"></div>
+      <div class="sw-info"><div class="sw-name">Gold</div><div class="sw-hex">#F4B420</div><div class="sw-role">Accent / CTA</div></div>
+    </div>
+    <div class="sw">
+      <div class="sw-chip" style="background:#F1F3F5;border-bottom:1px solid var(--line)"></div>
+      <div class="sw-info"><div class="sw-name">Mist</div><div class="sw-hex">#F1F3F5</div><div class="sw-role">Neutral surface</div></div>
+    </div>
+    <div class="sw">
+      <div class="sw-chip" style="background:#1F2937"></div>
+      <div class="sw-info"><div class="sw-name">Charcoal</div><div class="sw-hex">#1F2937</div><div class="sw-role">Body text</div></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px">
+    <div style="background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)">
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--green2);margin-bottom:8px">Typography</div>
+      <div style="font-size:22px;font-weight:800;color:var(--navy);letter-spacing:-.5px">Inter — primary</div>
+      <div style="font-size:15px;color:#5A6478;margin-top:6px">Manrope — secondary · ui-monospace for numbers and identifiers</div>
+    </div>
+    <div style="background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow)">
+      <div style="font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--green2);margin-bottom:12px">Brand attributes</div>
+      <div style="display:flex;flex-wrap:wrap;gap:18px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--navy)">🛡 Trust · Secure &amp; Reliable</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--navy)">🔒 Safety · Protected Transactions</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--navy)">🛒 Commerce · Seamless Experience</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--navy)">✓ Verified · Quality &amp; Authenticity</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--navy)">👥 Community · People First</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer" id="contact">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <svg width="52" height="52" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="fg-navy" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0D1B4C"/><stop offset="1" stop-color="#1A2F7A"/>
+          </linearGradient>
+          <linearGradient id="fg-gold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F4B420"/><stop offset="1" stop-color="#D99A0F"/>
+          </linearGradient>
+          <linearGradient id="fg-green" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#22C55E"/><stop offset="1" stop-color="#15803D"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 5 L88 20 V50 C88 74 71 88 50 96 C29 88 12 74 12 50 V20 Z"
+              fill="url(#fg-navy)" stroke="url(#fg-gold)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M50 5 L88 20 V50 C88 60 84 68 78 75 L78 22 Z" fill="url(#fg-gold)" opacity="0.28"/>
+        <circle cx="50" cy="32" r="11" fill="url(#fg-green)" stroke="#fff" stroke-width="2"/>
+        <path d="M44.5 32.2 L48.3 36 L55.8 28.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M34 44 L40 44 L44 56 L62 56 L66 46 L42 46" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="47" cy="61" r="2.6" fill="#fff"/>
+        <circle cx="60" cy="61" r="2.6" fill="#fff"/>
+        <path d="M30 76 C36 70 44 70 50 74 C56 70 64 70 70 76" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M42 75 L48 80 L54 75" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="n">Deals<span class="g">Gate</span></div>
+        <div class="s">Africa's Secure Transaction Gateway</div>
+      </div>
+    </div>
+    <p class="footer-mission">
+      We verify the item. We protect the payment. We handle logistics.
+      DealsGate makes every protected deal safe for Nigerian buyers, sellers and certified Vet Agents.
+    </p>
+
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Company</h4>
+        <div>THE TAP OF GRACE MEDIA HOUSE</div>
+        <div>RC 3090954 · Nigeria</div>
+        <div>CEO / Founder: Akinwunmi Taofik</div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:support@dealsgate.ng">support@dealsgate.ng</a>
+        <a href="mailto:info@dealsgate.ng">info@dealsgate.ng</a>
+        <a href="tel:+2348079219165">+234 807 921 9165</a>
+        <a href="tel:+2349035655184">+234 903 565 5184</a>
+      </div>
+      <div class="footer-col">
+        <h4>Websites</h4>
+        <a href="https://www.dealsgate.ng" target="_blank" rel="noopener">www.dealsgate.ng</a>
+        <a href="https://www.dealsgate.com.ng" target="_blank" rel="noopener">www.dealsgate.com.ng</a>
+        <a href="dealsgate-public-complete.html">Blog &amp; content</a>
+        <a href="dealsgate-public-complete.html#legal">All 11 policies</a>
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        <a href="#" onclick="toast('@dealsgate.ng on all platforms');return false">@dealsgate.ng</a>
+        <a href="#" onclick="toast('Opens Instagram');return false">Instagram</a>
+        <a href="#" onclick="toast('Opens X / Twitter');return false">X / Twitter</a>
+        <a href="#" onclick="toast('Opens WhatsApp Business');return false">WhatsApp Business</a>
+      </div>
+    </div>
+
+    <div style="text-align:center">
+      <div class="footer-social">📣 @dealsgate.ng</div>
+    </div>
+
+    <div class="footer-legal">
+      <div>
+        © <span id="yr"></span> THE TAP OF GRACE MEDIA HOUSE (RC 3090954)<br>
+        Trading as DealsGate · All rights reserved.<br>
+        Demo artifacts built against FINAL 1.0 master specification · 25 September 2026
+      </div>
+      <div class="right">
+        DealsGate is a protected-deal platform.<br>
+        Payment processing via licensed Nigerian payment partners.<br>
+        Platform logistics margin is never shown as a buyer line item.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+/* Year stamp */
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* Toast */
+function toast(msg, tone){
+  const el = document.getElementById('toast');
+  el.className = 'ts on ' + (tone || '');
+  document.getElementById('toastIc').textContent = tone === 'er' ? '⚠' : '✓';
+  document.getElementById('toastMsg').textContent = msg;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.className = 'ts ' + (tone || ''), 2200);
+}
+
+/* Smooth in-page nav for hash links already handled by CSS scroll-behavior.
+   Add a subtle highlight to the section when navigated to. */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    if(!id) return;
+    const target = document.getElementById(id);
+    if(!target) return;
+    e.preventDefault();
+    target.scrollIntoView({behavior:'smooth', block:'start'});
+    // brief highlight
+    target.style.transition = 'background-color .5s ease';
+    const prev = target.style.backgroundColor;
+    target.style.backgroundColor = 'rgba(244,180,32,.06)';
+    setTimeout(() => { target.style.backgroundColor = prev || ''; }, 900);
+  });
+});
+
+/* Gentle entry animation for demo cards */
+(function(){
+  const cards = document.querySelectorAll('.demo');
+  if(!('IntersectionObserver' in window)){ return; }
+  cards.forEach(c => { c.style.opacity = '0'; c.style.transform = 'translateY(8px)'; c.style.transition = 'opacity .5s ease, transform .5s ease'; });
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'none';
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.08});
+  cards.forEach(c => io.observe(c));
+})();
+</script>
+</body>
+</html>

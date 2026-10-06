@@ -1,0 +1,1244 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Pitch Deck (2026)</title>
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1A4A;
+    --navy-deep: #061133;
+    --green: #0E8C3F;
+    --green-bright: #16A34A;
+    --gold: #E5A200;
+    --white: #FFFFFF;
+    --ink: #0F172A;
+    --soft: #F2F4F8;
+    --rule: #D9DEE8;
+    --red: #B91C1C;
+  }
+
+  html, body {
+    font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: #C9CEDA;
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ============================================================
+     SLIDE BASE
+     ============================================================ */
+  .slide {
+    width: 297mm;
+    height: 210mm;
+    background: #fff;
+    margin: 24px auto;
+    padding: 18mm 22mm 20mm;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+    page-break-inside: avoid;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 6px 32px rgba(11, 26, 74, .16);
+    color: var(--ink);
+  }
+
+  .slide:last-child {
+    page-break-after: auto;
+    margin-bottom: 0;
+  }
+
+  @media print {
+    html, body { background: #fff; }
+    .slide {
+      margin: 0;
+      box-shadow: none;
+      padding: 18mm 22mm 20mm;
+    }
+    .screen-note { display: none !important; }
+  }
+
+  /* ============================================================
+     SLIDE CHROME
+     ============================================================ */
+  .slide--dark {
+    background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy) 55%, #142a70 100%);
+    color: #fff;
+  }
+
+  .chrome {
+    position: absolute;
+    top: 12mm;
+    left: 22mm;
+    right: 22mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .slide--dark .chrome { color: rgba(255,255,255,.75); }
+
+  .chrome-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    text-transform: none;
+    letter-spacing: -0.2px;
+    font-size: 17px;
+    color: var(--navy);
+  }
+  .slide--dark .chrome-brand { color: #fff; }
+
+  .chrome-brand .mark {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: var(--navy);
+    color: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 17px;
+    font-weight: 900;
+    border: 2px solid var(--gold);
+  }
+  .slide--dark .chrome-brand .mark {
+    background: var(--gold);
+    color: var(--navy);
+    border-color: #fff;
+  }
+
+  .chrome-brand .brandname .g { color: var(--green-bright); }
+
+  .chrome-page {
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 13px;
+    color: var(--navy);
+    font-weight: 800;
+  }
+  .slide--dark .chrome-page { color: rgba(255,255,255,.75); }
+
+  .slide-foot {
+    position: absolute;
+    bottom: 8mm;
+    left: 22mm;
+    right: 22mm;
+    font-size: 11px;
+    color: #8C93A6;
+    letter-spacing: .06em;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+  }
+  .slide--dark .slide-foot { color: rgba(255,255,255,.55); }
+
+  .slide-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 8mm;
+  }
+
+  /* ============================================================
+     TYPOGRAPHY
+     ============================================================ */
+  .kicker {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .slide--dark .kicker { color: var(--gold); }
+
+  .title {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -1.1px;
+    line-height: 1.08;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+  .title .g { color: var(--green); }
+  .title .a { color: var(--gold); }
+  .slide--dark .title { color: #fff; }
+  .slide--dark .title .g { color: var(--gold); }
+  .slide--dark .title .a { color: #4ADE80; }
+
+  .lede {
+    font-size: 18px;
+    line-height: 1.55;
+    color: #334155;
+    font-weight: 500;
+    max-width: 240mm;
+  }
+  .slide--dark .lede { color: rgba(255,255,255,.86); }
+
+  /* ============================================================
+     COVER SLIDE
+     ============================================================ */
+  .cover {
+    justify-content: center;
+    padding-top: 40mm;
+  }
+  .cover .brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 34px;
+  }
+  .cover .brand-lockup .mark {
+    width: 54px; height: 54px;
+    border-radius: 14px;
+    background: var(--gold);
+    color: var(--navy);
+    display: grid; place-items: center;
+    font-size: 28px;
+    font-weight: 900;
+    border: 3px solid #fff;
+  }
+  .cover .brand-lockup .txt .n {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #fff;
+    line-height: 1.05;
+  }
+  .cover .brand-lockup .txt .n .g { color: #4ADE80; }
+  .cover .brand-lockup .txt .s {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-top: 4px;
+  }
+
+  .cover h1 {
+    font-size: 62px;
+    font-weight: 800;
+    letter-spacing: -1.9px;
+    line-height: 1.02;
+    color: #fff;
+    max-width: 250mm;
+  }
+  .cover h1 .g { color: var(--gold); }
+  .cover h1 .gr { color: #4ADE80; }
+
+  .cover .sub {
+    font-size: 20px;
+    color: rgba(255,255,255,.88);
+    line-height: 1.55;
+    margin-top: 24px;
+    max-width: 220mm;
+    font-weight: 500;
+  }
+
+  .cover .meta {
+    display: flex;
+    gap: 46px;
+    margin-top: 50px;
+    padding-top: 26px;
+    border-top: 2px solid rgba(255,255,255,.14);
+  }
+  .cover .meta .item .l {
+    font-size: 11px;
+    color: rgba(255,255,255,.6);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .cover .meta .item .v {
+    font-size: 17px;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* ============================================================
+     TWO-COLUMN
+     ============================================================ */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16mm;
+  }
+
+  .col-head {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--navy);
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--gold);
+    margin-bottom: 18px;
+    letter-spacing: -0.2px;
+  }
+  .col-head.green { border-bottom-color: var(--green); }
+
+  .col-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .col-list li {
+    padding: 12px 0 12px 34px;
+    position: relative;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #1E293B;
+    border-bottom: 1px solid var(--rule);
+  }
+  .col-list li:last-child { border-bottom: none; }
+  .col-list li b { color: var(--navy); font-weight: 800; }
+  .col-list li::before {
+    content: attr(data-ic);
+    position: absolute;
+    left: 0;
+    top: 11px;
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  /* ============================================================
+     STATEMENT BOX
+     ============================================================ */
+  .statement {
+    background: var(--navy);
+    color: #fff;
+    padding: 22px 28px;
+    border-radius: 12px;
+    border-left: 6px solid var(--gold);
+    margin-top: 12mm;
+  }
+  .statement .lbl {
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .statement .msg {
+    font-size: 22px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+
+  /* ============================================================
+     FLOW (5 steps)
+     ============================================================ */
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8mm;
+    margin: 8mm 0;
+  }
+  .flow-step {
+    background: var(--soft);
+    border-radius: 12px;
+    padding: 20px 16px;
+    border: 2px solid transparent;
+    position: relative;
+  }
+  .flow-step .n {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--gold);
+    display: grid; place-items: center;
+    font-size: 16px;
+    font-weight: 800;
+    border: 2px solid var(--gold);
+    margin-bottom: 14px;
+  }
+  .flow-step .h {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.3;
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+  }
+  .flow-step .d {
+    font-size: 13.5px;
+    color: #475569;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     STATS
+     ============================================================ */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8mm;
+    margin-top: 8mm;
+  }
+  .stat {
+    background: var(--soft);
+    border-radius: 12px;
+    padding: 22px 18px;
+    text-align: center;
+    border-bottom: 4px solid var(--green);
+  }
+  .stat .v {
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .stat .l {
+    font-size: 13px;
+    color: #475569;
+    font-weight: 700;
+    margin-top: 10px;
+    line-height: 1.4;
+    letter-spacing: .02em;
+  }
+
+  /* ============================================================
+     TABLE
+     ============================================================ */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15.5px;
+    margin-top: 6mm;
+  }
+  .table thead th {
+    background: var(--navy);
+    color: #fff;
+    text-align: left;
+    padding: 14px 18px;
+    font-size: 13px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+  .table thead th:last-child { text-align: right; }
+  .table tbody td {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+    color: #334155;
+    font-weight: 500;
+  }
+  .table tbody td:first-child { font-weight: 700; color: var(--navy); }
+  .table tbody td:last-child {
+    text-align: right;
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-weight: 800;
+    color: var(--green);
+    font-size: 17px;
+  }
+  .table tbody tr:last-child td { border-bottom: none; }
+
+  /* ============================================================
+     ECONOMICS CARD
+     ============================================================ */
+  .econ-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 14mm;
+    align-items: center;
+    margin-top: 8mm;
+  }
+  .econ-card {
+    background: linear-gradient(135deg, var(--navy) 0%, #142a70 100%);
+    color: #fff;
+    padding: 28px;
+    border-radius: 14px;
+  }
+  .econ-card .lbl {
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 800;
+    margin-bottom: 14px;
+  }
+  .econ-card .amt {
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 56px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: #fff;
+  }
+  .econ-card .sub {
+    font-size: 15px;
+    color: rgba(255,255,255,.82);
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* ============================================================
+     DIFFERENTIATORS
+     ============================================================ */
+  .diff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8mm;
+    margin-top: 6mm;
+  }
+  .diff {
+    background: var(--soft);
+    padding: 20px 22px;
+    border-radius: 12px;
+    border-left: 5px solid var(--green);
+  }
+  .diff .h {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+  .diff .d {
+    font-size: 14.5px;
+    color: #475569;
+    line-height: 1.55;
+    font-weight: 500;
+  }
+  .diff .d b { color: var(--navy); font-weight: 800; }
+
+  /* ============================================================
+     TRACTION (6 tiles)
+     ============================================================ */
+  .tract-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8mm;
+    margin-top: 6mm;
+  }
+  .tract {
+    background: #fff;
+    border: 1.5px solid var(--rule);
+    border-radius: 12px;
+    padding: 18px 20px;
+    border-top: 5px solid var(--gold);
+  }
+  .tract .em { font-size: 26px; margin-bottom: 10px; }
+  .tract .h {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+    line-height: 1.25;
+  }
+  .tract .d {
+    font-size: 13.5px;
+    color: #475569;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     FOUNDER
+     ============================================================ */
+  .founder-layout {
+    display: grid;
+    grid-template-columns: 70mm 1fr;
+    gap: 16mm;
+    margin-top: 8mm;
+    align-items: flex-start;
+  }
+  .founder-badge {
+    width: 90mm; height: 90mm;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--gold) 0%, #B87E00 100%);
+    display: grid;
+    place-items: center;
+    font-size: 62px;
+    font-weight: 900;
+    color: var(--navy);
+    border: 6px solid #fff;
+    box-shadow: 0 8px 28px rgba(11,26,74,.18);
+  }
+  .founder-name {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.8px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .founder-role {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--green);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .founder-bio {
+    font-size: 16px;
+    color: #334155;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+  .founder-bio b { color: var(--navy); font-weight: 800; }
+
+  /* ============================================================
+     VISION PILLARS
+     ============================================================ */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10mm;
+    margin-top: 14mm;
+  }
+  .pillar {
+    border-left: 3px solid var(--gold);
+    padding-left: 20px;
+  }
+  .pillar .em { font-size: 30px; margin-bottom: 12px; }
+  .pillar .h {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+    line-height: 1.3;
+  }
+  .pillar .d {
+    font-size: 14.5px;
+    color: rgba(255,255,255,.78);
+    line-height: 1.55;
+    font-weight: 500;
+  }
+
+  /* ============================================================
+     ASK (final slide)
+     ============================================================ */
+  .ask-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8mm;
+    margin: 14mm 0;
+  }
+  .ask-item {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 12px;
+    padding: 22px 18px;
+    text-align: center;
+  }
+  .ask-item .v {
+    font-family: 'Menlo', 'Consolas', monospace;
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -0.8px;
+  }
+  .ask-item .l {
+    font-size: 12.5px;
+    color: rgba(255,255,255,.78);
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+  .ask-contact {
+    border-top: 1.5px solid rgba(255,255,255,.16);
+    padding-top: 20px;
+    margin-top: 8mm;
+    font-size: 16px;
+    color: rgba(255,255,255,.86);
+    line-height: 1.65;
+    text-align: center;
+    font-weight: 500;
+  }
+  .ask-contact b { color: var(--gold); font-weight: 800; }
+
+  /* ============================================================
+     SCREEN NOTE
+     ============================================================ */
+  .screen-note {
+    max-width: 297mm;
+    margin: 20px auto 0;
+    padding: 16px 24px;
+    background: #0B1A4A;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 15px;
+    line-height: 1.55;
+    box-shadow: 0 8px 24px rgba(11,26,74,.24);
+  }
+  .screen-note b { color: #E5A200; }
+  .screen-note kbd {
+    background: rgba(229,162,0,.16);
+    color: #E5A200;
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'Menlo', monospace;
+    font-size: 13px;
+    font-weight: 800;
+    border: 1px solid rgba(229,162,0,.35);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- SCREEN TIP (hidden in print)                                  -->
+<!-- ============================================================ -->
+<div class="screen-note">
+  <b>Save this deck as a PDF:</b> press <kbd>Ctrl</kbd>+<kbd>P</kbd> on Windows or
+  <kbd>Cmd</kbd>+<kbd>P</kbd> on Mac. Set destination to <b>Save as PDF</b>,
+  layout to <b>Landscape</b>, margins to <b>None</b>, and tick
+  <b>Background graphics</b>. Click save. Filename: <b>DealsGate_Pitch_Deck.pdf</b>.
+  Delete this banner after exporting.
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 01 · COVER                                              -->
+<!-- ============================================================ -->
+<section class="slide slide--dark cover">
+  <div class="brand-lockup">
+    <div class="mark">✓</div>
+    <div class="txt">
+      <div class="n">Deals<span class="g">Gate</span></div>
+      <div class="s">Africa's Secure Transaction Gateway</div>
+    </div>
+  </div>
+
+  <h1>
+    The trust layer<br>
+    underneath African<br>
+    <span class="g">social commerce</span>.
+  </h1>
+
+  <p class="sub">
+    We verify the item. We protect the payment. We track the delivery.
+    DealsGate makes peer-to-peer trade safe for Nigerian buyers and sellers
+    transacting on Instagram, WhatsApp, and TikTok.
+  </p>
+
+  <div class="meta">
+    <div class="item">
+      <div class="l">Founder</div>
+      <div class="v">Akinwunmi Taofik</div>
+    </div>
+    <div class="item">
+      <div class="l">Stage</div>
+      <div class="v">MVP complete · Pre-launch</div>
+    </div>
+    <div class="item">
+      <div class="l">Website</div>
+      <div class="v">dealsgate.ng</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 02 · PROBLEM                                            -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="chrome-brand">
+      <div class="mark">✓</div>
+      <div class="brandname">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="chrome-page">02 / 10</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">The problem</div>
+    <h2 class="title">
+      Nigerian social commerce<br>
+      runs on <span class="g">trust that does not exist</span>.
+    </h2>
+
+    <div class="two-col" style="margin-top:6mm">
+      <div>
+        <div class="col-head green">What buyers fear</div>
+        <ul class="col-list">
+          <li data-ic="⚠️"><b>Pay-before-delivery scams.</b> Sellers disappear after payment — or ship counterfeits, defective items, or something else entirely.</li>
+          <li data-ic="⚖️"><b>No recourse.</b> Bank transfers cannot be reversed. Police are slow, courts impractical for ₦200,000 disputes.</li>
+          <li data-ic="🎭"><b>Fake social proof.</b> Follower counts, screenshots, and testimonials are cheap to fabricate. No independent verification exists.</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="col-head">What sellers fear</div>
+        <ul class="col-list">
+          <li data-ic="👻"><b>Ghost buyers.</b> Order placed, item dispatched, buyer unreachable at delivery. Return shipping falls on the seller.</li>
+          <li data-ic="🖼️"><b>Fake payment alerts.</b> Screenshots of transfers that were never made, or were reversed after dispatch.</li>
+          <li data-ic="😤"><b>Disputes with no evidence.</b> Buyers claim the item differed. The seller has no video, no witness, no defence.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>The trust deficit</span>
+    <span>DealsGate · Pitch Deck 2026</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 03 · SOLUTION                                           -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="chrome-brand">
+      <div class="mark">✓</div>
+      <div class="brandname">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="chrome-page">03 / 10</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">The solution</div>
+    <h2 class="title">
+      A protected deal,<br>
+      in <span class="g">five steps</span>.
+    </h2>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="n">1</div>
+        <div class="h">Seller creates the deal</div>
+        <div class="d">Photos, continuous video, Google Maps pin, and a ₦5,000 refundable guarantee.</div>
+      </div>
+      <div class="flow-step">
+        <div class="n">2</div>
+        <div class="h">Buyer pays into escrow</div>
+        <div class="d">Held by a licensed Nigerian payment partner. Buyer never sends money directly.</div>
+      </div>
+      <div class="flow-step">
+        <div class="n">3</div>
+        <div class="h">Vet Agent inspects</div>
+        <div class="d">Certified agent travels to the pin. Verifies IMEI, serial, condition. Captures video.</div>
+      </div>
+      <div class="flow-step">
+        <div class="n">4</div>
+        <div class="h">Buyer approves evidence</div>
+        <div class="d">The evidence gate. Logistics cannot move until the buyer approves the report.</div>
+      </div>
+      <div class="flow-step">
+        <div class="n">5</div>
+        <div class="h">Delivery &amp; settlement</div>
+        <div class="d">Shared tracking. On delivery: seller paid, guarantee refunded, ratings updated.</div>
+      </div>
+    </div>
+
+    <div class="statement">
+      <div class="lbl">The insight</div>
+      <div class="msg">
+        Escrow protects money. Physical inspection protects goods. You need both — and the buyer must approve before anything moves.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>The solution</span>
+    <span>DealsGate · Pitch Deck 2026</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 04 · MARKET                                             -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="chrome-brand">
+      <div class="mark">✓</div>
+      <div class="brandname">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="chrome-page">04 / 10</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Market opportunity</div>
+    <h2 class="title">
+      A market measured in<br>
+      <span class="g">billions</span>, growing at double digits.
+    </h2>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="v">$12.4B</div>
+        <div class="l">Nigeria social<br>commerce · 2026</div>
+      </div>
+      <div class="stat">
+        <div class="v">$20.8B</div>
+        <div class="l">Projected<br>by 2031</div>
+      </div>
+      <div class="stat">
+        <div class="v">39M</div>
+        <div class="l">Nigerian<br>MSMEs</div>
+      </div>
+      <div class="stat">
+        <div class="v">₦25.9B</div>
+        <div class="l">Payment fraud losses<br>· 2025</div>
+      </div>
+    </div>
+
+    <div class="statement" style="margin-top:10mm">
+      <div class="lbl">Why this matters</div>
+      <div class="msg">
+        DealsGate sits underneath every transaction — a horizontal trust rail that scales with the whole market, not just one category.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Sources: PayNXT360 · Mordor Intelligence · NIBSS 2025</span>
+    <span>DealsGate · Pitch Deck 2026</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 05 · BUSINESS MODEL                                     -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="chrome-brand">
+      <div class="mark">✓</div>
+      <div class="brandname">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="chrome-page">05 / 10</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Business model</div>
+    <h2 class="title">
+      Transaction fees.<br>
+      <span class="g">Aligned with completion.</span>
+    </h2>
+
+    <div class="econ-grid">
+      <div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Revenue line</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Buyer service fee</td><td>2%</td></tr>
+            <tr><td>Seller success fee</td><td>2%</td></tr>
+            <tr><td>Vet Agent fee · platform share</td><td>₦1,800</td></tr>
+            <tr><td>Logistics margin (backend)</td><td>≈ ₦700</td></tr>
+            <tr><td>On-demand · platform share</td><td>40%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="econ-card">
+        <div class="lbl">Net revenue · ₦450k deal</div>
+        <div class="amt">₦20,500</div>
+        <div class="sub">
+          Per completed protected deal, before scale efficiencies. Same rail — every category.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Business model</span>
+    <span>DealsGate · Pitch Deck 2026</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 06 · TRACTION                                           -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="chrome-brand">
+      <div class="mark">✓</div>
+      <div class="brandname">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="chrome-page">06 / 10</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Where we are today</div>
+    <h2 class="title">
+      Bootstrapped to <span class="g">MVP</span>.<br>
+      Ready to launch.
+    </h2>
+
+    <div class="tract-grid">
+      <div class="tract">
+        <div class="em">📋</div>
+        <div class="h">Complete specification</div>
+        <div class="d">FINAL 1.0 — 28 sections, 7 user roles, state machine, fee logic, dispute workflows, security.</div>
+      </div>
+      <div class="tract">
+        <div class="em">🎬</div>
+        <div class="h">13 MVP artifacts</div>
+        <div class="d">Working interactive demos — seller, buyer, Vet Agent, admin, and full journey runthrough.</div>
+      </div>
+      <div class="tract">
+        <div class="em">⚖️</div>
+        <div class="h">11 legal documents</div>
+        <div class="d">Terms, Privacy, Refund &amp; Dispute, Acceptable Use, Prohibited Items, Data Retention.</div>
+      </div>
+      <div class="tract">
+        <div class="em">🎓</div>
+        <div class="h">Agent training pipeline</div>
+        <div class="d">10 modules, 100-question certification, recruitment page live and accepting applications.</div>
+      </div>
+      <div class="tract">
+        <div class="em">🎨</div>
+        <div class="h">Full brand system</div>
+        <div class="d">Logo, palette, typography, and 24 educational articles for the public blog.</div>
+      </div>
+      <div class="tract">
+        <div class="em">💪</div>
+        <div class="h">Bootstrapped entirely</div>
+        <div class="d">₦0 raised, ₦0 external capital. Built solo over 12 months.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Traction</span>
+    <span>DealsGate · Pitch Deck 2026</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 07 · DIFFERENTIATION                                    -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="chrome-brand">
+      <div class="mark">✓</div>
+      <div class="brandname">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="chrome-page">07 / 10</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Why we win</div>
+    <h2 class="title">
+      Four differentiators that<br>
+      <span class="g">competitors cannot copy</span>.
+    </h2>
+
+    <div class="diff-grid">
+      <div class="diff">
+        <div class="h">01 · The evidence gate</div>
+        <div class="d">No other Nigerian platform <b>blocks logistics until the buyer approves</b> a physical inspection. Escrow protects money — we protect the item too.</div>
+      </div>
+      <div class="diff">
+        <div class="h">02 · Physical verification at scale</div>
+        <div class="d">Certified Vet Agents inspect every item in person — IMEI, serial, condition — with <b>continuous video as court-grade evidence</b>.</div>
+      </div>
+      <div class="diff">
+        <div class="h">03 · Public seller reputation</div>
+        <div class="d">Buyers verify any vendor's real deal history before paying. <b>No login required.</b> The directory compounds as a network asset.</div>
+      </div>
+      <div class="diff">
+        <div class="h">04 · Failure paths designed first</div>
+        <div class="d">Failed inspections, transit damage, fraud, and cancellation all have <b>pre-published rules</b> — not case-by-case judgement.</div>
+      </div>
+    </div>
+
+    <div class="statement" style="margin-top:10mm">
+      <div class="lbl">The structural moat</div>
+      <div class="msg">
+        Competitors can copy our screens in a week. They cannot copy a certified agent network in fifty LGAs — that takes twelve months of trust-building.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Differentiation</span>
+    <span>DealsGate · Pitch Deck 2026</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 08 · GO TO MARKET                                       -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="chrome-brand">
+      <div class="mark">✓</div>
+      <div class="brandname">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="chrome-page">08 / 10</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Go to market</div>
+    <h2 class="title">
+      <span class="g">Agents first</span>, then sellers.<br>
+      One LGA at a time.
+    </h2>
+
+    <div class="flow" style="grid-template-columns:repeat(4, 1fr)">
+      <div class="flow-step">
+        <div class="n">01</div>
+        <div class="h">Lagos pilot</div>
+        <div class="d">4 high-density LGAs. Certify 50 Vet Agents. First 500 protected deals.</div>
+      </div>
+      <div class="flow-step">
+        <div class="n">02</div>
+        <div class="h">Multi-city</div>
+        <div class="d">Replicate across Abuja, Ibadan, and Port Harcourt. Same playbook.</div>
+      </div>
+      <div class="flow-step">
+        <div class="n">03</div>
+        <div class="h">Category expansion</div>
+        <div class="d">Add vehicles and appliances. Higher-value, specialist agents.</div>
+      </div>
+      <div class="flow-step">
+        <div class="n">04</div>
+        <div class="h">Cross-border</div>
+        <div class="d">AfCFTA corridors. Same escrow-plus-inspection model, wider map.</div>
+      </div>
+    </div>
+
+    <div class="statement" style="margin-top:10mm">
+      <div class="lbl">The rule that governs everything</div>
+      <div class="msg">
+        A city does not open for sellers until agent coverage hits the density threshold. Coverage is not a growth problem — it is the product.
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Go to market</span>
+    <span>DealsGate · Pitch Deck 2026</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 09 · FOUNDER                                            -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="chrome-brand">
+      <div class="mark">✓</div>
+      <div class="brandname">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="chrome-page">09 / 10</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Founder</div>
+    <h2 class="title">
+      A decade inside<br>
+      <span class="g">Nigerian small business</span>.
+    </h2>
+
+    <div class="founder-layout">
+      <div class="founder-badge">TA</div>
+
+      <div>
+        <div class="founder-name">Akinwunmi Taofik</div>
+        <div class="founder-role">Founder &amp; CEO</div>
+
+        <p class="founder-bio">
+          Taofik has spent over a decade building and running Nigerian small businesses — as a pharmacy and supermarket supervisor, farm logistics manager, media founder serving vendors, and social media manager.
+        </p>
+        <p class="founder-bio">
+          He holds a <b>B.Sc. Economics</b> from the University of Ibadan and a Business of Entertainment certificate from Pan-Atlantic University. He designed the full specification and built the <b>13-artifact MVP alone</b> — before raising a single naira.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Founder</span>
+    <span>DealsGate · Pitch Deck 2026</span>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10 · VISION & ASK                                       -->
+<!-- ============================================================ -->
+<section class="slide slide--dark">
+  <div class="chrome">
+    <div class="chrome-brand">
+      <div class="mark">✓</div>
+      <div class="brandname">Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="chrome-page">10 / 10</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">The vision</div>
+    <h2 class="title" style="font-size:40px">
+      To become <span class="g">Africa's trusted</span><br>
+      commerce infrastructure —<br>
+      enabling millions to trade with confidence.
+    </h2>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="em">🔒</div>
+        <div class="h">Every transaction protected</div>
+        <div class="d">A trusted rail any social seller plugs into. No buyer pays blind. No seller ships blind.</div>
+      </div>
+      <div class="pillar">
+        <div class="em">👥</div>
+        <div class="h">A new labour category</div>
+        <div class="d">Certified Vet Agents as a continent-wide profession — the way ride-hailing created drivers.</div>
+      </div>
+      <div class="pillar">
+        <div class="em">🌍</div>
+        <div class="h">Built for the continent</div>
+        <div class="d">The same rail scales from Lagos to Nairobi to Accra. The trust deficit is African — and so is the answer.</div>
+      </div>
+    </div>
+
+    <div class="ask-grid">
+      <div class="ask-item">
+        <div class="v">13</div>
+        <div class="l">MVP artifacts shipped</div>
+      </div>
+      <div class="ask-item">
+        <div class="v">$12.4B</div>
+        <div class="l">Market · 2026</div>
+      </div>
+      <div class="ask-item">
+        <div class="v">₦20.5k</div>
+        <div class="l">Net per deal</div>
+      </div>
+      <div class="ask-item">
+        <div class="v">12 mo</div>
+        <div class="l">To pilot launch</div>
+      </div>
+    </div>
+
+    <div class="ask-contact">
+      <b>Akinwunmi Taofik</b> · Founder &amp; CEO<br>
+      taofik@dealsgate.ng · dealsgate.ng · @dealsgate.ng
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <span>Vision · Contact</span>
+    <span>DealsGate · Pitch Deck 2026</span>
+  </div>
+</section>
+
+</body>
+</html>

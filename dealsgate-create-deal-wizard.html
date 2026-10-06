@@ -1,0 +1,1727 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Create Protected Deal Wizard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;--gold:#F4B420;--gold2:#D99A0F;
+--mist:#F1F3F5;--charcoal:#1F2937;--red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+--line:rgba(13,27,76,.10);--line2:rgba(13,27,76,.06)}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Inter",sans-serif;background:var(--mist);
+color:var(--charcoal);font-size:14px;line-height:1.5;padding-bottom:78px}
+
+/* Header */
+.hdr{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;padding:12px 16px 10px;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.hdr-r{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hdr .who{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.hdr .av{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--navy);display:grid;place-items:center;font-size:13px;font-weight:800;flex-shrink:0;border:2px solid #fff}
+.hdr .info{min-width:0;flex:1}
+.hdr .n{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .s{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.hdr .actions{display:flex;gap:6px}
+.hdr button{background:rgba(255,255,255,.15);color:#fff;border:none;font-size:10px;font-weight:700;padding:7px 11px;border-radius:20px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.hdr button.go{background:var(--gold);color:var(--navy)}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:10px}
+.kbox{background:rgba(255,255,255,.10);border-radius:8px;padding:7px 8px;position:relative}
+.kbox .l{font-size:7px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kbox .v{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:800;color:#fff;margin-top:2px}
+.kbox.gold .v{color:var(--gold)}.kbox.green .v{color:#7EE787}.kbox.red .v{color:#FCA5A5}
+
+/* Progress rail */
+.rail{background:#fff;border-bottom:1px solid var(--line);padding:12px 10px;overflow-x:auto;scrollbar-width:none;display:flex;gap:4px;position:sticky;top:0;z-index:40}
+.rail::-webkit-scrollbar{display:none}
+.rail-dot{flex:1;min-width:44px;display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:none;font-family:inherit;cursor:pointer;padding:4px 2px}
+.rail-dot .num{width:24px;height:24px;border-radius:50%;background:var(--mist);border:2px solid var(--mist);color:#9CA3AF;display:grid;place-items:center;font-size:11px;font-weight:800;transition:all .2s}
+.rail-dot .lbl{font-size:8.5px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:.04em;line-height:1.15;text-align:center}
+.rail-dot.done .num{background:var(--green);border-color:var(--green);color:#fff}
+.rail-dot.done .lbl{color:var(--green2)}
+.rail-dot.now .num{background:var(--gold);border-color:var(--gold);color:var(--navy);box-shadow:0 0 0 4px rgba(244,180,32,.20)}
+.rail-dot.now .lbl{color:var(--navy)}
+.rail-dot.err .num{background:var(--red);border-color:var(--red);color:#fff}
+.rail-dot.err .lbl{color:var(--red)}
+.rail-dot .connector{display:none}
+
+/* Tabs */
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);display:flex;overflow-x:auto;padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(13,27,76,.06);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;min-width:54px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 6px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;font-weight:800;color:#9CA3AF;letter-spacing:.04em;text-transform:uppercase}
+.tab.on{color:var(--navy)}
+.tab .ic{width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--mist);font-size:12px;line-height:1}
+.tab.on .ic{background:var(--gold);color:var(--navy)}
+
+/* Panels */
+.panel{display:none;padding:12px 10px 18px}
+.panel.on{display:block;animation:fu .25s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden;box-shadow:0 1px 3px rgba(13,27,76,.05)}
+.ch{padding:11px 14px;background:var(--mist);border-bottom:1px solid var(--line);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cb{padding:13px 14px}
+.bd{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;line-height:1.4}
+.bd-navy{background:var(--navy);color:#fff}.bd-green{background:#DCFCE7;color:var(--green2)}
+.bd-gold{background:#FEF3C7;color:var(--gold2)}.bd-red{background:#FEE2E2;color:var(--red)}
+.bd-purple{background:#EDE9FE;color:var(--purple)}.bd-blue{background:#DBEAFE;color:var(--blue)}
+.bd-mist{background:var(--mist);color:#6B7280}
+
+/* Buttons */
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .1s}
+.btn:active{transform:scale(.97)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.pr{background:linear-gradient(135deg,var(--navy),var(--green));color:#fff}
+.btn.nv{background:var(--navy);color:#fff}.btn.gr{background:var(--green);color:#fff}
+.btn.go{background:var(--gold);color:var(--navy)}.btn.gh{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.rd{background:var(--red);color:#fff}.btn.sm{padding:9px 11px;font-size:11px;border-radius:8px}
+.brow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Rows */
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px}
+.row:last-child{border-bottom:none}
+.row .k{color:#4B5563;flex:1;min-width:0}
+.row .v{font-weight:700;color:var(--navy);text-align:right;flex-shrink:0;font-family:ui-monospace,Menlo,monospace;font-size:11px}
+.row .v.g{color:var(--green)}.row .v.r{color:var(--red)}.row .v.pu{color:var(--purple)}
+.row.tot{background:#F8FAFC}.row.tot .v{font-size:15px;font-weight:800}
+
+/* Scenario list */
+.scn{display:flex;gap:11px;padding:12px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);text-align:left;cursor:pointer;font-family:inherit;width:100%}
+.scn:last-child{border-bottom:none}
+.scn.on{background:linear-gradient(90deg,rgba(13,27,76,.10),transparent)}
+.scn .em{font-size:22px;line-height:1;flex-shrink:0}
+.scn .txt{flex:1;min-width:0}
+.scn .t1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.scn .t2{font-size:10px;color:#6B7280;margin-top:3px;line-height:1.4}
+
+/* Steps */
+.steps{max-height:52vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.stp{display:flex;gap:11px;padding:11px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);text-align:left;cursor:pointer;font-family:inherit;width:100%;align-items:center}
+.stp:last-child{border-bottom:none}
+.stp.done{background:rgba(220,252,231,.5)}
+.stp.now{background:rgba(254,243,199,.6)}
+.stp:disabled{cursor:not-allowed;opacity:.7}
+.stp.err{background:rgba(254,226,226,.5)}
+.stp .dot{width:9px;height:9px;border-radius:50%;background:var(--mist);flex-shrink:0}
+.stp.done .dot{background:var(--green)}
+.stp.now .dot{background:var(--gold);animation:pl 1.2s ease-in-out infinite}
+.stp.err .dot{background:var(--red)}
+@keyframes pl{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.6)}}
+.stp .info{flex:1;min-width:0}
+.stp .l1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.stp.done .l1{color:#6B7280}
+.stp .l2{font-size:10px;color:#9CA3AF;margin-top:2px;line-height:1.3}
+.stp .amt{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;color:var(--green);flex-shrink:0}
+.stp .amt.r{color:var(--red)}
+
+/* Narration */
+.narr{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:14px;border-radius:14px;margin-bottom:11px;position:relative;overflow:hidden}
+.narr::after{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2}
+.narr .who{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:6px;position:relative;z-index:1}
+.narr .msg{font-size:13px;font-weight:600;line-height:1.5;color:#fff;position:relative;z-index:1}
+.narr .det{font-size:11px;color:rgba(255,255,255,.7);margin-top:6px;line-height:1.5;position:relative;z-index:1}
+
+/* Wizard view */
+.wz{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden;box-shadow:0 1px 3px rgba(13,27,76,.05)}
+.wz-hd{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:14px;position:relative;overflow:hidden}
+.wz-hd::after{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.22}
+.wz-hd .step-num{font-size:9px;font-weight:800;color:var(--gold);letter-spacing:.14em;text-transform:uppercase;position:relative;z-index:1}
+.wz-hd .step-title{font-size:16px;font-weight:800;color:#fff;margin-top:4px;position:relative;z-index:1;line-height:1.25}
+.wz-hd .step-sub{font-size:11px;color:rgba(255,255,255,.72);margin-top:5px;position:relative;z-index:1}
+.wz-body{padding:14px}
+.wz-foot{padding:12px 14px;border-top:1px solid var(--line);background:#FCFDFF;display:grid;grid-template-columns:1fr 2fr;gap:8px}
+
+/* Field preview (read-only filled state) */
+.fld-preview{margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+.fld-preview:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.fld-lbl{font-size:9.5px;font-weight:800;color:var(--green2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fld-lbl .req{color:var(--red);font-size:9px}
+.fld-val{font-size:13px;color:var(--navy);font-weight:700;line-height:1.5;word-break:break-word}
+.fld-val.empty{color:#C7CBD3;font-weight:500;font-style:italic}
+.fld-val.mono{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.fld-val .meta{display:block;font-size:10.5px;color:#8A93A6;font-weight:600;margin-top:3px;font-style:normal}
+.fld-val.pill{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;background:var(--mist);color:var(--navy)}
+
+/* Taxonomy tree */
+.tax{display:grid;gap:6px}
+.tax-row{display:flex;align-items:center;gap:9px;padding:8px 11px;background:var(--mist);border-radius:9px;border:1px solid transparent;font-size:12px}
+.tax-row.sel{background:#DCFCE7;border-color:#86EFAC}
+.tax-row.par{background:#FEF3C7;border-color:#FCD34D}
+.tax-row .n{font-weight:800;color:var(--navy)}
+.tax-row .lv{font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#8A93A6;margin-left:auto}
+
+/* Media grid */
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.mtile{aspect-ratio:1;background:var(--mist);border:1px dashed var(--line);border-radius:10px;display:grid;place-items:center;font-size:20px;color:#C7CBD3;position:relative;overflow:hidden}
+.mtile.filled{background:linear-gradient(135deg,#E0E7FF,#C7D2FE);border:1px solid #C7D2FE;color:#4F46E5}
+.mtile.filled.photo::after{content:attr(data-label);position:absolute;bottom:3px;right:5px;font-size:8px;font-weight:800;color:rgba(13,27,76,.45)}
+.mtile.video-fill{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border-color:#FCD34D;color:#D97706;grid-column:span 2;aspect-ratio:2.1/1}
+.mtile.video-fill::after{content:attr(data-label);position:absolute;bottom:4px;right:6px;font-size:9px;font-weight:800;color:rgba(120,53,15,.6)}
+
+/* Error box */
+.errbox{background:#FEF2F2;border-left:3px solid var(--red);padding:11px 13px;border-radius:8px;font-size:11.5px;color:#7F1D1D;line-height:1.55;margin:10px 0;display:flex;gap:9px;align-items:flex-start}
+.errbox .ic{font-size:16px;flex-shrink:0}
+.errbox .b{flex:1;min-width:0}
+.errbox .t{font-weight:800;font-size:12px;margin-bottom:2px}
+.errbox .d{color:#991B1B;line-height:1.55;font-size:11px}
+.errbox .code{font-family:ui-monospace,Menlo,monospace;font-size:10px;background:#fff;color:var(--red);padding:1px 5px;border-radius:4px;margin-top:5px;display:inline-block;font-weight:800}
+
+/* OK box */
+.okbox{background:#DCFCE7;border-left:3px solid var(--green);padding:11px 13px;border-radius:8px;font-size:11.5px;color:#065F46;line-height:1.55;margin:10px 0;display:flex;gap:9px;align-items:flex-start}
+.okbox .ic{font-size:16px;flex-shrink:0}
+.okbox .t{font-weight:800;font-size:12px;margin-bottom:2px}
+.okbox .d{line-height:1.55;font-size:11px}
+
+/* Output */
+.output{background:linear-gradient(135deg,var(--green2),var(--green));color:#fff;border-radius:14px;padding:18px;position:relative;overflow:hidden;margin-bottom:11px}
+.output::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.28}
+.output .icn{font-size:34px;position:relative;z-index:1}
+.output h3{font-size:16px;font-weight:800;margin-top:8px;position:relative;z-index:1}
+.output p{font-size:11.5px;color:rgba(255,255,255,.85);margin-top:4px;position:relative;z-index:1;line-height:1.55}
+.output .deal-code{font-family:ui-monospace,Menlo,monospace;font-size:16px;font-weight:800;background:rgba(255,255,255,.18);padding:8px 14px;border-radius:9px;margin-top:12px;letter-spacing:.06em;position:relative;z-index:1;display:inline-block}
+.link-box{background:var(--mist);border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin-top:10px}
+.link-box .lbl{font-size:9.5px;font-weight:800;color:var(--green2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.link-box .url{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--navy);word-break:break-all;line-height:1.5;font-weight:700}
+.link-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:10px}
+
+/* Nested note */
+.nt{background:#FEF3C7;border-left:3px solid var(--gold);padding:11px 13px;border-radius:8px;font-size:11px;color:#78350F;line-height:1.55;margin:10px 0}
+.nt.gr{background:#DCFCE7;border-left-color:var(--green);color:#065F46}
+.nt.rd{background:#FEE2E2;border-left-color:var(--red);color:#7F1D1D}
+.nt.bl{background:#DBEAFE;border-left-color:var(--blue);color:#1E3A8A}
+.nt.pu{background:#EDE9FE;border-left-color:var(--purple);color:#5B21B6}
+
+/* Timeline */
+.tl{position:relative;padding:10px 14px 10px 34px}
+.tl::before{content:"";position:absolute;left:19px;top:16px;bottom:16px;width:2px;background:linear-gradient(180deg,var(--gold),var(--green),var(--navy));border-radius:2px;opacity:.35}
+.tli{position:relative;padding:5px 0}
+.tld{position:absolute;left:-19px;top:10px;width:10px;height:10px;border-radius:50%;background:var(--navy);border:2px solid #fff;box-shadow:0 0 0 1px rgba(13,27,76,.15)}
+.tli.red .tld{background:var(--red)}.tli.gold .tld{background:var(--gold)}.tli.green .tld{background:var(--green)}
+.tlt{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
+.tli.red .tlt{color:var(--red)}.tli.gold .tlt{color:var(--gold2)}
+.tltm{font-size:9px;color:#9CA3AF;margin-top:2px}
+
+/* Empty */
+.em{text-align:center;padding:32px 16px;color:#9CA3AF;font-size:12px;line-height:1.6}
+
+/* Toast */
+.ts{position:fixed;left:12px;right:12px;bottom:90px;z-index:200;background:var(--navy);color:#fff;border-radius:12px;padding:12px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(13,27,76,.3);transform:translateY(140%);transition:transform .35s cubic-bezier(.4,.2,.2,1);display:flex;gap:10px;align-items:center;pointer-events:none;max-width:520px;margin:0 auto}
+.ts.on{transform:translateY(0)}
+.ts.ok{background:var(--green)}.ts.er{background:var(--red)}
+
+/* Modal */
+.mk{position:fixed;inset:0;background:rgba(13,27,76,.6);backdrop-filter:blur(4px);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.mk.on{display:flex}
+.md{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;animation:su .3s cubic-bezier(.4,.2,.2,1)}
+@keyframes su{from{transform:translateY(100%)}to{transform:none}}
+.mh{padding:16px 18px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:2}
+.mh h3{font-size:15px;font-weight:800;color:var(--navy)}
+.mcl{background:none;border:none;font-size:24px;color:#9CA3AF;cursor:pointer;font-family:inherit;line-height:1}
+.mb{padding:16px 18px 20px}
+.mf{padding:12px 18px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--line);position:sticky;bottom:0;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Codes */
+.codes{display:flex;gap:6px;justify-content:center;margin:16px 0}
+.codes input{width:38px;height:46px;text-align:center;font-size:20px;font-weight:800;font-family:ui-monospace,Menlo,monospace;border:1px solid rgba(13,27,76,.2);border-radius:9px;outline:none;background:#fff}
+.codes input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(244,180,32,.2)}
+
+/* Progress */
+.prg{height:6px;background:rgba(13,27,76,.10);border-radius:20px;overflow:hidden;margin-top:10px}
+.prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:20px;transition:width .4s}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-r">
+    <div class="who">
+      <div class="av">AO</div>
+      <div class="info">
+        <div class="n">Adaeze Okafor</div>
+        <div class="s" id="hSub">Adaeze Electronics · Verified</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button onclick="resetAll()">Reset</button>
+      <button class="go" id="playBtn" onclick="togglePlay()">▶ Play</button>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kbox green"><div class="l">Main wallet</div><div class="v" id="kMain">₦0</div></div>
+    <div class="kbox gold"><div class="l">Guarantee</div><div class="v" id="kGuar">₦0</div></div>
+    <div class="kbox"><div class="l">Wizard step</div><div class="v" id="kStep">— / 7</div></div>
+    <div class="kbox red" id="kErrBox"><div class="l">Errors</div><div class="v" id="kErr">0</div></div>
+  </div>
+</header>
+
+<!-- Step rail -->
+<div class="rail" id="rail"></div>
+
+<!-- FLOW -->
+<section class="panel on" id="p-flow">
+  <div class="card">
+    <div class="ch"><span>Create Deal scenarios</span><span class="bd bd-navy" id="scnCount">0</span></div>
+    <div id="scnList"></div>
+  </div>
+  <div class="card">
+    <div class="ch">
+      <span>Run this scenario</span>
+      <button style="background:none;border:none;color:#9CA3AF;font-size:10px;font-weight:700;cursor:pointer" onclick="resetWork()">Reset</button>
+    </div>
+    <div class="cb">
+      <button class="btn go" id="innerPlay" onclick="playScenario()">▶ Play scenario</button>
+      <div class="prg" id="prgWrap" style="display:none"><div class="fill" id="prgFill"></div></div>
+    </div>
+  </div>
+  <div class="card" id="narrCard" style="display:none">
+    <div class="cb" style="padding:0">
+      <div class="narr">
+        <div class="who" id="nWho">—</div>
+        <div class="msg" id="nMsg">—</div>
+        <div class="det" id="nDet"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Wizard journey · tap any step</div>
+    <div class="steps" id="stepList"></div>
+  </div>
+
+  <div id="wizardCard"></div>
+
+  <div id="errorsCard"></div>
+
+  <div id="outputCard"></div>
+
+  <div class="card" id="tlCard" style="display:none">
+    <div class="ch">Event log</div>
+    <ol class="tl" id="tlList"></ol>
+  </div>
+</section>
+
+<!-- DEALS -->
+<section class="panel" id="p-deals">
+  <div class="card">
+    <div class="ch"><span>My Protected Deals</span><span class="bd bd-navy" id="dealCount">0</span></div>
+    <div class="filters" style="display:flex;gap:6px;padding:10px;overflow-x:auto;border-bottom:1px solid var(--line)">
+      <button class="bd bd-navy" style="border:none;cursor:pointer;font-family:inherit;padding:5px 11px" onclick="filterDeals('all',this)">All</button>
+      <button class="bd bd-mist" style="border:none;cursor:pointer;font-family:inherit;padding:5px 11px" onclick="filterDeals('active',this)">Active</button>
+      <button class="bd bd-mist" style="border:none;cursor:pointer;font-family:inherit;padding:5px 11px" onclick="filterDeals('cloned',this)">Cloned</button>
+    </div>
+    <div id="dealList"><div class="em">No deals yet. Run a scenario in the Flow tab.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Wizard output contract (§7.3)</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Public deal code</span><span class="v" style="font-family:inherit">DG-XXXXXX</span></div>
+      <div class="row"><span class="k">Unguessable buyer token</span><span class="v" style="font-size:10px">tok_xxxxxxxxxx</span></div>
+      <div class="row"><span class="k">Share targets</span><span class="v" style="font-family:inherit">WhatsApp · Copy · IG bio</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Every published deal produces a fresh Deal ID, a fresh unguessable buyer token, and a fresh guarantee hold — never reused from a clone.
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="panel" id="p-guarantee">
+  <div class="card">
+    <div class="ch"><span>Guarantee Wallet</span><span class="bd bd-gold">₦5,000 per deal</span></div>
+    <div class="cb">
+      <div style="text-align:center;padding:14px 0">
+        <div style="font-size:11px;color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Guarantee wallet balance</div>
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:34px;font-weight:800;color:var(--navy);margin-top:6px" id="guarBal">₦0</div>
+        <div style="font-size:11px;color:#9CA3AF;margin-top:6px">Auto-debit ₦5,000 per new deal</div>
+      </div>
+      <div class="brow" style="margin-top:10px">
+        <button class="btn go sm" onclick="topUp(10000)">+ Top up ₦10,000</button>
+        <button class="btn gh sm" onclick="topUp(50000)">+ ₦50,000</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Guarantee status lifecycle (§7.2)</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k"><b style="color:var(--gold2)">HELD</b> — active deal in flight</span><span class="v" style="font-family:inherit">₦5,000</span></div>
+      <div class="row"><span class="k"><b style="color:var(--green2)">REFUNDED</b> — successful completion</span><span class="v g">+₦5,000</span></div>
+      <div class="row"><span class="k"><b style="color:var(--red)">FORFEITED</b> — failed inspection or fraud</span><span class="v r">−₦5,000</span></div>
+      <div class="row"><span class="k"><b style="color:var(--blue)">PAID</b> — matched to a published deal</span><span class="v" style="font-family:inherit">—</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Guarantee history</div>
+    <div id="guarHistory"><div class="em">No guarantee events yet.</div></div>
+  </div>
+</section>
+
+<!-- MEDIA -->
+<section class="panel" id="p-media">
+  <div class="card">
+    <div class="ch"><span>Current deal media (§7.1)</span><span class="bd bd-blue" id="mediaBadge">0 photos · 0s</span></div>
+    <div class="cb" id="mediaBody">
+      <div class="mgrid" id="mediaGrid">
+        <div class="mtile" data-slot="1">+</div>
+        <div class="mtile" data-slot="2">+</div>
+        <div class="mtile" data-slot="3">+</div>
+        <div class="mtile" data-slot="4">+</div>
+      </div>
+      <div class="mgrid" style="grid-template-columns:1fr">
+        <div class="mtile video-fill" id="videoSlot" data-label="—">▶ No video</div>
+      </div>
+      <div class="nt bl" style="margin-top:12px">
+        <b>Server-side limits:</b> 2–4 images required. Video ≤ 60 seconds. Duration is checked twice — client-side on upload, then re-verified server-side before the deal is publishable.
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Media rules</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Minimum images</span><span class="v">2</span></div>
+      <div class="row"><span class="k">Maximum images</span><span class="v">4</span></div>
+      <div class="row"><span class="k">Video required</span><span class="v">1 continuous</span></div>
+      <div class="row"><span class="k">Video maximum</span><span class="v">≤ 60s</span></div>
+      <div class="row"><span class="k">Video edits</span><span class="v r">Not allowed</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TAXONOMY -->
+<section class="panel" id="p-taxonomy">
+  <div class="card">
+    <div class="ch"><span>Taxonomy — Sector / Industry / Product Line</span><span class="bd bd-purple">Typeahead</span></div>
+    <div class="cb">
+      <div class="nt pu">
+        <b>Typeahead.</b> As the seller types the item name, the platform suggests a matching sector, industry and product line. The seller can override any level manually.
+      </div>
+      <div class="tax" id="taxTree"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Selected path</div>
+    <div class="cb" style="padding:0" id="taxSelected">
+      <div class="row"><span class="k">Sector</span><span class="v" style="font-family:inherit">—</span></div>
+      <div class="row"><span class="k">Industry</span><span class="v" style="font-family:inherit">—</span></div>
+      <div class="row"><span class="k">Product line</span><span class="v" style="font-family:inherit">—</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="panel" id="p-location">
+  <div class="card">
+    <div class="ch"><span>Inspection / pickup location (§7.1)</span><span class="bd bd-blue">Google Maps</span></div>
+    <div class="cb" style="padding:0" id="locBody">
+      <div class="row"><span class="k">Address text</span><span class="v" style="font-family:inherit">—</span></div>
+      <div class="row"><span class="k">Latitude</span><span class="v">—</span></div>
+      <div class="row"><span class="k">Longitude</span><span class="v">—</span></div>
+      <div class="row"><span class="k">LGA</span><span class="v" style="font-family:inherit">—</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Preset pins (demo)</div>
+    <div class="cb" style="padding:0">
+      <button class="row" style="border:none;background:none;width:100%;cursor:pointer;font-family:inherit;text-align:left" onclick="pickPin('Ikeja')">
+        <span class="k"><b style="color:var(--navy)">Ikeja, Lagos</b><div style="font-size:10px;color:#6B7280;margin-top:2px">6.6018° N, 3.3515° E</div></span>
+        <span class="bd bd-blue">Pick</span>
+      </button>
+      <button class="row" style="border:none;background:none;width:100%;cursor:pointer;font-family:inherit;text-align:left" onclick="pickPin('Eti-Osa')">
+        <span class="k"><b style="color:var(--navy)">Eti-Osa, Lagos</b><div style="font-size:10px;color:#6B7280;margin-top:2px">6.4550° N, 3.4825° E</div></span>
+        <span class="bd bd-blue">Pick</span>
+      </button>
+      <button class="row" style="border:none;background:none;width:100%;cursor:pointer;font-family:inherit;text-align:left" onclick="pickPin('Surulere')">
+        <span class="k"><b style="color:var(--navy)">Surulere, Lagos</b><div style="font-size:10px;color:#6B7280;margin-top:2px">6.5000° N, 3.3500° E</div></span>
+        <span class="bd bd-blue">Pick</span>
+      </button>
+      <button class="row" style="border:none;background:none;width:100%;cursor:pointer;font-family:inherit;text-align:left" onclick="pickPin('Wuse')">
+        <span class="k"><b style="color:var(--navy)">Wuse 2, Abuja</b><div style="font-size:10px;color:#6B7280;margin-top:2px">9.0765° N, 7.3986° E</div></span>
+        <span class="bd bd-blue">Pick</span>
+      </button>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      The address string and the lat/lng pair are both required. Missing either one blocks publish — this is §23 server-side validation.
+    </div>
+  </div>
+</section>
+
+<!-- AUDIT -->
+<section class="panel" id="p-audit">
+  <div class="card">
+    <div class="ch"><span>Create-deal audit log</span><span class="bd bd-navy">Immutable</span></div>
+    <div id="auditList"><div class="em">No events yet.</div></div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab on" onclick="tab('flow',this)"><span class="ic">▶</span>Flow</button>
+  <button class="tab" onclick="tab('deals',this)"><span class="ic">📦</span>Deals</button>
+  <button class="tab" onclick="tab('guarantee',this)"><span class="ic">🛡️</span>Guarantee</button>
+  <button class="tab" onclick="tab('media',this)"><span class="ic">🖼️</span>Media</button>
+  <button class="tab" onclick="tab('taxonomy',this)"><span class="ic">🌳</span>Taxonomy</button>
+  <button class="tab" onclick="tab('location',this)"><span class="ic">📍</span>Location</button>
+  <button class="tab" onclick="tab('audit',this)"><span class="ic">📋</span>Audit</button>
+</nav>
+
+<div class="mk" id="modal" onclick="if(event.target===this)closeModal()"><div class="md" id="modalBox"></div></div>
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
+const KEY='dg_create_deal_wizard_v1';
+const GUARANTEE=5000;
+const IMG_MIN=2, IMG_MAX=4, VIDEO_MAX=60;
+const fmt=n=>'₦'+Math.round(n).toLocaleString('en-NG');
+const ago=ts=>{const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';
+  if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';};
+const uid=()=>'x'+Math.random().toString(36).slice(2,10);
+const mono=()=>'DG-'+Math.random().toString(10).slice(2,8);
+const tok=()=>'tok_'+Math.random().toString(36).slice(2,14);
+
+/* ============================================================
+   TAXONOMY (§7.1)
+   ============================================================ */
+const TAXONOMY = {
+  'Phones & Tablets':{
+    'Smartphones':['iPhone 14 Pro','iPhone 15 Pro','Samsung S23','Samsung S24','Google Pixel 8','Other Smartphone'],
+    'Accessories':['AirPods Pro 2','Apple Watch S9','Samsung Buds','Other Accessory'],
+  },
+  'Computers & Laptops':{
+    'Laptops':['MacBook Pro 14" M3','MacBook Air M2','Dell XPS 13','HP Spectre x360','Lenovo ThinkPad','Other Laptop'],
+    'Desktops':['iMac 24"','Mac Mini M2','Other Desktop'],
+  },
+  'Cameras & Drones':{
+    'Cameras':['Canon EOS R6','Sony A7 IV','Nikon Z6 II','Fujifilm X-T5','Other Camera'],
+    'Drones':['DJI Mavic 3','DJI Mini 4 Pro','Other Drone'],
+  },
+  'Home Appliances':{
+    'Cooling':['LG 2HP Inverter AC','Hisense 1.5HP Split','Other AC'],
+    'Kitchen':['LG Microwave','Samsung Fridge','Other Kitchen'],
+  },
+  'Vehicles':{
+    'Cars':['Toyota Corolla 2018','Toyota Camry 2020','Honda Civic 2019','Honda Accord 2021','Other Car'],
+    'Motorcycles':['Bajaj Boxer','TVS Apache','Other Motorcycle'],
+  },
+  'Bags & Watches':{
+    'Bags':['LV Neverfull','Gucci Marmont','Hermès Birkin','Other Bag'],
+    'Watches':['Rolex Submariner','Omega Seamaster','Seiko SKX','Other Watch'],
+  },
+};
+const PIN_PRESETS = {
+  'Ikeja':    {lga:'Ikeja',    lat:6.6018, lng:3.3515, addr:'12 Allen Avenue, Ikeja, Lagos'},
+  'Eti-Osa':  {lga:'Eti-Osa',  lat:6.4550, lng:3.4825, addr:'3 Admiralty Way, Lekki Phase 1, Lagos'},
+  'Surulere': {lga:'Surulere', lat:6.5000, lng:3.3500, addr:'22 Bode Thomas Street, Surulere, Lagos'},
+  'Wuse':     {lga:'Wuse 2',   lat:9.0765, lng:7.3986, addr:'14 Aminu Kano Crescent, Wuse 2, Abuja'},
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+function fresh(){
+  return {
+    seller:{name:'Adaeze Okafor',business:'Adaeze Electronics Ltd',verified:true},
+    main:50000,           // main wallet balance
+    guarantee:0,          // guarantee wallet balance
+    wizard:{
+      step:0,             // 0 = not started, 1..7 = current step
+      // step 1
+      item:'', description:'',
+      // step 2 (taxonomy)
+      sector:'', industry:'', productLine:'',
+      // step 3 (condition + quantity)
+      condition:'', quantity:null,
+      // step 4 (quality notes + price)
+      qualityNotes:'', price:null,
+      // step 5 (media)
+      photos:[], videoSeconds:null, videoContinuous:false,
+      // step 6 (location)
+      address:'', lat:null, lng:null, lga:'',
+      // step 7 (guarantee + publish)
+      guaranteeMethod:null, guaranteeStatus:'', // paid | held | refunded | forfeited
+      published:false, dealCode:null, buyerToken:null,
+    },
+    deals:{},             // created deals
+    guarantees:[],        // guarantee events
+    events:[], audit:[],
+    scenario:'happy_path',
+    completedSteps:[],
+    errors:[],
+    _log:{},
+  };
+}
+let S=load();
+function load(){try{const r=localStorage.getItem(KEY);return r?Object.assign(fresh(),JSON.parse(r)):fresh();}catch(e){return fresh();}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
+function ev(type,text,meta){S.events.push({id:uid(),type,text,meta,ts:Date.now()});if(S.events.length>300)S.events.shift();}
+function audit(type,text,meta){S.audit.unshift({id:uid(),type,text,meta,ts:Date.now()});if(S.audit.length>200)S.audit.pop();}
+function pushErr(code,title,detail){
+  S.errors.push({id:uid(),code,title,detail,ts:Date.now()});
+  ev('VALIDATION_FAIL',title,code);
+}
+function clearErrors(){S.errors=[];}
+
+/* ============================================================
+   SCENARIOS
+   ============================================================ */
+const SCENARIOS = {
+  happy_path:{
+    key:'happy_path', em:'✅', title:'Happy path — full wizard',
+    desc:'7 steps · typeahead · condition · media · map · auto-debit guarantee · publish',
+    steps:[
+      {k:'w1_open',    l1:'Open wizard',                l2:'Step 1 of 7 · Item basics'},
+      {k:'w1_fill',    l1:'Enter item name & description', l2:'"iPhone 14 Pro 256GB" · Deep Purple'},
+      {k:'w1_tax',     l1:'Pick taxonomy via typeahead',l2:'Phones & Tablets › Smartphones › iPhone 14 Pro'},
+      {k:'w1_next',    l1:'Advance to Step 2',          l2:'Condition + quantity'},
+      {k:'w2_set',     l1:'Set condition & quantity',   l2:'Used · quantity 1'},
+      {k:'w2_next',    l1:'Advance to Step 3',          l2:'Quality notes + price'},
+      {k:'w3_fill',    l1:'Quality notes & price',      l2:'Battery 89%, no repairs · ₦450,000'},
+      {k:'w3_next',    l1:'Advance to Step 4',          l2:'Media uploads'},
+      {k:'w4_photos',  l1:'Upload 4 images',            l2:'Within 2–4 limit'},
+      {k:'w4_video',   l1:'Upload 45s continuous video',l2:'≤ 60s · no edits'},
+      {k:'w4_next',    l1:'Advance to Step 5',          l2:'Inspection location'},
+      {k:'w5_pin',     l1:'Pin Google Maps location',   l2:'Ikeja · 6.6018° N, 3.3515° E'},
+      {k:'w5_next',    l1:'Advance to Step 6',          l2:'Guarantee ₦5,000'},
+      {k:'w6_topup',   l1:'Top up guarantee wallet',    l2:'₦20,000 from main wallet'},
+      {k:'w6_debit',   l1:'Auto-debit ₦5,000',          l2:'Guarantee status = held'},
+      {k:'w6_next',    l1:'Advance to Step 7',          l2:'Review & publish'},
+      {k:'w7_publish', l1:'Server-side validation',     l2:'All fields present · all rules pass'},
+      {k:'w7_output',  l1:'Publish — outputs issued',   l2:'Deal code + unguessable buyer link'},
+      {k:'w7_share',   l1:'Share via WhatsApp',         l2:'Buyer link + copy link'},
+    ],
+    verdict:'Standard creation. Every §7.1 required field captured. Media meets 2–4 photos and ≤60s video. Google Maps pin required. ₦5,000 guarantee auto-debited from the guarantee wallet. On success, a public deal code and an unguessable buyer token are issued.'
+  },
+
+  validation_fail:{
+    key:'validation_fail', em:'❌', title:'Server-side validation — full failure sweep',
+    desc:'Try to publish with every invalid input · watch each rule reject',
+    steps:[
+      {k:'w1_open',    l1:'Open wizard',                l2:'Step 1'},
+      {k:'err_no_taxonomy', l1:'No taxonomy selected',  l2:'422 · sector/industry/product_line required'},
+      {k:'err_no_condition',l1:'No condition selected', l2:'422 · condition required'},
+      {k:'w3_zero_qty',l1:'Quantity = 0',               l2:'422 · integer ≥ 1 required'},
+      {k:'w3_float_qty',l1:'Quantity = 1.5',            l2:'422 · integer only'},
+      {k:'w3_zero_price',l1:'Price = ₦0',               l2:'422 · price must be > 0'},
+      {k:'w4_one_photo',l1:'Only 1 image uploaded',     l2:'422 · minimum 2 images'},
+      {k:'w4_six_photos',l1:'6 images uploaded',        l2:'422 · maximum 4 images'},
+      {k:'w4_long_video',l1:'Video = 90 seconds',       l2:'422 · maximum 60s'},
+      {k:'w4_no_video', l1:'Video = 0s',                l2:'422 · continuous video required'},
+      {k:'w5_no_pin',  l1:'Address without lat/lng',    l2:'422 · lat/lng required'},
+      {k:'w5_no_addr', l1:'Lat/lng without address',    l2:'422 · address text required'},
+      {k:'summary',    l1:'Validation summary',         l2:'11 errors caught server-side'},
+    ],
+    verdict:'Every §23 rule enforced. Client-side UI tries to help, but the server rejects regardless. No partial state is persisted on any validation failure — the wizard state is retained for repair, the deal is not published.'
+  },
+
+  media_rules:{
+    key:'media_rules', em:'🖼️', title:'Media rules — count and duration',
+    desc:'2 min · 4 max · video ≤ 60s · then correctly publish',
+    steps:[
+      {k:'w1_open',    l1:'Open wizard',                l2:'Skip to Step 4 · Media'},
+      {k:'w4_one_photo',l1:'1 image — rejected',        l2:'Below the 2-image minimum'},
+      {k:'w4_six_photos',l1:'6 images — rejected',      l2:'Above the 4-image maximum'},
+      {k:'w4_four',    l1:'4 images — accepted',        l2:'Within range'},
+      {k:'w4_short_vid',l1:'Video 15s — warned',        l2:'Too short to verify continuity'},
+      {k:'w4_long_video',l1:'Video 90s — rejected',     l2:'Exceeds 60s max'},
+      {k:'w4_video',   l1:'Video 45s — accepted',       l2:'Continuous, no edits'},
+    ],
+    verdict:'Media validation is stricter than most sellers expect. The 2–4 image window and the ≤60s video cap are hard-coded and enforced both client and server-side, per §7.1 and §23.'
+  },
+
+  taxonomy_typeahead:{
+    key:'taxonomy_typeahead', em:'🌳', title:'Taxonomy typeahead',
+    desc:'Start typing → suggested sector/industry/product line → override manually',
+    steps:[
+      {k:'w1_open',    l1:'Open wizard',                l2:'Empty taxonomy'},
+      {k:'w1_fill',    l1:'Type "iPhone"',              l2:'Typeahead fires'},
+      {k:'w1_tax',     l1:'Suggested: Phones & Tablets › Smartphones › iPhone 14 Pro',l2:'Auto-fill applied'},
+      {k:'tax_override',l1:'Override product line',     l2:'Switch to "iPhone 15 Pro"'},
+      {k:'tax_override_industry',l1:'Override industry',l2:'Switch to "Accessories"'},
+    ],
+    verdict:'Typeahead auto-suggests the taxonomy, but the seller always retains manual override at each level. This is required by §7.1 — "editable".'
+  },
+
+  guarantee_auto_debit:{
+    key:'guarantee_auto_debit', em:'🛡️', title:'Guarantee — auto-debit from guarantee wallet',
+    desc:'Guarantee wallet has funds → ₦5,000 auto-debited on create',
+    steps:[
+      {k:'w1_open',    l1:'Wizard open',                l2:'Guarantee wallet: ₦20,000'},
+      {k:'w6_topup',   l1:'Ensure guarantee wallet funded',l2:'₦20,000 balance'},
+      {k:'w6_debit',   l1:'Auto-debit ₦5,000',          l2:'guarantee_status = held'},
+      {k:'w7_publish', l1:'Publish',                    l2:'Deal live'},
+    ],
+    verdict:'If the guarantee wallet holds ≥ ₦5,000, the fee auto-debits on create — no gateway round trip. The ₦5,000 is held, not spent — it is refunded on successful completion or forfeited on failed inspection.'
+  },
+
+  guarantee_topup_first:{
+    key:'guarantee_topup_first', em:'💰', title:'Guarantee — insufficient, top up first',
+    desc:'Guarantee wallet empty → top up → auto-debit → publish',
+    steps:[
+      {k:'w1_open',    l1:'Wizard open',                l2:'Guarantee wallet: ₦0'},
+      {k:'err_no_guarantee',l1:'Try to publish',        l2:'402 · insufficient guarantee balance'},
+      {k:'w6_topup',   l1:'Top up ₦20,000 from main',   l2:'Internal transfer'},
+      {k:'w6_debit',   l1:'Retry auto-debit',           l2:'₦5,000 held'},
+      {k:'w7_publish', l1:'Publish',                    l2:'Deal live'},
+    ],
+    verdict:'When the guarantee wallet is empty, publish is blocked with a 402 until the seller tops up. Top-up is an internal main → guarantee transfer — instant, no gateway.'
+  },
+
+  guarantee_gateway:{
+    key:'guarantee_gateway', em:'💳', title:'Guarantee — paid via gateway',
+    desc:'Seller pays ₦5,000 by card instead of auto-debit',
+    steps:[
+      {k:'w1_open',    l1:'Wizard open',                l2:'Choose gateway payment'},
+      {k:'w6_gateway', l1:'Pay ₦5,000 via Paystack',    l2:'Card charged · webhook confirms'},
+      {k:'w7_publish', l1:'Publish',                    l2:'Deal live'},
+    ],
+    verdict:'Gateway payment is the alternative to auto-debit. Idempotency keys prevent double-charge; the webhook is verified before the guarantee is marked paid.'
+  },
+
+  clone_relist:{
+    key:'clone_relist', em:'♻️', title:'Clone & re-list (§7.4)',
+    desc:'Prefills from history · always issues new Deal ID · new link · new guarantee',
+    steps:[
+      {k:'w1_open',    l1:'Publish a first deal',       l2:'Deal DG-xxxxxx live'},
+      {k:'seed_first_deal',l1:'First deal published',   l2:'iPhone 14 Pro · ₦450,000'},
+      {k:'clone_click',l1:'Tap Clone in history',       l2:'Media + fields prefilled'},
+      {k:'clone_preview',l1:'Preview cloned wizard',    l2:'Same media, same notes'},
+      {k:'clone_publish',l1:'Publish clone',            l2:'New Deal ID issued'},
+      {k:'clone_output',l1:'New buyer token',           l2:'Guarantee re-debited ₦5,000'},
+    ],
+    verdict:'Clone prefills media and metadata from history, but always produces a new Deal ID, new unguessable buyer token, and a fresh ₦5,000 guarantee hold. The original deal is untouched.'
+  },
+
+  map_pin_required:{
+    key:'map_pin_required', em:'📍', title:'Google Maps — address + lat/lng required',
+    desc:'Missing either side fails · both present succeeds',
+    steps:[
+      {k:'w1_open',    l1:'Wizard open',                l2:'Location step pending'},
+      {k:'w5_no_addr', l1:'Set lat/lng only',           l2:'422 · address text required'},
+      {k:'w5_no_pin',  l1:'Set address only',           l2:'422 · lat/lng required'},
+      {k:'w5_pin',     l1:'Pin from Maps',              l2:'Both captured'},
+    ],
+    verdict:'Both sides of the location are mandatory: the human-readable address string AND the exact lat/lng pair. Address alone is not precise enough for a Vet Agent to find the item.'
+  },
+
+  quantity_integer:{
+    key:'quantity_integer', em:'#️⃣', title:'Quantity — integer ≥ 1',
+    desc:'0 rejected · 1.5 rejected · 3 accepted',
+    steps:[
+      {k:'w1_open',    l1:'Wizard open',                l2:'Quantity unset'},
+      {k:'w3_zero_qty',l1:'Quantity = 0',               l2:'422 · must be ≥ 1'},
+      {k:'w3_float_qty',l1:'Quantity = 1.5',            l2:'422 · must be an integer'},
+      {k:'w2_set',     l1:'Quantity = 3',               l2:'Accepted'},
+    ],
+    verdict:'Quantity must be a positive integer. Fractions are rejected outright because the buyer pays per unit and the Vet Agent inspects per unit.'
+  },
+
+  price_sanity:{
+    key:'price_sanity', em:'💵', title:'Price validation — boundaries',
+    desc:'₦0 rejected · sane limits · ₦450,000 accepted',
+    steps:[
+      {k:'w1_open',    l1:'Wizard open',                l2:'Price unset'},
+      {k:'w3_zero_price',l1:'Price = ₦0',               l2:'422 · must be > 0'},
+      {k:'w3_neg_price',l1:'Price = ₦-1,000',           l2:'422 · negative not allowed'},
+      {k:'w3_fill',    l1:'Price = ₦450,000',           l2:'Within accepted band'},
+    ],
+    verdict:'Price must be a positive number. Additional sanity guards reject absurd values (e.g. ₦10,000,000,000) at the boundary layer to protect against UI mistakes and fraud.'
+  },
+};
+
+/* ============================================================
+   HANDLERS
+   ============================================================ */
+const H = {
+  /* ---- step 1 ---- */
+  w1_open(){
+    S.wizard.step=1; clearErrors();
+    ev('WIZARD_OPEN','Wizard opened at Step 1','Item basics');
+    audit('deal.create.start','Wizard started','');
+    return 'Step 1';
+  },
+  w1_fill(){
+    S.wizard.item='iPhone 14 Pro 256GB';
+    S.wizard.description='Deep Purple · 256GB · minor scratch bottom-right corner · no repairs';
+    ev('ITEM_SET','Item name & description captured','"iPhone 14 Pro 256GB"');
+    return 'Item named';
+  },
+  w1_tax(){
+    S.wizard.sector='Phones & Tablets';
+    S.wizard.industry='Smartphones';
+    S.wizard.productLine='iPhone 14 Pro';
+    ev('TAXONOMY','Taxonomy auto-filled by typeahead','Phones & Tablets › Smartphones › iPhone 14 Pro');
+    return 'Taxonomy set';
+  },
+  w1_next(){
+    const e=validateStep1();
+    if(e.length){ e.forEach(x=>pushErr(...x)); return 'Blocked · '+e.length+' errors'; }
+    S.wizard.step=2; clearErrors();
+    ev('STEP_ADVANCE','Advanced to Step 2','Condition + quantity');
+    return 'Step 2';
+  },
+
+  /* ---- step 2 ---- */
+  w2_set(){
+    S.wizard.condition='Used';
+    S.wizard.quantity=S.wizard.quantity && Number.isInteger(S.wizard.quantity) && S.wizard.quantity>=1 ? S.wizard.quantity : 1;
+    if(S.wizard.quantity===1){
+      ev('CONDITION_SET','Condition = Used · Quantity = 1','');
+    } else {
+      ev('CONDITION_SET','Condition = Used · Quantity = '+S.wizard.quantity,'');
+    }
+    return 'Condition set';
+  },
+  w2_next(){
+    const e=validateStep2();
+    if(e.length){ e.forEach(x=>pushErr(...x)); return 'Blocked · '+e.length+' errors'; }
+    S.wizard.step=3; clearErrors();
+    ev('STEP_ADVANCE','Advanced to Step 3','Quality notes + price');
+    return 'Step 3';
+  },
+
+  /* ---- step 3 ---- */
+  w3_fill(){
+    S.wizard.qualityNotes='Battery health 89% as declared · Face ID works · cameras work · no water damage · scratch on bottom-right corner only · original box and cable included';
+    S.wizard.price=450000;
+    ev('QUALITY_PRICE','Quality notes & price captured','₦450,000');
+    return 'Noted';
+  },
+  w3_next(){
+    const e=validateStep3();
+    if(e.length){ e.forEach(x=>pushErr(...x)); return 'Blocked · '+e.length+' errors'; }
+    S.wizard.step=4; clearErrors();
+    ev('STEP_ADVANCE','Advanced to Step 4','Media uploads');
+    return 'Step 4';
+  },
+  w3_zero_qty(){
+    S.wizard.quantity=0;
+    const e=validateStep2();
+    e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+  w3_float_qty(){
+    S.wizard.quantity=1.5;
+    const e=validateStep2();
+    e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+  w3_zero_price(){
+    S.wizard.price=0;
+    const e=validateStep3();
+    e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+  w3_neg_price(){
+    S.wizard.price=-1000;
+    const e=validateStep3();
+    e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+
+  /* ---- step 4 (media) ---- */
+  w4_photos(){
+    S.wizard.photos=[
+      {id:uid(),label:'1/4',size:'1.4 MB'},
+      {id:uid(),label:'2/4',size:'1.9 MB'},
+      {id:uid(),label:'3/4',size:'2.2 MB'},
+      {id:uid(),label:'4/4',size:'1.7 MB'},
+    ];
+    ev('MEDIA_PHOTOS','4 images uploaded','Within 2–4 limit');
+    return '4 photos';
+  },
+  w4_four(){
+    S.wizard.photos=[
+      {id:uid(),label:'1/4'},{id:uid(),label:'2/4'},
+      {id:uid(),label:'3/4'},{id:uid(),label:'4/4'},
+    ];
+    ev('MEDIA_PHOTOS','4 images uploaded','Within range');
+    return '4 photos';
+  },
+  w4_one_photo(){
+    S.wizard.photos=[{id:uid(),label:'1/1'}];
+    const e=validateStep4();
+    if(e.length) e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+  w4_six_photos(){
+    S.wizard.photos=[
+      {id:uid(),label:'1/6'},{id:uid(),label:'2/6'},{id:uid(),label:'3/6'},
+      {id:uid(),label:'4/6'},{id:uid(),label:'5/6'},{id:uid(),label:'6/6'},
+    ];
+    const e=validateStep4();
+    if(e.length) e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+  w4_video(){
+    S.wizard.videoSeconds=45;
+    S.wizard.videoContinuous=true;
+    ev('MEDIA_VIDEO','45s continuous video uploaded','≤ 60s · no edits');
+    return '45s ok';
+  },
+  w4_short_vid(){
+    S.wizard.videoSeconds=15;
+    const e=validateStep4();
+    if(e.length) e.forEach(x=>pushErr(...x));
+    return 'Warned';
+  },
+  w4_long_video(){
+    S.wizard.videoSeconds=90;
+    const e=validateStep4();
+    if(e.length) e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+  w4_no_video(){
+    S.wizard.videoSeconds=0;
+    const e=validateStep4();
+    if(e.length) e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+  w4_next(){
+    const e=validateStep4();
+    if(e.length){ e.forEach(x=>pushErr(...x)); return 'Blocked · '+e.length+' errors'; }
+    S.wizard.step=5; clearErrors();
+    ev('STEP_ADVANCE','Advanced to Step 5','Location');
+    return 'Step 5';
+  },
+
+  /* ---- step 5 (location) ---- */
+  w5_pin(){
+    const p=PIN_PRESETS['Ikeja'];
+    S.wizard.address=p.addr;
+    S.wizard.lat=p.lat;
+    S.wizard.lng=p.lng;
+    S.wizard.lga=p.lga;
+    ev('MAP_PIN','Google Maps pin captured','Ikeja · 6.6018° N, 3.3515° E');
+    return 'Pinned';
+  },
+  w5_no_addr(){
+    S.wizard.address='';
+    S.wizard.lat=6.6018;
+    S.wizard.lng=3.3515;
+    S.wizard.lga='Ikeja';
+    const e=validateStep5();
+    if(e.length) e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+  w5_no_pin(){
+    S.wizard.address='12 Allen Avenue, Ikeja, Lagos';
+    S.wizard.lat=null;
+    S.wizard.lng=null;
+    const e=validateStep5();
+    if(e.length) e.forEach(x=>pushErr(...x));
+    return 'Rejected';
+  },
+  w5_next(){
+    const e=validateStep5();
+    if(e.length){ e.forEach(x=>pushErr(...x)); return 'Blocked · '+e.length+' errors'; }
+    S.wizard.step=6; clearErrors();
+    ev('STEP_ADVANCE','Advanced to Step 6','Guarantee ₦5,000');
+    return 'Step 6';
+  },
+
+  /* ---- step 6 (guarantee) ---- */
+  w6_topup(){
+    const amt=20000;
+    if(S.main < amt) S.main += amt;
+    S.main -= amt;
+    S.guarantee += amt;
+    S.guarantees.unshift({id:uid(),action:'topup',amt,code:'—',ts:Date.now(),src:'main'});
+    ev('GUARANTEE_TOPUP','Topped up guarantee wallet '+fmt(amt),'From main wallet');
+    audit('guarantee.topup','Guarantee wallet top-up',`amt=${amt}`);
+    return '+'+fmt(amt);
+  },
+  w6_debit(){
+    if(S.guarantee < GUARANTEE){
+      pushErr('402','insufficient_guarantee','Guarantee wallet balance is '+fmt(S.guarantee)+' — top up to ₦5,000 before publishing.');
+      return 'Blocked';
+    }
+    S.guarantee -= GUARANTEE;
+    S.wizard.guaranteeMethod='auto_debit';
+    S.wizard.guaranteeStatus='held';
+    S.guarantees.unshift({id:uid(),action:'hold',amt:GUARANTEE,code:S.wizard.dealCode||'—',ts:Date.now(),src:'guarantee'});
+    ev('GUARANTEE_HELD','Auto-debited ₦5,000 from guarantee wallet','Status: held');
+    audit('guarantee.debit','₦5,000 auto-debited','method=auto_debit');
+    return 'Held';
+  },
+  w6_gateway(){
+    if(S.main < GUARANTEE) S.main += GUARANTEE;
+    S.main -= GUARANTEE;
+    S.wizard.guaranteeMethod='gateway';
+    S.wizard.guaranteeStatus='paid';
+    S.guarantees.unshift({id:uid(),action:'gateway',amt:GUARANTEE,code:S.wizard.dealCode||'—',ts:Date.now(),src:'paystack'});
+    ev('GUARANTEE_GATEWAY','Paid ₦5,000 via Paystack','Webhook verified · idempotency key');
+    audit('guarantee.gateway','Gateway ₦5,000 paid','provider=paystack');
+    return 'Paid';
+  },
+  err_no_guarantee(){
+    S.guarantee=0;
+    pushErr('402','insufficient_guarantee','Guarantee wallet balance is ₦0 — publish blocked until ₦5,000 is funded.');
+    audit('guarantee.block','Publish blocked','reason=insufficient');
+    return 'Blocked';
+  },
+  w6_next(){
+    if(S.wizard.guaranteeStatus!=='held' && S.wizard.guaranteeStatus!=='paid'){
+      pushErr('402','guarantee_required','Guarantee must be paid or held before publish.');
+      return 'Blocked';
+    }
+    S.wizard.step=7; clearErrors();
+    ev('STEP_ADVANCE','Advanced to Step 7','Review & publish');
+    return 'Step 7';
+  },
+
+  /* ---- step 7 (publish) ---- */
+  w7_publish(){
+    const errs = validateAll();
+    if(errs.length){ errs.forEach(x=>pushErr(...x)); return 'Blocked · '+errs.length+' errors'; }
+    clearErrors();
+    ev('VALIDATED','Server-side validation passed','All §7.1 fields present · all rules pass');
+    audit('deal.validate','Validation passed','');
+    return 'Validated';
+  },
+  w7_output(){
+    const code=mono();
+    const buyer=tok();
+    S.wizard.dealCode=code;
+    S.wizard.buyerToken=buyer;
+    S.wizard.published=true;
+    S.wizard.status='AWAITING_BUYER_PAYMENT';
+    const d={
+      code,item:S.wizard.item,price:S.wizard.price,
+      condition:S.wizard.condition,quantity:S.wizard.quantity,
+      qualityNotes:S.wizard.qualityNotes,
+      sector:S.wizard.sector,industry:S.wizard.industry,productLine:S.wizard.productLine,
+      address:S.wizard.address,lat:S.wizard.lat,lng:S.wizard.lng,lga:S.wizard.lga,
+      photos:[...S.wizard.photos],videoSeconds:S.wizard.videoSeconds,
+      guarantee:GUARANTEE,guaranteeStatus:S.wizard.guaranteeStatus,
+      buyerToken:buyer,status:'AWAITING_BUYER_PAYMENT',
+      createdAt:Date.now(),clonedFrom:S.wizard.clonedFrom||null,
+    };
+    S.deals[code]=d;
+    ev('DEAL_PUBLISHED','Published '+code,'Buyer link issued · guarantee held');
+    audit('deal.publish','Deal published',`code=${code} guarantee=held`);
+    return code;
+  },
+  w7_share(){
+    ev('LINK_SHARED','Shared buyer link via WhatsApp','Buyer sees deal page + trust signal');
+    return 'Shared';
+  },
+  w7_clone_share(){
+    ev('LINK_SHARED','Shared cloned buyer link','Fresh token · fresh guarantee');
+    return 'Shared';
+  },
+
+  /* ---- validation sweep (scenario: validation_fail) ---- */
+  err_no_taxonomy(){
+    S.wizard.sector=''; S.wizard.industry=''; S.wizard.productLine='';
+    pushErr('422','missing_taxonomy','sector · industry · product_line are all required (§7.1).');
+    return 'Rejected';
+  },
+  err_no_condition(){
+    S.wizard.condition='';
+    pushErr('422','missing_condition','condition must be one of New | Like-New | Used/Old.');
+    return 'Rejected';
+  },
+  summary(){
+    ev('VALIDATION_SUMMARY','11 validation errors caught','Server-side enforcement');
+    return S.errors.length+' errors';
+  },
+  tax_override(){
+    S.wizard.productLine='iPhone 15 Pro';
+    ev('TAXONOMY_OVERRIDE','Product line overridden manually','iPhone 15 Pro');
+    return 'Overridden';
+  },
+  tax_override_industry(){
+    S.wizard.industry='Accessories';
+    S.wizard.productLine='AirPods Pro 2';
+    ev('TAXONOMY_OVERRIDE','Industry overridden manually','Accessories › AirPods Pro 2');
+    return 'Overridden';
+  },
+
+  /* ---- clone flow ---- */
+  seed_first_deal(){
+    // Silent: publishes a first deal so clone has something to work with
+    if(!Object.keys(S.deals).length){
+      S.wizard.item='iPhone 14 Pro 256GB';
+      S.wizard.condition='Used'; S.wizard.quantity=1;
+      S.wizard.qualityNotes='Battery 89% · minor scratch';
+      S.wizard.price=450000;
+      S.wizard.sector='Phones & Tablets'; S.wizard.industry='Smartphones'; S.wizard.productLine='iPhone 14 Pro';
+      S.wizard.photos=[{id:uid()},{id:uid()},{id:uid()},{id:uid()}];
+      S.wizard.videoSeconds=45; S.wizard.videoContinuous=true;
+      const p=PIN_PRESETS['Ikeja'];
+      S.wizard.address=p.addr; S.wizard.lat=p.lat; S.wizard.lng=p.lng; S.wizard.lga=p.lga;
+      if(S.guarantee < GUARANTEE){ S.guarantee += GUARANTEE; }
+      S.guarantee -= GUARANTEE;
+      const code=mono();
+      S.deals[code]={
+        code,item:S.wizard.item,price:450000,condition:'Used',quantity:1,
+        qualityNotes:S.wizard.qualityNotes,
+        sector:'Phones & Tablets',industry:'Smartphones',productLine:'iPhone 14 Pro',
+        address:p.addr,lat:p.lat,lng:p.lng,lga:p.lga,
+        photos:[...S.wizard.photos],videoSeconds:45,
+        guarantee:GUARANTEE,guaranteeStatus:'held',
+        buyerToken:tok(),status:'AWAITING_BUYER_PAYMENT',createdAt:Date.now(),
+      };
+      S.guarantees.unshift({id:uid(),action:'hold',amt:GUARANTEE,code,ts:Date.now(),src:'guarantee'});
+      S.wizard.dealCode=code;
+      ev('SEED_DEAL','Seeded first deal '+code,'For clone scenario');
+    }
+    return 'Seeded';
+  },
+  clone_click(){
+    // Find the most recent deal
+    const codes=Object.keys(S.deals);
+    const src=S.deals[codes[codes.length-1]];
+    if(!src){ pushErr('404','no_source_deal','Nothing to clone.'); return 'No source'; }
+    S._cloneSrc=src.code;
+    // Prefill wizard from source
+    S.wizard.item=src.item+' (relisted)';
+    S.wizard.condition=src.condition;
+    S.wizard.quantity=src.quantity;
+    S.wizard.qualityNotes=src.qualityNotes;
+    S.wizard.price=src.price;
+    S.wizard.sector=src.sector; S.wizard.industry=src.industry; S.wizard.productLine=src.productLine;
+    S.wizard.photos=src.photos.map(p=>({id:uid()}));
+    S.wizard.videoSeconds=src.videoSeconds; S.wizard.videoContinuous=true;
+    S.wizard.address=src.address; S.wizard.lat=src.lat; S.wizard.lng=src.lng; S.wizard.lga=src.lga;
+    S.wizard.clonedFrom=src.code;
+    S.wizard.step=7;
+    ev('CLONE_PREFILL','Fields & media prefilled from '+src.code,'New Deal ID will be issued on publish');
+    audit('deal.clone.prefill','Prefilled from '+src.code,'');
+    return 'Prefilled';
+  },
+  clone_preview(){
+    ev('CLONE_PREVIEW','Wizard showing prefilled clone','Ready to publish');
+    return 'Preview';
+  },
+  clone_publish(){
+    // Reset guarantee fields so this is a fresh hold
+    S.wizard.guaranteeStatus='';
+    if(S.guarantee < GUARANTEE){
+      pushErr('402','insufficient_guarantee','Guarantee wallet needs ₦5,000 for the clone.');
+      return 'Blocked';
+    }
+    S.guarantee -= GUARANTEE;
+    S.wizard.guaranteeStatus='held';
+    S.wizard.guaranteeMethod='auto_debit';
+    const code=mono();
+    const buyer=tok();
+    S.wizard.dealCode=code;
+    S.wizard.buyerToken=buyer;
+    S.wizard.published=true;
+    S.deals[code]={
+      code,item:S.wizard.item,price:S.wizard.price,
+      condition:S.wizard.condition,quantity:S.wizard.quantity,
+      qualityNotes:S.wizard.qualityNotes,
+      sector:S.wizard.sector,industry:S.wizard.industry,productLine:S.wizard.productLine,
+      address:S.wizard.address,lat:S.wizard.lat,lng:S.wizard.lng,lga:S.wizard.lga,
+      photos:[...S.wizard.photos],videoSeconds:S.wizard.videoSeconds,
+      guarantee:GUARANTEE,guaranteeStatus:'held',
+      buyerToken:buyer,status:'AWAITING_BUYER_PAYMENT',
+      createdAt:Date.now(),clonedFrom:S.wizard.clonedFrom,
+    };
+    S.guarantees.unshift({id:uid(),action:'hold',amt:GUARANTEE,code,ts:Date.now(),src:'guarantee'});
+    ev('CLONE_PUBLISH','Clone published '+code,'New ID · new token · fresh ₦5,000 guarantee');
+    audit('deal.clone.publish','Clone published',`from=${S.wizard.clonedFrom} to=${code}`);
+    return code;
+  },
+  clone_output(){
+    ev('CLONE_OUTPUT','New deal code: '+S.wizard.dealCode,'Original untouched');
+    return S.wizard.dealCode;
+  },
+};
+
+/* ============================================================
+   VALIDATION (§23)
+   ============================================================ */
+function validateStep1(){
+  const e=[];
+  if(!S.wizard.item || S.wizard.item.trim().length<3) e.push(['422','missing_item_name','Item name is required and must be at least 3 characters.']);
+  if(!S.wizard.sector || !S.wizard.industry || !S.wizard.productLine) e.push(['422','missing_taxonomy','sector · industry · product_line are all required (§7.1).']);
+  return e;
+}
+function validateStep2(){
+  const e=[];
+  if(!['New','Like-New','Used'].includes(S.wizard.condition)) e.push(['422','missing_condition','condition must be New | Like-New | Used.']);
+  const q=S.wizard.quantity;
+  if(q===null || q===undefined || q==='') e.push(['422','missing_quantity','quantity is required.']);
+  else if(!Number.isInteger(Number(q))) e.push(['422','non_integer_quantity','quantity must be a whole number.']);
+  else if(Number(q)<1) e.push(['422','quantity_below_min','quantity must be at least 1.']);
+  return e;
+}
+function validateStep3(){
+  const e=[];
+  if(!S.wizard.qualityNotes || S.wizard.qualityNotes.trim().length<10) e.push(['422','missing_quality_notes','quality notes must describe the grade/spec the buyer is paying for (≥10 characters).']);
+  const p=S.wizard.price;
+  if(p===null || p===undefined || p==='') e.push(['422','missing_price','price is required.']);
+  else if(Number(p)<=0) e.push(['422','non_positive_price','price must be greater than ₦0.']);
+  else if(Number(p)>1000000000) e.push(['422','price_sanity','price exceeds the sanity limit of ₦1,000,000,000.']);
+  return e;
+}
+function validateStep4(){
+  const e=[];
+  const n=S.wizard.photos.length;
+  if(n<IMG_MIN) e.push(['422','media_below_min',`minimum ${IMG_MIN} images required — ${n} provided.`]);
+  if(n>IMG_MAX) e.push(['422','media_above_max',`maximum ${IMG_MAX} images allowed — ${n} provided.`]);
+  const v=S.wizard.videoSeconds;
+  if(!v || v<1) e.push(['422','video_missing','one continuous video is required.']);
+  else if(v<20) e.push(['422','video_too_short','video is too short to verify continuity — minimum 20s.']);
+  else if(v>VIDEO_MAX) e.push(['422','video_too_long',`video exceeds the ${VIDEO_MAX}s maximum — ${v}s provided.`]);
+  if(v && !S.wizard.videoContinuous) e.push(['422','video_not_continuous','video must be one continuous take — no edits.']);
+  return e;
+}
+function validateStep5(){
+  const e=[];
+  if(!S.wizard.address || S.wizard.address.trim().length<6) e.push(['422','missing_address','address text is required.']);
+  if(S.wizard.lat===null || S.wizard.lng===null || S.wizard.lat===undefined || S.wizard.lng===undefined)
+    e.push(['422','missing_latlng','latitude and longitude are required.']);
+  return e;
+}
+function validateAll(){
+  return [
+    ...validateStep1(),
+    ...validateStep2(),
+    ...validateStep3(),
+    ...validateStep4(),
+    ...validateStep5(),
+  ];
+}
+
+/* ============================================================
+   PLAY
+   ============================================================ */
+let playing=false, aborted=false, autoIdx=-1;
+
+function pickScenario(key){
+  if(playing) return;
+  if(!confirm('Switch scenario? Wizard state will be cleared.')) return;
+  const keep={main:S.main,guarantee:S.guarantee,deals:S.deals,guarantees:S.guarantees,audit:S.audit,events:S.events};
+  S=fresh(); Object.assign(S,keep);
+  S.scenario=key; S.completedSteps=[]; S.errors=[];
+  save(); renderAll();
+  const scn=SCENARIOS[key];
+  narrate('Ready',scn.title+' — '+scn.desc);
+  document.getElementById('narrCard').style.display='';
+}
+
+async function playScenario(){
+  if(playing){ aborted=true; return; }
+  playing=true; aborted=false;
+  const scn=SCENARIOS[S.scenario];
+  const btn=document.getElementById('innerPlay');
+  btn.textContent='■ Stop'; btn.className='btn rd';
+  document.getElementById('prgWrap').style.display='';
+  for(let i=0;i<scn.steps.length;i++){
+    if(aborted) break;
+    autoIdx=i; updatePrg(i); renderSteps();
+    const stp=scn.steps[i];
+    try{
+      const h=H[stp.k];
+      if(!h) throw Error('No handler: '+stp.k);
+      const msg=h();
+      if(!S.completedSteps.includes(stp.k)) S.completedSteps.push(stp.k);
+      narrate('Wizard',stp.l1,msg+' · '+stp.l2);
+      document.getElementById('narrCard').style.display='';
+      renderAll();
+    }catch(e){
+      narrate('Error',e.message,'');
+      showToast(e.message,'er');
+      break;
+    }
+    await sleep(850);
+  }
+  playing=false; autoIdx=-1;
+  btn.textContent='▶ Replay scenario'; btn.className='btn go';
+  updatePrg(-1); renderAll();
+  if(!aborted) showToast('Scenario complete','ok');
+}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function togglePlay(){ if(playing){aborted=true;return;} playScenario(); }
+function runStep(k){
+  const scn=SCENARIOS[S.scenario];
+  const stp=scn.steps.find(s=>s.k===k);
+  if(!stp) return;
+  try{
+    const msg=H[k]();
+    if(!S.completedSteps.includes(k)) S.completedSteps.push(k);
+    narrate('Wizard',stp.l1,msg+' · '+stp.l2);
+    document.getElementById('narrCard').style.display='';
+    renderAll();
+  }catch(e){ narrate('Error',e.message,''); showToast(e.message,'er'); }
+}
+function updatePrg(i){
+  const total=SCENARIOS[S.scenario].steps.length;
+  if(i<0){ document.getElementById('prgWrap').style.display='none'; return; }
+  document.getElementById('prgFill').style.width=Math.round(((i+1)/total)*100)+'%';
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+const STEP_LABELS=['Item','Condition','Quality','Media','Location','Guarantee','Review'];
+
+function renderAll(){
+  renderHeader();
+  renderRail();
+  renderScenarios();
+  renderSteps();
+  renderWizard();
+  renderErrors();
+  renderOutput();
+  renderTimeline();
+  renderDeals();
+  renderGuarantee();
+  renderMedia();
+  renderTaxonomy();
+  renderLocation();
+  renderAudit();
+  save();
+}
+
+function renderHeader(){
+  document.getElementById('kMain').textContent=fmt(S.main);
+  document.getElementById('kGuar').textContent=fmt(S.guarantee);
+  document.getElementById('kStep').textContent=(S.wizard.step||0)+' / 7';
+  document.getElementById('kErr').textContent=S.errors.length;
+  document.getElementById('kErrBox').className=S.errors.length?'kbox red alert':'kbox';
+  document.getElementById('hSub').textContent=S.wizard.published?'Deal published · '+S.wizard.dealCode:(S.wizard.step?'Wizard step '+S.wizard.step:'Adaeze Electronics · Verified');
+}
+
+function renderRail(){
+  const el=document.getElementById('rail');
+  el.innerHTML=STEP_LABELS.map((lbl,i)=>{
+    const n=i+1;
+    const cur=S.wizard.step;
+    let cls='';
+    if(n<cur) cls='done';
+    else if(n===cur) cls='now';
+    // Errors on this step?
+    const codesByStep={
+      1:['missing_item_name','missing_taxonomy'],
+      2:['missing_condition','missing_quantity','non_integer_quantity','quantity_below_min'],
+      3:['missing_quality_notes','missing_price','non_positive_price','price_sanity'],
+      4:['media_below_min','media_above_max','video_missing','video_too_short','video_too_long','video_not_continuous'],
+      5:['missing_address','missing_latlng'],
+      6:['insufficient_guarantee','guarantee_required'],
+      7:[],
+    };
+    const hasErr=S.errors.some(e=>codesByStep[n].includes(e.code));
+    if(hasErr) cls='err';
+    return `<button class="rail-dot ${cls}"><span class="num">${n<cur?'✓':n}</span><span class="lbl">${lbl}</span></button>`;
+  }).join('');
+}
+
+function renderScenarios(){
+  document.getElementById('scnCount').textContent=Object.keys(SCENARIOS).length;
+  document.getElementById('scnList').innerHTML=Object.values(SCENARIOS).map(s=>`
+    <button class="scn ${S.scenario===s.key?'on':''}" onclick="pickScenario('${s.key}')">
+      <span class="em">${s.em}</span>
+      <span class="txt">
+        <span class="t1">${s.title}</span>
+        <span class="t2">${s.desc}</span>
+      </span>
+    </button>
+  `).join('');
+}
+
+function renderSteps(){
+  const scn=SCENARIOS[S.scenario];
+  document.getElementById('stepList').innerHTML=scn.steps.map((s,i)=>{
+    const done=S.completedSteps.includes(s.k);
+    const now=playing && autoIdx===i;
+    const isError=s.k.startsWith('err_')||s.k.includes('_no_')||s.k.includes('_zero_')||s.k.includes('_float_')||s.k.includes('_one_photo')||s.k.includes('_six_photos')||s.k.includes('_long_video')||s.k.includes('_short_vid');
+    const cls=`${done?'done':''} ${now?'now':''} ${isError&&done?'err':''}`;
+    return `<button class="stp ${cls}" onclick="runStep('${s.k}')" ${playing?'disabled':''}>
+      <span class="dot"></span>
+      <span class="info"><span class="l1">${s.l1}</span><span class="l2">${s.l2}</span></span>
+    </button>`;
+  }).join('');
+}
+
+function renderWizard(){
+  const el=document.getElementById('wizardCard');
+  const step=S.wizard.step;
+  if(!step){ el.innerHTML=''; return; }
+  const meta={
+    1:{title:'Item basics',sub:'Item name, description, and taxonomy'},
+    2:{title:'Condition & quantity',sub:'What the buyer is paying for'},
+    3:{title:'Quality notes & price',sub:'Grade / spec and agreed price'},
+    4:{title:'Media uploads',sub:'2–4 images · 1 continuous video ≤ 60s'},
+    5:{title:'Inspection location',sub:'Google Maps address + lat/lng'},
+    6:{title:'Guarantee ₦5,000',sub:'Auto-debit from guarantee wallet, or gateway'},
+    7:{title:'Review & publish',sub:'Server-side validation, then buyer link issued'},
+  }[step];
+
+  let body='';
+  if(step===1){
+    body=fld('Item name *',       S.wizard.item, 'e.g. iPhone 14 Pro 256GB');
+    body+=fld('Description',      S.wizard.description, 'What is included in the box');
+    body+=fld('Sector *',         S.wizard.sector, 'Auto-suggested from item name');
+    body+=fld('Industry *',       S.wizard.industry, 'Sub-category');
+    body+=fld('Product line *',   S.wizard.productLine, 'Specific SKU or model');
+    body+=`<div class="nt pu"><b>Typeahead.</b> Typing the item name fills sector / industry / product line. You can override any level.</div>`;
+  } else if(step===2){
+    body=fld('Condition *', S.wizard.condition, 'New · Like-New · Used', 'pill');
+    body+=fld('Quantity *', S.wizard.quantity!==null&&S.wizard.quantity!==undefined?String(S.wizard.quantity):'', 'Integer ≥ 1 · units buyer is paying for','mono');
+  } else if(step===3){
+    body=fld('Quality notes *', S.wizard.qualityNotes, 'What grade / spec the buyer is paying for · used as evidence in disputes');
+    body+=fld('Agreed price *', S.wizard.price!==null&&S.wizard.price!==undefined?fmt(S.wizard.price):'', 'Naira · integer kobo stored backend','mono');
+  } else if(step===4){
+    body=`<div class="fld-preview">
+      <div class="fld-lbl">Photos *<span class="req">2–4 required</span></div>
+      <div class="mgrid">
+        ${[1,2,3,4].map(i=>{
+          const has=S.wizard.photos[i-1];
+          return has?`<div class="mtile filled photo" data-label="${has.label||i+'/4'}">🖼️</div>`:`<div class="mtile">+</div>`;
+        }).join('')}
+      </div>
+      <div style="font-size:11px;color:#6B7280;margin-top:6px">${S.wizard.photos.length} image${S.wizard.photos.length===1?'':'s'} uploaded ${S.wizard.photos.length>=2&&S.wizard.photos.length<=4?'· ✓ within range':(S.wizard.photos.length?'· ✗ out of range':'')}</div>
+    </div>
+    <div class="fld-preview">
+      <div class="fld-lbl">Continuous video *<span class="req">≤ 60s</span></div>
+      <div class="mgrid" style="grid-template-columns:1fr">
+        ${S.wizard.videoSeconds?`<div class="mtile video-fill" data-label="${S.wizard.videoSeconds}s">▶ ${S.wizard.videoSeconds}s continuous</div>`:`<div class="mtile video-fill" data-label="—">▶ No video yet</div>`}
+      </div>
+      <div style="font-size:11px;color:#6B7280;margin-top:6px">${S.wizard.videoSeconds?`${S.wizard.videoSeconds}s ${S.wizard.videoContinuous?'· continuous':''}`:'Awaiting upload'}</div>
+    </div>`;
+  } else if(step===5){
+    body=fld('Address text *', S.wizard.address, 'Street, area, city — full readable address');
+    body+=fld('Latitude *', S.wizard.lat!==null?String(S.wizard.lat):'', 'Google Maps latitude','mono');
+    body+=fld('Longitude *', S.wizard.lng!==null?String(S.wizard.lng):'', 'Google Maps longitude','mono');
+    body+=fld('LGA', S.wizard.lga, 'Local Government Area');
+    body+=`<div class="nt bl">Address text AND lat/lng pair are both required. Missing either side blocks publish.</div>`;
+  } else if(step===6){
+    body=fld('Guarantee wallet', fmt(S.guarantee), 'Pre-funded balance', 'mono');
+    body+=fld('Status', S.wizard.guaranteeStatus||'Not paid', 'held · paid · refunded · forfeited', 'pill');
+    body+=fld('Method', S.wizard.guaranteeMethod==='auto_debit'?'Auto-debit from wallet':(S.wizard.guaranteeMethod==='gateway'?'Gateway (Paystack)':'—'), 'How the ₦5,000 was funded');
+    body+=`<div class="nt gr"><b>₦5,000 guarantee.</b> Auto-debits from your guarantee wallet if funded. Alternative: gateway (card). Must be paid or held before publish.</div>`;
+  } else if(step===7){
+    // Review
+    body=fld('Item', S.wizard.item);
+    body+=fld('Taxonomy', [S.wizard.sector,S.wizard.industry,S.wizard.productLine].filter(Boolean).join(' › ')||'—');
+    body+=fld('Condition', S.wizard.condition||'—','','pill');
+    body+=fld('Quantity', S.wizard.quantity!==null?String(S.wizard.quantity):'—','','mono');
+    body+=fld('Price', S.wizard.price!==null?fmt(S.wizard.price):'—','','mono');
+    body+=fld('Media', `${S.wizard.photos.length} photo${S.wizard.photos.length===1?'':'s'} · ${S.wizard.videoSeconds||0}s video`);
+    body+=fld('Location', S.wizard.lat!==null?`${S.wizard.address} · ${S.wizard.lat}, ${S.wizard.lng}`:'—');
+    body+=fld('Guarantee', S.wizard.guaranteeStatus||'—','','pill');
+    if(S.wizard.published){
+      body+=`<div class="nt gr"><b>Published.</b> Deal code ${S.wizard.dealCode} · Buyer token ${S.wizard.buyerToken}</div>`;
+    } else {
+      body+=`<div class="nt bl"><b>Ready to publish.</b> On success, the platform issues a public deal code and an unguessable buyer token.</div>`;
+    }
+  }
+
+  el.innerHTML=`<div class="wz">
+    <div class="wz-hd">
+      <div class="step-num">Step ${step} of 7</div>
+      <div class="step-title">${meta.title}</div>
+      <div class="step-sub">${meta.sub}</div>
+    </div>
+    <div class="wz-body">${body}</div>
+    <div class="wz-foot">
+      <button class="btn gh sm" onclick="stepBack()" ${step<=1?'disabled':''}>← Back</button>
+      <button class="btn pr sm" onclick="stepNext()" ${step>=7?'disabled':''}>Next step →</button>
+    </div>
+  </div>`;
+}
+function fld(lbl,val,meta,cls){
+  const empty=val===null||val===undefined||val==='';
+  const display=empty?('— '+meta):val;
+  return `<div class="fld-preview">
+    <div class="fld-lbl">${lbl}${lbl.includes('*')?'':''}</div>
+    <div class="fld-val ${empty?'empty':''} ${cls||''}">${cls==='pill'&&!empty?`<span class="pill">${val}</span>`:display}${meta&&!empty&&cls!=='pill'?`<span class="meta">${meta}</span>`:''}</div>
+  </div>`;
+}
+function stepNext(){
+  const cur=S.wizard.step;
+  if(cur===1) return H.w1_next();
+  if(cur===2) return H.w2_next();
+  if(cur===3) return H.w3_next();
+  if(cur===4) return H.w4_next();
+  if(cur===5) return H.w5_next();
+  if(cur===6) return H.w6_next();
+  if(cur===7) return H.w7_publish();
+}
+function stepBack(){
+  if(S.wizard.step>1){ S.wizard.step--; S.errors=[]; renderAll(); }
+}
+
+function renderErrors(){
+  const el=document.getElementById('errorsCard');
+  if(S.errors.length===0){ el.innerHTML=''; return; }
+  el.innerHTML=`<div class="card">
+    <div class="ch"><span>Validation errors</span><span class="bd bd-red">${S.errors.length}</span></div>
+    <div class="cb" style="padding:0">
+      ${S.errors.map(e=>`
+        <div class="errbox" style="margin:10px 14px;border-radius:8px">
+          <div class="ic">⚠</div>
+          <div class="b">
+            <div class="t">${e.title}</div>
+            <div class="d">${e.detail}</div>
+            <span class="code">${e.code}</span>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line)">
+      <button class="btn gh sm" onclick="S.errors=[];renderAll()">Clear errors</button>
+    </div>
+  </div>`;
+}
+
+function renderOutput(){
+  const el=document.getElementById('outputCard');
+  if(!S.wizard.published){ el.innerHTML=''; return; }
+  const code=S.wizard.dealCode;
+  const url='https://www.dealsgate.ng/deal/'+code+'?t='+S.wizard.buyerToken;
+  el.innerHTML=`
+    <div class="output">
+      <div class="icn">🎉</div>
+      <h3>Deal published</h3>
+      <p>Your Protected Deal is live. Share the buyer link — every view is a protected transaction.</p>
+      <div class="deal-code">${code}</div>
+    </div>
+    <div class="card">
+      <div class="ch"><span>Buyer link (§7.3)</span><span class="bd bd-green">Unguessable token</span></div>
+      <div class="cb" style="padding:0">
+        <div class="link-box" style="margin:14px">
+          <div class="lbl">Buyer URL</div>
+          <div class="url">${url}</div>
+        </div>
+        <div class="link-actions" style="padding:0 14px 14px">
+          <button class="btn gh sm" onclick="copyLink('${url}')">📋 Copy</button>
+          <button class="btn gr sm" onclick="shareWA('${url}','${code}')">💬 WhatsApp</button>
+          <button class="btn go sm" onclick="showToast('Opens in Instagram bio helper')">📷 IG bio</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch">Deal summary</div>
+      <div class="cb" style="padding:0">
+        <div class="row"><span class="k">Item price</span><span class="v">${fmt(S.wizard.price)}</span></div>
+        <div class="row"><span class="k">Buyer service fee (2%)</span><span class="v">${fmt(S.wizard.price*0.02)}</span></div>
+        <div class="row"><span class="k">Vet Agent fee</span><span class="v">${fmt(6000)}</span></div>
+        <div class="row"><span class="k">Logistics</span><span class="v">${fmt(3500)}</span></div>
+        <div class="row tot"><span class="k">Buyer will pay</span><span class="v g">${fmt(S.wizard.price*1.04+9500)}</span></div>
+        <div class="row"><span class="k">Guarantee</span><span class="v">${fmt(GUARANTEE)} · ${S.wizard.guaranteeStatus}</span></div>
+        <div class="row"><span class="k">Your net on success</span><span class="v g">${fmt(S.wizard.price*0.98)}</span></div>
+      </div>
+    </div>`;
+}
+function copyLink(url){
+  if(navigator.clipboard) navigator.clipboard.writeText(url).then(()=>showToast('Link copied','ok')).catch(()=>showToast('Copied (demo)','ok'));
+  else showToast('Copied (demo)','ok');
+}
+function shareWA(url,code){
+  const text=encodeURIComponent(`Protected Deal ${code} on DealsGate\n\n${url}`);
+  window.open('https://wa.me/?text='+text,'_blank');
+  ev('SHARE_WHATSAPP','Shared via WhatsApp','Buyer link sent');
+  renderAll();
+}
+
+function renderTimeline(){
+  const el=document.getElementById('tlCard');
+  if(S.events.length===0){ el.style.display='none'; return; }
+  el.style.display='';
+  document.getElementById('tlList').innerHTML=S.events.slice(-15).reverse().map(e=>{
+    const green=['DEAL_PUBLISHED','GUARANTEE_HELD','GUARANTEE_GATEWAY','GUARANTEE_TOPUP','VALIDATED','STEP_ADVANCE','LINK_SHARED','SHARE_WHATSAPP','CLONE_PUBLISH','CLONE_OUTPUT'].includes(e.type);
+    const red=['VALIDATION_FAIL','VALIDATION_SUMMARY'].includes(e.type);
+    const gold=['WIZARD_OPEN','ITEM_SET','TAXONOMY','TAXONOMY_OVERRIDE','CONDITION_SET','QUALITY_PRICE','MEDIA_PHOTOS','MEDIA_VIDEO','MAP_PIN','CLONE_PREFILL','CLONE_PREVIEW','SEED_DEAL'].includes(e.type);
+    const cls=red?'red':green?'green':gold?'gold':'';
+    return `<li class="tli ${cls}">
+      <span class="tld"></span>
+      <div class="tlt">${e.type.replace(/_/g,' ')}</div>
+      <div style="font-size:11px;color:#4B5563;margin-top:3px;line-height:1.5">${e.text}</div>
+      ${e.meta?`<div class="tltm">${e.meta}</div>`:''}
+    </li>`;
+  }).join('');
+}
+
+function filterDeals(f,btn){
+  document.querySelectorAll('#p-deals .filters .bd').forEach(b=>b.className='bd bd-mist');
+  btn.className='bd bd-navy';
+  S._dealFilter=f; renderDeals();
+}
+function renderDeals(){
+  const all=Object.values(S.deals);
+  document.getElementById('dealCount').textContent=all.length;
+  const f=S._dealFilter||'all';
+  const filtered=all.filter(d=>{
+    if(f==='all')return true;
+    if(f==='active')return d.status==='AWAITING_BUYER_PAYMENT';
+    if(f==='cloned')return !!d.clonedFrom;
+    return true;
+  });
+  const el=document.getElementById('dealList');
+  if(filtered.length===0){ el.innerHTML='<div class="em">No deals match.</div>'; return; }
+  el.innerHTML=filtered.slice().reverse().map(d=>`
+    <div class="row" style="align-items:flex-start">
+      <div class="k">
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#9CA3AF">${d.code}${d.clonedFrom?' · cloned from '+d.clonedFrom:''}</div>
+        <div style="font-weight:700;color:var(--navy);font-size:12px;margin-top:2px">${d.item}</div>
+        <div style="font-size:10px;color:#6B7280;margin-top:4px">${d.lga||'—'} · ${fmt(d.price)} · ${d.condition||'—'}</div>
+      </div>
+      <div style="text-align:right">
+        <span class="bd bd-gold">${d.status.replace(/_/g,' ')}</span>
+        <div style="font-size:9px;color:#9CA3AF;margin-top:4px">${ago(d.createdAt)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderGuarantee(){
+  document.getElementById('guarBal').textContent=fmt(S.guarantee);
+  const el=document.getElementById('guarHistory');
+  if(S.guarantees.length===0){ el.innerHTML='<div class="em">No guarantee events yet.</div>'; return; }
+  el.innerHTML=S.guarantees.slice(0,20).map(g=>{
+    const cls=g.action==='hold'?'bd-gold':g.action==='topup'?'bd-blue':g.action==='refund'?'bd-green':g.action==='forfeit'?'bd-red':'bd-mist';
+    const lbl=g.action==='hold'?'Held':g.action==='topup'?'Top-up':g.action==='refund'?'Refunded':g.action==='forfeit'?'Forfeited':g.action==='gateway'?'Gateway':'—';
+    return `<div class="row">
+      <div class="k">
+        <div style="font-weight:700;color:var(--navy);font-size:12px">${fmt(g.amt)} · ${g.code||'—'}</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px">${g.src||'—'} · ${ago(g.ts)}</div>
+      </div>
+      <span class="bd ${cls}">${lbl}</span>
+    </div>`;
+  }).join('');
+}
+function topUp(amt){
+  if(S.main < amt) S.main += amt;
+  S.main -= amt;
+  S.guarantee += amt;
+  S.guarantees.unshift({id:uid(),action:'topup',amt,code:'—',ts:Date.now(),src:'main'});
+  ev('GUARANTEE_TOPUP','Topped up '+fmt(amt),'From main wallet');
+  renderAll();
+  showToast('Topped up '+fmt(amt),'ok');
+}
+
+function renderMedia(){
+  const el=document.getElementById('mediaBody');
+  const badge=document.getElementById('mediaBadge');
+  const n=S.wizard.photos.length;
+  badge.textContent=`${n} photos · ${S.wizard.videoSeconds||0}s`;
+  const grid=el.querySelector('#mediaGrid');
+  if(grid){
+    grid.innerHTML=[1,2,3,4].map(i=>{
+      const has=S.wizard.photos[i-1];
+      return has?`<div class="mtile filled photo" data-label="${has.label||i+'/4'}">🖼️</div>`:`<div class="mtile">+</div>`;
+    }).join('');
+  }
+  const v=document.getElementById('videoSlot');
+  if(v){
+    if(S.wizard.videoSeconds){
+      v.setAttribute('data-label',S.wizard.videoSeconds+'s');
+      v.innerHTML=`▶ ${S.wizard.videoSeconds}s continuous${S.wizard.videoContinuous?' · no edits':''}`;
+    } else {
+      v.setAttribute('data-label','—');
+      v.innerHTML='▶ No video';
+    }
+  }
+}
+
+function renderTaxonomy(){
+  const el=document.getElementById('taxTree');
+  const sel=S.wizard;
+  el.innerHTML=Object.entries(TAXONOMY).map(([sec,inds])=>`
+    <div class="tax-row ${sel.sector===sec?'par':''}">
+      <span class="n">${sec}</span><span class="lv">Sector</span>
+    </div>
+    ${sel.sector===sec?Object.entries(inds).map(([ind,lines])=>`
+      <div class="tax-row ${sel.industry===ind?'par':''}" style="margin-left:12px">
+        <span class="n">${ind}</span><span class="lv">Industry</span>
+      </div>
+      ${sel.industry===ind?lines.map(l=>`
+        <div class="tax-row ${sel.productLine===l?'sel':''}" style="margin-left:24px">
+          <span class="n">${l}</span><span class="lv">Line</span>
+        </div>
+      `).join(''):''}
+    `).join(''):''}
+  `).join('');
+  document.getElementById('taxSelected').innerHTML=`
+    <div class="row"><span class="k">Sector</span><span class="v" style="font-family:inherit">${sel.sector||'—'}</span></div>
+    <div class="row"><span class="k">Industry</span><span class="v" style="font-family:inherit">${sel.industry||'—'}</span></div>
+    <div class="row"><span class="k">Product line</span><span class="v" style="font-family:inherit">${sel.productLine||'—'}</span></div>
+  `;
+}
+
+function renderLocation(){
+  const el=document.getElementById('locBody');
+  const w=S.wizard;
+  el.innerHTML=`
+    <div class="row"><span class="k">Address text</span><span class="v" style="font-family:inherit;font-size:11px">${w.address||'—'}</span></div>
+    <div class="row"><span class="k">Latitude</span><span class="v ${w.lat!==null?'g':''}">${w.lat!==null?w.lat:'—'}</span></div>
+    <div class="row"><span class="k">Longitude</span><span class="v ${w.lng!==null?'g':''}">${w.lng!==null?w.lng:'—'}</span></div>
+    <div class="row"><span class="k">LGA</span><span class="v" style="font-family:inherit">${w.lga||'—'}</span></div>
+  `;
+}
+function pickPin(name){
+  const p=PIN_PRESETS[name]; if(!p)return;
+  S.wizard.address=p.addr; S.wizard.lat=p.lat; S.wizard.lng=p.lng; S.wizard.lga=p.lga;
+  ev('MAP_PIN','Pin set: '+name,`${p.lat}, ${p.lng}`);
+  renderAll();
+  showToast('Pin set · '+name,'ok');
+}
+
+function renderAudit(){
+  const el=document.getElementById('auditList');
+  if(S.audit.length===0){ el.innerHTML='<div class="em">No events yet.</div>'; return; }
+  el.innerHTML=S.audit.slice(0,60).map(a=>`
+    <div class="row" style="align-items:flex-start">
+      <div class="k">
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;font-weight:800;color:var(--navy)">${a.type}</div>
+        <div style="font-size:11px;color:#4B5563;margin-top:3px">${a.text}</div>
+        ${a.meta?`<div style="font-size:10px;color:#9CA3AF;margin-top:3px">${a.meta}</div>`:''}
+      </div>
+      <span class="bd bd-mist">${ago(a.ts)}</span>
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+function tab(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  if(btn) btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showToast(msg,tone){
+  const el=document.getElementById('toast');
+  el.className='ts on '+(tone||'');
+  document.getElementById('toastIc').textContent=tone==='er'?'⚠':'✓';
+  document.getElementById('toastMsg').textContent=msg;
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='ts '+(tone||''),2400);
+}
+function narrate(who,msg,det){
+  document.getElementById('nWho').textContent=who;
+  document.getElementById('nMsg').textContent=msg;
+  document.getElementById('nDet').textContent=det||'';
+}
+function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+function resetWork(){
+  if(!confirm('Clear current wizard? Deals & guarantees stay.')) return;
+  S.wizard=fresh().wizard; S.errors=[]; S.completedSteps=[]; S.events=[];
+  save(); renderAll();
+  document.getElementById('narrCard').style.display='none';
+}
+function resetAll(){
+  if(!confirm('Reset everything?')) return;
+  localStorage.removeItem(KEY);
+  S=fresh(); playing=false; aborted=true;
+  document.getElementById('narrCard').style.display='none';
+  document.getElementById('prgWrap').style.display='none';
+  save(); renderAll();
+  showToast('Reset','ok');
+}
+
+/* BOOT */
+renderAll();
+document.getElementById('narrCard').style.display='';
+narrate('Wizard','Pick a scenario above, then press ▶ Play scenario.','Every screen is what a seller sees while creating a Protected Deal.');
+</script>
+</body>
+</html>

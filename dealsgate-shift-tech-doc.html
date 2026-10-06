@@ -1,0 +1,958 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DealsGate — Technical Architecture · SHIFT Launchpad</title>
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1A4A;
+    --navy2: #142a70;
+    --green: #16A34A;
+    --gold: #F4B420;
+    --gold2: #C98A00;
+    --ink: #0F172A;
+    --muted: #64748B;
+    --line: #E2E8F0;
+    --mist: #F4F6FB;
+    --red: #DC2626;
+    --purple: #7C3AED;
+  }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #D5DAE4;
+    color: var(--ink);
+    font-size: 11pt;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .slide {
+    width: 297mm;
+    height: 210mm;
+    background: #fff;
+    margin: 24px auto;
+    padding: 16mm 20mm;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(11,26,74,.14);
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slide:last-child { page-break-after: auto; margin-bottom: 0; }
+
+  @media print {
+    html, body { background: #fff; }
+    .slide {
+      margin: 0;
+      box-shadow: none;
+      padding: 14mm 16mm;
+      page-break-after: always;
+    }
+    .slide:last-child { page-break-after: auto; }
+    .screen-note { display: none !important; }
+  }
+
+  /* ---------- SCREEN NOTE ---------- */
+  .screen-note {
+    max-width: 297mm;
+    margin: 24px auto;
+    background: var(--navy);
+    color: #fff;
+    padding: 16px 22px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    box-shadow: 0 8px 24px rgba(11,26,74,.24);
+  }
+  .screen-note b { color: var(--gold); }
+  .screen-note kbd {
+    background: rgba(244,180,32,.16);
+    color: var(--gold);
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-family: 'Menlo', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid rgba(244,180,32,.32);
+  }
+
+  /* ---------- CHROME ---------- */
+  .chrome {
+    position: absolute;
+    top: 10mm;
+    left: 20mm;
+    right: 20mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10.5pt;
+    color: var(--muted);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .chrome .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13pt;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.2px;
+    text-transform: none;
+  }
+
+  .chrome .brand .mark {
+    width: 24px;
+    height: 24px;
+    border-radius: 7px;
+    background: var(--navy);
+    color: var(--gold);
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 900;
+    border: 2px solid var(--gold);
+  }
+
+  .chrome .brand .g { color: var(--green); }
+
+  .chrome .page {
+    font-family: 'Menlo', monospace;
+    color: var(--navy);
+  }
+
+  .slide-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 12mm;
+  }
+
+  /* ---------- TYPOGRAPHY ---------- */
+  .kicker {
+    font-size: 11pt;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  .title {
+    font-size: 30pt;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    line-height: 1.08;
+    color: var(--navy);
+    margin-bottom: 14px;
+  }
+  .title .g { color: var(--green); }
+  .title .a { color: var(--gold2); }
+
+  .lede {
+    font-size: 13pt;
+    line-height: 1.6;
+    color: #334155;
+    max-width: 250mm;
+  }
+
+  /* ---------- SLIDE 01 · COVER ---------- */
+  .cover {
+    background:
+      radial-gradient(circle at 88% 15%, rgba(244,180,32,.20), transparent 45%),
+      radial-gradient(circle at 12% 88%, rgba(22,163,74,.18), transparent 50%),
+      linear-gradient(135deg, #061133 0%, #0B1A4A 55%, #142a70 100%);
+    color: #fff;
+    justify-content: center;
+    padding: 22mm;
+  }
+  .cover .chrome { color: rgba(255,255,255,.55); }
+  .cover .chrome .brand { color: #fff; }
+  .cover .chrome .brand .mark { background: var(--gold); color: var(--navy); border-color: #fff; }
+  .cover .chrome .brand .g { color: #4ADE80; }
+  .cover .chrome .page { color: rgba(255,255,255,.55); }
+
+  .cover-body {
+    position: relative;
+    z-index: 1;
+    max-width: 250mm;
+  }
+
+  .cover .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(22,163,74,.18);
+    border: 1px solid rgba(22,163,74,.42);
+    color: #4ADE80;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 9pt;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  .cover .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #4ADE80;
+    box-shadow: 0 0 8px #4ADE80;
+  }
+
+  .cover h1 {
+    font-size: 44pt;
+    font-weight: 800;
+    letter-spacing: -1.4px;
+    line-height: 1.02;
+    color: #fff;
+    margin-bottom: 22px;
+  }
+  .cover h1 .g { color: var(--gold); }
+  .cover h1 .gr { color: #4ADE80; }
+
+  .cover .sub {
+    font-size: 14pt;
+    line-height: 1.55;
+    color: rgba(255,255,255,.82);
+    max-width: 220mm;
+    margin-bottom: 32px;
+  }
+
+  .cover .meta {
+    display: flex;
+    gap: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,.14);
+  }
+
+  .cover .meta .item .l {
+    font-size: 8pt;
+    color: rgba(255,255,255,.55);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .cover .meta .item .v {
+    font-size: 12pt;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  /* ---------- GRID LAYOUTS ---------- */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12mm; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8mm; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6mm; }
+
+  /* ---------- CARD ---------- */
+  .card {
+    background: var(--mist);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--gold);
+  }
+  .card.green { border-left-color: var(--green); }
+  .card.navy { border-left-color: var(--navy); }
+  .card.red { border-left-color: var(--red); }
+  .card.purple { border-left-color: var(--purple); }
+
+  .card .h {
+    font-size: 12pt;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.2px;
+    margin-bottom: 6px;
+    line-height: 1.25;
+  }
+
+  .card .d {
+    font-size: 10.5pt;
+    color: #334155;
+    line-height: 1.55;
+  }
+  .card .d b { color: var(--navy); font-weight: 800; }
+
+  .card .code {
+    font-family: 'Menlo', monospace;
+    font-size: 9.5pt;
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 8px 11px;
+    border-radius: 6px;
+    margin-top: 8px;
+    color: var(--navy);
+    line-height: 1.5;
+    overflow-x: auto;
+  }
+
+  /* ---------- STATE MACHINE DIAGRAM ---------- */
+  .sm {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin: 14px 0;
+    align-items: center;
+  }
+
+  .sm .st {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    padding: 8px 6px;
+    text-align: center;
+    font-size: 8pt;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+
+  .sm .st.done {
+    background: #DCFCE7;
+    border-color: var(--green);
+    color: #065F46;
+  }
+
+  .sm .st.gate {
+    background: var(--gold);
+    border-color: var(--gold2);
+    color: var(--navy);
+  }
+
+  .sm .st.terminal {
+    background: var(--navy);
+    color: var(--gold);
+    border-color: var(--navy);
+  }
+
+  .sm .arrow {
+    text-align: center;
+    color: var(--gold2);
+    font-weight: 800;
+    font-size: 14pt;
+  }
+
+  /* ---------- PROOF / METRIC ---------- */
+  .metric {
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 14px 16px;
+    border-top: 4px solid var(--gold);
+  }
+
+  .metric .v {
+    font-family: 'Menlo', monospace;
+    font-size: 24pt;
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1;
+    letter-spacing: -0.6px;
+  }
+
+  .metric .l {
+    font-size: 10pt;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  /* ---------- LIST ---------- */
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .list li {
+    padding: 6px 0 6px 22px;
+    position: relative;
+    font-size: 11pt;
+    color: #334155;
+    line-height: 1.55;
+    border-bottom: 1px solid var(--line);
+  }
+  .list li:last-child { border-bottom: none; }
+
+  .list li::before {
+    content: "▪";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    color: var(--gold);
+    font-weight: 900;
+    font-size: 13pt;
+  }
+
+  .list li b { color: var(--navy); font-weight: 800; }
+  .list li .code-inline {
+    font-family: 'Menlo', monospace;
+    font-size: 9.5pt;
+    background: var(--mist);
+    color: var(--navy);
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+  }
+
+  /* ---------- RISK BLOCK ---------- */
+  .risk {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    color: #fff;
+    padding: 18px 22px;
+    border-radius: 10px;
+    margin-top: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .risk::after {
+    content: "";
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(244,180,32,.28), transparent 70%);
+  }
+
+  .risk .lbl {
+    font-size: 9pt;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 800;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .risk .msg {
+    font-size: 12.5pt;
+    line-height: 1.55;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+  }
+  .risk .msg b { color: var(--gold); font-weight: 800; }
+</style>
+</head>
+<body>
+
+<div class="screen-note">
+  <b>How to save as PDF:</b> open in <b>Chrome</b>, press
+  <kbd>Ctrl</kbd>+<kbd>P</kbd> / <kbd>⌘</kbd>+<kbd>P</kbd>. Destination <b>Save as PDF</b>,
+  layout <b>Landscape</b>, paper <b>A4</b>, margins <b>None</b>, tick
+  <b>Background graphics</b>. Save as <b>DealsGate_SHIFT_Technical_Architecture.pdf</b>.
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 01 · COVER                                              -->
+<!-- ============================================================ -->
+<section class="slide cover">
+  <div class="chrome">
+    <div class="brand">
+      <div class="mark">✓</div>
+      <div>Deals<span class="g">Gate</span></div>
+    </div>
+    <div class="page">01 / 08</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="cover-body">
+      <div class="eyebrow">
+        <span class="dot"></span>
+        Technical Architecture · SHIFT Launchpad Application
+      </div>
+      <h1>
+        A transactional protocol<br>
+        for <span class="g">trust-minimised</span><br>
+        peer-to-peer trade.
+      </h1>
+      <p class="sub">
+        DealsGate is a state-machine protocol that couples regulated escrow custody to
+        physical-verification evidence, enforced so that no legal transition exists
+        allowing money or goods to move before inspection is complete.
+      </p>
+      <div class="meta">
+        <div class="item">
+          <div class="l">Founder</div>
+          <div class="v">Taofik Akinwunmi</div>
+        </div>
+        <div class="item">
+          <div class="l">Stage</div>
+          <div class="v">Proof of Concept · Launchpad track</div>
+        </div>
+        <div class="item">
+          <div class="l">Domain</div>
+          <div class="v">Fintech infrastructure · Nigeria</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 02 · PROBLEM                                            -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="brand"><div class="mark">✓</div><div>Deals<span class="g">Gate</span></div></div>
+    <div class="page">02 / 08</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">The problem</div>
+    <h2 class="title">
+      A two-party trust asymmetry with<br>
+      <span class="g">no technical resolution</span>.
+    </h2>
+
+    <div class="grid-2">
+      <div>
+        <p class="lede" style="margin-bottom:14px">
+          Peer-to-peer trade requires the buyer to release funds before receiving goods and
+          the seller to ship before receiving funds. Neither party can move first without
+          incurring uncompensated risk. When the two parties are strangers on Instagram or
+          WhatsApp — with no catalogue, no identity system, and no dispute mechanism — the
+          transaction rationally does not happen.
+        </p>
+
+        <ul class="list">
+          <li><b>39M Nigerian MSMEs</b> sell through Instagram, WhatsApp, and TikTok</li>
+          <li><b>₦25.85B</b> digital payment fraud loss in 2025 across 67,515 reported cases</li>
+          <li><b>80%</b> of Nigerian undergraduates cannot identify basic scam warning signs (SEC)</li>
+          <li>No practical recourse — bank transfers are irreversible; court recovery is impractical for daily amounts</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="card navy">
+          <div class="h">Why existing solutions fail</div>
+          <div class="d">
+            <b>Escrow-only</b> services protect money but never verify the item. The buyer still receives goods they have never seen.<br><br>
+            <b>Inspection-only</b> services verify the item but cannot hold funds. The seller cannot guarantee payment.<br><br>
+            <b>Marketplaces</b> require sellers to abandon their own channels — which social sellers refuse.<br><br>
+            Neither the money-protection layer nor the goods-protection layer alone closes the asymmetry. They must be coupled — and the coupling must be structural, not procedural.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 03 · TECHNICAL CORE                                     -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="brand"><div class="mark">✓</div><div>Deals<span class="g">Gate</span></div></div>
+    <div class="page">03 / 08</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">The technical core</div>
+    <h2 class="title">
+      An exhaustive state machine<br>
+      with a <span class="a">structurally enforced</span> evidence gate.
+    </h2>
+
+    <div class="grid-2">
+      <div>
+        <p class="lede" style="margin-bottom:12px">
+          The protocol defines <b>14 legal deal states</b> and a closed transition function.
+          Every state change passes through a single verifier that checks the current state
+          against a whitelist of legal next states. Illegal transitions are rejected with
+          HTTP 422 — <b>not by the UI, but by the server</b>, before any database write.
+        </p>
+
+        <div class="card green">
+          <div class="h">The property</div>
+          <div class="d">
+            An exhaustive state graph with a closed transition set is a <b>proof of impossibility</b>.
+            If no edge exists from <span class="code-inline" style="background:#fff">EVIDENCE_REVIEW</span> to
+            <span class="code-inline" style="background:#fff">LOGISTICS_DISPATCHED</span> except via
+            <span class="code-inline" style="background:#fff">buyer_approved</span>, then no code path — correct or buggy,
+            client or server — can produce that transition.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="padding:12px">
+          <div class="h" style="margin-bottom:8px">14-state lifecycle (abridged)</div>
+          <div class="sm" style="grid-template-columns:repeat(4,1fr);gap:6px">
+            <div class="st done">DRAFT</div>
+            <div class="st done">GUARANTEE_PENDING</div>
+            <div class="st done">AWAITING_PAYMENT</div>
+            <div class="st done">PAID</div>
+            <div class="st done">OPEN_FOR_AGENT</div>
+            <div class="st done">AGENT_ACCEPTED</div>
+            <div class="st done">INSPECTED</div>
+            <div class="st gate">EVIDENCE_REVIEW</div>
+            <div class="st done">APPROVED</div>
+            <div class="st done">DISPATCHED</div>
+            <div class="st done">IN_TRANSIT</div>
+            <div class="st terminal">COMPLETED</div>
+          </div>
+          <div style="font-size:9pt;color:var(--muted);margin-top:8px;line-height:1.5">
+            <b style="color:var(--navy)">Dispute branches</b> (not shown): FAILED_INSPECTION · CANCELLED_PRE_INSPECT · CHANGE_MIND_POST_INSPECT · DISPUTED · TRANSIT_DAMAGE_MINOR · TRANSIT_TOTAL_REJECTION · FRAUD_SWAP
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 04 · CONCURRENCY                                        -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="brand"><div class="mark">✓</div><div>Deals<span class="g">Gate</span></div></div>
+    <div class="page">04 / 08</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Concurrency &amp; integrity</div>
+    <h2 class="title">
+      Atomic job assignment.<br>
+      <span class="g">Idempotent money movement.</span>
+    </h2>
+
+    <div class="grid-3">
+      <div class="card navy">
+        <div class="h">Atomic first-accept-wins</div>
+        <div class="d">
+          Job assignment uses a database-level row lock on the job record. Under concurrent
+          accepts from multiple agents, exactly one transaction can hold the lock. The first
+          commit succeeds; every other is rejected atomically at the storage layer.
+        </div>
+        <div class="code">
+SELECT id, status
+FROM inspection_jobs
+WHERE id = $1 AND status = 'OPEN'
+FOR UPDATE;
+        </div>
+      </div>
+
+      <div class="card green">
+        <div class="h">One active job per agent</div>
+        <div class="d">
+          A partial unique index on the agent profile enforces the one-job-at-a-time rule at
+          the database level. This constraint cannot be violated by any application bug —
+          it is a property of the schema.
+        </div>
+        <div class="code">
+CREATE UNIQUE INDEX
+  one_active_job_per_agent
+ON vet_agent_profiles (active_job_id)
+WHERE active_job_id IS NOT NULL;
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="h">Idempotent money flows</div>
+        <div class="d">
+          Every payment, refund, payout, guarantee hold, and wallet transfer carries an
+          idempotency key. Duplicate gateway webhooks return the prior result rather than
+          re-executing. Payment and logistics webhooks are HMAC-verified with a 5-minute
+          replay window.
+        </div>
+        <div class="code">
+Idempotency-Key:
+  whk_xxxxxxxxxxxxxx
+Signature: sha512=…
+Replay window: ±5 min
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-top:8mm">
+      <div class="metric">
+        <div class="v">14</div>
+        <div class="l">Legal states · transition function rejects everything else</div>
+      </div>
+      <div class="metric">
+        <div class="v">1</div>
+        <div class="l">Concurrent accept per job · guaranteed by row lock</div>
+      </div>
+      <div class="metric">
+        <div class="v">0</div>
+        <div class="l">Double-credit surfaces · idempotency key on every money movement</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 05 · EVIDENCE GATE                                      -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="brand"><div class="mark">✓</div><div>Deals<span class="g">Gate</span></div></div>
+    <div class="page">05 / 08</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">The invariant</div>
+    <h2 class="title">
+      The evidence gate is<br>
+      <span class="a">the structural guarantee</span>.
+    </h2>
+
+    <div class="grid-2">
+      <div>
+        <p class="lede" style="margin-bottom:14px">
+          The protocol's central invariant is that <b>no legal transition exists</b> from
+          <span class="code-inline">EVIDENCE_REVIEW</span> to <span class="code-inline">LOGISTICS_DISPATCHED</span>
+          except via <span class="code-inline">buyer_approved</span>. That single-edge
+          constraint is what makes the platform a trust protocol rather than an escrow
+          service with additional steps.
+        </p>
+
+        <ul class="list">
+          <li>Escrow custody held by a <b>licensed Nigerian payment partner</b> — DealsGate never holds principal</li>
+          <li>Vet Agent physically inspects the item, GPS-verified within <b>500 metres</b> of the seller's pin</li>
+          <li>Inspection evidence includes <b>continuous unedited video</b>, IMEI/serial captured on camera</li>
+          <li>Funds release and logistics dispatch are both <b>gated on the same buyer approval</b></li>
+          <li>All inspection media stored in S3-compatible storage, served only via <b>signed URLs</b></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="card green">
+          <div class="h">Transition verifier (pseudocode)</div>
+          <div class="code" style="font-size:9.5pt;line-height:1.55">
+function transition(deal, target):
+  allowed = LEGAL[deal.state]
+  if target not in allowed:
+    raise HTTP_422
+  if target == "LOGISTICS_DISPATCHED":
+    if deal.state != "APPROVED":
+      raise HTTP_422
+  # write happens after verification
+  return db.commit(deal.state = target)
+          </div>
+        </div>
+
+        <div class="risk" style="margin-top:12px">
+          <div class="lbl">Why this matters</div>
+          <div class="msg">
+            Escrow and inspection exist in isolation. <b>Coupling them via a state graph
+            that structurally forbids bypass</b> produces a guarantee neither can deliver alone.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 06 · PROOF OF CONCEPT                                   -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="brand"><div class="mark">✓</div><div>Deals<span class="g">Gate</span></div></div>
+    <div class="page">06 / 08</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Proof of concept</div>
+    <h2 class="title">
+      What has already been built<br>
+      <span class="g">and tested</span>.
+    </h2>
+
+    <div class="grid-4" style="margin-top:8mm">
+      <div class="metric">
+        <div class="v">13</div>
+        <div class="l">Interactive MVP artifacts demonstrating every flow end to end</div>
+      </div>
+      <div class="metric">
+        <div class="v">28</div>
+        <div class="l">Section specification · FINAL 1.0 · the production build plan</div>
+      </div>
+      <div class="metric">
+        <div class="v">11</div>
+        <div class="l">Legal documents · NDPA 2023-aligned policy library</div>
+      </div>
+      <div class="metric">
+        <div class="v">10</div>
+        <div class="l">Module Vet Agent training programme · 100-question certification</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:10mm">
+      <div class="card navy">
+        <div class="h">What has been tested</div>
+        <div class="d">
+          Every artifact runs in-browser against its intended flow. The evidence gate has been
+          walked through under every legal and illegal state transition — the state machine
+          rejects illegal transitions as designed. The concurrency model for first-accept-wins
+          has been validated through manual simulation of simultaneous accepts. Admin dispute
+          mediation, referral logic, and wallet movements have all been exercised.
+        </div>
+      </div>
+
+      <div class="card red">
+        <div class="h">What has not been tested</div>
+        <div class="d">
+          No real users. No real transactions. No live database, escrow integration, or KYC
+          provider connected. The artifacts are a technical demonstration of the concept, not
+          a live product. That gap — PoC to live MVP — is exactly what the Launchpad funding
+          converts.
+        </div>
+      </div>
+    </div>
+
+    <div class="risk" style="margin-top:10mm">
+      <div class="lbl">Executable specification</div>
+      <div class="msg">
+        The 13 artifacts are not a marketing demo — they are the <b>executable specification</b>.
+        Every flow, every state, every branch that the production build must implement is
+        demonstrated live in a browser.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 07 · TECHNICAL RISK                                     -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="brand"><div class="mark">✓</div><div>Deals<span class="g">Gate</span></div></div>
+    <div class="page">07 / 08</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Technical risk</div>
+    <h2 class="title">
+      The agent is a <span class="a">Byzantine node</span>.
+    </h2>
+
+    <div class="grid-2" style="margin-top:6mm">
+      <div>
+        <div class="card red">
+          <div class="h">The failure mode</div>
+          <div class="d">
+            The evidence gate assumes that continuous video and IMEI-on-camera evidence
+            capture the actual physical item at the actual inspection location. If an agent's
+            device is rooted or jailbroken, the app itself can be modified to inject
+            pre-recorded footage or spoof GPS position. The buyer then approves a report
+            that does not match the item they will receive.
+            <br><br>
+            <b>This is not hypothetical.</b> Sideloaded Android APKs are common in Nigeria,
+            and the price of a compromised inspection is bounded by the value of the
+            highest-value item being inspected. The attack has economic incentive.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card green">
+          <div class="h">12-week test plan</div>
+          <div class="d">
+            <b>Weeks 1–3 ·</b> Build mobile capture client with hardware-backed attestation
+            (Android Keystore / iOS Secure Enclave). Every frame signed with device-bound key.
+            Server rejects unverifiable signatures.<br>
+            <b>Weeks 4–6 ·</b> Co-capture accelerometer + gyroscope with each frame. Server
+            stores monotonic timestamp. Injected footage will not match motion profile and
+            cannot be replayed against a later timestamp.<br>
+            <b>Weeks 7–9 ·</b> Structured red-team exercise. Team A attempts frame injection
+            on a rooted device. Team B attempts GPS spoofing via mock location providers.<br>
+            <b>Weeks 10–12 ·</b> Patch every successful bypass, re-run red team, publish the
+            threat model as the security foundation for the production build.
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:8px">
+          <div class="h">Contingency if attestation fails</div>
+          <div class="d">
+            Escalate to dual-device signing (seller and agent cross-verify) and mandatory
+            buyer unboxing video stored as Tier-2 evidence. Both controls are already
+            specified in the dispute resolution policy.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 08 · WEEK 12 DELIVERABLE                                -->
+<!-- ============================================================ -->
+<section class="slide">
+  <div class="chrome">
+    <div class="brand"><div class="mark">✓</div><div>Deals<span class="g">Gate</span></div></div>
+    <div class="page">08 / 08</div>
+  </div>
+
+  <div class="slide-body">
+    <div class="kicker">Deliverable by Week 12</div>
+    <h2 class="title">
+      A production-deployed DealsGate<br>
+      with the evidence gate <span class="g">provably enforced</span>.
+    </h2>
+
+    <div class="grid-2" style="margin-top:8mm">
+      <div>
+        <div class="card green">
+          <div class="h">What exists at the end of Week 12</div>
+          <div class="d">
+            A production deployment of DealsGate running on PostgreSQL with real
+            authentication, seller deal creation, buyer escrow checkout, and Vet Agent
+            inspection — with escrow integrated in <b>sandbox mode</b> to a licensed Nigerian
+            payment partner (Paystack or Flutterwave sandbox API).
+            <br><br>
+            A complete protected deal executed end to end by three separate test accounts
+            (seller, buyer, Vet Agent) on the live staging environment, across two Lagos LGAs
+            (Ikeja and Eti-Osa), with the evidence gate validated server-side against 30 test
+            cases: <b>14 legal state transitions accepted, 16 illegal transitions rejected
+            with HTTP 422</b>.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card navy">
+          <div class="h">Acceptance criteria</div>
+          <div class="d">
+            <b>1.</b> One end-to-end protected deal executed on production staging.<br>
+            <b>2.</b> Evidence gate tested against 30 transitions — 14 accepted, 16 rejected.<br>
+            <b>3.</b> Concurrent accept test — two agents tapping accept within 1 second;
+            exactly one succeeds.<br>
+            <b>4.</b> Duplicate webhook replay test — payment gateway webhook fires twice;
+            no double-credit.<br>
+            <b>5.</b> Sandbox escrow integration live against Paystack or Flutterwave API.
+          </div>
+        </div>
+
+        <div class="risk" style="margin-top:10px">
+          <div class="lbl">Founder commitment</div>
+          <div class="msg">
+            The specification is already written. The MVP is already demonstrated. The
+            12-week plan is a build from a closed specification, <b>not a research phase</b>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,1232 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Auth & Onboarding Demo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;--gold:#F4B420;--gold2:#D99A0F;
+--mist:#F1F3F5;--charcoal:#1F2937;--red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+--line:rgba(13,27,76,.10)}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Inter",sans-serif;background:var(--mist);
+color:var(--charcoal);font-size:14px;line-height:1.5;padding-bottom:78px}
+.hdr{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;padding:12px 16px 10px;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.hdr-r{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hdr .who{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.hdr .av{width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-size:13px;font-weight:800;flex-shrink:0;border:2px solid var(--gold);position:relative}
+.hdr .av .b{position:absolute;right:-4px;bottom:-4px;width:16px;height:16px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:9px;border:1px solid var(--line)}
+.hdr .info{min-width:0;flex:1}
+.hdr .n{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .s{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.hdr .actions{display:flex;gap:6px}
+.hdr button{background:rgba(255,255,255,.15);color:#fff;border:none;font-size:10px;font-weight:700;padding:7px 11px;border-radius:20px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.hdr button.go{background:var(--gold);color:var(--navy)}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:10px}
+.kbox{background:rgba(255,255,255,.10);border-radius:8px;padding:7px 8px;position:relative}
+.kbox .l{font-size:7px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kbox .v{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:800;color:#fff;margin-top:2px}
+.kbox.gold .v{color:var(--gold)}.kbox.green .v{color:#7EE787}.kbox.red .v{color:#FCA5A5}
+.kbox.alert::after{content:"";position:absolute;top:6px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--red);animation:pl 1.4s infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);display:flex;overflow-x:auto;padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -4px 20px rgba(13,27,76,.06);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;min-width:54px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 6px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;font-weight:800;color:#9CA3AF;letter-spacing:.04em;text-transform:uppercase}
+.tab.on{color:var(--navy)}
+.tab .ic{width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--mist);font-size:12px;line-height:1}
+.tab.on .ic{background:var(--gold);color:var(--navy)}
+.panel{display:none;padding:12px 10px 18px}
+.panel.on{display:block;animation:fu .25s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden;box-shadow:0 1px 3px rgba(13,27,76,.05)}
+.ch{padding:11px 14px;background:var(--mist);border-bottom:1px solid var(--line);font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cb{padding:13px 14px}
+.bd{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;line-height:1.4}
+.bd-navy{background:var(--navy);color:#fff}.bd-green{background:#DCFCE7;color:var(--green2)}
+.bd-gold{background:#FEF3C7;color:var(--gold2)}.bd-red{background:#FEE2E2;color:var(--red)}
+.bd-purple{background:#EDE9FE;color:var(--purple)}.bd-blue{background:#DBEAFE;color:var(--blue)}
+.bd-pink{background:#FCE7F3;color:var(--pink)}.bd-mist{background:var(--mist);color:#6B7280}
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .1s}
+.btn:active{transform:scale(.97)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.pr{background:linear-gradient(135deg,var(--navy),var(--green));color:#fff}
+.btn.nv{background:var(--navy);color:#fff}.btn.gr{background:var(--green);color:#fff}
+.btn.go{background:var(--gold);color:var(--navy)}.btn.gh{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.rd{background:var(--red);color:#fff}.btn.sm{padding:9px 11px;font-size:11px;border-radius:8px}
+.brow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px}
+.row:last-child{border-bottom:none}
+.row .k{color:#4B5563;flex:1;min-width:0}
+.row .v{font-weight:700;color:var(--navy);text-align:right;flex-shrink:0;font-family:ui-monospace,Menlo,monospace;font-size:11px}
+.row .v.g{color:var(--green)}.row .v.r{color:var(--red)}.row .v.pu{color:var(--purple)}
+.row.tot{background:#F8FAFC}.row.tot .v{font-size:15px;font-weight:800}
+.scn{display:flex;gap:11px;padding:12px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);text-align:left;cursor:pointer;font-family:inherit;width:100%}
+.scn:last-child{border-bottom:none}
+.scn.on{background:linear-gradient(90deg,rgba(13,27,76,.10),transparent)}
+.scn .em{font-size:22px;line-height:1;flex-shrink:0}
+.scn .txt{flex:1;min-width:0}
+.scn .t1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.scn .t2{font-size:10px;color:#6B7280;margin-top:3px;line-height:1.4}
+.steps{max-height:52vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.stp{display:flex;gap:11px;padding:11px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);text-align:left;cursor:pointer;font-family:inherit;width:100%;align-items:center}
+.stp:last-child{border-bottom:none}
+.stp.done{background:rgba(220,252,231,.5)}
+.stp.now{background:rgba(254,243,199,.6)}
+.stp:disabled{cursor:not-allowed;opacity:.7}
+.stp .dot{width:9px;height:9px;border-radius:50%;background:var(--mist);flex-shrink:0}
+.stp.done .dot{background:var(--green)}
+.stp.now .dot{background:var(--gold);animation:pl 1.2s ease-in-out infinite}
+.stp .info{flex:1;min-width:0}
+.stp .l1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.stp.done .l1{color:#6B7280}
+.stp .l2{font-size:10px;color:#9CA3AF;margin-top:2px;line-height:1.3}
+.stp .amt{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;color:var(--green);flex-shrink:0}
+.stp .amt.r{color:var(--red)}
+.narr{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:14px;border-radius:14px;margin-bottom:11px;position:relative;overflow:hidden}
+.narr::after{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2}
+.narr .who{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:6px;position:relative;z-index:1}
+.narr .msg{font-size:13px;font-weight:600;line-height:1.5;color:#fff;position:relative;z-index:1}
+.narr .det{font-size:11px;color:rgba(255,255,255,.7);margin-top:6px;line-height:1.5;position:relative;z-index:1}
+.tl{position:relative;padding:10px 14px 10px 34px}
+.tl::before{content:"";position:absolute;left:19px;top:16px;bottom:16px;width:2px;background:linear-gradient(180deg,var(--gold),var(--green),var(--navy));border-radius:2px;opacity:.35}
+.tli{position:relative;padding:5px 0}
+.tld{position:absolute;left:-19px;top:10px;width:10px;height:10px;border-radius:50%;background:var(--navy);border:2px solid #fff;box-shadow:0 0 0 1px rgba(13,27,76,.15)}
+.tli.red .tld{background:var(--red)}.tli.gold .tld{background:var(--gold)}.tli.green .tld{background:var(--green)}
+.tlt{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
+.tli.red .tlt{color:var(--red)}.tli.gold .tlt{color:var(--gold2)}
+.tltm{font-size:9px;color:#9CA3AF;margin-top:2px}
+.prg{height:6px;background:rgba(13,27,76,.10);border-radius:20px;overflow:hidden;margin-top:10px}
+.prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:20px;transition:width .4s}
+.em{text-align:center;padding:32px 16px;color:#9CA3AF;font-size:12px;line-height:1.6}
+.mk{position:fixed;inset:0;background:rgba(13,27,76,.6);backdrop-filter:blur(4px);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.mk.on{display:flex}
+.md{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;animation:su .3s cubic-bezier(.4,.2,.2,1)}
+@keyframes su{from{transform:translateY(100%)}to{transform:none}}
+.mh{padding:16px 18px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:2}
+.mh h3{font-size:15px;font-weight:800;color:var(--navy)}
+.mcl{background:none;border:none;font-size:24px;color:#9CA3AF;cursor:pointer;font-family:inherit;line-height:1}
+.mb{padding:16px 18px 20px}
+.mf{padding:12px 18px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--line);position:sticky;bottom:0;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 13px;border:1px solid rgba(13,27,76,.18);border-radius:10px;font-size:13px;font-family:inherit;color:var(--charcoal);background:#fff;outline:none}
+.fld input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(244,180,32,.2)}
+.codes{display:flex;gap:6px;justify-content:center;margin:16px 0}
+.codes input{width:38px;height:46px;text-align:center;font-size:20px;font-weight:800;font-family:ui-monospace,Menlo,monospace;border:1px solid rgba(13,27,76,.2);border-radius:9px;outline:none;background:#fff}
+.codes input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(244,180,32,.2)}
+.method{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;background:#fff}
+.method.on{border-color:var(--green);background:#F0FDF4}
+.method .r{flex:1}
+.method .t{font-size:12px;font-weight:800;color:var(--navy)}
+.method .d{font-size:10px;color:#6B7280;margin-top:2px}
+.method .chk{width:20px;height:20px;border-radius:50%;background:var(--mist);display:grid;place-items:center;font-size:11px;font-weight:900;color:#9CA3AF}
+.method.on .chk{background:var(--green);color:#fff}
+.nt{background:#FEF3C7;border-left:3px solid var(--gold);padding:11px 13px;border-radius:8px;font-size:11px;color:#78350F;line-height:1.55;margin:10px 0}
+.nt.gr{background:#DCFCE7;border-left-color:var(--green);color:#065F46}
+.nt.rd{background:#FEE2E2;border-left-color:var(--red);color:#7F1D1D}
+.nt.bl{background:#DBEAFE;border-left-color:var(--blue);color:#1E3A8A}
+.nt.pu{background:#EDE9FE;border-left-color:var(--purple);color:#5B21B6}
+.ts{position:fixed;left:12px;right:12px;bottom:90px;z-index:200;background:var(--navy);color:#fff;border-radius:12px;padding:12px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(13,27,76,.3);transform:translateY(140%);transition:transform .35s cubic-bezier(.4,.2,.2,1);display:flex;gap:10px;align-items:center;pointer-events:none}
+.ts.on{transform:translateY(0)}.ts.ok{background:var(--green)}.ts.er{background:var(--red)}
+.consent-row{display:flex;gap:11px;padding:12px 14px;border-bottom:1px solid var(--line);align-items:flex-start;cursor:pointer}
+.consent-row:last-child{border-bottom:none}
+.consent-row .box{width:22px;height:22px;border:2px solid rgba(13,27,76,.25);border-radius:6px;background:#fff;display:grid;place-items:center;flex-shrink:0;margin-top:1px;font-size:14px;font-weight:900;color:#fff;transition:all .15s}
+.consent-row.on .box{background:var(--green);border-color:var(--green)}
+.consent-row .info{flex:1;min-width:0}
+.consent-row .t{font-size:12px;font-weight:800;color:var(--navy);line-height:1.3}
+.consent-row .d{font-size:10px;color:#6B7280;margin-top:2px;line-height:1.45}
+.consent-row .d a{color:var(--blue);text-decoration:none;font-weight:700}
+.consent-row .req{display:inline-block;font-size:9px;font-weight:800;color:var(--red);margin-left:5px;text-transform:uppercase}
+.kvp{display:grid;grid-template-columns:110px 1fr;gap:6px 10px;font-size:11px;padding:11px 14px}
+.kvp .k{color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:9px}
+.kvp .v{color:var(--navy);font-family:ui-monospace,Menlo,monospace;font-weight:700;word-break:break-all;line-height:1.4}
+.gate{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:1px solid #FCD34D;padding:12px;border-radius:11px;margin:0 0 11px;display:flex;gap:11px;align-items:flex-start}
+.gate .ic{font-size:22px;flex-shrink:0}
+.gate .b{flex:1;min-width:0}
+.gate .t{font-size:12px;font-weight:800;color:#78350F;margin-bottom:3px}
+.gate .d{font-size:11px;color:#78350F;line-height:1.5}
+.gate.locked{background:linear-gradient(135deg,#FEE2E2,#FECACA);border-color:#FCA5A5}
+.gate.locked .t,.gate.locked .d{color:#7F1D1D}
+.gate.open{background:linear-gradient(135deg,#DCFCE7,#BBF7D0);border-color:#86EFAC}
+.gate.open .t,.gate.open .d{color:#065F46}
+.gate .list{margin-top:6px;font-size:10px}
+.gate .list div{padding:2px 0;display:flex;align-items:center;gap:6px;font-weight:700}
+.gate .list .x{color:#991B1B}.gate .list .v{color:#065F46}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-r">
+    <div class="who">
+      <div class="av" id="hAv">?</div>
+      <div class="info">
+        <div class="n" id="hName">Guest</div>
+        <div class="s" id="hSub">Not signed in · press play</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button onclick="resetAll()">Reset</button>
+      <button class="go" id="playBtn" onclick="togglePlay()">▶ Play</button>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kbox green"><div class="l">Account</div><div class="v" id="kAcct">—</div></div>
+    <div class="kbox gold"><div class="l">Verified</div><div class="v" id="kVer">—</div></div>
+    <div class="kbox"><div class="l">2FA</div><div class="v" id="k2fa">—</div></div>
+    <div class="kbox red alert" id="kGateBox"><div class="l">Gate</div><div class="v" id="kGate">—</div></div>
+  </div>
+</header>
+
+<!-- FLOW -->
+<section class="panel on" id="p-flow">
+  <div class="card">
+    <div class="ch"><span>Auth & onboarding scenarios</span><span class="bd bd-navy" id="scnCount">0</span></div>
+    <div id="scnList"></div>
+  </div>
+  <div class="card">
+    <div class="ch">
+      <span>Run this scenario</span>
+      <button style="background:none;border:none;color:#9CA3AF;font-size:10px;font-weight:700;cursor:pointer" onclick="resetWork()">Reset</button>
+    </div>
+    <div class="cb">
+      <button class="btn go" id="innerPlay" onclick="playScenario()">▶ Play scenario</button>
+      <div class="prg" id="prgWrap" style="display:none"><div class="fill" id="prgFill"></div></div>
+    </div>
+  </div>
+  <div class="card" id="narrCard" style="display:none">
+    <div class="cb" style="padding:0">
+      <div class="narr">
+        <div class="who" id="nWho">—</div>
+        <div class="msg" id="nMsg">—</div>
+        <div class="det" id="nDet"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Onboarding journey · tap any step</div>
+    <div class="steps" id="stepList"></div>
+  </div>
+
+  <div id="gateCard" style="display:none"></div>
+
+  <div class="card" id="acctCard" style="display:none">
+    <div class="ch"><span>Account</span><span class="bd bd-blue" id="acctTypeBadge">—</span></div>
+    <div id="acctBody"></div>
+  </div>
+
+  <div class="card" id="consentCard" style="display:none">
+    <div class="ch"><span>Policy consent (§4.1)</span><span class="bd bd-gold" id="consentBadge">—</span></div>
+    <div id="consentBody"></div>
+  </div>
+
+  <div class="card" id="kycCard" style="display:none">
+    <div class="ch"><span>ID verification (§4.3)</span><span class="bd bd-gold" id="kycBadge">—</span></div>
+    <div id="kycBody"></div>
+  </div>
+
+  <div class="card" id="twofaCard" style="display:none">
+    <div class="ch"><span>Step-up 2FA (§4.4)</span><span class="bd bd-green" id="twofaBadge">—</span></div>
+    <div id="twofaBody"></div>
+  </div>
+
+  <div class="card" id="tlCard" style="display:none">
+    <div class="ch">Auth event log</div>
+    <ol class="tl" id="tlList"></ol>
+  </div>
+</section>
+
+<!-- CONSENT AUDIT -->
+<section class="panel" id="p-consents">
+  <div class="card">
+    <div class="ch"><span>Policy acceptance audit</span><span class="bd bd-navy" id="consentCount">0</span></div>
+    <div id="consentAuditList"><div class="em">No consents recorded yet.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Current policy versions</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">terms_of_service</span><span class="v">v2.0</span></div>
+      <div class="row"><span class="k">privacy_policy</span><span class="v">v2.0</span></div>
+      <div class="row"><span class="k">refund_dispute_policy</span><span class="v">v2.0</span></div>
+      <div class="row"><span class="k">acceptable_use</span><span class="v">v2.0</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Every acceptance is persisted with <b>policy_key, policy_version, accepted_at, IP, user_agent</b>. Pre-ticked boxes are not allowed.
+    </div>
+  </div>
+</section>
+
+<!-- VERIFICATION -->
+<section class="panel" id="p-verify">
+  <div class="card">
+    <div class="ch"><span>Verification status</span><span class="bd bd-gold" id="vStatusBadge">Not started</span></div>
+    <div class="cb" style="padding:0" id="vStatusBody"></div>
+  </div>
+  <div class="card">
+    <div class="ch">Verification gates (§4.3)</div>
+    <div class="cb" id="vGateBody"></div>
+  </div>
+  <div class="card">
+    <div class="ch">Accepted verification providers</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">NIN (National Identity Number)</span><span class="v g">✓ Available</span></div>
+      <div class="row"><span class="k">BVN (Bank Verification Number)</span><span class="v g">✓ Available</span></div>
+      <div class="row"><span class="k">CAC (Corporate Affairs Commission)</span><span class="v g">✓ For Business</span></div>
+      <div class="row"><span class="k">Authorized Officer ID (Business)</span><span class="v g">✓ Required</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="panel" id="p-security">
+  <div class="card">
+    <div class="ch"><span>Step-up 2FA</span><span class="bd bd-green">Withdrawals only</span></div>
+    <div id="sec2faBody"></div>
+  </div>
+  <div class="card">
+    <div class="ch">Active sessions</div>
+    <div id="sessionsList"><div class="em">No active sessions.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch">Login history</div>
+    <div id="loginList"><div class="em">No logins yet.</div></div>
+  </div>
+</section>
+
+<!-- AUDIT -->
+<section class="panel" id="p-audit">
+  <div class="card">
+    <div class="ch"><span>All auth events</span><span class="bd bd-navy">Immutable</span></div>
+    <div id="auditList"><div class="em">No events yet.</div></div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab on" onclick="tab('flow',this)"><span class="ic">▶</span>Flow</button>
+  <button class="tab" onclick="tab('consents',this)"><span class="ic">📜</span>Consents</button>
+  <button class="tab" onclick="tab('verify',this)"><span class="ic">✓</span>Verify</button>
+  <button class="tab" onclick="tab('security',this)"><span class="ic">🔐</span>Security</button>
+  <button class="tab" onclick="tab('audit',this)"><span class="ic">📋</span>Audit</button>
+</nav>
+
+<div class="mk" id="modal" onclick="if(event.target===this)closeModal()"><div class="md" id="modalBox"></div></div>
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   CONSTANTS & HELPERS
+   ============================================================ */
+const KEY='dg_auth_complete_v1';
+const POLICY_VERSION='2.0';
+const fmt=n=>'₦'+Math.round(n).toLocaleString('en-NG');
+const ago=ts=>{const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';
+  if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';};
+const uid=()=>'x'+Math.random().toString(36).slice(2,10);
+
+/* ============================================================
+   STATE
+   ============================================================ */
+function fresh(){
+  return {
+    // identity
+    signedIn:false,
+    account:null,        // {type, name, business, rc, email, phone, photo}
+    // consent (§4.1)
+    consents:{},         // key -> {accepted, version, at, ip, ua}
+    // verification (§4.3)
+    verification:{status:'unstarted', method:null, ref:null, at:null, notes:[]},
+    // step-up 2FA (§4.4)
+    twofa:{totpEnabled:false, emailEnabled:true, smsEnabled:true, default:'totp'},
+    // events
+    events:[], audit:[],
+    // session / device
+    sessions:[], logins:[],
+    // scenario runner
+    scenario:'individual_signup', completedSteps:[], running:false,
+  };
+}
+let S=load();
+function load(){try{const r=localStorage.getItem(KEY);return r?Object.assign(fresh(),JSON.parse(r)):fresh();}catch(e){return fresh();}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function ev(type,text,meta){S.events.push({id:uid(),type,text,meta,ts:Date.now()});if(S.events.length>300)S.events.shift();}
+function audit(type,text,meta){S.audit.unshift({id:uid(),type,text,meta,ts:Date.now(),ip:mockIP(),ua:navigator.userAgent.slice(0,42)});if(S.audit.length>200)S.audit.pop();}
+function mockIP(){return '102.89.'+Math.floor(Math.random()*250+1)+'.'+Math.floor(Math.random()*250+1);}
+
+/* ============================================================
+   POLICIES (§4.1)
+   ============================================================ */
+const POLICIES=[
+  {key:'terms_of_service',   label:'Terms of Service',            required:true,  version:POLICY_VERSION},
+  {key:'privacy_policy',     label:'Privacy Policy',              required:true,  version:POLICY_VERSION},
+  {key:'refund_dispute_policy',label:'Refund & Dispute Policy',   required:true,  version:POLICY_VERSION},
+  {key:'acceptable_use',     label:'Acceptable Use Policy',       required:false, version:POLICY_VERSION},
+];
+
+/* ============================================================
+   SCENARIOS
+   ============================================================ */
+const SCENARIOS = {
+  individual_signup:{
+    key:'individual_signup', em:'👤', title:'Individual signup — full flow',
+    desc:'Account type → details → policies → OTP → verify NIN → gate opens',
+    steps:[
+      {k:'startSignup', l1:'Start signup',                l2:'Choose Individual account type'},
+      {k:'enterDetails',l1:'Enter personal details',      l2:'Full name · phone · email'},
+      {k:'viewPolicies',l1:'Open policy documents',       l2:'Terms · Privacy · Refund · AUP'},
+      {k:'rejectNoConsent',l1:'Try to submit without consent',l2:'Server rejects — checkboxes not ticked'},
+      {k:'acceptPolicies',l1:'Accept required policies',  l2:'3 required · AUP optional'},
+      {k:'consentStored',l1:'Consent persisted',          l2:'key · version · time · IP · UA'},
+      {k:'sendOTP',     l1:'Send email OTP',              l2:'6-digit code to your email'},
+      {k:'verifyOTP',   l1:'Verify OTP',                  l2:'Email confirmed · account created'},
+      {k:'gateLocked',  l1:'ID gate blocks actions',      l2:'Create deal · pay · jobs · withdraw'},
+      {k:'verifyNIN',   l1:'Verify NIN',                  l2:'NIN provider check passes'},
+      {k:'gateOpen',    l1:'Gate opens',                  l2:'verification_status = verified'},
+    ],
+    verdict:'Signup cannot complete without accepting the three mandatory policies. Acceptance is stored with policy_key, policy_version, accepted_at, IP and user_agent. Money actions remain blocked until verification_status = verified.'
+  },
+
+  business_signup:{
+    key:'business_signup', em:'🏢', title:'Business signup — CAC path',
+    desc:'Business type → CAC + officer ID → policies → OTP → CAC verified → gate opens',
+    steps:[
+      {k:'startSignup', l1:'Start signup',                l2:'Choose Business / Merchant'},
+      {k:'enterBiz',    l1:'Enter business details',      l2:'Business name · CAC · address'},
+      {k:'enterOfficer',l1:'Authorized officer details',  l2:'Name + ID verification link'},
+      {k:'acceptPolicies',l1:'Accept required policies',  l2:'3 required · AUP optional'},
+      {k:'consentStored',l1:'Consent persisted',          l2:'Version, IP, user_agent'},
+      {k:'sendOTP',     l1:'Send OTP',                    l2:'To email on file'},
+      {k:'verifyOTP',   l1:'Verify OTP',                  l2:'Account created · unverified'},
+      {k:'verifyCAC',   l1:'Verify CAC number',           l2:'RC match confirmed'},
+      {k:'verifyOfficerID',l1:'Verify officer ID',        l2:'NIN of authorized signatory'},
+      {k:'gateOpen',    l1:'Business verified',           l2:'Act as buyer and seller per deal'},
+    ],
+    verdict:'Business accounts capture business name, CAC number, address and authorized officer ID. Either Individual or Business may act as buyer or seller per deal (§4.2).'
+  },
+
+  consent_gate:{
+    key:'consent_gate', em:'🚫', title:'Policy consent is enforced (§4.1)',
+    desc:'Signup cannot complete without ticking required policies — server rejects pre-checked',
+    steps:[
+      {k:'startSignup', l1:'Start signup',                l2:'Individual'},
+      {k:'enterDetails',l1:'Enter details',               l2:'Name · phone · email'},
+      {k:'viewPolicies',l1:'Open policies',               l2:'Terms · Privacy · Refund · AUP'},
+      {k:'rejectNoConsent',l1:'Submit without consent',   l2:'HTTP 422 · Signup rejected'},
+      {k:'acceptPartial',l1:'Tick only 2 of 3 required',  l2:'Still rejected'},
+      {k:'acceptPolicies',l1:'Tick all required',         l2:'Then submit succeeds'},
+      {k:'consentStored',l1:'Consent persisted',          l2:'4 rows in policy_acceptances'},
+    ],
+    verdict:'Acceptance test §26: "Signup rejected without policy consent; consent version stored." Checkboxes are never pre-ticked; each row records policy_key, policy_version, accepted_at, IP and user_agent.'
+  },
+
+  verification_gate:{
+    key:'verification_gate', em:'🔒', title:'ID gate blocks money actions (§4.3)',
+    desc:'Create-deal, accept payment, agent jobs, withdraw — all blocked until verified',
+    steps:[
+      {k:'startSignup', l1:'Sign up',                     l2:'Complete consent + OTP'},
+      {k:'gateLocked',  l1:'Try to create a deal',        l2:'Blocked · verification_status ≠ verified'},
+      {k:'blockedAction',l1:'Try to accept a payment',    l2:'Blocked'},
+      {k:'blockedWithdraw',l1:'Try to withdraw',          l2:'Blocked'},
+      {k:'verifyNIN',   l1:'Verify NIN',                  l2:'Provider confirms'},
+      {k:'gateOpen',    l1:'All actions unlocked',        l2:'verification_status = verified'},
+    ],
+    verdict:'ID verification is a hard gate. No create-deal, accept-deal payment, agent jobs, or withdrawals until verified — this is invariant §26 of the spec.'
+  },
+
+  otp_email:{
+    key:'otp_email', em:'📧', title:'Sign in via Email OTP',
+    desc:'Returning user — email + OTP access',
+    steps:[
+      {k:'startSignup', l1:'Account exists',              l2:'Full consent + verify already done'},
+      {k:'signOut',     l1:'Sign out',                    l2:'Session cleared'},
+      {k:'signInEmail', l1:'Enter email',                 l2:'musa@demo.ng'},
+      {k:'sendOTP',     l1:'Send OTP',                    l2:'6-digit to email'},
+      {k:'verifyOTP',   l1:'Enter OTP',                   l2:'Signed in · new session started'},
+    ],
+    verdict:'Email OTP is the default factor. Session is logged with device and IP — appears in the Security tab.'
+  },
+
+  otp_phone:{
+    key:'otp_phone', em:'📱', title:'Sign in via Phone OTP',
+    desc:'Returning user — WhatsApp/SMS OTP access',
+    steps:[
+      {k:'startSignup', l1:'Account exists',              l2:'Phone on file'},
+      {k:'signOut',     l1:'Sign out',                    l2:'Session cleared'},
+      {k:'signInPhone', l1:'Enter phone',                 l2:'+234 801 234 5678'},
+      {k:'sendOTP',     l1:'Send OTP',                    l2:'WhatsApp / SMS'},
+      {k:'verifyOTP',   l1:'Enter OTP',                   l2:'Signed in · new session started'},
+    ],
+    verdict:'Phone OTP is equivalent to email OTP. Both are accepted for account access — withdrawals require a separate step-up.'
+  },
+
+  google_signin:{
+    key:'google_signin', em:'🔵', title:'Optional Google sign-in (§4.4)',
+    desc:'Federated sign-in — account created and linked',
+    steps:[
+      {k:'signOut',     l1:'Start at login',              l2:'No session'},
+      {k:'googleAuth',  l1:'Tap "Continue with Google"',  l2:'OAuth consent screen'},
+      {k:'googleLink',  l1:'Google account linked',       l2:'google_auth_enabled = true'},
+      {k:'googleVerify',l1:'Verify email matches',        l2:'Email on file · linked'},
+    ],
+    verdict:'Google sign-in is an option, never a replacement for ID verification. Withdrawals still require TOTP/Email/SMS step-up.'
+  },
+
+  verify_nin:{
+    key:'verify_nin', em:'🆔', title:'NIN verification (§4.2)',
+    desc:'Individual KYC path — NIN-based identity check',
+    steps:[
+      {k:'startSignup', l1:'Signed up',                   l2:'Verified gate pending'},
+      {k:'verifyNIN',   l1:'Submit NIN',                  l2:'11-digit number'},
+      {k:'ninLookup',   l1:'Provider lookup',             l2:'Identity confirmed'},
+      {k:'gateOpen',    l1:'Verified',                    l2:'All money actions unlock'},
+    ],
+    verdict:'NIN is the primary Individual verification path. The NIN number is never stored plaintext — only the reference ID from the provider.'
+  },
+
+  verify_bvn:{
+    key:'verify_bvn', em:'🏦', title:'BVN verification (§4.2)',
+    desc:'Alternate Individual path — BVN-based identity check',
+    steps:[
+      {k:'startSignup', l1:'Signed up',                   l2:'Verified gate pending'},
+      {k:'verifyBVN',   l1:'Submit BVN',                  l2:'11-digit number'},
+      {k:'bvnLookup',   l1:'Provider lookup',             l2:'Bank identity confirmed'},
+      {k:'gateOpen',    l1:'Verified',                    l2:'All money actions unlock'},
+    ],
+    verdict:'BVN is accepted when NIN is unavailable. Both are equivalent for the verification_status gate.'
+  },
+
+  verify_cac:{
+    key:'verify_cac', em:'🏛️', title:'CAC business verification',
+    desc:'Business path — RC number + officer ID',
+    steps:[
+      {k:'startSignup', l1:'Business account',            l2:'Signed up'},
+      {k:'verifyCAC',   l1:'Submit RC number',            l2:'CAC-1847293'},
+      {k:'verifyOfficerID',l1:'Verify officer NIN',       l2:'Authorized signatory'},
+      {k:'gateOpen',    l1:'Business verified',           l2:'Verified badge issued'},
+    ],
+    verdict:'Business accounts require both a valid CAC registration AND verification of the authorized officer via NIN. Both must pass.'
+  },
+
+  consent_version:{
+    key:'consent_version', em:'📜', title:'Policy version update — re-accept',
+    desc:'Terms v2.0 → v2.1 — user must re-accept before transacting',
+    steps:[
+      {k:'startSignup', l1:'Signed in',                   l2:'Prior consent on record (v2.0)'},
+      {k:'policyBump',  l1:'Admin publishes Terms v2.1',  l2:'Version bumped'},
+      {k:'gateLocked',  l1:'Blocked on next action',      l2:'Consent stale for current version'},
+      {k:'reAccept',    l1:'Re-accept new version',       l2:'accepted_at updated · version=2.1'},
+      {k:'consentStored',l1:'New consent persisted',      l2:'Old record retained for audit'},
+    ],
+    verdict:'When any policy version changes, stale consents block the flow until the current version is accepted. Historic records are preserved (§4.1).'
+  },
+
+  withdrawal_stepup_totp:{
+    key:'withdrawal_stepup_totp', em:'🔐', title:'Withdrawal step-up — TOTP',
+    desc:'Google Authenticator set up → withdrawal verified',
+    steps:[
+      {k:'startSignup', l1:'Signed in · verified',        l2:'NIN already verified'},
+      {k:'setTOTP',     l1:'Enable Google Authenticator', l2:'Scan QR · confirm code'},
+      {k:'withdrawOpen',l1:'Start withdrawal',            l2:'Enter TOTP step-up'},
+      {k:'totpVerify',  l1:'Verify TOTP',                 l2:'Withdrawal approved'},
+    ],
+    verdict:'Google Authenticator is the recommended step-up. TOTP verification is required for every withdrawal, not just the first.'
+  },
+
+  withdrawal_stepup_email:{
+    key:'withdrawal_stepup_email', em:'📧', title:'Withdrawal step-up — Email OTP',
+    desc:'Withdrawal verified via Email OTP instead of TOTP',
+    steps:[
+      {k:'startSignup', l1:'Signed in · verified',        l2:'Email on file'},
+      {k:'withdrawOpen',l1:'Start withdrawal',            l2:'Choose Email OTP method'},
+      {k:'emailStepUp', l1:'Enter Email OTP',             l2:'6-digit code · verified'},
+      {k:'withdrawApprove',l1:'Withdrawal approved',      l2:'Funds in transit'},
+    ],
+    verdict:'Every user has all three step-up methods from day one — TOTP, Email OTP, SMS OTP. User chooses per withdrawal.'
+  },
+
+  withdrawal_stepup_sms:{
+    key:'withdrawal_stepup_sms', em:'📱', title:'Withdrawal step-up — SMS OTP',
+    desc:'Withdrawal verified via SMS OTP',
+    steps:[
+      {k:'startSignup', l1:'Signed in · verified',        l2:'Phone on file'},
+      {k:'withdrawOpen',l1:'Start withdrawal',            l2:'Choose SMS OTP method'},
+      {k:'smsStepUp',   l1:'Enter SMS OTP',               l2:'6-digit code · verified'},
+      {k:'withdrawApprove',l1:'Withdrawal approved',      l2:'Funds in transit'},
+    ],
+    verdict:'The three step-up methods are equivalent for authorisation. Rate-limits and beneficiary cooling are applied behind the scenes.'
+  },
+
+  withdrawal_blocked:{
+    key:'withdrawal_blocked', em:'⛔', title:'Withdrawal blocked — no 2FA',
+    desc:'A withdrawal attempt without step-up is rejected server-side',
+    steps:[
+      {k:'startSignup', l1:'Signed in · verified',        l2:'Balance available'},
+      {k:'withdrawOpen',l1:'Start withdrawal',            l2:'Skip step-up attempt'},
+      {k:'noStepUp',    l1:'Attempt without 2FA',         l2:'HTTP 403 · rejected'},
+      {k:'noStepUp',    l1:'Server rejects',              l2:'No OTP = no payout'},
+      {k:'setTOTP',     l1:'Enable TOTP then retry',      l2:'Withdrawal succeeds'},
+    ],
+    verdict:'Acceptance test §26: "Withdrawal without OTP/Google Auth fails." This is enforced server-side, not just in the UI.'
+  },
+
+  session_and_devices:{
+    key:'session_and_devices', em:'🖥️', title:'Sessions & device history',
+    desc:'Sign in from a new device · review and revoke',
+    steps:[
+      {k:'startSignup', l1:'Signed in on phone',          l2:'Session 1 active'},
+      {k:'newDevice',   l1:'Sign in on new laptop',       l2:'Session 2 created'},
+      {k:'reviewSessions',l1:'Review active sessions',    l2:'IP + device recorded'},
+      {k:'revokeOld',   l1:'Revoke old session',          l2:'Session 1 ended'},
+    ],
+    verdict:'Every sign-in produces a new session row with IP and user agent. Users may revoke sessions. Revocation is audited.'
+  },
+};
+
+/* ============================================================
+   HANDLERS
+   ============================================================ */
+const H={
+  startSignup(){
+    S.signedIn=false; S.account={type:'individual'};
+    ev('SIGNUP_START','Started signup · Individual','Consent pending');
+    audit('auth.signup.start','Started signup','type=individual');
+    return 'Started';
+  },
+  enterDetails(){
+    S.account.name='Musa Ibrahim';
+    S.account.email='musa@demo.ng';
+    S.account.phone='+234 801 234 5678';
+    ev('DETAILS','Personal details captured','Name · phone · email');
+    return 'Details set';
+  },
+  enterBiz(){
+    S.account.type='business';
+    S.account.business='Musa Gadgets Ltd';
+    S.account.rc='RC-1847293';
+    S.account.address='1 Trade Street, Ikeja, Lagos';
+    ev('BUSINESS','Business details captured','Name · CAC · address');
+    return 'Business set';
+  },
+  enterOfficer(){
+    S.account.officer='Musa Ibrahim';
+    ev('OFFICER','Authorized officer declared','NIN verification queued');
+    return 'Officer set';
+  },
+  viewPolicies(){
+    ev('POLICIES_VIEW','Opened 4 policy documents','Terms · Privacy · Refund · AUP');
+    return 'Policies opened';
+  },
+  rejectNoConsent(){
+    ev('REJECTED','Submit rejected · no consent','HTTP 422 · all required boxes must be ticked');
+    audit('auth.signup.reject','Signup rejected','reason=no_consent');
+    S._lastError='Signup rejected: you must accept the Terms, Privacy, and Refund & Dispute policies.';
+    return 'Rejected';
+  },
+  acceptPartial(){
+    // Accept only 2 of 3 required
+    ['terms_of_service','privacy_policy'].forEach(k=>{
+      S.consents[k]={accepted:true,version:POLICY_VERSION,at:Date.now(),ip:mockIP(),ua:navigator.userAgent.slice(0,42)};
+    });
+    ev('REJECTED','Submit rejected · missing refund_dispute_policy','HTTP 422 · 1 required policy not accepted');
+    audit('auth.signup.reject','Signup rejected','reason=missing_required_policy');
+    S._lastError='Signup rejected: Refund & Dispute Policy is required.';
+    return 'Still rejected';
+  },
+  acceptPolicies(){
+    POLICIES.forEach(p=>{
+      // AUP optional — auto-accept for demo, but not required
+      S.consents[p.key]={
+        accepted:true,
+        version:p.version,
+        at:Date.now(),
+        ip:mockIP(),
+        ua:navigator.userAgent.slice(0,42),
+      };
+    });
+    ev('CONSENT','Accepted required policies','3 required · AUP optional');
+    audit('auth.consent.accept','Accepted policies',`keys=${POLICIES.map(p=>p.key).join(',')}`);
+    return 'Accepted';
+  },
+  consentStored(){
+    ev('CONSENT_STORED','Consent persisted',`${POLICIES.length} rows in policy_acceptances`);
+    audit('auth.consent.persist','Persisted policy_acceptances',`version=${POLICY_VERSION}`);
+    return 'Persisted';
+  },
+  sendOTP(){
+    S._otp='834291';
+    ev('OTP_SENT','OTP sent','6-digit code dispatched to email/phone');
+    return 'Code sent';
+  },
+  verifyOTP(){
+    S.signedIn=true;
+    S.account.id='usr_'+Math.random().toString(36).slice(2,10);
+    S.sessions.push({id:uid(),device:'iPhone 15 · Safari',ip:mockIP(),at:Date.now(),active:true});
+    S.logins.unshift({at:Date.now(),device:'iPhone 15 · Safari',ip:mockIP(),method:'otp'});
+    ev('OTP_VERIFIED','OTP verified','Account created · unverified');
+    audit('auth.signup.complete','Account created',`id=${S.account.id}`);
+    return 'Signed in';
+  },
+  gateLocked(){
+    ev('GATE_LOCKED','ID gate locked','verification_status ≠ verified');
+    audit('auth.gate.check','Gate evaluated','result=locked');
+    return 'Locked';
+  },
+  blockedAction(){
+    S._lastError='Blocked: verify your ID before creating or accepting a deal. (§4.3)';
+    ev('GATE_BLOCK','Blocked: create/accept deal','HTTP 403 · verification required');
+    audit('auth.gate.block','Blocked action','action=deal_create');
+    return 'Blocked';
+  },
+  blockedWithdraw(){
+    S._lastError='Blocked: withdraw is unavailable until verification_status = verified.';
+    ev('GATE_BLOCK','Blocked: withdrawal','HTTP 403 · verification required');
+    audit('auth.gate.block','Blocked action','action=withdrawal');
+    return 'Blocked';
+  },
+  verifyNIN(){
+    S.verification={status:'verified',method:'NIN',ref:'NINREF-'+Math.random().toString(36).slice(2,8).toUpperCase(),at:Date.now(),notes:[]};
+    ev('VERIFY_OK','NIN verified','verification_status = verified');
+    audit('auth.verify.pass','NIN verified',`ref=${S.verification.ref}`);
+    return 'Verified';
+  },
+  verifyBVN(){
+    S.verification={status:'verified',method:'BVN',ref:'BVNREF-'+Math.random().toString(36).slice(2,8).toUpperCase(),at:Date.now(),notes:[]};
+    ev('VERIFY_OK','BVN verified','verification_status = verified');
+    audit('auth.verify.pass','BVN verified',`ref=${S.verification.ref}`);
+    return 'Verified';
+  },
+  ninLookup(){
+    ev('KYC_LOOKUP','NIN provider lookup','Identity confirmed');
+    return 'Confirmed';
+  },
+  bvnLookup(){
+    ev('KYC_LOOKUP','BVN provider lookup','Bank identity confirmed');
+    return 'Confirmed';
+  },
+  verifyCAC(){
+    S.account.cacVerified=true;
+    ev('CAC_VERIFIED','CAC number matched','RC-1847293');
+    audit('auth.verify.cac','CAC matched','rc=RC-1847293');
+    return 'CAC ok';
+  },
+  verifyOfficerID(){
+    S.verification={status:'verified',method:'CAC+NIN',ref:'CACREF-'+Math.random().toString(36).slice(2,8).toUpperCase(),at:Date.now(),notes:[]};
+    ev('VERIFY_OK','Officer NIN verified','verification_status = verified');
+    audit('auth.verify.pass','Officer NIN verified',`ref=${S.verification.ref}`);
+    return 'Verified';
+  },
+  gateOpen(){
+    ev('GATE_OPEN','Verification gate opened','All money actions unlocked');
+    audit('auth.gate.open','Gate opened','status=verified');
+    return 'Open';
+  },
+  signOut(){
+    S.signedIn=false;
+    S.sessions.forEach(x=>x.active=false);
+    ev('SIGN_OUT','Signed out','All sessions cleared');
+    return 'Signed out';
+  },
+  signInEmail(){
+    S.account=S.account||{type:'individual',email:'musa@demo.ng',name:'Musa Ibrahim'};
+    S._loginMethod='email';
+    ev('LOGIN_START','Sign-in attempted · email','musa@demo.ng');
+    return 'Email entered';
+  },
+  signInPhone(){
+    S.account=S.account||{type:'individual',phone:'+234 801 234 5678',name:'Musa Ibrahim'};
+    S._loginMethod='phone';
+    ev('LOGIN_START','Sign-in attempted · phone','+234 801 234 5678');
+    return 'Phone entered';
+  },
+  googleAuth(){
+    ev('GOOGLE_OAUTH','Google consent screen','scopes=email,profile');
+    audit('auth.google.start','Google OAuth started','');
+    return 'Consent';
+  },
+  googleLink(){
+    S.signedIn=true;
+    S.account.googleAuthEnabled=true;
+    if(!S.sessions.length) S.sessions.push({id:uid(),device:'Chrome · Desktop',ip:mockIP(),at:Date.now(),active:true});
+    S.logins.unshift({at:Date.now(),device:'Chrome · Desktop',ip:mockIP(),method:'google'});
+    ev('GOOGLE_LINKED','Google account linked','google_auth_enabled = true');
+    audit('auth.google.link','Google linked','email matched');
+    return 'Linked';
+  },
+  googleVerify(){
+    ev('GOOGLE_VERIFIED','Email matches account','Signed in via Google');
+    return 'Verified';
+  },
+  policyBump(){
+    S._bumpedPolicy='terms_of_service';
+    S._bumpedTo='2.1';
+    ev('POLICY_BUMP','Terms of Service → v2.1','Admin published new version');
+    audit('admin.policy.bump','Policy version bumped','terms_of_service: 2.0 → 2.1');
+    return 'v2.1 live';
+  },
+  reAccept(){
+    S.consents['terms_of_service']={
+      accepted:true,version:'2.1',at:Date.now(),ip:mockIP(),ua:navigator.userAgent.slice(0,42),
+    };
+    ev('CONSENT','Re-accepted Terms v2.1','Historic v2.0 preserved');
+    audit('auth.consent.accept','Re-accepted policy','terms_of_service v2.1');
+    return 'Re-accepted';
+  },
+  setTOTP(){
+    S.twofa.totpEnabled=true;
+    S.twofa.default='totp';
+    ev('TOTP_SETUP','Google Authenticator enabled','QR scanned · code verified');
+    audit('auth.2fa.enable','TOTP enabled','');
+    return 'TOTP on';
+  },
+  withdrawOpen(){
+    S._withdrawAmount=50000;
+    ev('WITHDRAW_OPEN','Opened withdrawal screen','Awaiting step-up');
+    return 'Opened';
+  },
+  totpVerify(){
+    ev('STEPUP_TOTP','TOTP verified','Withdrawal approved');
+    audit('auth.withdraw.totp','Withdrawal approved via TOTP','');
+    return 'Verified';
+  },
+  emailStepUp(){
+    ev('STEPUP_EMAIL','Email OTP verified','Withdrawal approved');
+    audit('auth.withdraw.email','Withdrawal approved via Email OTP','');
+    return 'Verified';
+  },
+  smsStepUp(){
+    ev('STEPUP_SMS','SMS OTP verified','Withdrawal approved');
+    audit('auth.withdraw.sms','Withdrawal approved via SMS OTP','');
+    return 'Verified';
+  },
+  withdrawApprove(){
+    ev('WITHDRAW_OK','Withdrawal approved','Funds in transit');
+    return 'Approved';
+  },
+  noStepUp(){
+    S._lastError='Withdrawal without OTP/Google Auth is not allowed.';
+    ev('STEPUP_FAIL','Withdrawal rejected','No step-up method provided');
+    audit('auth.withdraw.reject','Withdrawal rejected','reason=no_step_up');
+    return 'Rejected';
+  },
+  newDevice(){
+    S.sessions.push({id:uid(),device:'Chrome · Windows',ip:mockIP(),at:Date.now(),active:true});
+    S.logins.unshift({at:Date.now(),device:'Chrome · Windows',ip:mockIP(),method:'otp'});
+    ev('NEW_SESSION','New device signed in','Chrome · Windows');
+    return 'New session';
+  },
+  reviewSessions(){
+    ev('SESSIONS','Reviewed active sessions',`${S.sessions.filter(s=>s.active).length} active`);
+    return 'Reviewed';
+  },
+  revokeOld(){
+    const s=S.sessions.find(x=>x.active && x.device.includes('iPhone'));
+    if(s){s.active=false;}
+    ev('SESSION_REVOKED','Revoked older session','Chrome · Windows remains');
+    audit('auth.session.revoke','Session revoked','device=iPhone');
+    return 'Revoked';
+  },
+};
+
+/* ============================================================
+   PLAY
+   ============================================================ */
+let playing=false, aborted=false, autoIdx=-1;
+
+function pickScenario(key){
+  if(playing) return;
+  if(!confirm('Switch scenario? Current flow will be cleared.')) return;
+  const keep={events:S.events,audit:S.audit,sessions:S.sessions,logins:S.logins};
+  S=fresh(); Object.assign(S,keep);
+  S.scenario=key; S.completedSteps=[];
+  save(); renderAll();
+  const scn=SCENARIOS[key];
+  narrate('Ready',scn.title+' — '+scn.desc);
+  document.getElementById('narrCard').style.display='';
+}
+
+async function playScenario(){
+  if(playing){ aborted=true; return; }
+  playing=true; aborted=false;
+  const scn=SCENARIOS[S.scenario];
+  const btn=document.getElementById('innerPlay');
+  btn.textContent='■ Stop'; btn.className='btn rd';
+  document.getElementById('prgWrap').style.display='';
+  for(let i=0;i<scn.steps.length;i++){
+    if(aborted) break;
+    autoIdx=i; updatePrg(i); renderSteps();
+    const stp=scn.steps[i];
+    try{
+      const h=H[stp.k];
+      if(!h) throw Error('No handler: '+stp.k);
+      const msg=h();
+      if(!S.completedSteps.includes(stp.k)) S.completedSteps.push(stp.k);
+      narrate('Auth',stp.l1,msg+' · '+stp.l2);
+      document.getElementById('narrCard').style.display='';
+      renderAll();
+    }catch(e){
+      narrate('Error',e.message,'');
+      showToast(e.message,'er');
+      break;
+    }
+    await sleep(850);
+  }
+  playing=false; autoIdx=-1;
+  btn.textContent='▶ Replay scenario'; btn.className='btn go';
+  updatePrg(-1); renderAll();
+  if(!aborted) showToast('Scenario complete','ok');
+}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function togglePlay(){ if(playing){aborted=true;return;} playScenario(); }
+function runStep(k){
+  const scn=SCENARIOS[S.scenario];
+  const stp=scn.steps.find(s=>s.k===k);
+  if(!stp) return;
+  try{
+    const msg=H[k]();
+    if(!S.completedSteps.includes(k)) S.completedSteps.push(k);
+    narrate('Auth',stp.l1,msg+' · '+stp.l2);
+    document.getElementById('narrCard').style.display='';
+    renderAll();
+  }catch(e){ narrate('Error',e.message,''); showToast(e.message,'er'); }
+}
+function updatePrg(i){
+  const total=SCENARIOS[S.scenario].steps.length;
+  if(i<0){ document.getElementById('prgWrap').style.display='none'; return; }
+  document.getElementById('prgFill').style.width=Math.round(((i+1)/total)*100)+'%';
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderAll(){
+  renderHeader();
+  renderScenarios();
+  renderSteps();
+  renderGate();
+  renderAccount();
+  renderConsent();
+  renderKYC();
+  renderTwoFA();
+  renderTimeline();
+  renderConsentAudit();
+  renderVerifyTab();
+  renderSecurityTab();
+  renderAudit();
+  save();
+}
+
+function renderHeader(){
+  const acct=S.account?.type==='business'?'Business':'Individual';
+  document.getElementById('kAcct').textContent=S.signedIn?acct:'—';
+  const ver=S.verification.status==='verified'?'Verified':(S.verification.status==='unstarted'?'—':'Pending');
+  document.getElementById('kVer').textContent=ver;
+  document.getElementById('k2fa').textContent=S.twofa.totpEnabled?'TOTP':(S.twofa.emailEnabled?'Email':'—');
+  const gated=!S.signedIn || S.verification.status!=='verified';
+  document.getElementById('kGate').textContent=gated?'Locked':'Open';
+  document.getElementById('kGateBox').className=gated?'kbox red alert':'kbox green';
+  // header avatar
+  const av=document.getElementById('hAv');
+  if(S.signedIn){
+    av.textContent=(S.account?.name||'U').split(' ').map(x=>x[0]).join('').slice(0,2);
+    document.getElementById('hName').textContent=S.account?.name||'User';
+    document.getElementById('hSub').textContent=(S.account?.type==='business'?'Business':'Individual')+' · '+(S.verification.status==='verified'?'Verified':'Unverified');
+  } else {
+    av.textContent='?';
+    document.getElementById('hName').textContent='Guest';
+    document.getElementById('hSub').textContent='Not signed in · press play';
+  }
+}
+
+function renderScenarios(){
+  document.getElementById('scnCount').textContent=Object.keys(SCENARIOS).length;
+  document.getElementById('scnList').innerHTML=Object.values(SCENARIOS).map(s=>`
+    <button class="scn ${S.scenario===s.key?'on':''}" onclick="pickScenario('${s.key}')">
+      <span class="em">${s.em}</span>
+      <span class="txt">
+        <span class="t1">${s.title}</span>
+        <span class="t2">${s.desc}</span>
+      </span>
+    </button>
+  `).join('');
+}
+
+function renderSteps(){
+  const scn=SCENARIOS[S.scenario];
+  document.getElementById('stepList').innerHTML=scn.steps.map((s,i)=>{
+    const done=S.completedSteps.includes(s.k);
+    const now=playing && autoIdx===i;
+    return `<button class="stp ${done?'done':''} ${now?'now':''}"
+      onclick="runStep('${s.k}')" ${playing?'disabled':''}>
+      <span class="dot"></span>
+      <span class="info"><span class="l1">${s.l1}</span><span class="l2">${s.l2}</span></span>
+    </button>`;
+  }).join('');
+}
+
+function renderGate(){
+  const el=document.getElementById('gateCard');
+  const gated=!S.signedIn || S.verification.status!=='verified';
+  if(!S.signedIn && S.verification.status==='unstarted'){ el.style.display='none'; return; }
+  el.style.display='';
+  const cls=gated?'gate locked':'gate open';
+  el.innerHTML=`<div class="card"><div class="cb" style="padding:0">
+    <div class="${cls}">
+      <div class="ic">${gated?'🔒':'✅'}</div>
+      <div class="b">
+        <div class="t">${gated?'ID gate is locked':'ID gate is open'}</div>
+        <div class="d">${gated?'verification_status ≠ verified — the following actions are blocked:':'verification_status = verified — all money actions are unlocked.'}</div>
+        <div class="list">
+          <div class="${gated?'x':'v'}">${gated?'✗':'✓'} Create a Protected Deal</div>
+          <div class="${gated?'x':'v'}">${gated?'✗':'✓'} Accept a deal payment</div>
+          <div class="${gated?'x':'v'}">${gated?'✗':'✓'} Take Vet Agent jobs</div>
+          <div class="${gated?'x':'v'}">${gated?'✗':'✓'} Withdraw funds</div>
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+function renderAccount(){
+  const el=document.getElementById('acctCard');
+  if(!S.account || (!S.account.name && !S.account.business)){ el.style.display='none'; return; }
+  el.style.display='';
+  const b=document.getElementById('acctTypeBadge');
+  b.textContent=S.account.type==='business'?'Business / Merchant':'Individual';
+  b.className='bd '+(S.account.type==='business'?'bd-purple':'bd-blue');
+  document.getElementById('acctBody').innerHTML=`
+    <div class="row"><span class="k">Name</span><span class="v" style="font-family:inherit">${S.account.name||'—'}</span></div>
+    ${S.account.business?`<div class="row"><span class="k">Business name</span><span class="v" style="font-family:inherit">${S.account.business}</span></div>`:''}
+    ${S.account.rc?`<div class="row"><span class="k">CAC / RC number</span><span class="v">${S.account.rc}</span></div>`:''}
+    ${S.account.address?`<div class="row"><span class="k">Address</span><span class="v" style="font-family:inherit;font-size:10px">${S.account.address}</span></div>`:''}
+    <div class="row"><span class="k">Email</span><span class="v" style="font-family:inherit;font-size:10px">${S.account.email||'—'}</span></div>
+    <div class="row"><span class="k">Phone</span><span class="v">${S.account.phone||'—'}</span></div>
+    <div class="row"><span class="k">Google sign-in</span><span class="v ${S.account.googleAuthEnabled?'g':''}">${S.account.googleAuthEnabled?'Linked':'Not linked'}</span></div>
+    <div class="row"><span class="k">Account ID</span><span class="v">${S.account.id||'—'}</span></div>
+  `;
+}
+
+function renderConsent(){
+  const el=document.getElementById('consentCard');
+  if(!S.signedIn && !Object.keys(S.consents).length){ el.style.display='none'; return; }
+  el.style.display='';
+  const accepted=Object.values(S.consents).filter(c=>c.accepted).length;
+  const b=document.getElementById('consentBadge');
+  b.textContent=accepted+' / '+POLICIES.length;
+  b.className='bd '+(accepted>=3?'bd-green':'bd-gold');
+  document.getElementById('consentBody').innerHTML=POLICIES.map(p=>{
+    const c=S.consents[p.key];
+    return `<div class="row">
+      <div class="k">
+        <div style="font-size:12px;font-weight:800;color:var(--navy)">${p.label}${p.required?'<span style="color:var(--red);font-size:9px;font-weight:800;margin-left:6px;text-transform:uppercase">Required</span>':'<span style="color:#9CA3AF;font-size:9px;font-weight:800;margin-left:6px;text-transform:uppercase">Optional</span>'}</div>
+        ${c?`<div style="font-size:10px;color:#6B7280;margin-top:3px">v${c.version} · ${ago(c.at)} · IP ${c.ip}</div>`:'<div style="font-size:10px;color:#9CA3AF;margin-top:3px">Not accepted</div>'}
+      </div>
+      <span class="bd ${c?'bd-green':'bd-mist'}">${c?'✓ Accepted':'Pending'}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderKYC(){
+  const el=document.getElementById('kycCard');
+  if(!S.signedIn){ el.style.display='none'; return; }
+  el.style.display='';
+  const b=document.getElementById('kycBadge');
+  const v=S.verification;
+  if(v.status==='verified'){ b.textContent='Verified'; b.className='bd bd-green'; }
+  else if(v.status==='unstarted'){ b.textContent='Not started'; b.className='bd bd-gold'; }
+  else { b.textContent='Pending'; b.className='bd bd-gold'; }
+  document.getElementById('kycBody').innerHTML=`
+    <div class="row"><span class="k">Status</span><span class="v ${v.status==='verified'?'g':''}">${v.status}</span></div>
+    <div class="row"><span class="k">Method</span><span class="v" style="font-family:inherit">${v.method||'—'}</span></div>
+    <div class="row"><span class="k">Provider reference</span><span class="v" style="font-size:10px">${v.ref||'—'}</span></div>
+    <div class="row"><span class="k">Verified at</span><span class="v" style="font-family:inherit">${v.at?new Date(v.at).toLocaleString():'—'}</span></div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Raw NIN/BVN numbers are never stored. Only the provider reference is persisted, per §4.2 and the privacy policy.
+    </div>
+  `;
+}
+
+function renderTwoFA(){
+  const el=document.getElementById('twofaCard');
+  if(!S.signedIn){ el.style.display='none'; return; }
+  el.style.display='';
+  const b=document.getElementById('twofaBadge');
+  const enabled=[S.twofa.totpEnabled,S.twofa.emailEnabled,S.twofa.smsEnabled].filter(Boolean).length;
+  b.textContent=enabled+' / 3';
+  b.className='bd '+(enabled>=1?'bd-green':'bd-red');
+  document.getElementById('twofaBody').innerHTML=`
+    <div class="row"><span class="k">Google Authenticator (TOTP)</span><span class="v ${S.twofa.totpEnabled?'g':''}">${S.twofa.totpEnabled?'Enabled':'Not set'}</span></div>
+    <div class="row"><span class="k">Email OTP</span><span class="v g">Available</span></div>
+    <div class="row"><span class="k">SMS OTP</span><span class="v g">Available</span></div>
+    <div class="row"><span class="k">Default method</span><span class="v" style="font-family:inherit">${S.twofa.default||'—'}</span></div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Withdrawals require step-up regardless of method. Setting up at least one factor is strongly recommended.
+    </div>
+  `;
+}
+
+function renderTimeline(){
+  const el=document.getElementById('tlCard');
+  if(S.events.length===0){ el.style.display='none'; return; }
+  el.style.display='';
+  document.getElementById('tlList').innerHTML=S.events.slice(-15).reverse().map(e=>{
+    const green=['CONSENT','OTP_VERIFIED','VERIFY_OK','GATE_OPEN','TOTP_SETUP','GOOGLE_LINKED','GOOGLE_VERIFIED','WITHDRAW_OK','STEPUP_TOTP','STEPUP_EMAIL','STEPUP_SMS','CONSENT_STORED','CAC_VERIFIED'].includes(e.type);
+    const red=['REJECTED','GATE_LOCKED','GATE_BLOCK','STEPUP_FAIL','SIGN_OUT'].includes(e.type);
+    const gold=['GATE','OTP_SENT','POLICY_BUMP','CONSENT','LOGIN_START','NEW_SESSION','SESSION_REVOKED','GOOGLE_OAUTH','SIGNUP_START','BUSINESS','DETAILS','OFFICER','POLICIES_VIEW','KYC_LOOKUP','WITHDRaw_OPEN','WITHDRAW_OPEN','CONSENT_STORED'].includes(e.type);
+    const cls=red?'red':green?'green':gold?'gold':'';
+    return `<li class="tli ${cls}">
+      <span class="tld"></span>
+      <div class="tlt">${e.type.replace(/_/g,' ')}</div>
+      <div style="font-size:11px;color:#4B5563;margin-top:3px;line-height:1.5">${e.text}</div>
+      ${e.meta?`<div class="tltm">${e.meta}</div>`:''}
+    </li>`;
+  }).join('');
+}
+
+function renderConsentAudit(){
+  const el=document.getElementById('consentAuditList');
+  const rows=Object.entries(S.consents);
+  document.getElementById('consentCount').textContent=rows.length;
+  if(rows.length===0){ el.innerHTML='<div class="em">No consents recorded yet.</div>'; return; }
+  el.innerHTML=rows.map(([key,c])=>`
+    <div class="card" style="margin:10px 14px">
+      <div class="ch" style="background:#fff;padding:9px 0;border-bottom:1px solid var(--line)">
+        <span style="color:var(--navy)">${key}</span>
+        <span class="bd bd-green">v${c.version}</span>
+      </div>
+      <div class="kvp">
+        <div class="k">Accepted at</div><div class="v">${new Date(c.at).toLocaleString()}</div>
+        <div class="k">Policy key</div><div class="v">${key}</div>
+        <div class="k">Policy version</div><div class="v">${c.version}</div>
+        <div class="k">IP address</div><div class="v">${c.ip}</div>
+        <div class="k">User agent</div><div class="v">${c.ua}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderVerifyTab(){
+  const b=document.getElementById('vStatusBadge');
+  const v=S.verification;
+  b.textContent=v.status==='verified'?'Verified':(v.status==='unstarted'?'Not started':'Pending');
+  b.className='bd '+(v.status==='verified'?'bd-green':'bd-gold');
+  document.getElementById('vStatusBody').innerHTML=`
+    <div class="row"><span class="k">verification_status</span><span class="v ${v.status==='verified'?'g':'r'}">${v.status}</span></div>
+    <div class="row"><span class="k">Method</span><span class="v" style="font-family:inherit">${v.method||'—'}</span></div>
+    <div class="row"><span class="k">Provider reference</span><span class="v" style="font-size:10px">${v.ref||'—'}</span></div>
+    <div class="row"><span class="k">Verified at</span><span class="v" style="font-family:inherit">${v.at?new Date(v.at).toLocaleString():'—'}</span></div>
+  `;
+  const gated=v.status!=='verified';
+  document.getElementById('vGateBody').innerHTML=`
+    <div class="row"><span class="k">Create Protected Deal</span><span class="v ${gated?'r':'g'}">${gated?'✗ Blocked':'✓ Allowed'}</span></div>
+    <div class="row"><span class="k">Accept deal payment</span><span class="v ${gated?'r':'g'}">${gated?'✗ Blocked':'✓ Allowed'}</span></div>
+    <div class="row"><span class="k">Take Vet Agent jobs</span><span class="v ${gated?'r':'g'}">${gated?'✗ Blocked':'✓ Allowed'}</span></div>
+    <div class="row"><span class="k">Withdraw funds</span><span class="v ${gated?'r':'g'}">${gated?'✗ Blocked':'✓ Allowed'}</span></div>
+  `;
+}
+
+function renderSecurityTab(){
+  const el=document.getElementById('sec2faBody');
+  el.innerHTML=`
+    <div class="row"><span class="k">Google Authenticator (TOTP)</span><span class="v ${S.twofa.totpEnabled?'g':''}">${S.twofa.totpEnabled?'Enabled':'Not set'}</span></div>
+    <div class="row"><span class="k">Email OTP</span><span class="v g">Available</span></div>
+    <div class="row"><span class="k">SMS OTP</span><span class="v g">Available</span></div>
+    <div class="row"><span class="k">Default withdrawal method</span><span class="v" style="font-family:inherit">${S.twofa.default||'—'}</span></div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Every withdrawal requires step-up via one of these methods.
+    </div>
+  `;
+  const sl=document.getElementById('sessionsList');
+  if(S.sessions.length===0){ sl.innerHTML='<div class="em">No active sessions.</div>'; }
+  else {
+    sl.innerHTML=S.sessions.slice().reverse().map(s=>`
+      <div class="row">
+        <div class="k">
+          <div style="font-size:12px;font-weight:800;color:var(--navy)">${s.device}</div>
+          <div style="font-size:10px;color:#9CA3AF;margin-top:2px">IP ${s.ip} · ${ago(s.at)}</div>
+        </div>
+        <span class="bd ${s.active?'bd-green':'bd-mist'}">${s.active?'Active':'Revoked'}</span>
+      </div>
+    `).join('');
+  }
+  const ll=document.getElementById('loginList');
+  if(S.logins.length===0){ ll.innerHTML='<div class="em">No logins yet.</div>'; }
+  else {
+    ll.innerHTML=S.logins.slice(0,10).map(l=>`
+      <div class="row">
+        <div class="k">
+          <div style="font-size:12px;font-weight:800;color:var(--navy)">${l.device}</div>
+          <div style="font-size:10px;color:#9CA3AF;margin-top:2px">via ${l.method} · IP ${l.ip}</div>
+        </div>
+        <span class="bd bd-mist">${ago(l.at)}</span>
+      </div>
+    `).join('');
+  }
+}
+
+function renderAudit(){
+  const el=document.getElementById('auditList');
+  if(S.audit.length===0){ el.innerHTML='<div class="em">No events yet.</div>'; return; }
+  el.innerHTML=S.audit.slice(0,80).map(a=>`
+    <div class="row" style="align-items:flex-start">
+      <div class="k">
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:10px;font-weight:800;color:var(--navy)">${a.type}</div>
+        <div style="font-size:11px;color:#4B5563;margin-top:3px">${a.text}</div>
+        ${a.meta?`<div style="font-size:10px;color:#9CA3AF;margin-top:3px">${a.meta}</div>`:''}
+        <div style="font-size:9px;color:#9CA3AF;margin-top:4px;font-family:ui-monospace,Menlo,monospace">IP ${a.ip} · UA ${a.ua}</div>
+      </div>
+      <span class="bd bd-mist">${ago(a.ts)}</span>
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   MISC
+   ============================================================ */
+function tab(name,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  if(btn) btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showToast(msg,tone){
+  const el=document.getElementById('toast');
+  el.className='ts on '+(tone||'');
+  document.getElementById('toastIc').textContent=tone==='er'?'⚠':'✓';
+  document.getElementById('toastMsg').textContent=msg;
+  clearTimeout(el._t);
+  el._t=setTimeout(()=>el.className='ts '+(tone||''),2400);
+}
+function narrate(who,msg,det){
+  document.getElementById('nWho').textContent=who;
+  document.getElementById('nMsg').textContent=msg;
+  document.getElementById('nDet').textContent=det||'';
+}
+function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+function resetWork(){
+  if(!confirm('Clear current workflow? Audit log stays.')) return;
+  S.completedSteps=[]; S.events=[];
+  S.signedIn=false; S.account=null; S.consents={};
+  S.verification={status:'unstarted',method:null,ref:null,at:null,notes:[]};
+  S.twofa={totpEnabled:false,emailEnabled:true,smsEnabled:true,default:'totp'};
+  save(); renderAll();
+  document.getElementById('narrCard').style.display='none';
+}
+function resetAll(){
+  if(!confirm('Reset everything?')) return;
+  localStorage.removeItem(KEY);
+  S=fresh(); playing=false; aborted=true;
+  document.getElementById('narrCard').style.display='none';
+  document.getElementById('prgWrap').style.display='none';
+  save(); renderAll();
+  showToast('Reset','ok');
+}
+
+/* BOOT */
+renderAll();
+document.getElementById('narrCard').style.display='';
+narrate('Auth','Pick a scenario above, then press ▶ Play scenario.','Every screen is what you see on the DealsGate auth & onboarding surface.');
+</script>
+</body>
+</html>

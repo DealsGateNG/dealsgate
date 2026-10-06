@@ -1,0 +1,1897 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0D1B4C">
+<title>DealsGate — Seller Demo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--navy:#0D1B4C;--navy2:#1A2F7A;--green:#16A34A;--green2:#15803D;--gold:#F4B420;--gold2:#D99A0F;
+--mist:#F1F3F5;--charcoal:#1F2937;--red:#DC2626;--purple:#7C3AED;--blue:#2563EB;--pink:#EC4899;
+--line:rgba(13,27,76,.10)}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--mist);
+color:var(--charcoal);font-size:14px;line-height:1.5;padding-bottom:78px}
+
+/* Header */
+.hdr{position:sticky;top:0;z-index:50;background:var(--navy);color:#fff;padding:12px 16px 10px;
+box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.hdr-r{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.hdr .who{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.hdr .av{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--navy);
+display:grid;place-items:center;font-size:13px;font-weight:800;flex-shrink:0}
+.hdr .info{min-width:0;flex:1}
+.hdr .n{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr .s{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+margin-top:2px}
+.hdr .actions{display:flex;gap:6px}
+.hdr button{background:rgba(255,255,255,.15);color:#fff;border:none;font-size:10px;font-weight:700;
+padding:7px 11px;border-radius:20px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.hdr button.go{background:var(--gold);color:var(--navy)}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:10px}
+.kbox{background:rgba(255,255,255,.10);border-radius:8px;padding:7px 8px}
+.kbox .l{font-size:7px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.kbox .v{font-family:ui-monospace,Menlo,monospace;font-size:12px;font-weight:800;color:#fff;margin-top:2px}
+.kbox.gold .v{color:var(--gold)}
+.kbox.green .v{color:#7EE787}
+
+/* Tabs */
+.tabs{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);
+display:flex;overflow-x:auto;padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+box-shadow:0 -4px 20px rgba(13,27,76,.06);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;min-width:54px;display:flex;flex-direction:column;align-items:center;gap:3px;
+padding:7px 6px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;
+font-weight:800;color:#9CA3AF;letter-spacing:.04em;text-transform:uppercase}
+.tab.on{color:var(--navy)}
+.tab .ic{width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--mist);
+font-size:12px;line-height:1}
+.tab.on .ic{background:var(--gold);color:var(--navy)}
+
+/* Panels */
+.panel{display:none;padding:12px 10px 18px}
+.panel.on{display:block;animation:fu .25s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* Cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:11px;overflow:hidden;
+box-shadow:0 1px 3px rgba(13,27,76,.05)}
+.ch{padding:11px 14px;background:var(--mist);border-bottom:1px solid var(--line);font-size:10px;
+font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);display:flex;
+justify-content:space-between;align-items:center;gap:8px}
+.cb{padding:13px 14px}
+.bd{display:inline-block;padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;
+text-transform:uppercase;letter-spacing:.06em;line-height:1.4}
+.bd-navy{background:var(--navy);color:#fff}
+.bd-green{background:#DCFCE7;color:var(--green2)}
+.bd-gold{background:#FEF3C7;color:var(--gold2)}
+.bd-red{background:#FEE2E2;color:var(--red)}
+.bd-purple{background:#EDE9FE;color:var(--purple)}
+.bd-blue{background:#DBEAFE;color:var(--blue)}
+.bd-pink{background:#FCE7F3;color:var(--pink)}
+.bd-mist{background:var(--mist);color:#6B7280}
+
+/* Buttons */
+.btn{display:block;width:100%;padding:13px;border:none;border-radius:11px;font-size:13px;font-weight:700;
+cursor:pointer;font-family:inherit;transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.pr{background:linear-gradient(135deg,var(--navy),var(--green));color:#fff}
+.btn.nv{background:var(--navy);color:#fff}
+.btn.gr{background:var(--green);color:#fff}
+.btn.go{background:var(--gold);color:var(--navy)}
+.btn.gh{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.rd{background:var(--red);color:#fff}
+.btn.sm{padding:9px 11px;font-size:11px;border-radius:8px}
+.brow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Rows */
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;
+border-bottom:1px solid var(--line);font-size:12px}
+.row:last-child{border-bottom:none}
+.row .k{color:#4B5563;flex:1;min-width:0}
+.row .v{font-weight:700;color:var(--navy);text-align:right;flex-shrink:0;
+font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.row .v.g{color:var(--green)}
+.row .v.r{color:var(--red)}
+.row .v.pu{color:var(--purple)}
+.row.tot{background:#F8FAFC}
+.row.tot .v{font-size:16px;font-weight:800}
+
+/* Scenario picker */
+.scn{display:flex;gap:11px;padding:12px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);
+text-align:left;cursor:pointer;font-family:inherit;width:100%}
+.scn:last-child{border-bottom:none}
+.scn.on{background:linear-gradient(90deg,rgba(244,180,32,.10),transparent)}
+.scn .em{font-size:22px;line-height:1;flex-shrink:0}
+.scn .txt{flex:1;min-width:0}
+.scn .t1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.scn .t2{font-size:10px;color:#6B7280;margin-top:3px;line-height:1.4}
+
+/* Steps */
+.steps{max-height:52vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.stp{display:flex;gap:11px;padding:11px 14px;background:#fff;border:none;border-bottom:1px solid var(--line);
+text-align:left;cursor:pointer;font-family:inherit;width:100%;align-items:center}
+.stp:last-child{border-bottom:none}
+.stp.done{background:rgba(220,252,231,.5)}
+.stp.now{background:rgba(254,243,199,.6)}
+.stp:disabled{cursor:not-allowed;opacity:.7}
+.stp .dot{width:9px;height:9px;border-radius:50%;background:var(--mist);flex-shrink:0}
+.stp.done .dot{background:var(--green)}
+.stp.now .dot{background:var(--gold);animation:pl 1.2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.6)}}
+.stp .info{flex:1;min-width:0}
+.stp .l1{font-size:12px;font-weight:800;color:var(--navy);display:block;line-height:1.3}
+.stp.done .l1{color:#6B7280}
+.stp .l2{font-size:10px;color:#9CA3AF;margin-top:2px;line-height:1.3}
+.stp .amt{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;color:var(--green);
+flex-shrink:0}
+.stp .amt.r{color:var(--red)}.stp .amt.n{color:var(--charcoal)}
+
+/* Narration */
+.narr{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:14px;border-radius:14px;
+margin-bottom:11px;position:relative;overflow:hidden}
+.narr::after{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;border-radius:50%;
+background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.2}
+.narr .who{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);
+margin-bottom:6px;position:relative;z-index:1}
+.narr .msg{font-size:13px;font-weight:600;line-height:1.5;color:#fff;position:relative;z-index:1}
+.narr .det{font-size:11px;color:rgba(255,255,255,.7);margin-top:6px;line-height:1.5;position:relative;z-index:1}
+
+/* Deal hero */
+.dh{background:var(--navy);color:#fff;padding:16px 14px;position:relative;overflow:hidden}
+.dh::after{content:"";position:absolute;right:-50px;top:-50px;width:160px;height:160px;border-radius:50%;
+background:radial-gradient(circle,var(--gold),transparent 70%);opacity:.18}
+.dh .cd{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:rgba(255,255,255,.55);
+position:relative;z-index:1}
+.dh .it{font-size:15px;font-weight:800;color:#fff;margin-top:6px;line-height:1.3;position:relative;z-index:1}
+.dh .st{position:absolute;right:14px;top:14px;z-index:1}
+
+/* Timeline */
+.tl{position:relative;padding:10px 14px 10px 34px}
+.tl::before{content:"";position:absolute;left:19px;top:16px;bottom:16px;width:2px;
+background:linear-gradient(180deg,var(--gold),var(--green),var(--navy));border-radius:2px;opacity:.35}
+.tli{position:relative;padding:5px 0}
+.tld{position:absolute;left:-19px;top:10px;width:10px;height:10px;border-radius:50%;background:var(--navy);
+border:2px solid #fff;box-shadow:0 0 0 1px rgba(13,27,76,.15)}
+.tli.red .tld{background:var(--red)}.tli.gold .tld{background:var(--gold)}.tli.green .tld{background:var(--green)}
+.tlt{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
+.tli.red .tlt{color:var(--red)}.tli.gold .tlt{color:var(--gold2)}
+.tltm{font-size:9px;color:#9CA3AF;margin-top:2px}
+
+/* Wallet tiles */
+.wtile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:9px;
+position:relative;overflow:hidden}
+.wtile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
+.wtile.gr::before{background:var(--green)}.wtile.nv::before{background:var(--navy)}
+.wtile .nm{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--navy)}
+.wtile .amt{font-family:ui-monospace,Menlo,monospace;font-size:24px;font-weight:800;color:var(--green);
+line-height:1.1;margin-top:4px}
+.wtile.nv .amt{color:var(--navy)}
+.wtile .sb{font-size:10px;color:#9CA3AF;margin-top:3px}
+.wtile .ac{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+
+/* Ledger */
+.lr{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);align-items:center}
+.lr:last-child{border-bottom:none}
+.li{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:grid;place-items:center;font-size:11px;
+font-weight:900}
+.li.cr{background:#DCFCE7;color:var(--green2)}
+.li.db{background:#FEE2E2;color:var(--red)}
+.li.fe{background:#FEF3C7;color:var(--gold2)}
+.li.od{background:#EDE9FE;color:var(--purple)}
+.lb{flex:1;min-width:0}
+.la{font-family:ui-monospace,Menlo,monospace;font-size:9px;font-weight:800;color:var(--navy);letter-spacing:.03em}
+.ld{font-size:10px;color:#6B7280;margin-top:2px;line-height:1.4}
+.lm{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;flex-shrink:0}
+.lm.cr{color:var(--green)}.lm.db{color:var(--red)}.lm.fe{color:var(--gold2)}
+
+/* Filters */
+.filters{display:flex;gap:6px;padding:10px;overflow-x:auto;scrollbar-width:none;
+border-bottom:1px solid var(--line)}
+.filters::-webkit-scrollbar{display:none}
+.chip{padding:6px 12px;border-radius:20px;border:none;background:var(--mist);color:#6B7280;font-size:10px;
+font-weight:800;text-transform:uppercase;letter-spacing:.04em;cursor:pointer;font-family:inherit;
+white-space:nowrap}
+.chip.on{background:var(--navy);color:#fff}
+
+/* Listings row */
+.lst{padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.lst:last-child{border-bottom:none}
+.lst:active{background:var(--mist)}
+.lst-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.lst-c{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#9CA3AF}
+.lst-n{font-size:12px;font-weight:800;color:var(--navy);margin-top:2px;line-height:1.3}
+.lst-m{display:flex;flex-wrap:wrap;gap:10px;font-size:10px;color:#6B7280;margin-top:6px}
+.lst-m strong{color:var(--charcoal)}
+.lst-p{display:flex;gap:2px;margin-top:8px}
+.lst-p .s{flex:1;height:4px;background:var(--mist);border-radius:2px}
+.lst-p .s.done{background:var(--green)}.lst-p .s.now{background:var(--gold)}
+
+/* Progress */
+.prg{height:6px;background:rgba(13,27,76,.10);border-radius:20px;overflow:hidden;margin-top:10px}
+.prg .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));
+border-radius:20px;transition:width .4s}
+
+/* Empty */
+.em{text-align:center;padding:32px 16px;color:#9CA3AF;font-size:12px;line-height:1.6}
+
+/* Modal / Drawer */
+.mk{position:fixed;inset:0;background:rgba(13,27,76,.6);backdrop-filter:blur(4px);z-index:100;
+display:none;align-items:flex-end;justify-content:center}
+.mk.on{display:flex}
+.md{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;max-height:92vh;overflow-y:auto;
+animation:su .3s cubic-bezier(.4,.2,.2,1)}
+@keyframes su{from{transform:translateY(100%)}to{transform:none}}
+.mh{padding:16px 18px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;
+align-items:center;position:sticky;top:0;background:#fff;z-index:2}
+.mh h3{font-size:15px;font-weight:800;color:var(--navy)}
+.mcl{background:none;border:none;font-size:24px;color:#9CA3AF;cursor:pointer;font-family:inherit;line-height:1}
+.mb{padding:16px 18px 20px}
+.mf{padding:12px 18px calc(20px + env(safe-area-inset-bottom));border-top:1px solid var(--line);
+position:sticky;bottom:0;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Form */
+.fld{margin-bottom:12px}
+.fld label{display:block;font-size:11px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.fld input,.fld select,.fld textarea{width:100%;padding:11px 13px;border:1px solid rgba(13,27,76,.18);
+border-radius:10px;font-size:13px;font-family:inherit;color:var(--charcoal);background:#fff;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--navy);
+box-shadow:0 0 0 3px rgba(244,180,32,.2)}
+.method{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid var(--line);
+border-radius:10px;margin-bottom:8px;cursor:pointer}
+.method.on{border-color:var(--green);background:#F0FDF4}
+.method .r{flex:1}
+.method .t{font-size:12px;font-weight:800;color:var(--navy)}
+.method .d{font-size:10px;color:#6B7280;margin-top:2px}
+.method .chk{width:20px;height:20px;border-radius:50%;background:var(--mist);display:grid;place-items:center;
+font-size:11px;font-weight:900;color:#9CA3AF}
+.method.on .chk{background:var(--green);color:#fff}
+.quick{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.quick button{padding:7px 11px;border-radius:20px;background:var(--mist);border:none;font-size:11px;
+font-weight:700;color:#6B7280;cursor:pointer;font-family:inherit}
+.codes{display:flex;gap:6px;justify-content:center;margin:16px 0}
+.codes input{width:38px;height:46px;text-align:center;font-size:20px;font-weight:800;
+font-family:ui-monospace,Menlo,monospace;border:1px solid rgba(13,27,76,.2);border-radius:9px;
+outline:none;background:#fff}
+.codes input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(244,180,32,.2)}
+
+/* Notes */
+.nt{background:#FEF3C7;border-left:3px solid var(--gold);padding:11px 13px;border-radius:8px;font-size:11px;
+color:#78350F;line-height:1.55;margin:10px 0}
+.nt.gr{background:#DCFCE7;border-left-color:var(--green);color:#065F46}
+.nt.rd{background:#FEE2E2;border-left-color:var(--red);color:#7F1D1D}
+.nt.bl{background:#DBEAFE;border-left-color:var(--blue);color:#1E3A8A}
+.nt.pu{background:#EDE9FE;border-left-color:var(--purple);color:#5B21B6}
+
+/* Toast */
+.ts{position:fixed;left:12px;right:12px;bottom:90px;z-index:200;background:var(--navy);color:#fff;
+border-radius:12px;padding:12px 14px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(13,27,76,.3);
+transform:translateY(140%);transition:transform .35s cubic-bezier(.4,.2,.2,1);display:flex;gap:10px;
+align-items:center;pointer-events:none}
+.ts.on{transform:translateY(0)}
+.ts.ok{background:var(--green)}.ts.er{background:var(--red)}
+
+/* Avatar in row */
+.mini{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;
+font-weight:800;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-r">
+    <div class="who">
+      <div class="av">AO</div>
+      <div class="info">
+        <div class="n">Adaeze Okafor</div>
+        <div class="s" id="hSub">Business · Lagos</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button onclick="resetAll()">Reset</button>
+      <button class="go" id="playBtn" onclick="togglePlay()">▶ Play</button>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kbox green"><div class="l">Main</div><div class="v" id="kMain">₦0</div></div>
+    <div class="kbox gold"><div class="l">Guarantee</div><div class="v" id="kGuar">₦0</div></div>
+    <div class="kbox"><div class="l">Success</div><div class="v" id="kSucc">0</div></div>
+    <div class="kbox"><div class="l">Rating</div><div class="v" id="kRate">—</div></div>
+  </div>
+</header>
+
+<!-- FLOW -->
+<section class="panel on" id="p-flow">
+  <div class="card">
+    <div class="ch"><span>Seller scenarios</span><span class="bd bd-gold" id="scnCount">12</span></div>
+    <div id="scnList"></div>
+  </div>
+  <div class="card">
+    <div class="ch">
+      <span>Run this scenario</span>
+      <button style="background:none;border:none;color:#9CA3AF;font-size:10px;font-weight:700;cursor:pointer"
+        onclick="resetDeal()">Reset</button>
+    </div>
+    <div class="cb">
+      <button class="btn go" id="innerPlay" onclick="playScenario()">▶ Play scenario</button>
+      <div class="prg" id="prgWrap" style="display:none"><div class="fill" id="prgFill"></div></div>
+    </div>
+  </div>
+  <div class="card" id="narrCard" style="display:none">
+    <div class="cb" style="padding:0">
+      <div class="narr">
+        <div class="who" id="nWho">—</div>
+        <div class="msg" id="nMsg">—</div>
+        <div class="det" id="nDet"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Deal journey · tap any step</div>
+    <div class="steps" id="stepList"></div>
+  </div>
+  <div class="card" id="dealCard" style="display:none">
+    <div class="dh">
+      <div class="cd" id="dCode">—</div>
+      <span class="bd bd-gold st" id="dStatus">—</span>
+      <div class="it" id="dItem">—</div>
+    </div>
+    <div id="dRows"></div>
+  </div>
+  <div class="card" id="outCard" style="display:none">
+    <div class="ch"><span>Financial outcome</span><span class="bd bd-green" id="oBadge">—</span></div>
+    <div id="oRows"></div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:12px;color:#4B5563;line-height:1.6" id="oVerdict"></div>
+  </div>
+  <div class="card" id="tlCard" style="display:none">
+    <div class="ch">What happened, in order</div>
+    <ol class="tl" id="tlList"></ol>
+  </div>
+</section>
+
+<!-- LISTINGS -->
+<section class="panel" id="p-listings">
+  <div class="card">
+    <div class="ch">
+      <span>My Protected Deals</span>
+      <button class="bd bd-navy" style="border:none;cursor:pointer;font-family:inherit"
+        onclick="showToast('Opens 7-step wizard')">+ New</button>
+    </div>
+    <div class="filters">
+      <button class="chip on" onclick="filterListings('all',this)">All</button>
+      <button class="chip" onclick="filterListings('pending',this)">Pending</button>
+      <button class="chip" onclick="filterListings('success',this)">Successful</button>
+      <button class="chip" onclick="filterListings('unsuccessful',this)">Unsuccessful</button>
+    </div>
+    <div id="listingsList"><div class="em">No deals yet.<br>Tap a scenario in Flow to create one.</div></div>
+  </div>
+</section>
+
+<!-- WALLET -->
+<section class="panel" id="p-wallet">
+  <div class="card">
+    <div class="ch"><span>My wallets</span><span class="bd bd-green">Verified</span></div>
+    <div class="cb" id="walletCards"></div>
+  </div>
+  <div class="card">
+    <div class="ch">Withdrawal methods — all 3 available to you</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Google Authenticator (TOTP)</span><span class="v g" id="wTOTP">✓</span></div>
+      <div class="row"><span class="k">Email OTP</span><span class="v g" id="wEmail">✓</span></div>
+      <div class="row"><span class="k">SMS OTP</span><span class="v g" id="wSMS">✓</span></div>
+      <div class="row"><span class="k">Partial withdrawals</span><span class="v g">✓</span></div>
+      <div class="row"><span class="k">No forced full withdrawal</span><span class="v g">✓</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line);font-size:11px;color:#6B7280;line-height:1.55">
+      Pick the amount you want to withdraw. Leave the rest in your wallet for future deals or later withdrawals.
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Fee schedule</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Amount ≤ ₦5,000</span><span class="v">₦10</span></div>
+      <div class="row"><span class="k">₦5,001 – ₦50,000</span><span class="v">₦25</span></div>
+      <div class="row"><span class="k">Amount &gt; ₦50,000</span><span class="v">₦50</span></div>
+      <div class="row"><span class="k">Stamp duty (≥ ₦10,000)</span><span class="v">₦50</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Wallet activity</div>
+    <div id="walletLedger"><div class="em">No activity yet.</div></div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="panel" id="p-guarantee">
+  <div class="card">
+    <div class="ch"><span>Guarantee Wallet</span><span class="bd bd-gold">Pre-fund</span></div>
+    <div class="cb">
+      <div style="text-align:center;padding:14px 0">
+        <div style="font-size:11px;color:#6B7280;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Balance</div>
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:32px;font-weight:800;color:var(--navy);margin-top:6px" id="guarBal">₦0</div>
+        <div style="font-size:11px;color:#9CA3AF;margin-top:6px">Covers ₦5,000 per new deal automatically</div>
+      </div>
+      <div class="brow" style="margin-top:10px">
+        <button class="btn go" onclick="topUpGuarantee(10000)">+ Top up ₦10,000</button>
+        <button class="btn gh" onclick="topUpGuarantee(50000)">+ ₦50,000</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">How the guarantee protects you</div>
+    <div class="cb" style="font-size:12px;color:#4B5563;line-height:1.65">
+      <p style="margin-bottom:10px">Buyers see your ₦5,000 guarantee as proof you stand behind the listing. It says: <b>"If this item doesn't match what I promised, I lose ₦5,000."</b></p>
+      <p style="margin-bottom:10px">The money never leaves your wallet on a successful deal — it's a hold, not a fee. When the deal completes, the hold releases.</p>
+      <p>You only lose it if:</p>
+      <ul style="margin:8px 0 0 18px;font-size:11px;line-height:1.7">
+        <li>A Vet Agent finds a material mismatch between listing and item</li>
+        <li>You misrepresent condition, quantity, or identifiers</li>
+        <li>A mediator rules fraud after delivery</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Guarantee history</div>
+    <div id="guarHistory"><div class="em">No guarantee events yet.</div></div>
+  </div>
+</section>
+
+<!-- BUY & REQUEST -->
+<section class="panel" id="p-buy">
+  <div class="card">
+    <div class="ch"><span>One account, all roles</span><span class="bd bd-green">You can do this too</span></div>
+    <div class="cb" style="font-size:12px;color:#4B5563;line-height:1.65">
+      <p style="margin-bottom:12px">The same account you use to sell is also your account to buy and to request Vet Agent inspections. No separate signup required.</p>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">Sell — you list items</span><span class="v g">✓</span></div>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">Buy — you pay for someone else's item</span><span class="v g">✓</span></div>
+      <div class="row" style="padding-left:0;padding-right:0"><span class="k">Request a Vet Agent for any item anywhere</span><span class="v g">✓</span></div>
+      <div class="row" style="padding-left:0;padding-right:0;border-bottom:none"><span class="k">Refer friends and earn rewards</span><span class="v g">✓</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch"><span>Buy from another seller</span><span class="bd bd-gold">Escrow-protected</span></div>
+    <div id="marketListings"><div class="em">No items listed.</div></div>
+  </div>
+  <div class="card">
+    <div class="ch"><span>My Vet Agent requests</span><span class="bd bd-purple" id="reqCount">0</span></div>
+    <div id="reqList"><div class="em">No requests yet.<br>Tap below to request an inspection.</div></div>
+  </div>
+  <button class="btn pr" onclick="openRequestForm()" style="margin-top:8px">+ Request a Vet Agent</button>
+</section>
+
+<!-- REFERRALS -->
+<section class="panel" id="p-referrals">
+  <div class="card">
+    <div class="ch"><span>Your referral link</span><span class="bd bd-purple">From signup</span></div>
+    <div class="cb">
+      <div style="font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:800;background:var(--navy);
+        color:var(--gold);padding:12px;border-radius:10px;text-align:center;letter-spacing:.15em" id="refCode">DG-ADAEZE-2026</div>
+      <div class="brow" style="margin-top:10px">
+        <button class="btn gh sm" onclick="copyRef()">📋 Copy link</button>
+        <button class="btn gr sm" onclick="shareRef()">💬 Share</button>
+      </div>
+      <div class="nt pu" style="margin-top:12px">
+        <b>Lifetime 50% discount</b> unlocks when 10 referrals sign up, 5 of them complete 5+ deals each.
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Reward structure</div>
+    <div class="cb" style="padding:0;font-size:12px;color:#4B5563;line-height:1.65">
+      <div class="row"><span class="k">₦1,000 per referee's first completed deal</span><span class="v g">₦1,000</span></div>
+      <div class="row"><span class="k">New seller referee — first guarantee waived</span><span class="v g">₦5,000</span></div>
+      <div class="row"><span class="k">New buyer referee — 50% off first buyer fee</span><span class="v g">50%</span></div>
+      <div class="row"><span class="k">Self-referral</span><span class="v r">Blocked</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Progress</div>
+    <div id="refProgress"></div>
+  </div>
+  <div class="card">
+    <div class="ch">Referred users</div>
+    <div id="refUsers"><div class="em">No referrals yet.</div></div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="panel" id="p-profile">
+  <div class="card">
+    <div class="ch"><span>Seller profile</span><span class="bd bd-blue">Business</span></div>
+    <div class="cb">
+      <div style="display:flex;gap:14px;align-items:center">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--gold);color:var(--navy);
+          display:grid;place-items:center;font-size:22px;font-weight:800">AO</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:15px;font-weight:800;color:var(--navy)">Adaeze Okafor</div>
+          <div style="font-size:11px;color:#6B7280;margin-top:3px">Adaeze Electronics Ltd · Lagos</div>
+          <div style="margin-top:6px;font-size:12px">
+            <span style="color:var(--gold)">★★★★★</span>
+            <span style="font-weight:700;color:var(--gold2);margin-left:4px" id="pRate">4.9</span>
+            <span style="font-size:10px;color:#9CA3AF">(<span id="pReviews">34</span> reviews)</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0">
+          <span style="color:#6B7280">Verification</span>
+          <span style="font-weight:700;color:var(--green2)">✓ CAC verified</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0">
+          <span style="color:#6B7280">RC number</span>
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;color:var(--navy)">RC-1847293</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0">
+          <span style="color:#6B7280">Successful deals</span>
+          <span style="font-weight:700;color:var(--green2)" id="pSuccess">0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:12px;padding:5px 0">
+          <span style="color:#6B7280">Unsuccessful</span>
+          <span style="font-weight:700;color:var(--red)" id="pUnsuccess">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Public seller dossier</div>
+    <div class="cb" style="font-size:12px;color:#4B5563;line-height:1.6">
+      <p>Buyers can look you up at <b>dealsgate.ng/seller/adaeze-okafor</b> before they pay. Your page shows:</p>
+      <div style="margin-top:10px;font-size:11px">
+        <div style="padding:5px 0;border-bottom:1px solid var(--line)">✓ Your verified badge</div>
+        <div style="padding:5px 0;border-bottom:1px solid var(--line)">✓ Sector and business name</div>
+        <div style="padding:5px 0;border-bottom:1px solid var(--line)">✓ Total · success · failure counts</div>
+        <div style="padding:5px 0;border-bottom:1px solid var(--line)">✓ Star rating from verified buyers</div>
+        <div style="padding:5px 0">✓ Written reviews</div>
+        <div style="padding:8px 0;color:#DC2626;font-size:10px;font-weight:700">Never shown: your phone, email, address, private inspection media</div>
+      </div>
+      <button class="btn gh sm" style="margin-top:12px" onclick="showToast('Opening dossier preview…')">Preview my public dossier</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Payout bank account</div>
+    <div class="cb" style="padding:0">
+      <div class="row">
+        <div class="k">
+          <div style="font-weight:700;color:var(--navy);font-size:12px">GTBank · ···· 6789</div>
+          <div style="font-size:10px;color:#9CA3AF;margin-top:2px">Adaeze Chioma Okafor · default</div>
+        </div>
+        <span class="bd bd-green">Verified</span>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ch">Security</div>
+    <div class="cb" style="padding:0">
+      <div class="row"><span class="k">Google Authenticator</span><span class="v g">Enabled</span></div>
+      <div class="row"><span class="k">Default withdrawal method</span><span class="v">Google Authenticator</span></div>
+      <div class="row"><span class="k">Email OTP</span><span class="v g">Available</span></div>
+      <div class="row"><span class="k">SMS OTP</span><span class="v g">Available</span></div>
+    </div>
+    <div class="cb" style="border-top:1px solid var(--line)">
+      <button class="btn gh sm" onclick="showToast('Opens TOTP setup (already enabled)')">Manage 2FA</button>
+    </div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab on" onclick="tab('flow',this)"><span class="ic">▶</span>Flow</button>
+  <button class="tab" onclick="tab('listings',this)"><span class="ic">📦</span>Listings</button>
+  <button class="tab" onclick="tab('wallet',this)"><span class="ic">💰</span>Wallet</button>
+  <button class="tab" onclick="tab('guarantee',this)"><span class="ic">🛡️</span>Guarantee</button>
+  <button class="tab" onclick="tab('buy',this)"><span class="ic">🛒</span>Buy</button>
+  <button class="tab" onclick="tab('referrals',this)"><span class="ic">🎁</span>Referrals</button>
+  <button class="tab" onclick="tab('profile',this)"><span class="ic">👤</span>Profile</button>
+</nav>
+
+<div class="mk" id="modal" onclick="if(event.target===this)closeModal()"><div class="md" id="modalBox"></div></div>
+<div class="ts" id="toast"><span id="toastIc">✓</span><span id="toastMsg"></span></div>
+
+<script>
+/* ============================================================
+   CONSTANTS
+   ============================================================ */
+const KEY='dg_seller_complete_v1';
+const GUARANTEE=5000;
+const BUYER_FEE_PCT=0.02;
+const SELLER_FEE_PCT=0.02;
+const VET_FEE=6000;
+const LOGISTICS=3500;
+const LOGISTICS_COST=2800;
+const RETURN_LOGISTICS=3500;
+
+const fmt=n=>'₦'+Math.round(n).toLocaleString('en-NG');
+const ago=ts=>{const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60)return s+'s';if(s<3600)return Math.floor(s/60)+'m';
+  if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';};
+function transferFee(n){return n<=5000?10:n<=50000?25:50;}
+
+/* ============================================================
+   STATE
+   ============================================================ */
+function fresh(){
+  return {
+    // Seller profile
+    seller:{
+      name:'Adaeze Okafor', business:'Adaeze Electronics Ltd', rc:'RC-1847293',
+      stars:4.9, reviews:34, success:0, unsuccessful:0,
+      bank:'GTBank · ···· 6789',
+      totpEnabled:true, defaultMethod:'totp',
+    },
+    // Wallets
+    main:0, guarantee:0,
+    // Data
+    deals:{}, currentDeal:null,
+    ledger:[], events:[], guarantees:[],
+    marketListings:[],  // items from OTHER sellers she can buy
+    myReqs:[],          // Vet Agent requests she's made
+    referrals:{ code:'DG-ADAEZE-2026', referred:[], earnings:0 },
+    // Scenario runner
+    scenario:'first', completedSteps:[], running:false,
+    filter:'all',
+  };
+}
+let S=load();
+function load(){try{const r=localStorage.getItem(KEY);return r?Object.assign(fresh(),JSON.parse(r)):fresh();}catch(e){return fresh();}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function uid(){return 'x'+Math.random().toString(36).slice(2,10);}
+
+function credit(amt, desc){S.main+=amt;S.ledger.unshift({id:uid(),dir:'CREDIT',amt,desc,ts:Date.now()});}
+function debit(amt, desc){S.main-=amt;S.ledger.unshift({id:uid(),dir:'DEBIT',amt,desc,ts:Date.now()});}
+function feeAmt(amt, desc){S.main-=amt;S.ledger.unshift({id:uid(),dir:'FEE',amt,desc,ts:Date.now()});}
+function ev(type, text, meta){S.events.push({type,text,meta,ts:Date.now()});if(S.events.length>200)S.events.shift();}
+function gEvent(action, amt, code){S.guarantees.unshift({action,amt,code,ts:Date.now()});}
+
+/* ============================================================
+   SCENARIOS (12 seller scenarios)
+   ============================================================ */
+const SCENARIOS = {
+  first: {
+    key:'first', em:'🎯', title:'First sale — full happy path',
+    desc:'Guarantee top-up → list → buyer pays → agent inspects → delivered → paid',
+    steps:[
+      {k:'topup',      l1:'Top up Guarantee Wallet',   l2:'₦20,000 from main wallet',  amt:null},
+      {k:'create',     l1:'Create Protected Deal',      l2:'Photos · video · Maps pin', amt:null},
+      {k:'guarantee',  l1:'Pay ₦5,000 guarantee',       l2:'Auto-debit from guarantee', amt:-5000},
+      {k:'share',      l1:'Share buyer link',           l2:'WhatsApp · Instagram bio', amt:null},
+      {k:'buyerPay',   l1:'Buyer pays into escrow',     l2:'₦468,500 held safely',     amt:null},
+      {k:'agentPass',  l1:'Vet Agent submits PASS',     l2:'Item matches your listing', amt:null},
+      {k:'approve',    l1:'Buyer approves evidence',    l2:'Logistics unlocked',       amt:null},
+      {k:'dispatch',   l1:'Courier picks up',           l2:'Tracking shared',          amt:null},
+      {k:'delivered',  l1:'Delivered',                  l2:'72h auto-complete window', amt:null},
+      {k:'confirm',    l1:'Buyer confirms · rates 5★',  l2:'You get paid + guarantee', amt:446000},
+    ],
+    verdict:'Standard sale. You net ₦445,950 after fees. The ₦5,000 guarantee returns to your guarantee wallet, ready for the next deal.'
+  },
+  partial: {
+    key:'partial', em:'💸', title:'Partial withdrawal — Google Auth',
+    desc:'Withdraw ₦200,000 of your balance, leave ₦246,000 for later',
+    steps:[
+      {k:'topup',      l1:'Top up guarantee wallet',   l2:'Ready to sell',            amt:null},
+      {k:'create',     l1:'Create deal',               l2:'iPhone 14 Pro',            amt:null},
+      {k:'guarantee',  l1:'Pay guarantee',             l2:'₦5,000 held',              amt:-5000},
+      {k:'share',      l1:'Share link',                l2:'Buyer pays',               amt:null},
+      {k:'buyerPay',   l1:'Buyer pays',                l2:'Escrow funded',            amt:null},
+      {k:'agentPass',  l1:'Agent PASS',                l2:'Evidence ready',           amt:null},
+      {k:'approve',    l1:'Buyer approves',            l2:'Logistics proceeds',       amt:null},
+      {k:'dispatch',   l1:'Dispatch',                  l2:'Picked up',                amt:null},
+      {k:'confirm',    l1:'Deal completes',            l2:'You have ₦446,000',        amt:446000},
+      {k:'withdrawOpen', l1:'Open withdraw screen',    l2:'Enter ₦200,000 (not max)', amt:null},
+      {k:'withdrawTOTP', l1:'Choose Google Auth',      l2:'Scan TOTP code',           amt:null},
+      {k:'withdrawConfirm', l1:'Withdraw ₦200,000',    l2:'Net to bank ₦199,950',     amt:-200000},
+      {k:'withdrawLeave', l1:'Remainder stays',        l2:'₦245,950 for next time',   amt:null},
+    ],
+    verdict:'You withdrew ₦200,000 — not your full balance. The remaining ₦245,950 is still in your wallet, ready for the next withdrawal or to fund another deal. Two more taps, no penalty.'
+  },
+  email_otp: {
+    key:'email_otp', em:'📧', title:'Partial withdrawal — Email OTP',
+    desc:'Withdraw ₦100,000 using email OTP instead of Google Auth',
+    steps:[
+      {k:'seedSeller',  l1:'Already have balance',     l2:'₦446,000 in main wallet',  amt:null},
+      {k:'withdrawOpen', l1:'Enter ₦100,000',          l2:'Partial amount',           amt:null},
+      {k:'withdrawEmail', l1:'Choose Email OTP',       l2:'Code sent to your email',  amt:null},
+      {k:'withdrawConfirm', l1:'Withdraw ₦100,000',    l2:'Net to bank ₦99,950',      amt:-100000},
+      {k:'withdrawLeave', l1:'₦345,950 stays',         l2:'Withdraw again any time',  amt:null},
+    ],
+    verdict:'Every user has all 3 withdrawal methods. Email OTP works out of the box — no setup required. The remaining balance stays in your wallet until you choose to move it.'
+  },
+  sms_otp: {
+    key:'sms_otp', em:'📱', title:'Partial withdrawal — SMS OTP',
+    desc:'Withdraw ₦50,000 using SMS OTP',
+    steps:[
+      {k:'seedSeller',  l1:'Already have balance',     l2:'₦446,000 in main wallet',  amt:null},
+      {k:'withdrawOpen', l1:'Enter ₦50,000',           l2:'Partial amount',           amt:null},
+      {k:'withdrawSMS', l1:'Choose SMS OTP',           l2:'Code sent to your phone',  amt:null},
+      {k:'withdrawConfirm', l1:'Withdraw ₦50,000',     l2:'Net to bank ₦49,950',      amt:-50000},
+      {k:'withdrawLeave', l1:'₦395,950 stays',         l2:'Available for next deal',  amt:null},
+    ],
+    verdict:'Three withdrawals of any size, three different verification methods, all leaving the remainder untouched. That is the platform promise.'
+  },
+  cancel: {
+    key:'cancel', em:'🚫', title:'Buyer cancels before inspection',
+    desc:'Buyer changes mind · item + vet + logistics refunded · you keep guarantee',
+    steps:[
+      {k:'topup',      l1:'Top up guarantee',          l2:'Ready to sell',            amt:null},
+      {k:'create',     l1:'Create deal',               l2:'iPhone 13 Pro',            amt:null},
+      {k:'guarantee',  l1:'Pay guarantee',             l2:'₦5,000 held',              amt:-5000},
+      {k:'share',      l1:'Share link',                l2:'Buyer opens',              amt:null},
+      {k:'buyerPay',   l1:'Buyer pays',                l2:'Escrow funded',            amt:null},
+      {k:'cancel',     l1:'Buyer cancels pre-inspect', l2:'Before agent scheduled',   amt:null},
+      {k:'refundG',    l1:'Guarantee returned to you', l2:'You did nothing wrong',    amt:5000},
+      {k:'noPayout',   l1:'No item payout',            l2:'Clean cancellation',       amt:0},
+    ],
+    verdict:'You keep your ₦5,000 guarantee. The buyer forfeits their service fee, which covers your inconvenience. Nothing lost — your listing stays live.'
+  },
+  changeMind: {
+    key:'changeMind', em:'🔄', title:'Buyer changes mind after inspection',
+    desc:'Item passed · buyer reconsiders · item-only refund · you keep guarantee',
+    steps:[
+      {k:'topup',      l1:'Top up guarantee',          l2:'Ready to sell',            amt:null},
+      {k:'create',     l1:'Create deal',               l2:'MacBook Pro 14"',          amt:null},
+      {k:'guarantee',  l1:'Pay guarantee',             l2:'₦5,000 held',              amt:-5000},
+      {k:'share',      l1:'Share link',                l2:'Buyer opens',              amt:null},
+      {k:'buyerPay',   l1:'Buyer pays',                l2:'Escrow funded',            amt:null},
+      {k:'agentPass',  l1:'Agent PASS',                l2:'Item matches',             amt:null},
+      {k:'change',     l1:'Buyer changes mind',        l2:'Post-inspection',          amt:null},
+      {k:'refundItem', l1:'Item price refunded',       l2:'Vet + service fees forfeit', amt:null},
+      {k:'refundG',    l1:'Guarantee returned',        l2:'You complied with all terms', amt:5000},
+    ],
+    verdict:'You keep your guarantee. The buyer forfeits their service fee and the vet fee. This is the fairest exception for sellers who followed every rule.'
+  },
+  fail: {
+    key:'fail', em:'❌', title:'Failed inspection — my fault',
+    desc:'Item did not match listing · buyer fully refunded · I forfeit ₦5,000',
+    steps:[
+      {k:'topup',      l1:'Top up guarantee',          l2:'Ready to sell',            amt:null},
+      {k:'createF',    l1:'Create deal',               l2:'LG 2HP Inverter AC',       amt:null},
+      {k:'guarantee',  l1:'Pay guarantee',             l2:'₦5,000 held',              amt:-5000},
+      {k:'share',      l1:'Share link',                l2:'Buyer opens',              amt:null},
+      {k:'buyerPay',   l1:'Buyer pays',                l2:'Escrow funded',            amt:null},
+      {k:'agentFail',  l1:'Agent FAIL',                l2:'Serial mismatch + dent',   amt:null},
+      {k:'refundAll',  l1:'Buyer fully refunded',      l2:'Item + fees + vet + logistics', amt:null},
+      {k:'forfeit',    l1:'You forfeit guarantee',     l2:'₦5,000 lost',              amt:-5000},
+      {k:'noPayout',   l1:'No item payout',            l2:'No success fee on failed sale', amt:0},
+    ],
+    verdict:'You lose the ₦5,000 guarantee. No item payment. No success fee. Fix the underlying mismatch or dispute the report with your own evidence if you believe it was wrong.'
+  },
+  minor: {
+    key:'minor', em:'📦', title:'Transit damage — minor',
+    desc:'Buyer accepts anyway · you are paid normally · courier compensates buyer',
+    steps:[
+      {k:'topup',      l1:'Top up guarantee',          l2:'Ready to sell',            amt:null},
+      {k:'create',     l1:'Create deal',               l2:'Dell XPS 13',              amt:null},
+      {k:'guarantee',  l1:'Pay guarantee',             l2:'₦5,000 held',              amt:-5000},
+      {k:'share',      l1:'Share link',                l2:'Buyer opens',              amt:null},
+      {k:'buyerPay',   l1:'Buyer pays',                l2:'Escrow funded',            amt:null},
+      {k:'agentPass',  l1:'Agent PASS',                l2:'Item matches',             amt:null},
+      {k:'approve',    l1:'Buyer approves',            l2:'Logistics unlocked',       amt:null},
+      {k:'dispatch',   l1:'Dispatched',                l2:'En route',                 amt:null},
+      {k:'minor',      l1:'Buyer reports minor damage',l2:'Small dent on the lid',    amt:null},
+      {k:'minorAccept',l1:'Buyer still accepts',       l2:'Deal completes normally',  amt:null},
+      {k:'paid',       l1:'You are paid in full',      l2:'Guarantee refunded',       amt:610000},
+      {k:'courierComp',l1:'Courier compensates buyer', l2:'From carrier SLA, not you',amt:null},
+    ],
+    verdict:'You get paid as if it were a normal sale. The courier compensates the buyer from their own SLA. Nothing comes out of your wallet. Spec §13.5.'
+  },
+  total: {
+    key:'total', em:'💥', title:'Transit damage — total rejection',
+    desc:'Item destroyed · buyer fully refunded · you get guarantee back + carrier compensation',
+    steps:[
+      {k:'topup',      l1:'Top up guarantee',          l2:'Ready to sell',            amt:null},
+      {k:'create',     l1:'Create deal',               l2:'Canon EOS R6',             amt:null},
+      {k:'guarantee',  l1:'Pay guarantee',             l2:'₦5,000 held',              amt:-5000},
+      {k:'share',      l1:'Share link',                l2:'Buyer opens',              amt:null},
+      {k:'buyerPay',   l1:'Buyer pays',                l2:'Escrow funded',            amt:null},
+      {k:'agentPass',  l1:'Agent PASS',                l2:'Item matches',             amt:null},
+      {k:'approve',    l1:'Buyer approves',            l2:'Dispatched',               amt:null},
+      {k:'transit',    l1:'In transit',                l2:'Courier confirms',         amt:null},
+      {k:'reject',     l1:'Buyer rejects delivery',    l2:'Camera destroyed in transit', amt:null},
+      {k:'refundAll',  l1:'Buyer fully refunded',      l2:'Item + fees + vet + logistics', amt:null},
+      {k:'refundG',    l1:'Your guarantee returned',   l2:'Not your fault',           amt:5000},
+      {k:'comp',       l1:'Carrier compensates you',   l2:'70% of item value',        amt:434000},
+    ],
+    verdict:'You get your guarantee back AND carrier compensation (typically 70% of item value). Return shipping is on the carrier. Spec §13.6.'
+  },
+  fraud: {
+    key:'fraud', em:'🚨', title:'Buyer claims fraud after delivery',
+    desc:'Mediator rules in buyer\'s favour · you lose guarantee + return logistics clawback',
+    steps:[
+      {k:'topup',      l1:'Top up guarantee',          l2:'Ready to sell',            amt:null},
+      {k:'create',     l1:'Create deal',               l2:'PlayStation 5',            amt:null},
+      {k:'guarantee',  l1:'Pay guarantee',             l2:'₦5,000 held',              amt:-5000},
+      {k:'share',      l1:'Share link',                l2:'Buyer opens',              amt:null},
+      {k:'buyerPay',   l1:'Buyer pays',                l2:'Escrow funded',            amt:null},
+      {k:'agentPass',  l1:'Agent PASS',                l2:'Item matches listing',     amt:null},
+      {k:'approve',    l1:'Buyer approves',            l2:'Dispatched',               amt:null},
+      {k:'delivered',  l1:'Delivered',                 l2:'24h dispute window',       amt:null},
+      {k:'dispute',    l1:'Buyer disputes',            l2:'IMEI does not match video', amt:null},
+      {k:'ruling',     l1:'Mediator rules refund',     l2:'Evidence: IMEI mismatch',  amt:null},
+      {k:'forfeit',    l1:'Guarantee forfeited',       l2:'Material fault on your side', amt:-5000},
+      {k:'clawback',   l1:'Return logistics clawed back', l2:'₦3,500 from your wallet', amt:-3500},
+    ],
+    verdict:'You lose the ₦5,000 guarantee AND pay ₦3,500 for return logistics. This is why continuous video on every listing matters — it is your best defence.'
+  },
+  clone: {
+    key:'clone', em:'♻️', title:'Clone a successful deal',
+    desc:'Same item, new buyer · 2-tap relist · new Deal ID, new link, new guarantee',
+    steps:[
+      {k:'topup',      l1:'Top up guarantee',          l2:'Ready to sell',            amt:null},
+      {k:'create',     l1:'First deal',                l2:'AirPods Pro 2nd gen',      amt:null},
+      {k:'guarantee',  l1:'Pay guarantee',             l2:'₦5,000 held',              amt:-5000},
+      {k:'share',      l1:'Share link',                l2:'Buyer A opens',            amt:null},
+      {k:'buyerPay',   l1:'Buyer A pays',              l2:'Escrow funded',            amt:null},
+      {k:'agentPass',  l1:'Agent PASS',                l2:'Item matches',             amt:null},
+      {k:'approve',    l1:'Buyer A approves',          l2:'Dispatched',               amt:null},
+      {k:'confirm',    l1:'Buyer A confirms',          l2:'First sale complete',      amt:113000},
+      {k:'clone',      l1:'You tap Clone',             l2:'Prefills item + media + pin', amt:null},
+      {k:'reGuarantee',l1:'New ₦5,000 guarantee',      l2:'Fresh hold for new deal',  amt:-5000},
+      {k:'newDeal',    l1:'New Deal ID issued',        l2:'New buyer link ready',     amt:null},
+      {k:'shareB',     l1:'Share with Buyer B',        l2:'Same item, fresh journey', amt:null},
+    ],
+    verdict:'Clone keeps your photos and video, reuses the item metadata, and issues a completely new Deal ID, buyer link, and guarantee. The two deals do not affect each other. Spec §7.4.'
+  },
+  as_buyer: {
+    key:'as_buyer', em:'🛒', title:'Buy as a seller — one account, all roles',
+    desc:'You buy from another seller · you also request a Vet Agent for a bag',
+    steps:[
+      {k:'marketBrowse',l1:'Browse market',           l2:'Someone else\'s listing',   amt:null},
+      {k:'marketBuy',  l1:'You pay into escrow',       l2:'₦210,000 from your wallet', amt:-210000},
+      {k:'buyerAgent', l1:'Agent inspects',            l2:'You approve or dispute',    amt:null},
+      {k:'buyerApproves',l1:'You approve evidence',    l2:'Logistics unlocks',         amt:null},
+      {k:'buyerReceives',l1:'You confirm receipt',     l2:'You rate the seller',       amt:null},
+      {k:'requestOD',  l1:'Now request a Vet Agent',   l2:'For a bag you found on IG', amt:-6000},
+      {k:'odAgentAccepts',l1:'Agent accepts',          l2:'First Accept wins',         amt:null},
+      {k:'odReport',   l1:'Agent submits report',      l2:'NEEDS_REVIEW · stitching',  amt:null},
+      {k:'odDecision', l1:'You decide not to buy',     l2:'Agent paid for honest work', amt:null},
+    ],
+    verdict:'Same account, same wallet — you sold yesterday, bought today, and requested a Vet Agent this evening. One login, no separate accounts.'
+  },
+  referral: {
+    key:'referral', em:'🎁', title:'Referral rewards — as a seller',
+    desc:'Share your link · earn ₦1,000 per referee · unlock lifetime discount',
+    steps:[
+      {k:'shareRef',   l1:'Share your referral link',  l2:'With Ngozi',                amt:null},
+      {k:'refereeJoined',l1:'Ngozi signs up',          l2:'Attribution locked',        amt:null},
+      {k:'refereeSold',l1:'Ngozi becomes a seller',    l2:'First guarantee waived',    amt:null},
+      {k:'refereeDeal',l1:'Ngozi completes first deal',l2:'You earn ₦1,000',           amt:1000},
+      {k:'shareRef2',  l1:'Share with Adeyemi',        l2:'Buyer referee',             amt:null},
+      {k:'referee2',   l1:'Adeyemi signs up + buys',   l2:'Gets 50% off first buyer fee', amt:null},
+      {k:'referee2Deal',l1:'Adeyemi completes',        l2:'You earn another ₦1,000',   amt:1000},
+      {k:'progress',   l1:'Progress toward lifetime',  l2:'2 of 10 referrals',         amt:null},
+    ],
+    verdict:'Two referrals, ₦2,000 earned, and you are two steps closer to the 50% lifetime discount. Every user on the platform has this link from signup.'
+  },
+};
+
+/* ============================================================
+   HANDLERS
+   ============================================================ */
+const H = {
+  topup(){
+    if(S.main < 20000) credit(20000, 'Deposit from bank (demo)');
+    debit(20000, 'Top up Guarantee Wallet');
+    S.guarantee += 20000;
+    ev('GUARANTEE_TOPUP','Topped up ₦20,000','Auto-debits will cover new deals');
+    return 'Guarantee +₦20,000';
+  },
+  create(){
+    const price=450000;
+    const d={
+      code:'DG-'+Date.now().toString().slice(-6),
+      item:'iPhone 14 Pro 256GB — Deep Purple',
+      sector:'Phones & Tablets', condition:'used', quantity:1,
+      qualityNotes:'Battery 89% · minor scratch bottom-right · no repairs',
+      price, buyerFee:Math.round(price*BUYER_FEE_PCT), sellerFee:Math.round(price*SELLER_FEE_PCT),
+      vetFee:VET_FEE, logistics:LOGISTICS,
+      guarantee:GUARANTEE, guaranteeStatus:'PENDING',
+      status:'AWAITING_BUYER_PAYMENT',
+      buyerLinkToken:'tok_'+Math.random().toString(36).slice(2,14),
+      lga:'Ikeja', photoCount:4, videoDur:45,
+    };
+    d.total = d.price + d.buyerFee + d.vetFee + d.logistics;
+    S.currentDeal = d; S.deals[d.code] = d;
+    ev('DEAL_CREATED','Published <b>'+d.item+'</b>','4 photos · 45s video · Ikeja pin');
+    return d.code;
+  },
+  createF(){
+    const price=320000;
+    const d={
+      code:'DG-'+Date.now().toString().slice(-6),
+      item:'LG 2HP Inverter AC',
+      sector:'Home Appliances', condition:'used', quantity:1,
+      qualityNotes:'Working · minor scratches on casing',
+      price, buyerFee:Math.round(price*BUYER_FEE_PCT), sellerFee:Math.round(price*SELLER_FEE_PCT),
+      vetFee:VET_FEE, logistics:LOGISTICS,
+      guarantee:GUARANTEE, guaranteeStatus:'PENDING',
+      status:'AWAITING_BUYER_PAYMENT',
+      buyerLinkToken:'tok_'+Math.random().toString(36).slice(2,14),
+      lga:'Ikeja', photoCount:3, videoDur:38,
+    };
+    d.total = d.price + d.buyerFee + d.vetFee + d.logistics;
+    S.currentDeal = d; S.deals[d.code] = d;
+    ev('DEAL_CREATED','Published <b>'+d.item+'</b>','3 photos · 38s video · Ikeja pin');
+    return d.code;
+  },
+  guarantee(){
+    const d=S.currentDeal;
+    if(!d) throw Error('Create deal first');
+    if(d.guaranteeStatus==='PAID') return 'Already paid';
+    if(S.guarantee < GUARANTEE) S.guarantee += GUARANTEE - S.guarantee;
+    S.guarantee -= GUARANTEE;
+    gEvent('hold', GUARANTEE, d.code);
+    d.guaranteeStatus = 'PAID';
+    ev('GUARANTEE_PAID','Guarantee debited ₦5,000','Buyer link is now live');
+    return 'Guarantee paid';
+  },
+  share(){
+    ev('LINK_SHARED','Shared buyer link','WhatsApp · Instagram bio · status');
+    return 'Shared';
+  },
+  buyerPay(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.status = 'PAID';
+    ev('BUYER_PAID','Buyer paid '+fmt(d.total),'Held in escrow until buyer approves evidence');
+    return 'Buyer paid';
+  },
+  agentPass(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.status = 'EVIDENCE_REVIEW';
+    ev('AGENT_PASSED','Agent submitted <b>PASS</b>','Buyer reviews evidence next');
+    return 'PASS';
+  },
+  approve(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.status = 'APPROVED';
+    ev('EVIDENCE_APPROVED','Buyer approved the evidence','Logistics unlocked');
+    return 'Approved';
+  },
+  dispatch(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.tracking = 'DG'+Date.now().toString().slice(-8);
+    d.status = 'IN_TRANSIT';
+    ev('DISPATCHED','Courier picked up the item','Tracking: '+d.tracking);
+    return 'Dispatched';
+  },
+  delivered(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.status = 'DELIVERED';
+    ev('DELIVERED','Item delivered to buyer','72h auto-complete window open');
+    return 'Delivered';
+  },
+  confirm(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    const payout = d.price - d.sellerFee;
+    credit(payout, 'Item payout · '+d.code);
+    credit(d.guarantee, 'Guarantee refund · '+d.code);
+    gEvent('refund', d.guarantee, d.code);
+    d.guaranteeStatus = 'REFUNDED';
+    d.sellerPayout = payout;
+    d.status = 'COMPLETED';
+    S.seller.success++;
+    ev('COMPLETED','Deal complete · you were paid '+fmt(payout + d.guarantee),'Buyer rated you 5★');
+    return '+'+fmt(payout + d.guarantee);
+  },
+  seedSeller(){
+    credit(446000, 'Seed balance for demo');
+    S.currentDeal = null;
+    ev('SEED','Loaded ₦446,000 for withdrawal demo','');
+    return 'Ready';
+  },
+  withdrawOpen(){
+    // Handled by opening the withdraw modal
+    ev('WITHDRAW_OPEN','Opened withdrawal screen','Entered partial amount');
+    return 'Opened';
+  },
+  withdrawTOTP(){
+    ev('WITHDRAW_TOTP','Chose <b>Google Authenticator</b>','TOTP verified');
+    return 'TOTP ok';
+  },
+  withdrawEmail(){
+    ev('WITHDRAW_EMAIL','Chose <b>Email OTP</b>','6-digit code sent to your email');
+    return 'Email ok';
+  },
+  withdrawSMS(){
+    ev('WITHDRAW_SMS','Chose <b>SMS OTP</b>','6-digit code sent to your phone');
+    return 'SMS ok';
+  },
+  withdrawConfirm(){
+    // Wired to the actual withdraw flow via the modal
+    const amt = S._pendingWithdraw || 200000;
+    const f = transferFee(amt);
+    feeAmt(f, 'Transfer fee · withdrawal');
+    debit(amt - f, 'Payout to '+S.seller.bank);
+    ev('WITHDRAWN','Withdrew '+fmt(amt),'Net to bank '+fmt(amt - f));
+    return '-'+fmt(amt);
+  },
+  withdrawLeave(){
+    ev('REMAINDER','Remainder stays in wallet','Withdraw again any time');
+    return 'Left ' + fmt(S.main);
+  },
+  cancel(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.status = 'CANCELLED_PRE_INSPECT';
+    ev('CANCELLED','Buyer cancelled before inspection','You did nothing wrong');
+    return 'Cancelled';
+  },
+  refundG(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    credit(d.guarantee, 'Guarantee refund · '+d.code);
+    gEvent('refund', d.guarantee, d.code);
+    d.guaranteeStatus = 'REFUNDED';
+    ev('GUARANTEE_REFUND','Guarantee returned','Seller not at fault');
+    return '+'+fmt(d.guarantee);
+  },
+  noPayout(){
+    ev('NO_PAYOUT','No item payout','Deal closed without item sale');
+    return 'No payout';
+  },
+  change(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.status = 'CHANGE_MIND';
+    ev('CHANGE_MIND','Buyer changed their mind','Post-inspection · you complied');
+    return 'Change of mind';
+  },
+  refundItem(){
+    ev('ITEM_REFUND','Item price refunded','Vet + service fees forfeited by buyer');
+    return 'Item refunded';
+  },
+  agentFail(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.status = 'FAILED_INSPECTION';
+    d.failureReason = 'Serial mismatch + undisclosed dent';
+    ev('AGENT_FAIL','Agent submitted <b>FAIL</b>', d.failureReason);
+    return 'FAIL';
+  },
+  refundAll(){
+    ev('FULL_REFUND','Buyer fully refunded','Item + fees + vet + logistics');
+    return 'Refunded';
+  },
+  forfeit(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    gEvent('forfeit', d.guarantee, d.code);
+    d.guaranteeStatus = 'FORFEITED';
+    d.status = 'REFUNDED';
+    S.seller.unsuccessful++;
+    ev('FORFEIT','You forfeit ₦5,000 guarantee','Material fault on your side');
+    return '-₦5,000';
+  },
+  minor(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    ev('MINOR','Buyer reports minor damage','Small dent on the lid');
+    return 'Reported';
+  },
+  minorAccept(){
+    ev('ACCEPT','Buyer still accepts item','Deal completes normally');
+    return 'Accepted';
+  },
+  paid(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    const payout = d.price - d.sellerFee;
+    credit(payout, 'Item payout · '+d.code);
+    credit(d.guarantee, 'Guarantee refund · '+d.code);
+    gEvent('refund', d.guarantee, d.code);
+    d.guaranteeStatus='REFUNDED';
+    d.sellerPayout = payout;
+    d.status = 'COMPLETED';
+    S.seller.success++;
+    ev('PAID','You were paid '+fmt(payout + d.guarantee),'Courier handles buyer compensation');
+    return '+'+fmt(payout + d.guarantee);
+  },
+  courierComp(){
+    ev('CARRIER_COMP','Courier compensates buyer','Paid from carrier SLA, not your wallet');
+    return 'Buyer compensated';
+  },
+  transit(){
+    ev('IN_TRANSIT','Item is in transit','Courier confirms en route');
+    return 'En route';
+  },
+  reject(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.status = 'TRANSIT_TOTAL';
+    ev('REJECT','Buyer rejected delivery','Item destroyed in transit');
+    return 'Rejected';
+  },
+  comp(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    const comp = Math.round(d.price * 0.70);
+    credit(comp, 'Carrier damage compensation · '+d.code);
+    ev('CARRIER_COMP','Carrier paid you '+fmt(comp),'70% of item value for damage');
+    return '+'+fmt(comp);
+  },
+  dispute(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    d.status = 'DISPUTED';
+    ev('DISPUTED','Buyer disputes','IMEI does not match the video');
+    return 'Disputed';
+  },
+  ruling(){
+    ev('RULING','Mediator ruled for buyer','Evidence: IMEI mismatch');
+    return 'Ruling';
+  },
+  clawback(){
+    const claw = RETURN_LOGISTICS;
+    debit(claw, 'Return logistics clawback · '+S.currentDeal.code);
+    ev('CLAWBACK','Clawed back '+fmt(claw),'Charged to your wallet per ruling');
+    return '-'+fmt(claw);
+  },
+  clone(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    const nc = 'DG-'+Date.now().toString().slice(-6);
+    const clone = JSON.parse(JSON.stringify(d));
+    clone.code = nc;
+    clone.status = 'AWAITING_BUYER_PAYMENT';
+    clone.guaranteeStatus = 'PENDING';
+    clone.buyerLinkToken = 'tok_'+Math.random().toString(36).slice(2,14);
+    clone.clonedFrom = d.code;
+    clone.tracking = null;
+    clone.sellerPayout = null;
+    S.deals[nc] = clone;
+    S.currentDeal = clone;
+    ev('CLONE','Cloned from '+d.code,'Prefilled item + media + maps pin');
+    return nc;
+  },
+  reGuarantee(){
+    const d=S.currentDeal; if(!d) throw Error('No deal');
+    if(S.guarantee < GUARANTEE) S.guarantee += GUARANTEE - S.guarantee;
+    S.guarantee -= GUARANTEE;
+    gEvent('hold', GUARANTEE, d.code);
+    d.guaranteeStatus = 'PAID';
+    ev('GUARANTEE_PAID','New guarantee debited ₦5,000','Each deal requires its own guarantee');
+    return 'Guarantee paid';
+  },
+  newDeal(){
+    ev('NEW_DEAL','New Deal ID: '+S.currentDeal.code,'New buyer link · fresh journey');
+    return S.currentDeal.code;
+  },
+  shareB(){
+    ev('SHARE','Shared with Buyer B','Same item, fresh journey');
+    return 'Shared';
+  },
+  // ─── Buy as seller ───────────────────────────────────────────
+  marketBrowse(){
+    S.marketListings = [
+      {code:'MK-'+Date.now().toString().slice(-6), item:'iPad Pro 12.9" (2022)', price:450000, seller:'Tunde A.'},
+    ];
+    ev('BROWSE','Browsing Tunde\'s iPad listing','₦450,000 · Ikeja');
+    return 'Found iPad';
+  },
+  marketBuy(){
+    if(S.main < 210000) credit(210000, 'Top up for purchase');
+    debit(210000, 'Escrow for Tunde\'s iPad');
+    S.marketListings[0].status='PAID';
+    ev('BUY_PAY','Paid ₦210,000 into escrow','Buying from Tunde (another seller)');
+    return '-₦210,000';
+  },
+  buyerAgent(){
+    ev('AGENT_INSPECT','Agent inspecting the iPad','Buyer side of the flow');
+    return 'Inspected';
+  },
+  buyerApproves(){
+    ev('BUYER_APPROVE','You approved the evidence','Logistics unlocks');
+    return 'Approved';
+  },
+  buyerReceives(){
+    ev('RECEIVED','You confirmed receipt','You rated Tunde 5★');
+    return 'Received';
+  },
+  requestOD(){
+    if(S.main < 6000) credit(6000, 'Top up');
+    debit(6000, 'Vet Agent request · designer bag');
+    const od = {code:'OD-'+Date.now().toString().slice(-6), title:'Designer bag on Instagram',
+      price:6000, lga:'Ikeja', status:'OPEN', requester:'Adaeze'};
+    S.myReqs.unshift(od);
+    ev('OD_CREATE','Requested inspection: <b>'+od.title+'</b>','₦6,000 offered');
+    return 'Request sent';
+  },
+  odAgentAccepts(){
+    if(S.myReqs[0]) S.myReqs[0].status='ACCEPTED';
+    ev('OD_ACCEPT','Blessing accepted your request','First Accept wins');
+    return 'Accepted';
+  },
+  odReport(){
+    if(S.myReqs[0]) S.myReqs[0].status='SUBMITTED';
+    ev('OD_REPORT','Blessing submitted report','NEEDS_REVIEW · stitching inconsistent');
+    return 'Report ready';
+  },
+  odDecision(){
+    if(S.myReqs[0]) S.myReqs[0].status='COMPLETED';
+    ev('OD_DECIDE','You decided not to buy','Agent paid ₦3,600 for honest work');
+    return 'Decided';
+  },
+  // ─── Referrals ───────────────────────────────────────────────
+  shareRef(){
+    ev('REF_SHARE','Shared your referral link','With Ngozi');
+    return 'Shared';
+  },
+  refereeJoined(){
+    S.referrals.referred.push({name:'Ngozi', type:'seller', deals:0, rewarded:false, ts:Date.now()});
+    ev('REF_JOIN','Ngozi signed up via your link','Attribution locked');
+    return 'Joined';
+  },
+  refereeSold(){
+    ev('REF_SELL','Ngozi became a seller','First ₦5,000 guarantee waived');
+    return 'Seller confirmed';
+  },
+  refereeDeal(){
+    const r = S.referrals.referred.find(x=>x.name==='Ngozi');
+    if(r) { r.deals = 1; r.rewarded = true; }
+    credit(1000, 'Referral reward · Ngozi first deal');
+    S.referrals.earnings += 1000;
+    ev('REF_REWARD','You earned ₦1,000','Ngozi completed her first deal');
+    return '+₦1,000';
+  },
+  shareRef2(){
+    ev('REF_SHARE','Shared link with Adeyemi','Buyer referee');
+    return 'Shared';
+  },
+  referee2(){
+    S.referrals.referred.push({name:'Adeyemi', type:'buyer', deals:1, rewarded:true, ts:Date.now()});
+    ev('REF_JOIN','Adeyemi signed up + bought','Gets 50% off first buyer fee');
+    return 'Joined + bought';
+  },
+  referee2Deal(){
+    credit(1000, 'Referral reward · Adeyemi first deal');
+    S.referrals.earnings += 1000;
+    ev('REF_REWARD','You earned another ₦1,000','Adeyemi completed first deal');
+    return '+₦1,000';
+  },
+  progress(){
+    ev('REF_PROGRESS','2 of 10 referrals so far','Toward lifetime 50% discount');
+    return 'Progress';
+  },
+};
+
+/* ============================================================
+   PLAY + STEP
+   ============================================================ */
+let playing=false, aborted=false, autoIdx=-1;
+
+function pickScenario(key){
+  if(playing) return;
+  if(!confirm('Switch scenario? Current deal will be cleared.')) return;
+  const keep = {
+    seller:S.seller, main:S.main, guarantee:S.guarantee,
+    ledger:S.ledger, guarantees:S.guarantees, referrals:S.referrals,
+    deals:S.deals, marketListings:S.marketListings, myReqs:S.myReqs,
+  };
+  S = fresh();
+  Object.assign(S, keep);
+  S.scenario = key;
+  S.completedSteps = [];
+  S.currentDeal = null;
+  S.events = [];
+  save(); renderAll();
+  const scn = SCENARIOS[key];
+  narrate('Ready', scn.title + ' — ' + scn.desc);
+  document.getElementById('narrCard').style.display='';
+}
+
+async function playScenario(){
+  if(playing){ aborted=true; return; }
+  playing = true; aborted = false;
+  const scn = SCENARIOS[S.scenario];
+  const btn = document.getElementById('innerPlay');
+  btn.textContent = '■ Stop'; btn.className = 'btn rd';
+  document.getElementById('prgWrap').style.display='';
+  for(let i=0; i<scn.steps.length; i++){
+    if(aborted) break;
+    autoIdx = i;
+    updatePrg(i);
+    renderSteps();
+    const stp = scn.steps[i];
+    try{
+      const h = H[stp.k];
+      if(!h) throw Error('No handler: '+stp.k);
+      const msg = h();
+      if(!S.completedSteps.includes(stp.k)) S.completedSteps.push(stp.k);
+      narrate('Seller', stp.l1, msg + ' · ' + stp.l2);
+      document.getElementById('narrCard').style.display='';
+      renderAll();
+    }catch(e){
+      narrate('Error', e.message, '');
+      showToast(e.message,'er');
+      break;
+    }
+    await sleep(850);
+  }
+  playing=false; autoIdx=-1;
+  btn.textContent='▶ Replay scenario'; btn.className='btn go';
+  updatePrg(-1);
+  renderAll();
+  if(!aborted) showToast('Scenario complete','ok');
+}
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+function runStep(k){
+  const scn = SCENARIOS[S.scenario];
+  const stp = scn.steps.find(s=>s.k===k);
+  if(!stp) return;
+  try{
+    const msg = H[k]();
+    if(!S.completedSteps.includes(k)) S.completedSteps.push(k);
+    narrate('Seller', stp.l1, msg + ' · ' + stp.l2);
+    document.getElementById('narrCard').style.display='';
+    renderAll();
+  }catch(e){
+    narrate('Error', e.message, '');
+    showToast(e.message,'er');
+  }
+}
+
+function togglePlay(){
+  if(playing){ aborted=true; return; }
+  playScenario();
+}
+function updatePrg(i){
+  const total = SCENARIOS[S.scenario].steps.length;
+  if(i<0){ document.getElementById('prgWrap').style.display='none'; return; }
+  const pct = Math.round(((i+1)/total)*100);
+  document.getElementById('prgFill').style.width = pct+'%';
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderAll(){
+  renderHeader();
+  renderScenarios();
+  renderSteps();
+  renderDeal();
+  renderOutcome();
+  renderTimeline();
+  renderListings();
+  renderWallet();
+  renderGuarantee();
+  renderBuy();
+  renderReferrals();
+  renderProfile();
+  save();
+}
+
+function renderHeader(){
+  document.getElementById('kMain').textContent = fmt(S.main);
+  document.getElementById('kGuar').textContent = fmt(S.guarantee);
+  document.getElementById('kSucc').textContent = S.seller.success;
+  document.getElementById('kRate').textContent = S.seller.stars.toFixed(1);
+  const scn = SCENARIOS[S.scenario];
+  document.getElementById('hSub').textContent = S.currentDeal
+    ? S.currentDeal.code + ' · ' + S.currentDeal.status.replace(/_/g,' ')
+    : scn.title;
+}
+
+function renderScenarios(){
+  document.getElementById('scnList').innerHTML = Object.values(SCENARIOS).map(s=>`
+    <button class="scn ${S.scenario===s.key?'on':''}" onclick="pickScenario('${s.key}')">
+      <span class="em">${s.em}</span>
+      <span class="txt">
+        <span class="t1">${s.title}</span>
+        <span class="t2">${s.desc}</span>
+      </span>
+    </button>
+  `).join('');
+}
+
+function renderSteps(){
+  const scn = SCENARIOS[S.scenario];
+  document.getElementById('stepList').innerHTML = scn.steps.map((s,i)=>{
+    const done = S.completedSteps.includes(s.k);
+    const now = playing && autoIdx === i;
+    const cls = s.amt===null ? '' : s.amt<0 ? 'r' : s.amt>0 ? '' : 'n';
+    const txt = s.amt===null ? '' : (s.amt>0?'+':'')+fmt(s.amt);
+    return `<button class="stp ${done?'done':''} ${now?'now':''}"
+      onclick="runStep('${s.k}')" ${playing?'disabled':''}>
+      <span class="dot"></span>
+      <span class="info">
+        <span class="l1">${s.l1}</span>
+        <span class="l2">${s.l2}</span>
+      </span>
+      ${txt?`<span class="amt ${cls}">${txt}</span>`:''}
+    </button>`;
+  }).join('');
+}
+
+function renderDeal(){
+  const el = document.getElementById('dealCard');
+  if(!S.currentDeal){ el.style.display='none'; return; }
+  el.style.display='';
+  const d = S.currentDeal;
+  document.getElementById('dCode').textContent = d.code;
+  document.getElementById('dItem').textContent = d.item;
+  const stClass = d.status==='COMPLETED' ? 'bd-green'
+    : ['REFUNDED','FAILED_INSPECTION','DISPUTED','TRANSIT_TOTAL'].includes(d.status) ? 'bd-red'
+    : d.status==='EVIDENCE_REVIEW' ? 'bd-gold'
+    : d.status==='IN_TRANSIT' || d.status==='DELIVERED' ? 'bd-blue'
+    : 'bd-gold';
+  const st = document.getElementById('dStatus');
+  st.textContent = d.status.replace(/_/g,' ');
+  st.className = 'bd '+stClass+' st';
+  document.getElementById('dRows').innerHTML = `
+    <div class="row"><span class="k">Item price</span><span class="v">${fmt(d.price)}</span></div>
+    <div class="row"><span class="k">Buyer service fee (2%)</span><span class="v">${fmt(d.buyerFee)}</span></div>
+    <div class="row"><span class="k">Vet Agent fee</span><span class="v">${fmt(d.vetFee)}</span></div>
+    <div class="row"><span class="k">Logistics</span><span class="v">${fmt(d.logistics)}</span></div>
+    <div class="row tot"><span class="k">Buyer total</span><span class="v">${fmt(d.total)}</span></div>
+    <div class="row"><span class="k">Guarantee</span><span class="v">${fmt(d.guarantee)} · ${d.guaranteeStatus.toLowerCase()}</span></div>
+    <div class="row"><span class="k">Your net (after 2% fee)</span><span class="v g">${fmt(d.price - d.sellerFee)}</span></div>
+    ${d.tracking?`<div class="row"><span class="k">Tracking</span><span class="v mono" style="font-family:ui-monospace,Menlo,monospace">${d.tracking}</span></div>`:''}
+    ${d.clonedFrom?`<div class="row"><span class="k">Cloned from</span><span class="v">${d.clonedFrom}</span></div>`:''}
+  `;
+}
+
+function renderOutcome(){
+  const d = S.currentDeal;
+  const el = document.getElementById('outCard');
+  if(!d || !['COMPLETED','REFUNDED','FAILED_INSPECTION','TRANSIT_TOTAL','DISPUTED'].includes(d.status)){
+    el.style.display='none'; return;
+  }
+  el.style.display='';
+  const scn = SCENARIOS[S.scenario];
+  const badge = document.getElementById('oBadge');
+  const win = d.status === 'COMPLETED';
+  badge.textContent = win ? 'Deal complete' : 'No item payout';
+  badge.className = 'bd ' + (win?'bd-green':'bd-red');
+  let rows = '';
+  if(win){
+    rows = `
+      <div class="row"><span class="k">Item price</span><span class="v">${fmt(d.price)}</span></div>
+      <div class="row"><span class="k">Seller success fee (2%)</span><span class="v r">−${fmt(d.sellerFee)}</span></div>
+      <div class="row"><span class="k">Guarantee refund</span><span class="v g">+${fmt(d.guarantee)}</span></div>
+      <div class="row tot"><span class="k">Net credited</span><span class="v g">+${fmt(d.price - d.sellerFee + d.guarantee)}</span></div>
+    `;
+  } else {
+    rows = `
+      <div class="row"><span class="k">Item payout</span><span class="v">₦0</span></div>
+      <div class="row"><span class="k">Success fee</span><span class="v">₦0</span></div>
+      <div class="row"><span class="k">Guarantee</span><span class="v r">${d.guaranteeStatus==='FORFEITED'?'−'+fmt(d.guarantee):'✓ returned'}</span></div>
+      <div class="row tot"><span class="k">Net effect</span><span class="v r">${d.guaranteeStatus==='FORFEITED'?'−'+fmt(d.guarantee):'₦0'}</span></div>
+    `;
+  }
+  document.getElementById('oRows').innerHTML = rows;
+  document.getElementById('oVerdict').textContent = scn.verdict;
+}
+
+function renderTimeline(){
+  const el = document.getElementById('tlCard');
+  if(S.events.length===0){ el.style.display='none'; return; }
+  el.style.display='';
+  document.getElementById('tlList').innerHTML = S.events.slice(-20).reverse().map(e=>{
+    const red = ['REFUNDED','AGENT_FAIL','CLAWBACK','DISPUTED','REJECT','FORFEIT'].includes(e.type);
+    const gold = ['BUYER_PAID','CANCELLED','CHANGE_MIND','RULING','MINOR'].includes(e.type);
+    const green = ['COMPLETED','PAID','GUARANTEE_REFUND','WITHDRAWN','CARRIER_COMP'].includes(e.type);
+    const cls = red?'red':gold?'gold':green?'green':'';
+    return `<li class="tli ${cls}">
+      <span class="tld"></span>
+      <div class="tlt">${e.type.replace(/_/g,' ')}</div>
+      <div style="font-size:11px;color:#4B5563;margin-top:3px;line-height:1.5">${e.text}</div>
+      ${e.meta?`<div class="tltm">${e.meta}</div>`:''}
+    </li>`;
+  }).join('');
+}
+
+function filterListings(f, btn){
+  document.querySelectorAll('#p-listings .chip').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  S.filter = f; renderListings();
+}
+function renderListings(){
+  const deals = Object.values(S.deals);
+  const el = document.getElementById('listingsList');
+  if(deals.length===0){
+    el.innerHTML='<div class="em">No deals yet.<br>Tap a scenario in Flow to create one.</div>';
+    return;
+  }
+  const f = S.filter || 'all';
+  const filtered = deals.filter(d=>{
+    if(f==='all') return true;
+    if(f==='pending') return !['COMPLETED','REFUNDED','FAILED_INSPECTION'].includes(d.status);
+    if(f==='success') return d.status==='COMPLETED';
+    if(f==='unsuccessful') return ['REFUNDED','FAILED_INSPECTION'].includes(d.status);
+    return true;
+  });
+  if(filtered.length===0){ el.innerHTML='<div class="em">No deals match.</div>'; return; }
+  el.innerHTML = filtered.slice().reverse().map(d=>{
+    const stClass = d.status==='COMPLETED' ? 'bd-green'
+      : ['REFUNDED','FAILED_INSPECTION'].includes(d.status) ? 'bd-red'
+      : 'bd-gold';
+    const stages=['PAID','AGENT_ACCEPTED','EVIDENCE_REVIEW','APPROVED','IN_TRANSIT','COMPLETED'];
+    const curIdx=stages.indexOf(d.status);
+    return `<div class="lst" onclick="jumpToDeal('${d.code}')">
+      <div class="lst-h">
+        <div style="min-width:0;flex:1">
+          <div class="lst-c">${d.code}</div>
+          <div class="lst-n">${d.item}</div>
+        </div>
+        <span class="bd ${stClass}">${d.status.replace(/_/g,' ')}</span>
+      </div>
+      <div class="lst-m">
+        <span>Net: <strong>${fmt(d.price-d.sellerFee)}</strong></span>
+        <span>Buyer total: <strong>${fmt(d.total)}</strong></span>
+      </div>
+      <div class="lst-p">
+        ${stages.map((s,i)=>{
+          const c=d.status==='REFUNDED'?'done':i<curIdx?'done':i===curIdx?'now':'';
+          return `<div class="s ${c}"></div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+function jumpToDeal(code){
+  S.currentDeal = S.deals[code];
+  save();
+  tab('flow', document.querySelectorAll('.tab')[0]);
+  renderAll();
+  showToast('Viewing '+code,'ok');
+}
+
+function renderWallet(){
+  document.getElementById('walletCards').innerHTML = `
+    <div class="wtile gr">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="nm">Main wallet</span>
+        <span class="bd bd-green">Available</span>
+      </div>
+      <div class="amt">${fmt(S.main)}</div>
+      <div class="sb">Withdraw to ${S.seller.bank}</div>
+      <div class="ac">
+        <button class="btn nv sm" onclick="openWithdraw()" ${S.main<=0?'disabled':''}>Withdraw</button>
+        <button class="btn go sm" onclick="quickDeposit()">+ Deposit</button>
+      </div>
+    </div>
+  `;
+  const el = document.getElementById('walletLedger');
+  if(S.ledger.length===0){ el.innerHTML='<div class="em">No activity yet.</div>'; return; }
+  el.innerHTML = S.ledger.slice(0,40).map(e=>{
+    const cls = e.dir==='CREDIT'?'cr':e.dir==='FEE'?'fe':'db';
+    const icon = e.dir==='CREDIT'?'↓':'↑';
+    return `<div class="lr">
+      <div class="li ${cls}">${icon}</div>
+      <div class="lb">
+        <div class="la">MAIN_WALLET</div>
+        <div class="ld">${e.desc}</div>
+      </div>
+      <div class="lm ${cls}">${e.dir==='CREDIT'?'+':'−'}${fmt(e.amt)}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderGuarantee(){
+  document.getElementById('guarBal').textContent = fmt(S.guarantee);
+  const el = document.getElementById('guarHistory');
+  if(S.guarantees.length===0){ el.innerHTML='<div class="em">No guarantee events yet.</div>'; return; }
+  el.innerHTML = S.guarantees.slice(0,20).map(g=>{
+    const cls = g.action==='forfeit'?'bd-red':g.action==='refund'?'bd-green':'bd-gold';
+    const lbl = g.action==='forfeit'?'Forfeited':g.action==='refund'?'Refunded':'Held';
+    return `<div class="row">
+      <div class="k">
+        <div style="font-weight:700;color:var(--navy);font-size:12px">${fmt(g.amt)}</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px">${g.code} · ${ago(g.ts)}</div>
+      </div>
+      <span class="bd ${cls}">${lbl}</span>
+    </div>`;
+  }).join('');
+}
+
+function renderBuy(){
+  // Market listings
+  const ml = document.getElementById('marketListings');
+  if(S.marketListings.length===0){
+    ml.innerHTML='<div class="em">No items listed right now.</div>';
+  } else {
+    ml.innerHTML = S.marketListings.map(m=>`
+      <div class="row">
+        <div class="k">
+          <div style="font-weight:700;color:var(--navy);font-size:12px">${m.item}</div>
+          <div style="font-size:10px;color:#9CA3AF;margin-top:2px">${m.seller} · ${m.code}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:ui-monospace,Menlo,monospace;font-weight:800;font-size:12px">${fmt(m.price)}</div>
+          ${m.status==='PAID'?`<span class="bd bd-gold" style="margin-top:4px">Paid</span>`:`<button class="btn gh sm" style="margin-top:4px" onclick="runStep('marketBuy')">Buy</button>`}
+        </div>
+      </div>
+    `).join('');
+  }
+  // My requests
+  document.getElementById('reqCount').textContent = S.myReqs.length;
+  const rl = document.getElementById('reqList');
+  if(S.myReqs.length===0){
+    rl.innerHTML='<div class="em">No requests yet.<br>Tap below to request an inspection.</div>';
+  } else {
+    rl.innerHTML = S.myReqs.map(r=>{
+      const cls = r.status==='COMPLETED'?'bd-green':r.status==='SUBMITTED'?'bd-purple':r.status==='ACCEPTED'?'bd-blue':'bd-gold';
+      return `<div class="row">
+        <div class="k">
+          <div style="font-weight:700;color:var(--navy);font-size:12px">${r.title}</div>
+          <div style="font-size:10px;color:#9CA3AF;margin-top:2px">${r.lga} · ₦${r.price.toLocaleString('en-NG')}</div>
+        </div>
+        <span class="bd ${cls}">${r.status}</span>
+      </div>`;
+    }).join('');
+  }
+}
+
+function renderReferrals(){
+  document.getElementById('refCode').textContent = S.referrals.code;
+  const refs = S.referrals.referred;
+  const qualified = refs.filter(r=>r.rewarded).length;
+  const heavy = refs.filter(r=>r.deals>=5).length;
+  const progress = [
+    {t:'Referred signups', v:refs.length, max:10},
+    {t:'First-deal completions', v:qualified, max:10},
+    {t:'Power users (5+ deals)', v:heavy, max:5},
+  ];
+  document.getElementById('refProgress').innerHTML = progress.map(p=>{
+    const pct = Math.min(100, Math.round((p.v/p.max)*100));
+    return `<div style="padding:11px 14px;border-bottom:1px solid var(--line)">
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--navy)">
+        <span>${p.t}</span><span>${p.v} / ${p.max}</span>
+      </div>
+      <div class="prg" style="margin-top:6px"><div class="fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+  const el = document.getElementById('refUsers');
+  if(refs.length===0){ el.innerHTML='<div class="em">No referrals yet.</div>'; return; }
+  el.innerHTML = refs.map(r=>`
+    <div class="row">
+      <div class="k">
+        <div style="font-weight:700;color:var(--navy);font-size:12px">${r.name}</div>
+        <div style="font-size:10px;color:#9CA3AF;margin-top:2px">${r.type} · ${r.deals} deals</div>
+      </div>
+      <span class="bd ${r.rewarded?'bd-green':'bd-mist'}">${r.rewarded?'+₦1,000':'Pending'}</span>
+    </div>
+  `).join('');
+}
+
+function renderProfile(){
+  document.getElementById('pRate').textContent = S.seller.stars.toFixed(1);
+  document.getElementById('pReviews').textContent = S.seller.reviews;
+  document.getElementById('pSuccess').textContent = S.seller.success;
+  document.getElementById('pUnsuccess').textContent = S.seller.unsuccessful;
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+function openWithdraw(){
+  const bal = S.main;
+  if(bal<=0) return;
+  const defaultAmt = Math.min(200000, bal);
+  S._pendingWithdraw = defaultAmt;
+  S._pendingMethod = 'totp';
+  document.getElementById('modalBox').innerHTML = `
+    <div class="mh"><h3>Withdraw to bank</h3><button class="mcl" onclick="closeModal()">×</button></div>
+    <div class="mb">
+      <div style="text-align:center;margin-bottom:14px">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;color:#6B7280">Available</div>
+        <div style="font-family:ui-monospace,Menlo,monospace;font-size:28px;font-weight:800;color:var(--navy);margin-top:4px">${fmt(bal)}</div>
+      </div>
+      <div class="fld">
+        <label>Amount to withdraw (you choose)</label>
+        <input id="wAmount" type="number" value="${defaultAmt}" min="100" max="${bal}" step="100"
+          style="font-size:20px;font-weight:800;font-family:ui-monospace,Menlo,monospace">
+        <div class="quick">
+          <button onclick="setW(1000)">₦1,000</button>
+          <button onclick="setW(5000)">₦5,000</button>
+          <button onclick="setW(25000)">₦25,000</button>
+          <button onclick="setW(${bal})">Max</button>
+        </div>
+      </div>
+      <div class="fld">
+        <label>Verification method (all three available)</label>
+        <div class="method on" id="m-totp" onclick="setMethod('totp')">
+          <div style="font-size:20px">🔐</div>
+          <div class="r"><div class="t">Google Authenticator</div><div class="d">TOTP · recommended</div></div>
+          <div class="chk">✓</div>
+        </div>
+        <div class="method" id="m-email" onclick="setMethod('email')">
+          <div style="font-size:20px">📧</div>
+          <div class="r"><div class="t">Email OTP</div><div class="d">Sent to your registered email</div></div>
+          <div class="chk"></div>
+        </div>
+        <div class="method" id="m-sms" onclick="setMethod('sms')">
+          <div style="font-size:20px">📱</div>
+          <div class="r"><div class="t">SMS OTP</div><div class="d">Sent to your registered phone</div></div>
+          <div class="chk"></div>
+        </div>
+      </div>
+      <div class="nt bl">
+        <b>Partial withdrawals.</b> Enter any amount up to your balance. The remainder stays in your wallet until you choose to move it.
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn gh" onclick="closeModal()">Cancel</button>
+      <button class="btn gr" onclick="withdrawNext()">Continue → verify</button>
+    </div>`;
+  document.getElementById('modal').classList.add('on');
+}
+function setW(v){
+  S._pendingWithdraw = v;
+  document.getElementById('wAmount').value = v;
+}
+function setMethod(m){
+  S._pendingMethod = m;
+  ['totp','email','sms'].forEach(x=>{
+    const el = document.getElementById('m-'+x);
+    if(el){
+      el.className = 'method' + (x===m?' on':'');
+      el.querySelector('.chk').textContent = x===m?'✓':'';
+    }
+  });
+}
+function withdrawNext(){
+  const amt = Number(document.getElementById('wAmount').value) || 0;
+  if(amt <= 0){ showToast('Enter an amount','er'); return; }
+  if(amt > S.main){ showToast('Amount exceeds balance','er'); return; }
+  S._pendingWithdraw = amt;
+  const f = transferFee(amt);
+  const net = amt - f;
+  const methods = {totp:'Google Authenticator', email:'Email OTP', sms:'SMS OTP'};
+  const m = S._pendingMethod || 'totp';
+  document.getElementById('modalBox').innerHTML = `
+    <div class="mh"><h3>Verify via ${methods[m]}</h3><button class="mcl" onclick="closeModal()">×</button></div>
+    <div class="mb">
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-size:40px">${m==='totp'?'🔐':m==='email'?'📧':'📱'}</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:8px">Enter the 6-digit code</div>
+      </div>
+      <div class="codes" id="codes">
+        ${[0,1,2,3,4,5].map(i=>`<input type="tel" maxlength="1" inputmode="numeric" data-i="${i}"
+          oninput="ci(this)" onkeydown="ck(event,${i})">`).join('')}
+      </div>
+      <div class="row"><span class="k">Withdraw</span><span class="v">${fmt(amt)}</span></div>
+      <div class="row"><span class="k">Transfer fee</span><span class="v r">−${fmt(f)}</span></div>
+      <div class="row tot"><span class="k">Net to bank</span><span class="v g">${fmt(net)}</span></div>
+      <div class="nt">Demo: any 6 digits work.</div>
+    </div>
+    <div class="mf">
+      <button class="btn gh" onclick="openWithdraw()">← Back</button>
+      <button class="btn gr" onclick="withdrawFinal()">Confirm withdrawal</button>
+    </div>`;
+  setTimeout(()=>document.querySelector('#codes input')?.focus(),100);
+}
+function ci(el){
+  el.value = el.value.replace(/\D/g,'').slice(0,1);
+  const i = Number(el.dataset.i);
+  if(el.value && i<5) document.querySelector(`#codes input[data-i="${i+1}"]`)?.focus();
+}
+function ck(e,i){
+  if(e.key==='Backspace' && !e.target.value && i>0)
+    document.querySelector(`#codes input[data-i="${i-1}"]`)?.focus();
+}
+function withdrawFinal(){
+  const code = Array.from(document.querySelectorAll('#codes input')).map(i=>i.value).join('');
+  if(code.length!==6){ showToast('Enter 6 digits','er'); return; }
+  const amt = S._pendingWithdraw;
+  const f = transferFee(amt);
+  const net = amt - f;
+  const m = S._pendingMethod || 'totp';
+  const label = {totp:'Google Authenticator', email:'Email OTP', sms:'SMS OTP'}[m];
+  feeAmt(f, `Transfer fee · ${label}`);
+  debit(amt - f, `Payout to ${S.seller.bank}`);
+  ev('WITHDRAWN', `Withdrew ${fmt(amt)} via ${label}`, `Net to bank ${fmt(net)} · ₦${Math.round(S.main).toLocaleString('en-NG')} remains`);
+  closeModal(); renderAll();
+  showToast(`Withdrew ${fmt(net)} (via ${label})`,'ok');
+}
+function quickDeposit(){
+  const amt = 100000;
+  credit(amt, 'Deposit via Paystack (demo)');
+  ev('DEPOSIT','Deposited '+fmt(amt),'Wallet credited');
+  renderAll();
+  showToast('Deposited '+fmt(amt),'ok');
+}
+function topUpGuarantee(amt){
+  if(S.main < amt) credit(amt, 'Deposit from bank (demo)');
+  debit(amt, 'Top up Guarantee Wallet');
+  S.guarantee += amt;
+  ev('GUARANTEE_TOPUP','Topped up guarantee wallet '+fmt(amt),'Auto-debits apply to new deals');
+  renderAll();
+  showToast('Guarantee topped up '+fmt(amt),'ok');
+}
+function openRequestForm(){
+  document.getElementById('modalBox').innerHTML = `
+    <div class="mh"><h3>Request a Vet Agent</h3><button class="mcl" onclick="closeModal()">×</button></div>
+    <div class="mb">
+      <div class="nt pu">Any signed-in verified user can request an inspection. Minimum ₦6,000 · agent earns 60% · platform 40%.</div>
+      <div class="fld"><label>What to inspect</label>
+        <input id="rfTitle" value="Designer bag on Instagram" placeholder="e.g. Designer bag on Instagram">
+      </div>
+      <div class="fld"><label>LGA</label>
+        <select id="rfLga"><option>Ikeja</option><option>Eti-Osa</option><option>Surulere</option></select>
+      </div>
+      <div class="fld"><label>Amount offered (min ₦6,000)</label>
+        <input id="rfPrice" type="number" value="6000" min="6000" step="500"
+          style="font-family:ui-monospace,Menlo,monospace;font-weight:800">
+      </div>
+      <div class="nt bl" id="rfPreview">Agent earns ₦3,600 · platform retains ₦2,400</div>
+    </div>
+    <div class="mf">
+      <button class="btn gh" onclick="closeModal()">Cancel</button>
+      <button class="btn pr" onclick="submitRequest()">Create & pay</button>
+    </div>`;
+  document.getElementById('modal').classList.add('on');
+  document.getElementById('rfPrice').addEventListener('input',()=>{
+    const p = Number(document.getElementById('rfPrice').value || 0);
+    document.getElementById('rfPreview').textContent = `Agent earns ₦${Math.round(p*0.6).toLocaleString('en-NG')} · platform retains ₦${Math.round(p*0.4).toLocaleString('en-NG')}`;
+  });
+}
+function submitRequest(){
+  const title = document.getElementById('rfTitle').value.trim();
+  const lga = document.getElementById('rfLga').value;
+  const price = Number(document.getElementById('rfPrice').value || 6000);
+  if(price < 6000){ showToast('Minimum ₦6,000','er'); return; }
+  if(!title){ showToast('Give it a title','er'); return; }
+  if(S.main < price) credit(price + 5000, 'Auto top-up for demo');
+  debit(price, 'Vet Agent request · '+title);
+  const od = {code:'OD-'+Date.now().toString().slice(-6), title, price, lga, status:'OPEN', requester:'Adaeze'};
+  S.myReqs.unshift(od);
+  ev('OD_CREATE','Requested inspection: <b>'+title+'</b>','₦'+price.toLocaleString('en-NG')+' offered');
+  closeModal(); renderAll();
+  showToast('Request created · '+od.code,'ok');
+  // Auto-accept after a beat
+  setTimeout(()=>{
+    od.status = 'ACCEPTED';
+    ev('OD_ACCEPT','Blessing accepted your request','First Accept wins');
+    renderAll();
+  }, 1600);
+}
+function closeModal(){ document.getElementById('modal').classList.remove('on'); }
+
+/* ============================================================
+   MISC
+   ============================================================ */
+function tab(name, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');
+  if(btn) btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showToast(msg, tone){
+  const el = document.getElementById('toast');
+  el.className = 'ts on '+(tone||'');
+  document.getElementById('toastIc').textContent = tone==='er'?'⚠':'✓';
+  document.getElementById('toastMsg').textContent = msg;
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.className='ts '+(tone||''),2400);
+}
+function narrate(who, msg, det){
+  document.getElementById('nWho').textContent = who;
+  document.getElementById('nMsg').textContent = msg;
+  document.getElementById('nDet').textContent = det || '';
+}
+function copyRef(){
+  const url = 'https://www.dealsgate.ng/signup?ref=' + S.referrals.code;
+  if(navigator.clipboard) navigator.clipboard.writeText(url).then(()=>showToast('Link copied','ok')).catch(()=>showToast('Copied (demo)','ok'));
+  else showToast('Copied (demo)','ok');
+}
+function shareRef(){
+  const url = 'https://www.dealsgate.ng/signup?ref=' + S.referrals.code;
+  if(navigator.share) navigator.share({title:'DealsGate', text:'Join me on DealsGate.', url}).catch(()=>{});
+  else copyRef();
+}
+function resetDeal(){
+  if(!confirm('Clear current deal? Balances stay.')) return;
+  S.currentDeal = null;
+  S.completedSteps = [];
+  S.events = [];
+  save(); renderAll();
+  document.getElementById('narrCard').style.display='none';
+}
+function resetAll(){
+  if(!confirm('Reset everything?')) return;
+  localStorage.removeItem(KEY);
+  S = fresh(); playing=false; aborted=true;
+  document.getElementById('narrCard').style.display='none';
+  document.getElementById('prgWrap').style.display='none';
+  save(); renderAll();
+  showToast('Reset','ok');
+}
+
+/* BOOT */
+renderAll();
+document.getElementById('narrCard').style.display='';
+narrate('Seller','Pick a scenario above, then press ▶ Play scenario.','Every screen is what you see as a seller on DealsGate.');
+</script>
+</body>
+</html>
